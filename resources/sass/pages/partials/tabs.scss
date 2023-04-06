@@ -1,0 +1,28 @@
+.v-tabs{
+    .v-tabs-bar {
+        height: 45px;
+    }
+
+    .v-tab {
+        color: $black_color;
+        p {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+            color: $black_color;
+        }
+        .v-icon__svg {
+            fill: $black_color;
+        }
+        img { width: 22px; }
+    }
+    .v-tabs-slider-wrapper { display: none; }
+    .v-tab.v-tab--active {
+        background: $theme_background_color;
+        border-radius: 8px;
+    }
+    .v-tab:before {
+        background-color: transparent;
+    }
+}
+
+

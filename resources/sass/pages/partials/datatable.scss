@@ -1,0 +1,106 @@
+.v-data-table {
+    .v-input {
+        .theme--light.v-icon {
+            color: $theme_color;
+        }
+        .v-input__control>.v-input__slot:before {
+            border-color: $theme_color !important;
+        }
+        input {
+            color: $theme_color !important;
+        }
+        input::placeholder {
+            color: $theme_color !important;
+        }
+    }
+    .table-right-icons {
+        .v-icon__svg {
+            fill: $theme_color !important;
+        }
+        .v-icon , img {
+            cursor: pointer;
+        }
+    }
+    .v-data-table-header {
+        background: $theme_color !important;
+        color: $white-color;
+        tr > th {
+            color: $white-color !important;
+        }
+        .v-data-table__checkbox .theme--light.v-icon { color: $white-color !important; }
+    }
+    .v-data-table__wrapper {
+        border-radius: 6px;
+    }
+    .v-data-footer {
+        color: $theme_color !important;
+        .v-input {
+            .v-input__control {
+                > .v-input__slot:before, > .v-input__slot:after {
+                    content: '';
+                    border-color: unset !important;
+                    border: none !important;
+                }
+            }
+        }
+    }
+
+    .v-data-footer__select .v-select__slot {
+        border: 1px solid $theme_color;
+        border-radius: 5px;
+        padding: 0 2px 0 10px;
+        .v-icon {
+            color: $black_color !important;
+            caret-color: $black_color !important;
+        }
+    }
+    tbody {
+        tr:nth-child(odd) {background: #f5f5f5 }
+    }
+
+}
+#appMain .v-data-table {
+    .v-data-footer {
+        margin-top: 20px;
+        border-top: none !important;
+        .v-btn {
+            i {
+                color: $theme_color !important;
+            }
+        }
+    }
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+    color: $white-color !important;
+}
+
+.v-data-table table tbody tr td.text-start:last-child { width: 12% }
+.theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    background: inherit !important;
+}
+
+.theme--light.v-data-table .v-data-table-header th.sortable .v-data-table-header__icon {
+    color: $white_color !important;
+}
+
+.view-modal .table td {
+    border: 3px solid #fff;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+    font-size: 14px !important;
+    color: $black_color;
+}
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+    font-size: 16px !important;
+    color: $white_color;
+    font-weight: 600;
+}
+
+.view-modal .table td {
+    font-size: 14px;
+    padding: 15px !important;
+}
+
+.action-img { width: 16px; }

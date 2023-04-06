@@ -1,0 +1,45 @@
+//
+// Main Style
+//
+
+
+////////////////////////////////////////////////////////////////
+///////////// DO NOT MODIFY BELOW INCLUDE ORDER ////////////////
+////////////////////////////////////////////////////////////////
+
+// 1: Initialize
+@import "init";
+
+// 2: Bootstrap framework includes
+@import "~bootstrap/scss/bootstrap";
+@import "vendors/vue/include";
+
+// 3: Components
+@import
+    "components/utilities/background",
+    "components/utilities/flex",
+    "components/utilities/position",
+    "components/utilities/icon",
+    "components/burger-icon",
+    "components/type",
+    "components/nav",
+    "components/buttons",
+    "components/loader",
+    "components/symbol",
+    "components/page-loader",
+    "components/scrolltop",
+    "components/svg-icon",
+    "components/svg",
+    "components/bullet",
+    "components/navi",
+    "components/ribbon",
+    "components/toggle";
+
+// 4: Plugins
+@import "vendors/plugins/fontawesome5";
+
+// 5: Layout
+@import "layout/init";
+////////////////////////////////////////////////////////////////
+///////////// DO NOT MODIFY ABOVE INCLUDE ORDER ////////////////
+////////////////////////////////////////////////////////////////

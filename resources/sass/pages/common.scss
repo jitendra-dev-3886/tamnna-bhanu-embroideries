@@ -1,0 +1,133 @@
+.v-text-field.v-text-field--enclosed {
+    .v-text-field__details {
+        padding-left: 0px !important;
+    }
+}
+.v-input--selection-controls .v-input__slot>.v-label, .v-input--selection-controls .v-radio>.v-label { margin-bottom: 0 !important; }
+.theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr>th { color: $black_color !important; }
+.v-data-table table tbody tr td.text-start:last-child { width: 8% }
+.v-text-field .v-label, .v-text-field input, .v-input, .v-input .v-label, .v-select__selections,.v-file-input .v-file-input__text {
+    font-size: 13px;
+}
+.w70 { width: 70% !important;  max-width: 70% !important; }
+.w100 { width: 100% !important;  max-width: 100% !important; }
+.w30  { width: 30% !important;  max-width: 30% !important; }
+.w50  { width: 50% !important;  max-width: 50% !important; }
+.v-tab, .btn  { text-transform: capitalize !important; }
+.v-tab { font-size: 1.1rem !important; }
+.v-data-table>.v-data-table__wrapper>table>thead>tr>th {
+    font-size: 14px !important;
+    @media(min-width: 1600px) {
+        font-size: 15px !important;
+    }
+}
+
+.v-data-table>.v-data-table__wrapper>table>tbody>tr>td {
+    font-size: 13px !important;
+    @media(min-width: 1600px) {
+        font-size: 14px !important;
+    }
+}
+.v-data-footer {
+    font-size: 12px !important;
+    @media(min-width: 1600px) {
+        font-size: 16px !important;
+    }
+}
+.btn {
+    text-transform: inherit !important;
+}
+@media (min-width: 1264px) {
+    .container {
+        max-width: 100% !important;
+    }
+}
+
+.width-40{
+    width: 40%;
+}
+
+.width-80{
+    width: 80%;
+}
+
+.black-color { color: $black_color !important; }
+
+body .v-application  { font-family: Poppins, Helvetica, "sans-serif"; }
+.text-dark-75 {
+    color: #3f4254!important;
+}
+.font-size-h5 {
+    font-size: 1.25rem!important;
+}
+.font-weight-bold, #appMain.v-application .font-weight-bold {
+    font-weight: 500!important;
+}
+
+.main-page-title {
+    font-weight: 500!important;
+    color: #111111
+}
+
+.v-badge__badge {
+    padding: 5px 7px !important;
+}
+
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f5f5f5;
+}
+
+.text-muted {
+    color: #8DAAB3 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+#appMain.v-application .primary--text {
+    color: $theme_color !important;
+    caret-color: $theme_color !important;
+}
+
+.v-application a {
+    color: $theme_color !important;
+}
+
+#appMain.v-application .primary {
+    background-color: $theme_color !important;
+    border-color: $theme_color !important;
+}
+
+.v-date-time-widget-container {
+    background: white;
+    padding: 15px;
+}
+
+.btn-am {
+    float: left;
+}
+
+.btn-pm {
+    float: right;
+}
+
+.v-date-picker-table {
+    height: auto;
+}
+.datetime-picker .v-time-picker-clock__ampm {
+    display: none;
+}
+.datetime-picker
+    .v-time-picker-title__time
+    .v-picker__title__btn
+    .v-time-picker-title__time
+    span {
+    height: 56px;
+    font-size: 38px;
+}
+
+.datetime-picker .v-time-picker-title__ampm {
+    display: none;
+}
