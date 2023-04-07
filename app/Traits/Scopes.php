@@ -5,15 +5,20 @@ namespace App\Traits;
 use App\Http\Resources\DataTrueResource;
 use App\Http\Resources\ImportCsvLogsResource;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use function is_array;
 use function is_null;
 use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\ImportCsvLog;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use Laravel\Passport\Token;
+use Laravel\Passport\RefreshToken;
+use Illuminate\Support\Facades\App;
 
 trait Scopes
 {
@@ -638,7 +643,7 @@ trait Scopes
     {
         return '<div class="full-width" align="center" style="position: fixed;left: 0;bottom: 3%;color: #666;font-size: 12px;">
                     <hr style="color:#000;">
-                    AIC Team<br>                   
+                    AIC Team<br>
                     T. +61 (0) 3 9545 3333 E. contact@autoic.com.au
                 </div>';
     }
@@ -781,4 +786,41 @@ trait Scopes
         return Str::random($length);
     }
 
+    /**
+     * Get random password
+     */
+    public static function getRandomPassword()
+    {
+        $digits    = array_flip(range('0', '9'));
+        $lowercase = array_flip(range('a', 'z'));
+        $uppercase = array_flip(range('A', 'Z'));
+        $special   = array_flip(str_split('!@$#%'));
+        $combined  = array_merge($digits, $lowercase, $uppercase, $special);
+
+        return str_shuffle(array_rand($digits) .
+            array_rand($lowercase) .
+            array_rand($uppercase) .
+            array_rand($special) .
+            implode(array_rand($combined, rand(config('constants.help_desk.length_password') - 4, config('constants.help_desk.length_password')))));
+    }
+
+    public static function getUserActiveToken($loginUId, $oauthClientId)
+    {
+        return Token::where('user_id', $loginUId)
+            ->where('client_id', $oauthClientId)
+            ->where('revoked', 0)->latest()->first();
+    }
+
+    /**
+     * Revoke Tokens
+     */
+    public static function revokeTokens($lytLoginUsr)
+    {
+        $tokenIds = Token::where('user_id', $lytLoginUsr->loginUId)->pluck('id')->toArray();
+
+        if (!empty($tokenIds)) {
+            RefreshToken::whereIn('access_token_id', $tokenIds)->delete();
+            Token::whereIn('id', $tokenIds)->delete();
+        }
+    }
 }

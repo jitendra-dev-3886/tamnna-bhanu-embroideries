@@ -39,7 +39,7 @@ class SessionTimeout
             return \Illuminate\Support\Facades\Response::make("Authorization Token not found", config('constants.validation_codes.unauthorized'));
         }
 
-        $user->last_seen_at = $now->format('Y-m-d H:i:s');
+        // $user->last_seen_at = $now->format('Y-m-d H:i:s');
         $user->save();
 
         return $next($request);

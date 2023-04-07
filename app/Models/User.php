@@ -15,131 +15,134 @@ use App\Traits\UploadTrait;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
+use App\Traits\Legendable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable, Scopes, SoftDeletes, HasFactory, UploadTrait;
+    use HasApiTokens, Notifiable, Scopes, SoftDeletes, HasFactory, UploadTrait, Legendable;
 
-   /**
-    * @var array
-    */
-   protected $fillable = [ 'id', 'email', 'password', 'role_id', 'email_verified_at', 'remember_token', 'last_login_time', 'last_seen_at'];
+    /**
+     * @var array
+     */
+    protected $fillable = ['id', 'role_id', 'name', 'company_name', 'city', 'contact_number', 'otp', 'otp_verified_at', 'device_token', 'user_status', 'password'];
 
-   /**
-    * Activity log array
-    *
-    * @var array
-    */
-   public $activity_log = [ 'id', 'email', 'role->name', 'last_login_time', 'last_seen_at' ];
+    /**
+     * Activity log array
+     *
+     * @var array
+     */
+    public $activity_log = ['id', 'contact_number', 'role->name', 'user_status', 'last_login'];
 
-   /**
-    * Log Activity relationships array
-    *
-    * @var array
-    */
-   public $log_relations = [ 'role' ];
+    /**
+     * Log Activity relationships array
+     *
+     * @var array
+     */
+    public $log_relations = ['role'];
 
-   /**
-    * Lightweight response variable
-    *
-    * @var array
-    */
-   public $light = [ 'id', 'email' ];
+    /**
+     * Lightweight response variable
+     *
+     * @var array
+     */
+    public $light = ['id', 'contact_number'];
 
-   /**
+    /**
      * Related permission array
      *
      * @var array
      */
-    public $related_permission = [ 'orders', 'carts' ];
+    public $related_permission = ['orders', 'carts'];
 
-   /**
-    * @var array
-    */
-   public $sortable = [ 'users.created_at', 'users.id', 'email' ];
-
-   /**
-    * @var array
-    */
-   public $foreign_sortable = [ 'role_id' ];
-
-   /**
-    * @var array
-    */
-   public $foreign_table = [ 'roles' ];
-
-   /**
-    * @var array
-    */
-   public $foreign_key = [ 'name' ];
-
-   /**
-    * @var array
-    */
-   public $foreign_method = [ 'role' ];
-
-   /**
-    * @var array
-    */
-   public $type_sortable = [  ];
-
-   /**
-    * @var array
-    */
-   public $type_enum = [
-            
-   ];
-
-   /**
-    * @var array
-    */
-   public $type_enum_text = [
-            
-   ];
-
-   /**
-    * The attributes that should be mutated to dates.
-    *
-    * @var array
-    */
-   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
-   /**
-    * The attributes that should be hidden for arrays.
-    *
-    * @var array
-    */
-   protected $hidden = [ 'password', 'remember_token' ];
-
-   /**
-    * The attributes that should be cast to native types.
-    *
-    * @var array
-    */
-   protected $casts = [
-
-       'id'=>'string', 
-            'email'=>'string', 
-            'role_id'=>'string', 
-            'email_verified_at'=>'string', 
-            'remember_token'=>'string'
-
-   ];
-
-    
-   
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-    public function role() {
-       return $this->belongsTo(\App\Models\Role::class);
+     * @var array
+     */
+    public $sortable = ['users.created_at', 'users.id', 'contact_number'];
+
+    /**
+     * @var array
+     */
+    public $foreign_sortable = ['role_id'];
+
+    /**
+     * @var array
+     */
+    public $foreign_table = ['roles'];
+
+    /**
+     * @var array
+     */
+    public $foreign_key = ['name'];
+
+    /**
+     * @var array
+     */
+    public $foreign_method = ['role'];
+
+    /**
+     * @var array
+     */
+    public $type_sortable = ['user_status'];
+
+    /**
+     * @var array
+     */
+    public $type_enum = [
+        ['constants.users.user_status_enum.inactive', 'constants.users.user_status_enum.active']
+    ];
+
+    /**
+     * @var array
+     */
+    public $type_enum_text = [
+        ['constants.users.user_status.0', 'constants.users.user_status.1']
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['password', 'device_token'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+
+        'id' => 'string',
+        'contact_number' => 'string',
+        'role_id' => 'string',
+        'otp_verified_at' => 'string',
+        'device_token' => 'string',
+        'user_status' => 'string',
+
+    ];
+
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(\App\Models\Role::class);
     }
-        
+
 
 
     public function scopeCommonFunctionMethod($query, $model, $request, $preQuery = null, $tablename = null, $groupBy = null, $export_select = false, $no_paginate = false)
     {
-        return $this->getCommonFunctionMethod($model, $request, $preQuery, $tablename , $groupBy , $export_select , $no_paginate);
+        return $this->getCommonFunctionMethod($model, $request, $preQuery, $tablename, $groupBy, $export_select, $no_paginate);
     }
 
     public static function getCommonFunctionMethod($model, $request, $preQuery = null, $tablename = null, $groupBy = null, $export_select = false, $no_paginate = false)
@@ -173,24 +176,25 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function GetError($message){
-        return response()->json(['message' => $message,'errors' => (object)[]], config('constants.validation_codes.unassigned'));
+    public static function GetError($message)
+    {
+        return response()->json(['message' => $message, 'errors' => (object)[]], config('constants.validation_codes.unassigned'));
     }
 
-     /**
+    /**
      *  Common Display Messsage Response.
      *
      * @param $resource
      * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function GetMessage($resource, $message){
+    public static function GetMessage($resource, $message)
+    {
 
         return response()->json([
             'message' => $message,
             'data' => $resource,
         ]);
-
     }
 
     /**
@@ -204,8 +208,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
 
         return $query->where('id', $id)->update([
-            'last_login_time' => time(),
-            'last_seen_at' => Carbon::now()->format('Y-m-d H:i:s')
+            'last_login' => Carbon::now()->format('Y-m-d H:i:s')
+            // 'last_seen_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
     }
 
@@ -214,13 +218,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeCreateUser($query, $request){
+    public function scopeCreateUser($query, $request)
+    {
         $data = $request->all();
         $data['password'] = bcrypt($data['password']);
+        $data['user_status'] = config('constants.user.user_status_enum.inactive');
         $user = User::create($data);
-        
-        
-        
+
+
+
         return \App\Models\User::GetMessage(new UserResource($user), config('constants.messages.create_success'));
     }
 
@@ -230,12 +236,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeUpdateUser($query, $request, $user){
+    public function scopeUpdateUser($query, $request, $user)
+    {
         $data = $request->all();
-        
-        
+
+
         $user->update($data);
-        
+
         return \App\Models\User::GetMessage(new UserResource($user), config('constants.messages.update_success'));
     }
 
@@ -247,16 +254,17 @@ class User extends Authenticatable implements MustVerifyEmail
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function scopeDeleteUser($query, $request, $user){
+    public function scopeDeleteUser($query, $request, $user)
+    {
 
         if ($user->id == config('constants.system_user_id'))
             return User::GetError(config('constants.messages.admin_user_delete_error'));
 
-        
-        
+
+
         $user->delete();
-        
-        return new DataTrueResource($user,config('constants.messages.delete_success'));
+
+        return new DataTrueResource($user, config('constants.messages.delete_success'));
     }
 
     /**
@@ -265,26 +273,57 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $request
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      */
-    public function scopeDeleteAll($query,$request){
-        if(!empty($request->id)) {
+    public function scopeDeleteAll($query, $request)
+    {
+        if (!empty($request->id)) {
 
             if (in_array(config('constants.system_user_id'), $request->id))
                 return User::GetError(config('constants.messages.admin_user_delete_error'));
 
-            User::whereIn('id', $request->id)->get()->each(function($user) {
-                    
-                
+            User::whereIn('id', $request->id)->get()->each(function ($user) {
+
+
                 $user->delete();
             });
 
-            
 
-            return new DataTrueResource(true,config('constants.messages.delete_success'));
-        }
-        else{
+
+            return new DataTrueResource(true, config('constants.messages.delete_success'));
+        } else {
             return User::GetError(config('constants.messages.delete_multiple_error'));
         }
     }
 
-    
+    /**
+     *  Specifies the users's Contact number
+     *  User: ETS
+     *  @return string
+     */
+    public function routeNotificationForMTalkZ()
+    {
+        return $this->contact_number; // Mobile number for SMS
+    }
+
+    public function findForPassport($username)
+    {
+        return $this->where('contact_number', $username)->first();
+    }
+
+    /**
+     *  Common Display Messsage Response.
+     *  User: ETS
+     * @param $resource
+     * @param $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function GetAuthMessage($resource, $message, $authorization, $refreshToken)
+    {
+        $GetAuthMessage = response()->json([
+            'message'       => $message,
+            'authorization' => $authorization,
+            'refresh_token' => $refreshToken,
+            'data'          => $resource,
+        ]);
+        return $GetAuthMessage;
+    }
 }
