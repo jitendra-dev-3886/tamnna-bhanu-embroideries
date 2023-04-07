@@ -25,13 +25,13 @@ class VerificationAPIController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function verify(Request $request) {
+    public function verify(Request $request)
+    {
         $user = User::find($request['id']);
-        $user->email_verified_at = config('constants.calender.date_time'); // to enable the “email_verified_at field of that user be a current time stamp user must verify email feature
+        $user->otp_verified_at = config('constants.calender.date_time'); // to enable the “email_verified_at field of that user be a current time stamp user must verify email feature
         $user->save();
 
         return redirect('');
-
     }
 
     /**
