@@ -31,6 +31,7 @@ class Logoff extends Mixins(CommonServices) {
     // login info
     loginDetail: ILoginModel = {
         email: <string>UserModule.currentUserData.email,
+        contact_number:"",
         password: "",
         g_recaptcha_response: "",
     };

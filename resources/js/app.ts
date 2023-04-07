@@ -80,7 +80,7 @@ Vue.directive("canAccess", hasPermission); //  display a single row
 Vue.directive("update", hasPermission); // update
 Vue.directive("destroy", hasPermission); // delete
 Vue.directive("export", hasPermission); // export
-Vue.directive("importBulk", hasPermission); // import 
+Vue.directive("importBulk", hasPermission); // import
 Vue.directive('deleteGallery', hasPermission); // delete directive
 Vue.directive('deleteProductId', hasPermission); // delete directive
 Vue.directive("getPermissionsByRole", hasPermission); // get permission by role

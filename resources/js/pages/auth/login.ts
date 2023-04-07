@@ -41,7 +41,8 @@ class Login extends mixins(CommonServices) {
     };
     // login info
     loginDetail: ILoginModel = {
-        email: "",
+        email:"",
+        contact_number: "",
         password: "",
         g_recaptcha_response: "",
     };
@@ -75,7 +76,7 @@ class Login extends mixins(CommonServices) {
                             response: AxiosResponse<
                                 ResponseResult<ICurrentUserData>
                                 >
-                        ) => {                           
+                        ) => {
                             this.isSubmitting = false;
                             // Set Data of Current user in store
                             UserModule.SET_CURRENT_USER_DATA(

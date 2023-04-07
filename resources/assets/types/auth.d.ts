@@ -13,6 +13,7 @@ export interface IForgotPasswordModel{
 }
 
 export interface ILoginModel extends IForgotPasswordModel{
+    contact_number:String,
     password: string;
     g_recaptcha_response: string;
 }

@@ -26,11 +26,11 @@
                     <ErrorBlockServer :error-message="errorMessage"/>
                     <v-flex xs12>
                         <v-text-field
-                            v-model="loginDetail.email"
-                            v-validate="'required|email'"
-                            label="Email*"
+                            v-model="loginDetail.contact_number"
+                            v-validate="'required'"
+                            label="Contact No*"
                             type="text"
-                            name="email"
+                            name="contact_number"
                             :error-messages="getErrorValue('email', errors, validationMessages)"
                         />
                     </v-flex>

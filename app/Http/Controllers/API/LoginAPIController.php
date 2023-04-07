@@ -37,7 +37,7 @@ class LoginAPIController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['contact_number', 'password']);
         if(!Auth::attempt($credentials))
             return User::GetError(config('constants.messages.user.invalid'));
 
@@ -71,7 +71,7 @@ class LoginAPIController extends Controller
     {
         //get all updated data.
         $data = $request->all();
-        $masterUser = User::where('email', $request->user()->email)->first();
+        $masterUser = User::where('contact_number', $request->user()->contact_number)->first();
         if (Hash::check($data['old_password'], $masterUser->password)) {
             $masterData['password'] = bcrypt($data['new_password']);
             //update user password in master user table
