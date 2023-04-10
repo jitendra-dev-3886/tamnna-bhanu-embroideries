@@ -79,7 +79,8 @@
                             <v-file-input
                                 id="featured_image"
                                 ref="featured_image"
-                                v-model="model.featured_image_upload"
+
+                                v-model="model.featured_image"
                                 v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
                                 attach
                                 :label="isEditMode ? 'Featured Image' : 'Featured Image*' "
@@ -92,7 +93,7 @@
                                         validationMessages
                                     )
                                 "
-                                @click:clear="model.featured_image_upload=null"
+                                @click:clear="model.featured_image='' "
                                 aria-label="Featured_image"
                             />
                         </v-flex>

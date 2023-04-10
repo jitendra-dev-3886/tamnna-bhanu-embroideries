@@ -159,11 +159,13 @@ class KTQuickUser extends mixins(CommonServices, Idle) {
     contact_number:string=''
 
     mounted() {
+
         this.userEmail = UserModule.currentUserData.email;
-        console.log(this.userEmail,this.contact_number,this.username,this.roleName);
+        console.log(this.userEmail);
         this.contact_number=UserModule.currentUserData.contact_number;
         this.username = UserModule.currentUserData.username;
-        this.nameInitials = this.username.charAt(0);
+
+       // this.nameInitials = this.username.charAt(0);
         this.roleName = UserModule.currentUserData.role ? UserModule.currentUserData.role.name : '';
         // Init Quick User Panel
         KTLayoutQuickUser.init(this.$refs.kt_quick_user);

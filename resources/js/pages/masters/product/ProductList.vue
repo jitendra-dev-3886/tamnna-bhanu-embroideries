@@ -23,7 +23,7 @@
                     Import
                 </p>
             </v-tab>
-            
+
             <v-tab href="#tab3" aria-label="Import images tab"> <!-- Zip upload tab -->
                 <p class="mt-1">Import Zip</p>
             </v-tab>
@@ -70,7 +70,7 @@
                                 xs12
                             >
                                 <div class="float-right mt-4">
-                                    
+
                                     <v-menu
                                         v-model="filterMenu"
                                         :close-on-content-click="false"
@@ -126,7 +126,7 @@
                                                         {{ icons.mdiClose }}
                                                     </v-icon>
                                                 </v-btn>
-                                                
+
                                                 <v-select
                                                   v-model="category_id"
                                                   name="category"
@@ -202,20 +202,20 @@
                             </v-flex>
                         </v-layout>
                     </template>
-                    
+
                     <template v-slot:[`item.description`]="{ item }">
                         <span v-if="item.description" v-html="item.description"></span>
                     </template>
-            
+
                     <template v-slot:[`item.category_id`]="{ item }">
                         <span v-if="item.category">{{ item.category.name }}</span>
                     </template>
-            
+
                     <template v-slot:[`item.available_status`]="{ item }">
                         <span v-if="item.available_status_text">{{ item.available_status_text }}</span>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
-                        
+
                         <!-- Light Gallery View Start-->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -239,7 +239,7 @@
                             }}</span>
                         </v-tooltip>
                         <!-- Light Gallery View End-->
-                        
+
 
                         <!-- Manage Gallery Start -->
                         <v-tooltip bottom>
@@ -324,7 +324,7 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-            
+
             <v-tab-item value="tab3">
                 <v-card flat>
                     <v-card-text>
@@ -345,7 +345,7 @@
             aria-label="Delete product confirmation modal"
         />
         <product-view-modal v-model="productViewModal" aria-label="product view modal" />
-        
+
 
         <!-- Manage Gallery Start -->
         <multi-file-modal
@@ -358,7 +358,7 @@
             aria-label="Manage Gallery modal"
         ></multi-file-modal>
         <!-- Manage Gallery End -->
-        
+
         <image-viewer
             ref="imgViewer"
             key="imgViewer"
