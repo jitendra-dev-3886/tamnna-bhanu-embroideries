@@ -31,6 +31,13 @@ class Login extends mixins(CommonServices) {
                 value: "Email is invalid",
             },
         ],
+        contact_number:[
+            { key: "required", value: "Contact Number required" },
+            {
+                key: "contact_number",
+                value: "Contact Number is invalid",
+            },
+        ],
         password: [
             { key: "required", value: "Password required" },
             {
