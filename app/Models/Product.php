@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -125,7 +126,18 @@ class Product extends Model
 
     ];
 
-
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getFeaturedImageAttribute($value)
+    {
+        // dd($value);
+        if ($this->is_file_exists($value))
+            return \Illuminate\Support\Facades\Storage::url($value);
+        else
+            return asset(config('constants.image.default_img'));
+    }
 
 
     /**
@@ -154,11 +166,20 @@ class Product extends Model
     {
         $product = Product::create($request->all());
 
+        if ($request->hasFile('featured_image')) {
+            $realPath = 'product/' . $product->id;
+            $resizeImages = $product->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
+            $product->update([
+                'product_id' => $product->id,
+                'featured_image' => $resizeImages['image']
+                // 'profile_original' => $request->get('original'),
+                // 'profile_thumbnail' => $resizeImages['thumbnail']
+            ]);
+        }
 
         if ($request->hasFile('product_galleries')) {
             $realPath = 'product/' . $product->id . '/product_galleries';
-
             foreach ($request->file('product_galleries') as $vImgs) {
                 $resizeImages = $product->resizeImages($vImgs, $realPath, 100, 100);
                 \App\Models\ProductGallery::create([
@@ -185,6 +206,14 @@ class Product extends Model
     {
         $data = $request->all();
 
+        if ($request->hasFile('featured_image')) {
+            $realPath = 'product/' . $product->id . '/';
+            $resizeImages = $product->resizeImages($request->get('featured_image'), $realPath, 100, 100);
+
+            $data['featured_image'] = $resizeImages['image'];
+            // $data['profile_original'] = $request->get('profile_image_original');
+            // $data['profile_thumbnail'] = $resizeImages['thumbnail'];
+        }
 
         if ($request->hasFile('product_galleries')) {
             \App\Models\ProductGallery::where(['product_id' => $product->id])->delete();

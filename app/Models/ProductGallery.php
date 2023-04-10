@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Http\Resources\DataTrueResource;
 use App\Traits\CreatedbyUpdatedby;
 use App\Traits\Scopes;
@@ -18,79 +19,75 @@ class ProductGallery extends Model
     /**
      * @var array
      */
-    protected $fillable = [ 'id', 'product_id', 'gallery', 'gallery_original', 'gallery_thumbnail' ];
+    protected $fillable = ['id', 'product_id', 'gallery', 'gallery_original', 'gallery_thumbnail'];
 
     /**
      * Activity log array
      *
      * @var array
      */
-    public $activity_log = [  ];
+    public $activity_log = [];
 
     /**
      * Log Activity relationships array
      *
      * @var array
      */
-    public $log_relations = [  ];
+    public $log_relations = [];
 
     /**
      * Lightweight response variable
      *
      * @var array
      */
-    public $light = [ 'id', 'product_id', 'gallery' ];
+    public $light = ['id', 'product_id', 'gallery'];
 
     /**
      * Related permission array
      *
      * @var array
      */
-    public $related_permission = [ 'products' ];
+    public $related_permission = ['products'];
 
     /**
      * @var array
      */
-    public $sortable = [ 'product_galleries.created_at', 'product_galleries.id',  ];
+    public $sortable = ['product_galleries.created_at', 'product_galleries.id',];
 
     /**
      * @var array
      */
-    public $foreign_sortable = [ 'product_id' ];
+    public $foreign_sortable = ['product_id'];
 
     /**
      * @var array
      */
-    public $foreign_table = [ 'products' ];
+    public $foreign_table = ['products'];
 
     /**
      * @var array
      */
-    public $foreign_key = [ 'name' ];
+    public $foreign_key = ['name'];
 
     /**
      * @var array
      */
-    public $foreign_method = [ 'product' ];
+    public $foreign_method = ['product'];
 
     /**
      * @var array
      */
-    public $type_sortable = [  ];
+    public $type_sortable = [];
 
     /**
      * @var array
      */
-    public $type_enum = [
-            
-    ];
+    public $type_enum = [];
 
     /**
      * @var array
      */
-    public $type_enum_text = [
-            
-    ];
+    public $type_enum_text = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -104,7 +101,7 @@ class ProductGallery extends Model
      *
      * @var array
      */
-    protected $hidden = [  ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -113,21 +110,22 @@ class ProductGallery extends Model
      */
     protected $casts = [
 
-            'id'=>'string', 
-            'product_id'=>'string', 
-            'gallery'=>'string', 
-            'gallery_original'=>'string', 
-            'gallery_thumbnail'=>'string'
+        'id' => 'string',
+        'product_id' => 'string',
+        'gallery' => 'string',
+        'gallery_original' => 'string',
+        'gallery_thumbnail' => 'string'
 
     ];
 
-    
+
     /**
      * @param $value
      * @return mixed
      */
-    public function getGalleryAttribute($value) {
-        if($this->is_file_exists($value))
+    public function getGalleryAttribute($value)
+    {
+        if ($this->is_file_exists($value))
             return \Illuminate\Support\Facades\Storage::url($value);
         else
             return asset(config('constants.image.default_img'));
@@ -138,25 +136,27 @@ class ProductGallery extends Model
      * @param $value
      * @return mixed
      */
-    public function getGalleryThumbnailAttribute($value) {
-        if($this->is_file_exists($value))
+    public function getGalleryThumbnailAttribute($value)
+    {
+        if ($this->is_file_exists($value))
             return \Illuminate\Support\Facades\Storage::url($value);
         else
             return asset(config('constants.image.default_img'));
     }
 
-        
 
-    
+
+
 
     /**
      * Add ProductGallery
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeCreateProductGallery($query, $request){
+    public function scopeCreateProductGallery($query, $request)
+    {
         $productGallery = ProductGallery::create($request->all());
-        
+
         if ($request->hasFile('gallery')) {
             $realPath = 'product_gallery/' . $productGallery->id;
 
@@ -168,9 +168,9 @@ class ProductGallery extends Model
                 'gallery_thumbnail' => $resizeImages['thumbnail']
             ]);
         }
-        
-        
-        
+
+
+
         return \App\Models\User::GetMessage(new ProductGalleryResource($productGallery), config('constants.messages.create_success'));
     }
 
@@ -180,9 +180,10 @@ class ProductGallery extends Model
      * @param ProductGallery $productGallery
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeUpdateProductGallery($query, $request, $productGallery){
+    public function scopeUpdateProductGallery($query, $request, $productGallery)
+    {
         $data = $request->all();
-        
+
         if ($request->hasFile('gallery')) {
             $realPath = 'product_gallery/' . $productGallery->id;
 
@@ -194,10 +195,10 @@ class ProductGallery extends Model
             $data['gallery_original'] = $resizeImages['original'];
             $data['gallery_thumbnail'] = $resizeImages['thumbnail'];
         }
-        
-        
+
+
         $productGallery->update($data);
-        
+
         return \App\Models\User::GetMessage(new ProductGalleryResource($productGallery), config('constants.messages.update_success'));
     }
 
@@ -209,14 +210,15 @@ class ProductGallery extends Model
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function scopeDeleteProductGallery($query, $request, $productGallery){
-       
-       
-        $this->singleImageDelete($productGallery, "product_gallery/"); // Delete image    
-            
-       $productGallery->delete();
-       
-       return new DataTrueResource($productGallery,config('constants.messages.delete_success'));
+    public function scopeDeleteProductGallery($query, $request, $productGallery)
+    {
+
+
+        $this->singleImageDelete($productGallery, "product_gallery/"); // Delete image
+
+        $productGallery->delete();
+
+        return new DataTrueResource($productGallery, config('constants.messages.delete_success'));
     }
 
     /**
@@ -225,25 +227,23 @@ class ProductGallery extends Model
      * @param $request
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      */
-    public function scopeDeleteAll($query,$request){
-        if(!empty($request->id)) {
+    public function scopeDeleteAll($query, $request)
+    {
+        if (!empty($request->id)) {
 
-            ProductGallery::whereIn('id', $request->id)->get()->each(function($productGallery) {
-                
-                
-        $this->singleImageDelete($productGallery, "product_gallery/"); // Delete image    
-            
+            ProductGallery::whereIn('id', $request->id)->get()->each(function ($productGallery) {
+
+
+                $this->singleImageDelete($productGallery, "product_gallery/"); // Delete image
+
                 $productGallery->delete();
             });
 
-            
 
-            return new DataTrueResource(true,config('constants.messages.delete_success'));
-        }
-        else{
+
+            return new DataTrueResource(true, config('constants.messages.delete_success'));
+        } else {
             return User::GetError(config('constants.messages.delete_multiple_error'));
         }
     }
-
-    
 }

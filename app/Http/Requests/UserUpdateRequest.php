@@ -24,17 +24,15 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        
+
         $urlArr = explode("/", $request->path());
         $id = end($urlArr);
-        
-        return [
-            'email'=>'required|max:191|email', 
-            'password'=>'required|min:6|max:191', 
-            'role_id'=>'required|exists:roles,id,deleted_at,NULL'
-            
-        ];
 
+        return [
+            'contact_number' => 'required|max:255',
+            'password' => 'required|min:6|max:191',
+            'role_id' => 'required|exists:roles,id,deleted_at,NULL'
+
+        ];
     }
-    
 }

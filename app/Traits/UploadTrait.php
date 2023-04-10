@@ -104,23 +104,26 @@ trait UploadTrait
         } else { // In local
 
             $path = $this->uploadInLocal($image, $realPath);
-
             if ($isImage) {
-                $createThumb = public_path('storage/' . $realPath . '/thumbs/');
+                $createThumb = $realPath . '/thumbs/';
 
+                // if (!File::isDirectory($createThumb)) {
+                //     File::makeDirectory($createThumb, 0755, true, true);
+                // } else {
+                // }
                 if (!File::isDirectory($createThumb)) {
-                    File::makeDirectory($createThumb, 0755, true, true);
+                    Storage::makeDirectory($createThumb, 0755, true, true);
                 }
 
                 $thumbPath = $realPath . '/thumbs/' . pathinfo($path, PATHINFO_BASENAME);
 
                 $this->setTinify();
-                $source   = \Tinify\fromFile('storage/' . $path);
-                $source->toFile('storage/' . $path);
+                $source   = \Tinify\fromFile(Storage::path($path));
+                $source->toFile(Storage::path($path));
 
                 // Create thumb
                 $resized = $source->resize($this->getTinifyThumbArray($width, $height));
-                $resized->toFile('storage/' . $thumbPath);
+                $resized->toFile(Storage::path($thumbPath));
             }
 
             $original = $image->getClientOriginalName();
