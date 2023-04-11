@@ -31,6 +31,7 @@
                             label="Contact No*"
                             type="text"
                             name="contact_number"
+                            autofocus
                             :error-messages="getErrorValue('email', errors, validationMessages)"
                         />
                     </v-flex>

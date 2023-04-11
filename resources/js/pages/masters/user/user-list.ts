@@ -51,8 +51,9 @@ class UserList extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] =
           [
-             { text: 'Email', value: 'contact_number' },
+             { text: 'Email/Contact Number', value: 'contact_number' },
              { text: 'Name', value: 'name' },
+             { text: 'Company Name', value: 'company_name' },
              { text: 'Role', value: 'role_id'},
              { text: 'Actions', value: 'actions', sortable: false },
           ]
