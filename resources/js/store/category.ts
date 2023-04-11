@@ -7,14 +7,14 @@ import {
     Mutation,
     getModule,
 } from "vuex-module-decorators";
-import {   
+import {
     IImportReqParams,
     IImportResponse,
-    ResponseResult,  
+    ResponseResult,
     IDeleteProps
 } from "../../assets/types/common";
 import {
-    isExistInLocalStorage    
+    isExistInLocalStorage
 } from "@/filters/common";
 import {
     ICategoryModel,
@@ -26,24 +26,24 @@ import { AxiosResponse } from "axios";
 
 // mutation types
 function getEmptyState() {
-    return {        
-        
+    return {
+
         categoryList: [],
         model: {
            name: "",
             description: "",
             featured_image: "",
         },
-        viewModel: { 
+        viewModel: {
             id: "",
             name: "",
             description: "",
-            featured_image: "", 
+            featured_image: "",
         },
         editId: 0,
     };
 }
-export interface ICategory {    
+export interface ICategory {
     categoryList: ICategoryLightResponse[];
     model: ICategoryModel;
     viewModel: ICategoryFullResponse;
@@ -57,9 +57,9 @@ export interface ICategory {
     namespaced: true,
     preserveState: isExistInLocalStorage("category"),
 })
-class Category extends VuexModule implements ICategory {    
+class Category extends VuexModule implements ICategory {
     public categoryList: ICategoryLightResponse[] = getEmptyState().categoryList;
-    
+
     public model: ICategoryModel = getEmptyState().model;
     public viewModel: ICategoryFullResponse = getEmptyState().viewModel;
     public editId: ICategoryParams["editId"] = getEmptyState().editId;
@@ -80,7 +80,7 @@ class Category extends VuexModule implements ICategory {
         this.viewModel = param;
     }
 
-    
+
 
     @Mutation
     SET_CATEGORY_LIST(payload: ICategoryLightResponse[]) {
@@ -101,7 +101,7 @@ class Category extends VuexModule implements ICategory {
         this.viewModel = getEmptyState().viewModel;
     }
 
-    
+
 
     /**
      * Used for add category
@@ -213,7 +213,7 @@ class Category extends VuexModule implements ICategory {
         });
     }
 
-    
+
 
     /**
      * Used for import functionality (upload file)
@@ -238,7 +238,7 @@ class Category extends VuexModule implements ICategory {
         });
     }
 
-        
+
 
 }
 

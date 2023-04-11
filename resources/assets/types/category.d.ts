@@ -2,7 +2,8 @@
 export interface ICategoryModel {
     name: string;
     description: string;
-    featured_image: string;
+    featured_image: File|Blob|string;
+
 }
 
 export interface ICategoryParams {
@@ -14,7 +15,7 @@ export interface ICategoryLightResponse {
     id: string;
     name: string;
     description: string;
-    featured_image: string;
+    featured_image: File|Blob|string;
 }
 
 export interface ICategoryFullResponse extends ICategoryLightResponse{

@@ -1,7 +1,8 @@
 export type ValidationObj = { key: string, value: string }[];
 
 export interface IForgotPasswordValidations {
-    email?: ValidationObj
+    email?: ValidationObj;
+    contact_number?:ValidationObj;
 }
 
 export interface ILoginValidations extends IForgotPasswordValidations{

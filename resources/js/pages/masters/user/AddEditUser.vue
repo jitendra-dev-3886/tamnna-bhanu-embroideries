@@ -22,11 +22,11 @@
                     novalidate
                     autocomplete="off"
                     @submit.prevent="onSubmit()"
-                    
+
                 >
                     <ErrorBlockServer :error-message="errorMessage" />
                     <v-layout row wrap class="m-0">
-                        
+
                             <v-flex
                                 xs12
                                 lg6
@@ -39,11 +39,11 @@
                                     label="Email*"
                                     name="email"
                                     v-validate="'required|max:191|email'"
-                                    :error-messages="getErrorValue('email')"
+
                                     maxlength="191"
                                 />
                             </v-flex>
-            
+
                             <v-flex
                                 class="p-md-2"
                                 lg6
@@ -52,7 +52,7 @@
                             >
                                 <v-text-field
                                     :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-                                    :error-messages="getErrorValue('password')"
+
                                     :type="showPassword ? 'text' : 'password'"
                                     @click:append="showPassword = !showPassword"
                                     autocomplete="new-password"
@@ -63,7 +63,7 @@
                                     v-validate="isEditMode ? '' :'required|min:6|max:191'"
                                 />
                             </v-flex>
-            
+
                             <v-flex
                                 xs12
                                 lg6
@@ -79,14 +79,14 @@
                                     item-value="id"
 
                                     :loading="isDataLoading"
-                                    :error-messages="getErrorValue('role_id')"
+
                                 />
                             </v-flex>
                     </v-layout>
 
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
-                        
+
                         <v-btn
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"

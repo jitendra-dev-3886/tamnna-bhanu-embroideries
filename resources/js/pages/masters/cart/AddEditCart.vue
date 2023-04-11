@@ -21,7 +21,7 @@
                     novalidate
                     autocomplete="off"
                     @submit.prevent="onSubmit()"
-                    
+
                 >
                     <ErrorBlockServer :error-message="errorMessage" />
                     <v-layout
@@ -29,7 +29,7 @@
                         wrap
                         class="m-0"
                     >
-                        
+
                         <v-flex
                             xs12
                             lg6
@@ -43,7 +43,7 @@
                                 :items="userList"
                                 item-text="name"
                                 item-value="id"
-                                
+
                                 :loading="isBatchRequestLoading"
                                 :error-messages="
                                     getErrorValue(
@@ -55,7 +55,7 @@
                                  aria-label="User"
                             />
                         </v-flex>
-            
+
                         <v-flex
                             xs12
                             lg6
@@ -69,7 +69,7 @@
                                 :items="productList"
                                 item-text="name"
                                 item-value="id"
-                                
+
                                 :loading="isBatchRequestLoading"
                                 :error-messages="
                                     getErrorValue(
@@ -81,19 +81,19 @@
                                  aria-label="Product"
                             />
                         </v-flex>
-            
+
                         <v-flex
                             xs12
                             lg6
                             class="p-md-2"
-                            
+
                         >
                             <v-text-field
-                                
+
                                 v-model="model.quantity"
                                 label="Quantity*"
                                 name="quantity"
-                                v-validate="'required'" 
+                                v-validate="'required'"
                                 :error-messages="
                                     getErrorValue(
                                         'quantity',
@@ -109,7 +109,7 @@
 
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
-                        
+
                         <v-btn
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"

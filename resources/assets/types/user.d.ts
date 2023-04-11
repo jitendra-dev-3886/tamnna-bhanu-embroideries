@@ -20,13 +20,13 @@ export interface IUserValidations {
     email: ValidationObj;
     password: ValidationObj;
     role_id: ValidationObj;
-
 }
 
 export interface IUserLightResponse {
     id: string;
     email: string;
     username:string;
+    contact_number:string
 }
 
 export interface IUserFullResponse extends IUserLightResponse{

@@ -23,7 +23,7 @@
                     Import
                 </p>
             </v-tab>
-            
+
             <v-tab href="#tab3" aria-label="Import images tab"> <!-- Zip upload tab -->
                 <p class="mt-1">Import Zip</p>
             </v-tab>
@@ -70,7 +70,7 @@
                                 xs12
                             >
                                 <div class="float-right mt-4">
-                                    
+
                                     <v-menu
                                         v-model="filterMenu"
                                         :close-on-content-click="false"
@@ -126,7 +126,7 @@
                                                         {{ icons.mdiClose }}
                                                     </v-icon>
                                                 </v-btn>
-                                                
+
                                                 <v-select
                                                   v-model="user_id"
                                                   name="user"
@@ -158,24 +158,6 @@
                                             </v-card-actions>
                                         </v-card>
                                     </v-menu>
-                                    <v-tooltip bottom>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn
-                                                @click="addOrder()"
-                                                class="mb-2 mr-2"
-                                                color="primary"
-                                                dark
-                                                v-on="on"
-                                                v-store="$getConst('ORDERS')"
-                                                aria-label="Add order"
-                                            >
-                                                <v-icon small>
-                                                    {{ icons.mdiPlus }}
-                                                </v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>Add</span>
-                                    </v-tooltip>
                                     <export-btn
                                         :export-props="exportProps"
                                         @click.native="setExport()"
@@ -202,16 +184,16 @@
                             </v-flex>
                         </v-layout>
                     </template>
-                    
+
                     <template v-slot:[`item.user_id`]="{ item }">
                         <span v-if="item.user">{{ item.user.name }}</span>
                     </template>
-            
+
                     <template v-slot:[`item.order_status`]="{ item }">
                         <span v-if="item.order_status_text">{{ item.order_status_text }}</span>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
-                        
+
                         <!-- Light Product Id View Start-->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -235,7 +217,7 @@
                             }}</span>
                         </v-tooltip>
                         <!-- Light Product Id View End-->
-                        
+
 
                         <!-- Manage Product Id Start -->
                         <v-tooltip bottom>
@@ -320,7 +302,7 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-            
+
             <v-tab-item value="tab3">
                 <v-card flat>
                     <v-card-text>
@@ -341,7 +323,7 @@
             aria-label="Delete order confirmation modal"
         />
         <order-view-modal v-model="orderViewModal" aria-label="order view modal" />
-        
+
 
         <!-- Manage Product Id Start -->
         <multi-file-modal
@@ -354,7 +336,7 @@
             aria-label="Manage Product Id modal"
         ></multi-file-modal>
         <!-- Manage Product Id End -->
-        
+
         <image-viewer
             ref="imgViewer"
             key="imgViewer"

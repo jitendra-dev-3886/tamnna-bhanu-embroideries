@@ -21,7 +21,7 @@
                     novalidate
                     autocomplete="off"
                     @submit.prevent="onSubmit()"
-                    
+
                 >
                     <ErrorBlockServer :error-message="errorMessage" />
                     <v-layout
@@ -29,19 +29,19 @@
                         wrap
                         class="m-0"
                     >
-                        
+
                         <v-flex
                             xs12
                             lg6
                             class="p-md-2"
-                            
+
                         >
                             <v-text-field
-                                
+
                                 v-model="model.name"
                                 label="Name*"
                                 name="name"
-                                v-validate="'required|max:191'" 
+                                v-validate="'required|max:191'"
                                 :error-messages="
                                     getErrorValue(
                                         'name',
@@ -53,7 +53,7 @@
                                 aria-label="Name"
                             />
                         </v-flex>
-            
+
                         <v-flex
                             xs12
                             lg6
@@ -62,7 +62,7 @@
                             <label>Description*</label>
                             <vue-mce id="description" v-model="model.description"
                                      name="description" ref="description"
-                                     v-validate="'required'" 
+                                     v-validate="'required'"
                                      :config="editorConfig"></vue-mce>
                             <ErrorBlock
                                 validationField="description"
@@ -70,7 +70,7 @@
                                 :validatonArray="validationMessages.description"
                             ></ErrorBlock>
                         </v-flex>
-            
+
                         <v-flex
                             xs12
                             lg6
@@ -79,7 +79,8 @@
                             <v-file-input
                                 id="featured_image"
                                 ref="featured_image"
-                                v-model="model.featured_image_upload"
+
+                                v-model="model.featured_image"
                                 v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
                                 attach
                                 :label="isEditMode ? 'Featured Image' : 'Featured Image*' "
@@ -92,7 +93,7 @@
                                         validationMessages
                                     )
                                 "
-                                @click:clear="model.featured_image_upload=null"
+                                @click:clear="model.featured_image='' "
                                 aria-label="Featured_image"
                             />
                         </v-flex>
@@ -100,13 +101,13 @@
 
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
-                        
+
                         <v-btn
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             type="submit"
                             :loading="isSubmitting"
-                            
+
                         >
                             {{ $getConst('BTN_SUBMIT') }}
                         </v-btn>

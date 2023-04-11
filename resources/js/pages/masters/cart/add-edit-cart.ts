@@ -1,12 +1,12 @@
 import { Component, Mixins } from "vue-property-decorator";
 import CommonServices from "../../../mixins/common";
 import CommonApis from "../../../mixins/common-apis";
-import ErrorBlockServer from "../../../components/ErrorBlockServer.vue"; 
+import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 import { HTMLClassModule } from "../../../store/htmlclass";
 import { CartModule } from "../../../store/cart";
 import { SnackbarModule } from "../../../store/snackbar";
 
-import { 
+import {
     ICartBatchResponse,
     ICartModel,
     ICartFullResponse,
@@ -24,7 +24,7 @@ import { AxiosResponse } from "axios";
 import { BatchRequestModule } from "../../../store/batch-request";
 
 import {
-    ResponseResult, 
+    ResponseResult,
     IBatchReqUrls,
 } from "../../../../assets/types/common";
 
@@ -33,7 +33,7 @@ import {
 @Component({
     components: {
         ErrorBlockServer,
-        
+
     },
 })
 class AddEditCart extends Mixins(CommonServices, CommonApis) {
@@ -41,22 +41,22 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
 
     errorMessage = "";
 
-    validationMessages: ICartValidations = { 
-            
+    validationMessages: ICartValidations = {
+
                 user_id: [
                     {
                         key: 'required',
                         value: 'User required'
                     },
                 ],
-            
+
                 product_id: [
                     {
                         key: 'required',
                         value: 'Product required'
                     },
                 ],
-            
+
                 quantity: [
                     {
                         key: 'required',
@@ -66,7 +66,7 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
     };
 
     isSubmitting = false;
-     
+
     isBatchRequestLoading= false;
 
     get model(): ICartModel {
@@ -76,17 +76,17 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
     get isEditMode(): boolean {
         return CartModule.editId ? CartModule.editId > 0 : false;
     }
-    
+
     get userList(): IUserLightResponse[] {
         return UserModule.userList;
     }
     get productList(): IProductLightResponse[] {
         return ProductModule.productList;
     }
-    
+
 
     //Methods
-    
+
          /* JSON Form Submit - Start*/
     onSubmit(): void{
         this.$validator.validate().then((valid) => {
@@ -105,10 +105,10 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
                 //To Submit JSON Request
                 const sendParamModel = JSON.parse(JSON.stringify(self.model));
 
-                
-            
-            
-            
+
+
+
+
 
                 CartModule[apiName]({ model: sendParamModel, editId }).then(
                     (
@@ -137,7 +137,7 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
         this["$router"].push("/masters/cart");
     }
 
-    
+
      /**
      * If batch request then call this method
      */
@@ -149,7 +149,7 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
          * Batch request (Max 10 request is allowed at a time)
          */
         const api = "getBatchRequests";
-        const requestArray: IBatchReqUrls[] = [ 
+        const requestArray: IBatchReqUrls[] = [
             {
                 url: "api/v1/users?is_light=1",
                 request_id: "userList",
@@ -165,7 +165,7 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
                 const castedResponse = response as ICartBatchResponse;
                 this.isBatchRequestLoading = false;
                 HTMLClassModule.removeBodyClassName("page-loading");
-                
+
                 UserModule.SET_USER_LIST(
                     castedResponse.userList.data as IUserLightResponse[]
                 );
@@ -190,14 +190,14 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
                 >;
                 if (castedCartResponse?.data?.data) {
 
-                    
+
 
                     const cartModel: ICartModel = {
-                        user_id: castedCartResponse.data?.data?.user_id, 
-            product_id: castedCartResponse.data?.data?.product_id, 
+                        user_id: castedCartResponse.data?.data?.user_id,
+            product_id: castedCartResponse.data?.data?.product_id,
             quantity: castedCartResponse.data?.data?.quantity,
                     };
-                    
+
                     CartModule.SET_MODEL(cartModel);
                 }
             },
@@ -206,7 +206,7 @@ class AddEditCart extends Mixins(CommonServices, CommonApis) {
             }
         );
 
-        
+
          if (this.done24Hours('add-edit-cart-call')) {
              this.commonBatchRequest();
          }
