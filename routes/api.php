@@ -21,10 +21,10 @@ Route::group([
     'prefix' => 'v1',
     'namespace' => 'API',
 ], function () {
-    Route::get('email/verify/{id}', '\App\Http\Controllers\API\VerificationAPIController@verify')->name('verification.verify');
-    Route::get('email/resend', '\App\Http\Controllers\API\VerificationAPIController@resend')->name('verification.resend');
+    // Route::get('email/verify/{id}', '\App\Http\Controllers\API\VerificationAPIController@verify')->name('verification.verify');
+    // Route::get('email/resend', '\App\Http\Controllers\API\VerificationAPIController@resend')->name('verification.resend');
 
-    Route::post('forgot-password', '\App\Http\Controllers\API\ForgotPasswordAPIController@sendResetLinkEmail');
+    // Route::post('forgot-password', '\App\Http\Controllers\API\ForgotPasswordAPIController@sendResetLinkEmail');
 
     Route::get('batch-request', '\App\Http\Controllers\API\UserAPIController@batchRequest');
     Route::post('login', '\App\Http\Controllers\API\LoginAPIController@login');
