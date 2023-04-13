@@ -63,7 +63,7 @@ const YOUR_CONSTS = {
         "You have been logged off. Please enter your password to login.",
     SUPER_ADMIN_DELETE_WARNING: "Super admin can not be deleted.",
     ADMIN_DELETE_WARNING: "Admin role can not be deleted.",
-    LOGO_IMG: "/images/logo.png",
+    LOGO_IMG: "/images/Logo A.jpg",
     MISSING_PARAM_ID: "Param ID is missing in route",
 
 

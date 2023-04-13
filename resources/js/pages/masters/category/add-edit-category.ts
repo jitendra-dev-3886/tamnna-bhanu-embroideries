@@ -83,11 +83,11 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
 
          /* JSON Form Submit - Start*/
     onSubmit(): void{
-        debugger;
+
         this.$validator.validate().then((valid) => {
             const self = this;
             if (valid) {
-                debugger;
+
                 self.isSubmitting = true;
                 let apiName = "create";
                 let editId: string | number = "";
