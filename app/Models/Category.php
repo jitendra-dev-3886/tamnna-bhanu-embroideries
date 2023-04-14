@@ -140,11 +140,11 @@ class Category extends Model
         $category = Category::create($request->all());
 
         if ($request->hasFile('featured_image')) {
-            $realPath = 'product/' . $category->id;
+            $realPath = 'category/' . $category->id;
             $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
             $category->update([
-                'product_id' => $category->id,
+                'category_id'    => $category->id,
                 'featured_image' => $resizeImages['image']
                 // 'profile_original' => $request->get('original'),
                 // 'profile_thumbnail' => $resizeImages['thumbnail']
@@ -164,6 +164,14 @@ class Category extends Model
     {
         $data = $request->all();
 
+        if ($request->hasFile('featured_image')) {
+            $realPath = 'category/' . $category->id . '/';
+            $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+
+            $data['featured_image'] = $resizeImages['image'];
+            //     // $data['profile_original'] = $request->get('profile_image_original');
+            //     // $data['profile_thumbnail'] = $resizeImages['thumbnail'];
+        }
 
         $category->update($data);
 

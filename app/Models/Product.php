@@ -208,7 +208,7 @@ class Product extends Model
 
         if ($request->hasFile('featured_image')) {
             $realPath = 'product/' . $product->id . '/';
-            $resizeImages = $product->resizeImages($request->get('featured_image'), $realPath, 100, 100);
+            $resizeImages = $product->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
             $data['featured_image'] = $resizeImages['image'];
             // $data['profile_original'] = $request->get('profile_image_original');

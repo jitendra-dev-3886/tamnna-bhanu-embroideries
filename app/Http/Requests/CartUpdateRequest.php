@@ -24,17 +24,14 @@ class CartUpdateRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        
+
         $urlArr = explode("/", $request->path());
         $id = end($urlArr);
-        
-        return [
-            'user_id'=>'required|exists:users,id,deleted_at,NULL', 
-            'product_id'=>'required|exists:products,id,deleted_at,NULL', 
-            'quantity'=>'required'
-            
-        ];
 
+        return [
+            'user_id'    => 'required|exists:users,id,deleted_at,NULL',
+            'product_id' => 'required|exists:products,id,deleted_at,NULL',
+            'quantity'   => 'required|integer|min:1',
+        ];
     }
-    
 }

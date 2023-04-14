@@ -24,14 +24,11 @@ class CartRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        
-        return [
-            'user_id'=>'required|exists:users,id,deleted_at,NULL', 
-            'product_id'=>'required|exists:products,id,deleted_at,NULL', 
-            'quantity'=>'required',
-            
-        ];
 
+        return [
+            'user_id'    => 'required|exists:users,id,deleted_at,NULL',
+            'product_id' => 'required|exists:products,id,deleted_at,NULL',
+            'quantity'   => 'required|integer|min:1',
+        ];
     }
-    
 }
