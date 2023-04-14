@@ -95,7 +95,7 @@ const routes: RouteConfig[] = [
                 path: "/customer",
                 name: "customer",
                 component: () =>
-                    import("../pages/masters/customer/CustomerList.vue"),
+                    import("../pages/masters/customer/Customer.vue"),
                 meta: {
                     requiresAuth: true,
                     title: `Customer${siteName}`,
