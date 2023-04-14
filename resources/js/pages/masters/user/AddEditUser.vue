@@ -70,8 +70,8 @@
                                     v-model="model.email"
                                     label="Email*"
                                     name="email"
-                                    v-validate="'required|max:191|email|unique_email'"
-                                    maxlength="191"
+                                    v-validate="'required'"
+
                                     :error-messages="getErrorValue('email', errors, validationMessages)"
                                 />
                             </v-flex>
@@ -97,9 +97,7 @@
                                         ? ''
                                         : {
                                               required: 'required',
-                                              min: 8,
-                                              max: 15,
-                                              regex: password_rules,
+
                                           }
                                 "
                                     :error-messages="getErrorValue('password', errors, validationMessages)"
