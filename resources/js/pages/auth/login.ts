@@ -39,11 +39,11 @@ class Login extends mixins(CommonServices) {
             },
         ],
         password: [
-            { key: "required", value: "Password required" },
             {
-                key: "min",
-                value: "Password length should be at least 6",
+                key: "required",
+                value: "Password required"
             },
+
         ],
     };
     // login info

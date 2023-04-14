@@ -34,7 +34,8 @@ function getEmptyState() {
 
             email: '',
             role_id: '',
-            password:''
+            password:'',
+            username:''
         },
         editId: 0,
 
