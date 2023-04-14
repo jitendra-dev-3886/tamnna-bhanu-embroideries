@@ -7,7 +7,7 @@
       <span
           class="text-muted font-weight-bold font-size-base d-md-inline mr-1"
       >
-        Hi,
+        Hi, {{ roleName }}
       </span>
             <span
                 class="text-dark-50 font-weight-bolder font-size-base d-md-inline mr-3 black-color"
@@ -156,11 +156,17 @@ class KTQuickUser extends mixins(CommonServices, Idle) {
     nameInitials: string = '';
     userEmail: string = '';
     roleName: string = '';
+    contact_number:string=''
 
     mounted() {
+
         this.userEmail = UserModule.currentUserData.email;
+        console.log(this.userEmail);
+        this.contact_number=UserModule.currentUserData.contact_number;
         this.username = UserModule.currentUserData.username;
-        this.nameInitials = this.username.charAt(0);
+        console.log(this.username);
+
+       // this.nameInitials = this.username.charAt(0);
         this.roleName = UserModule.currentUserData.role ? UserModule.currentUserData.role.name : '';
         // Init Quick User Panel
         KTLayoutQuickUser.init(this.$refs.kt_quick_user);
@@ -171,10 +177,10 @@ class KTQuickUser extends mixins(CommonServices, Idle) {
     }
 
     get picture() {
-      if (UserModule.currentUserData.profile != '') {
+        /*if (UserModule.currentUserData.profile != '') {
         return UserModule.currentUserData.profile;
-      }
-      return '/images/profile.png';
+      }*/
+      return '/resources/assets/images/default.png';
     }
 
     get currentUserData() {

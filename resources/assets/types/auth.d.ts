@@ -1,7 +1,8 @@
 export type ValidationObj = { key: string, value: string }[];
 
 export interface IForgotPasswordValidations {
-    email?: ValidationObj
+    email?: ValidationObj;
+    contact_number?:ValidationObj;
 }
 
 export interface ILoginValidations extends IForgotPasswordValidations{
@@ -13,6 +14,7 @@ export interface IForgotPasswordModel{
 }
 
 export interface ILoginModel extends IForgotPasswordModel{
+    contact_number:String,
     password: string;
     g_recaptcha_response: string;
 }

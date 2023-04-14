@@ -27,11 +27,20 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'email' => 'required|max:191',
-            'password' => 'required|min:6|max:191',
+            'contact_number' => 'required|max:255',
+            'password'       => 'required|min:6|max:191',
         ];
+        // $rules = [
+        //     'contact_number' => [
+        //         'required',
+        //         'integer',
+        //         'digits:10',
+        //         'starts_with:9,8,7,6',
+        //         'exists:users,contact_number',
+        //     ]
+        // ];
 
-        if(App::environment(['production']))
+        if (App::environment(['production']))
             $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
 
         return $rules;

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Http\Resources\DataTrueResource;
 use App\Traits\CreatedbyUpdatedby;
 use App\Traits\Scopes;
@@ -18,79 +19,75 @@ class Category extends Model
     /**
      * @var array
      */
-    protected $fillable = [ 'id', 'name', 'description', 'featured_image' ];
+    protected $fillable = ['id', 'name', 'description', 'featured_image'];
 
     /**
      * Activity log array
      *
      * @var array
      */
-    public $activity_log = [ 'id', 'name', 'description', 'featured_image' ];
+    public $activity_log = ['id', 'name', 'description', 'featured_image'];
 
     /**
      * Log Activity relationships array
      *
      * @var array
      */
-    public $log_relations = [  ];
+    public $log_relations = [];
 
     /**
      * Lightweight response variable
      *
      * @var array
      */
-    public $light = [ 'id', 'name', 'description', 'featured_image' ];
+    public $light = ['id', 'name', 'description', 'featured_image'];
 
     /**
      * Related permission array
      *
      * @var array
      */
-    public $related_permission = [ 'products' ];
+    public $related_permission = ['products'];
 
     /**
      * @var array
      */
-    public $sortable = [ 'categories.created_at', 'categories.id', 'name', 'description', 'featured_image' ];
+    public $sortable = ['categories.created_at', 'categories.id', 'name', 'description', 'featured_image'];
 
     /**
      * @var array
      */
-    public $foreign_sortable = [  ];
+    public $foreign_sortable = [];
 
     /**
      * @var array
      */
-    public $foreign_table = [  ];
+    public $foreign_table = [];
 
     /**
      * @var array
      */
-    public $foreign_key = [  ];
+    public $foreign_key = [];
 
     /**
      * @var array
      */
-    public $foreign_method = [  ];
+    public $foreign_method = [];
 
     /**
      * @var array
      */
-    public $type_sortable = [  ];
+    public $type_sortable = [];
 
     /**
      * @var array
      */
-    public $type_enum = [
-            
-    ];
+    public $type_enum = [];
 
     /**
      * @var array
      */
-    public $type_enum_text = [
-            
-    ];
+    public $type_enum_text = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -104,7 +101,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $hidden = [  ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -113,27 +110,47 @@ class Category extends Model
      */
     protected $casts = [
 
-            'id'=>'string', 
-            'name'=>'string', 
-            'description'=>'string', 
-            'featured_image'=>'string'
+        'id' => 'string',
+        'name' => 'string',
+        'description' => 'string',
+        'featured_image' => 'string'
 
     ];
 
-    
-
-    
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getFeaturedImageAttribute($value)
+    {
+        // dd($value);
+        if ($this->is_file_exists($value))
+            return \Illuminate\Support\Facades\Storage::url($value);
+        else
+            return asset(config('constants.image.default_img'));
+    }
 
     /**
      * Add Category
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeCreateCategory($query, $request){
+    public function scopeCreateCategory($query, $request)
+    {
         $category = Category::create($request->all());
-        
-        
-        
+
+        if ($request->hasFile('featured_image')) {
+            $realPath = 'product/' . $category->id;
+            $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+
+            $category->update([
+                'product_id' => $category->id,
+                'featured_image' => $resizeImages['image']
+                // 'profile_original' => $request->get('original'),
+                // 'profile_thumbnail' => $resizeImages['thumbnail']
+            ]);
+        }
+
         return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.create_success'));
     }
 
@@ -143,12 +160,13 @@ class Category extends Model
      * @param Category $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeUpdateCategory($query, $request, $category){
+    public function scopeUpdateCategory($query, $request, $category)
+    {
         $data = $request->all();
-        
-        
+
+
         $category->update($data);
-        
+
         return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.update_success'));
     }
 
@@ -160,12 +178,13 @@ class Category extends Model
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function scopeDeleteCategory($query, $request, $category){
-       
-       
-       $category->delete();
-       
-       return new DataTrueResource($category,config('constants.messages.delete_success'));
+    public function scopeDeleteCategory($query, $request, $category)
+    {
+
+
+        $category->delete();
+
+        return new DataTrueResource($category, config('constants.messages.delete_success'));
     }
 
     /**
@@ -174,23 +193,21 @@ class Category extends Model
      * @param $request
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      */
-    public function scopeDeleteAll($query,$request){
-        if(!empty($request->id)) {
+    public function scopeDeleteAll($query, $request)
+    {
+        if (!empty($request->id)) {
 
-            Category::whereIn('id', $request->id)->get()->each(function($category) {
-                
-                
+            Category::whereIn('id', $request->id)->get()->each(function ($category) {
+
+
                 $category->delete();
             });
 
-            
 
-            return new DataTrueResource(true,config('constants.messages.delete_success'));
-        }
-        else{
+
+            return new DataTrueResource(true, config('constants.messages.delete_success'));
+        } else {
             return User::GetError(config('constants.messages.delete_multiple_error'));
         }
     }
-
-    
 }

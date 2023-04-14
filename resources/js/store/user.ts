@@ -43,6 +43,7 @@ function getEmptyState() {
             id: "",
             email: "",
             username:'',
+            contact_number:'',
             email_verified_at:"",
             role_id: "",
             role: {
@@ -68,7 +69,8 @@ function getEmptyState() {
         viewModel: {
             id: "",
             email: "",
-            username:'',
+            username:" ",
+            contact_number:" ",
             email_verified_at:"",
             role_id: "",
             role: {

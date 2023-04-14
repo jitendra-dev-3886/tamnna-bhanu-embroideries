@@ -50,8 +50,9 @@ const YOUR_CONSTS = {
     ZIP_FILE_UPLOAD_MSG: "Drag and drop your zip",
     SELECT_FILE_LABEL: "Click here to upload csv file",
     SELECT_ZIP_LABEL: "Click here to upload zip",
-    
-    
+
+    MANAGE_PRODUCT_GALLERY_TOOLTIP:"Manage Products Gallery",
+    VIEW_PRODUCT_GALLERY_TOOLTIP:"View Gallery",
     COLUMN_TOOLTIP: "Columns Visibility",
     VIEW_DETAILS_TOOLTIP: "View Details",
     DOWNLOAD_TOOLTIP: "Download",
@@ -62,10 +63,10 @@ const YOUR_CONSTS = {
         "You have been logged off. Please enter your password to login.",
     SUPER_ADMIN_DELETE_WARNING: "Super admin can not be deleted.",
     ADMIN_DELETE_WARNING: "Admin role can not be deleted.",
-    LOGO_IMG: "/images/logo.png",
+    LOGO_IMG: "/images/Logo A.jpg",
     MISSING_PARAM_ID: "Param ID is missing in route",
 
-    
+
 
     //  Broadcasting public channel events constant::Begin
     PUBLIC_CHANNELS: [

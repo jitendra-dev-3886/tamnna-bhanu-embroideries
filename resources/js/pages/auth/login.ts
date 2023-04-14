@@ -31,6 +31,13 @@ class Login extends mixins(CommonServices) {
                 value: "Email is invalid",
             },
         ],
+        contact_number:[
+            { key: "required", value: "Contact Number/Email-id required" },
+            {
+                key: "contact_number",
+                value: "Contact Number/Email-id is invalid",
+            },
+        ],
         password: [
             { key: "required", value: "Password required" },
             {
@@ -41,7 +48,8 @@ class Login extends mixins(CommonServices) {
     };
     // login info
     loginDetail: ILoginModel = {
-        email: "",
+        email:"",
+        contact_number: "",
         password: "",
         g_recaptcha_response: "",
     };
@@ -75,7 +83,7 @@ class Login extends mixins(CommonServices) {
                             response: AxiosResponse<
                                 ResponseResult<ICurrentUserData>
                                 >
-                        ) => {                           
+                        ) => {
                             this.isSubmitting = false;
                             // Set Data of Current user in store
                             UserModule.SET_CURRENT_USER_DATA(

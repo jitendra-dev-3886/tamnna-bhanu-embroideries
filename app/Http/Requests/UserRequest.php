@@ -24,14 +24,14 @@ class UserRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        
-        return [
-            'email'=>'required|max:191|email', 
-            'password'=>'required|min:6|max:191', 
-            'role_id'=>'required|exists:roles,id,deleted_at,NULL',
-            
-        ];
 
+        return [
+            'contact_number' => 'required|max:255|unique:users,contact_number,NULL,id,deleted_at,NULL',
+            'name' => 'required|max:191',
+            'company_name' => 'required|max:191',
+            'city' => 'required|max:191',
+            'password' => 'required|min:8|max:191',
+            'role_id' => 'required|exists:roles,id,deleted_at,NULL',
+        ];
     }
-    
 }

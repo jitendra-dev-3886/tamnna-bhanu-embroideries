@@ -58,7 +58,7 @@ class CommonServices extends mixins(CommonDateMethods, CommonErrorMethods) {
     };
 
     editorConfig: IObject = {
-        height: 163,
+        height: 250,
         inline: false,
         theme: "silver",
         fontsize_formats:

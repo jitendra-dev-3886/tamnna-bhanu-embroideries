@@ -43,18 +43,17 @@ class ProductAPIController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->get('is_light',false)){
+        if ($request->get('is_light', false)) {
 
-            return Cache::rememberForever('product.all', function () use($request){
+            return Cache::rememberForever('product.all', function () use ($request) {
                 $product = new Product();
-                $query = \App\Models\User::commonFunctionMethod(Product::select($product->light),$request,true);
-                return new ProductCollection(ProductResource::collection($query),ProductResource::class);
+                $query = \App\Models\User::commonFunctionMethod(Product::select($product->light), $request, true);
+                return new ProductCollection(ProductResource::collection($query), ProductResource::class);
             });
-        }
-        else
-            $query = \App\Models\User::commonFunctionMethod(Product::with(['category', 'product_galleries']),$request,true);
+        } else
+            $query = \App\Models\User::commonFunctionMethod(Product::with(['category', 'product_galleries']), $request, true);
 
-        return new ProductCollection(ProductResource::collection($query),ProductResource::class);
+        return new ProductCollection(ProductResource::collection($query), ProductResource::class);
     }
 
     /**
@@ -116,27 +115,27 @@ class ProductAPIController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-     public function export(Request $request)
-     {
-        $fileName = 'product_'.config('constants.file.name').'.csv';
-        $filePath = 'export/product/'.$fileName;
+    public function export(Request $request)
+    {
+        $fileName = 'product_' . config('constants.file.name') . '.csv';
+        $filePath = 'export/product/' . $fileName;
         $exportObj = new ProductExport($request);
         Excel::store($exportObj, $filePath);
 
         return response()->download(storage_path("app/public/{$filePath}"));
-     }
+    }
 
-      /**
-      * Import bulk
-      * @param CsvRequest $request
-      * @return \Illuminate\Http\JsonResponse
-      */
-      public function importBulk(CsvRequest $request)
-      {
-         return \App\Models\User::importBulk($request,new ProductImport(),'product','import/product/');
-      }
+    /**
+     * Import bulk
+     * @param CsvRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function importBulk(CsvRequest $request)
+    {
+        return \App\Models\User::importBulk($request, new ProductImport(), 'product', 'import/product/');
+    }
 
-      
+
     /**
      * Delete gallery
      * @param Request $request
@@ -150,7 +149,7 @@ class ProductAPIController extends Controller
         $productGallery->deleteOne('product/' . $productGallery->product_id . '/product_galleries/thumbs/' . basename($productGallery->gallery_thumbnail));
         $productGallery->delete();
 
-        return new DataTrueResource($productGallery,config('constants.messages.delete_success'));
+        return new DataTrueResource($productGallery, config('constants.messages.delete_success'));
     }
 
     /**
@@ -163,5 +162,4 @@ class ProductAPIController extends Controller
     {
         return Product::uploadZipFile($request);
     }
-    
 }

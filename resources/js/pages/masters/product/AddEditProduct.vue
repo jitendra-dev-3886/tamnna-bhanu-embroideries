@@ -29,19 +29,19 @@
                         wrap
                         class="m-0"
                     >
-                        
+
                         <v-flex
                             xs12
                             lg6
                             class="p-md-2"
-                            
+
                         >
                             <v-text-field
-                                
+
                                 v-model="model.name"
                                 label="Name*"
                                 name="name"
-                                v-validate="'required|max:191'" 
+                                v-validate="'required|max:191'"
                                 :error-messages="
                                     getErrorValue(
                                         'name',
@@ -53,19 +53,21 @@
                                 aria-label="Name"
                             />
                         </v-flex>
-            
+
+
+
                         <v-flex
                             xs12
                             lg6
                             class="p-md-2"
-                            
+
                         >
                             <v-text-field
-                                
+
                                 v-model="model.price"
                                 label="Price*"
                                 name="price"
-                                v-validate="'required'" 
+                                v-validate="'required'"
                                 :error-messages="
                                     getErrorValue(
                                         'price',
@@ -77,36 +79,20 @@
                                 aria-label="Price"
                             />
                         </v-flex>
-            
+
+
                         <v-flex
                             xs12
                             lg6
                             class="p-md-2"
-                        >
-                            <label>Description*</label>
-                            <vue-mce id="description" v-model="model.description"
-                                     name="description" ref="description"
-                                     v-validate="'required'" 
-                                     :config="editorConfig"></vue-mce>
-                            <ErrorBlock
-                                validationField="description"
-                                :errorList="errors"
-                                :validatonArray="validationMessages.description"
-                            ></ErrorBlock>
-                        </v-flex>
-            
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                            
+
                         >
                             <v-text-field
-                                
+
                                 v-model="model.item_code"
                                 label="Item Code*"
                                 name="item_code"
-                                v-validate="'required|max:191'" 
+                                v-validate="'required|max:191'"
                                 :error-messages="
                                     getErrorValue(
                                         'item_code',
@@ -118,7 +104,7 @@
                                 aria-label="Item Code"
                             />
                         </v-flex>
-            
+
                         <v-flex
                             xs12
                             lg6
@@ -132,7 +118,7 @@
                                 :items="categoryList"
                                 item-text="name"
                                 item-value="id"
-                                
+
                                 :loading="isDataLoading"
                                 :error-messages="
                                     getErrorValue(
@@ -144,15 +130,16 @@
                                  aria-label="Category"
                             />
                         </v-flex>
-            
+
                         <v-flex
                             xs12
                             lg6
                             class="p-md-2"
                         >
-                            <label>Available Status*</label>
+                            <label></label>
                             <v-radio-group
                                 v-model="model.available_status"
+                                label="Available Status*"
                                 v-validate="'required'"
                                 row
                                 name="available_status"
@@ -166,7 +153,7 @@
                                 class="p-0 mt-1"
                                 aria-label="Available Status"
                             >
-                                
+
                                 <v-radio
                                     label="Not-available"
                                     value="0"
@@ -177,31 +164,6 @@
                                 />
                             </v-radio-group>
                         </v-flex>
-            
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                            
-                        >
-                            <v-text-field
-                                
-                                v-model="model.stock"
-                                label="Stock"
-                                name="stock"
-                                
-                                :error-messages="
-                                    getErrorValue(
-                                        'stock',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                maxlength=""
-                                aria-label="Stock"
-                            />
-                        </v-flex>
-            
                         <v-flex
                             xs12
                             lg6
@@ -210,7 +172,7 @@
                             <v-file-input
                                 id="featured_image"
                                 ref="featured_image"
-                                v-model="model.featured_image_upload"
+                                v-model="model.featured_image"
                                 v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
                                 attach
                                 :label="isEditMode ? 'Featured Image' : 'Featured Image*' "
@@ -223,11 +185,33 @@
                                         validationMessages
                                     )
                                 "
-                                @click:clear="model.featured_image_upload=null"
+                                @click:clear="model.featured_image=''"
                                 aria-label="Featured_image"
                             />
                         </v-flex>
-            
+                        <v-flex
+                            xs12
+                            lg6
+                            class="p-md-2"
+
+                        >
+                            <v-text-field
+
+                                v-model="model.stock"
+                                label="Stock"
+                                name="stock"
+
+                                :error-messages="
+                                    getErrorValue(
+                                        'stock',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                maxlength=""
+                                aria-label="Stock"
+                            />
+                        </v-flex>
                         <v-flex
                             xs12
                             lg6
@@ -252,11 +236,39 @@
                                 aria-label="Product Galleries"
                             />
                         </v-flex>
+                        <v-flex
+                            xs12
+                            lg6
+                            class="p-md-2"
+                        >
+                        <v-textarea
+                                id="description"
+                                label="Remarks*"
+                                v-model="model.description"
+                                name="description"
+                                ref="description"
+                                v-validate="'required'"
+                                auto-grow
+                                outlined
+                                :error-messages="
+                                    getErrorValue(
+                                        'description',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                ></v-textarea>
+                            <ErrorBlock
+                                validationField="description"
+                                :errorList="errors"
+                                :validatonArray="validationMessages.description"
+                            ></ErrorBlock>
+                        </v-flex>
                     </v-layout>
 
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
-                        
+
                         <v-btn
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"

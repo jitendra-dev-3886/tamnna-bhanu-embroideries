@@ -14,17 +14,20 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->get('is_light',false))
+        if ($request->get('is_light', false))
             return array_merge($this->attributesToArray(), $this->relationsToArray());
 
         return [
 
-            'id'=>$this->id, 
-            'email'=>$this->email, 
-            'email_verified_at'=>$this->email_verified_at, 
-            'role_id'=>$this->role_id, 
-            'role'=>$this->role
-
+            'id' => $this->id,
+            'contact_number' => $this->contact_number,
+            'name' => $this->name,
+            'company_name' => $this->company_name,
+            'city' => $this->city,
+            'user_status' => $this->user_status,
+            'user_status_text' => config('constants.user.status.' . $this->user_status),
+            'role_id' => $this->role_id,
+            'role' => $this->role,
         ];
     }
 }

@@ -23,7 +23,7 @@
                     Import
                 </p>
             </v-tab>
-            
+
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">
@@ -67,7 +67,7 @@
                                 xs12
                             >
                                 <div class="float-right mt-4">
-                                    
+
                                     <v-menu
                                         v-model="filterMenu"
                                         :close-on-content-click="false"
@@ -123,7 +123,7 @@
                                                         {{ icons.mdiClose }}
                                                     </v-icon>
                                                 </v-btn>
-                                                
+
                                                 <v-select
                                                   v-model="user_id"
                                                   name="user"
@@ -165,24 +165,6 @@
                                             </v-card-actions>
                                         </v-card>
                                     </v-menu>
-                                    <v-tooltip bottom>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn
-                                                @click="addCart()"
-                                                class="mb-2 mr-2"
-                                                color="primary"
-                                                dark
-                                                v-on="on"
-                                                v-store="$getConst('CARTS')"
-                                                aria-label="Add cart"
-                                            >
-                                                <v-icon small>
-                                                    {{ icons.mdiPlus }}
-                                                </v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>Add</span>
-                                    </v-tooltip>
                                     <export-btn
                                         :export-props="exportProps"
                                         @click.native="setExport()"
@@ -209,17 +191,17 @@
                             </v-flex>
                         </v-layout>
                     </template>
-                    
+
                     <template v-slot:[`item.user_id`]="{ item }">
                         <span v-if="item.user">{{ item.user.name }}</span>
                     </template>
-            
+
                     <template v-slot:[`item.product_id`]="{ item }">
                         <span v-if="item.product">{{ item.product.name }}</span>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
-                        
-                        
+
+
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
@@ -280,7 +262,7 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-            
+
         </v-tabs-items>
         <delete-modal
             :confirmation="confirmation"
@@ -290,8 +272,8 @@
             aria-label="Delete cart confirmation modal"
         />
         <cart-view-modal v-model="cartViewModal" aria-label="cart view modal" />
-        
-        
+
+
     </div>
 </template>
 

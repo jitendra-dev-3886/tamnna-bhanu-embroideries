@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -36,9 +37,9 @@ class ForgotPasswordAPIController extends Controller
      * @param $response
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendResetLinkResponse(Request $request,$response)
+    protected function sendResetLinkResponse(Request $request, $response)
     {
-        return response()->json(['message' => config('constants.messages.forgotpassword_success'), 'data' => ''],config('constants.validation_codes.ok'));
+        return response()->json(['message' => config('constants.messages.forgotpassword_success'), 'data' => ''], config('constants.validation_codes.ok'));
     }
 
     /**
