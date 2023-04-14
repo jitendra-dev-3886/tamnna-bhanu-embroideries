@@ -21,17 +21,16 @@ class Logoff extends Mixins(CommonServices) {
     // Validation Message
     validationMessages: ILoginValidations = {
         password: [
-            { key: "required", value: "Password required" },
             {
-                key: "min",
-                value: "Password length should be at least 6",
+                key: "required",
+                value: "Password required"
             },
         ],
     };
     // login info
     loginDetail: ILoginModel = {
         email: <string>UserModule.currentUserData.email,
-        contact_number:"",
+        contact_number:<string>UserModule.currentUserData.contact_number,
         password: "",
         g_recaptcha_response: "",
     };
@@ -40,6 +39,7 @@ class Logoff extends Mixins(CommonServices) {
 
     onSubmit(): void {
         // set spinner to submit button
+
         this["$validator"].validate().then((valid) => {
             if (valid) {
                 this.isSubmitting = true;

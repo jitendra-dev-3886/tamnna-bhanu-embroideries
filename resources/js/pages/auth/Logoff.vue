@@ -20,7 +20,6 @@
             >
                 <div
                     role="alert"
-                    :class="{ show: errorMessage.length }"
                     class="alert fade alert-danger"
                 >
                     <div class="alert-text">
@@ -39,7 +38,7 @@
                         </h3>
                         <v-text-field
                             v-model="loginDetail.password"
-                            v-validate="'required|min:6'"
+                            v-validate="'required'"
                             label="Password*"
                             type="password"
                             name="password"
@@ -55,10 +54,10 @@
                             <a
                                 id="kt_login_forgot"
                                 class="text-dark-60 text-hover-primary
-                 my-3 mr-2 float-right mt-0"
+                                my-3 mr-2 float-right mt-0"
                                 @click="logout()"
                             >
-                                Logout?
+                            Logout?
                             </a>
                         </v-flex>
                     </v-layout>

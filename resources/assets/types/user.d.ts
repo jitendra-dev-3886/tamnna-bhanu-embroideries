@@ -5,8 +5,7 @@ export interface IUserModel {
     email: string;
     password: string;
     role_id: string;
-
-
+    username:string;
 }
 
 export interface IUserParams {
@@ -20,6 +19,7 @@ export interface IUserValidations {
     email: ValidationObj;
     password: ValidationObj;
     role_id: ValidationObj;
+    username:ValidationObj;
 }
 
 export interface IUserLightResponse {

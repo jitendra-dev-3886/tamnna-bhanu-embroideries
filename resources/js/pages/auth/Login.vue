@@ -32,7 +32,7 @@
                     <v-flex xs12>
                         <v-text-field
                             v-model="loginDetail.password"
-                            v-validate="'required|min:6'"
+                            v-validate="'required'"
                             label="Password*"
                             type="password"
                             name="password"

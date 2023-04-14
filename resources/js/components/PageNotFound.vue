@@ -98,11 +98,10 @@
                                 "
                                 style="font-size: 150px"
                             >
-                                404
+                                Sorry!
                             </h1>
                             <h5 class="font-20 mb-4 mt-4">
-                                We can’t seem to find the page you’re looking
-                                for.
+                               This Page is Under Construction.
                             </h5>
                             <v-btn
                                 height="50"

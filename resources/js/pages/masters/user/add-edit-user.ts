@@ -34,6 +34,11 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
     errorMessage = "";
     validationMessages: IUserValidations = {
 
+                    username:[{
+                        key: 'required',
+                        value: 'Name required'
+                    }],
+
                     email: [
                         {
                             key: 'required',
@@ -206,7 +211,8 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                     const userModel: IUserModel = {
                         email: " ",
                         password: " ",
-                        role_id: " "
+                        role_id: " ",
+                        username:" "
                     };
 
                     UserModule.SET_MODEL(userModel);

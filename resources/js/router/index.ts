@@ -92,6 +92,17 @@ const routes: RouteConfig[] = [
                 },
             },
             {
+                path: "/customer",
+                name: "customer",
+                component: () =>
+                    import("../pages/masters/customer/Customer.vue"),
+                meta: {
+                    requiresAuth: true,
+                    title: `Customer${siteName}`,
+                    pageTitle: "Customer List",
+                },
+            },
+            {
                 path: "/role",
                 name: "role",
                 component: () => import("../pages/masters/role/Role.vue"),
@@ -200,7 +211,7 @@ const routes: RouteConfig[] = [
                  },
               ]
             },
-        
+
             {
               path: 'product',
               name: 'product',
@@ -241,7 +252,7 @@ const routes: RouteConfig[] = [
                  },
               ]
             },
-        
+
             {
               path: 'order',
               name: 'order',
@@ -282,8 +293,8 @@ const routes: RouteConfig[] = [
                  },
               ]
             },
-        
-            {
+
+            /*{
               path: 'cart',
               name: 'cart',
               component: () => import('../pages/masters/cart/Cart.vue'),
@@ -322,7 +333,7 @@ const routes: RouteConfig[] = [
                     },
                  },
               ]
-            },
+            },*/
         ],
             },
         ],

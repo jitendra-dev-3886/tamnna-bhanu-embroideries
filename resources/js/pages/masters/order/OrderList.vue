@@ -14,7 +14,7 @@
                     Listing
                 </p>
             </v-tab>
-            <v-tab
+           <!-- <v-tab
                 href="#tab2"
                 v-importBulk="$getConst('ORDERS')"
                 aria-label="Import tab"
@@ -24,9 +24,9 @@
                 </p>
             </v-tab>
 
-            <v-tab href="#tab3" aria-label="Import images tab"> <!-- Zip upload tab -->
+            <v-tab href="#tab3" aria-label="Import images tab">
                 <p class="mt-1">Import Zip</p>
-            </v-tab>
+            </v-tab>-->
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">
