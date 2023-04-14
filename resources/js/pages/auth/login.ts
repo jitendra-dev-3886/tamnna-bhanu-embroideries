@@ -32,10 +32,10 @@ class Login extends mixins(CommonServices) {
             },
         ],
         contact_number:[
-            { key: "required", value: "Contact Number required" },
+            { key: "required", value: "Contact Number/Email-id required" },
             {
                 key: "contact_number",
-                value: "Contact Number is invalid",
+                value: "Contact Number/Email-id is invalid",
             },
         ],
         password: [

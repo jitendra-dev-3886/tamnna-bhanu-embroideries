@@ -43,7 +43,7 @@
                         "
                     >
                         <h3 class="font-size-h1 mt-10 mb-5 text-white">
-                            Welcome to Eastern Techno Solutions!
+                            Welcome to Bhanu Embroideries!
                         </h3>
                     </div>
                     <!--end: Aside content -->
@@ -58,7 +58,7 @@
                         "
                     >
                         <div class="opacity-70 font-weight-bold text-white">
-                            © {{ currentYear }} Eastern Techno Solutions
+                            © {{ currentYear }} Bhanu Embroideries
                         </div>
                     </div>
                     <!--end: Aside footer for desktop -->

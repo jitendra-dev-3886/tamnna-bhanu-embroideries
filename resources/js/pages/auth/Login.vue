@@ -22,17 +22,11 @@
                         <v-text-field
                             v-model="loginDetail.contact_number"
                             v-validate="'required'"
-                            label="Contact No*"
+                            label="Username*"
                             type="text"
                             name="contact_number"
                             autofocus
-                            :error-messages="
-                                getErrorValue(
-                                    'email',
-                                    errors,
-                                    validationMessages
-                                )
-                            "
+                            :error-messages="getErrorValue('contact_number', errors, validationMessages)"
                         />
                     </v-flex>
                     <v-flex xs12>

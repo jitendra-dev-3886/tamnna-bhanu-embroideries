@@ -32,7 +32,7 @@
 
                         <v-flex
                             xs12
-                            lg6
+                            lg12
                             class="p-md-2"
 
                         >
@@ -56,14 +56,26 @@
 
                         <v-flex
                             xs12
-                            lg6
+                            lg12
                             class="p-md-2"
                         >
-                            <label>Description*</label>
-                            <vue-mce id="description" v-model="model.description"
-                                     name="description" ref="description"
-                                     v-validate="'required'"
-                                     :config="editorConfig"></vue-mce>
+                            <v-textarea
+                                id="description"
+                                label="Remarks*"
+                                v-model="model.description"
+                                name="description"
+                                ref="description"
+                                v-validate="'required'"
+                                auto-grow
+                                outlined
+                                :error-messages="
+                                    getErrorValue(
+                                        'description',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                ></v-textarea>
                             <ErrorBlock
                                 validationField="description"
                                 :errorList="errors"
@@ -73,7 +85,7 @@
 
                         <v-flex
                             xs12
-                            lg6
+                            lg12
                             class="p-md-2"
                         >
                             <v-file-input
