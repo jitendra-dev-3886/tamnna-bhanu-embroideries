@@ -1,5 +1,5 @@
 <template>
-    <ul class="menu-nav">
+    <ul class="menu-nav" style="background-color: black;">
         <router-link
             v-slot="{ href, navigate, isActive, isExactActive }"
             to="/users"

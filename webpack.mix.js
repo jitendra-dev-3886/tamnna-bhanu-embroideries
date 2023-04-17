@@ -17,7 +17,7 @@ mix.ts("resources/js/app.ts", "public/js").vue();
 mix.sass("resources/sass/app.scss", "public/css");
 mix.copyDirectory("resources/assets/images", "public/images");
 mix.copyDirectory("resources/assets/media", "public/media");
-mix.copyDirectory("resources/assets/samples", "public/samples");
+//mix.copyDirectory("resources/assets/samples", "public/samples");
 mix.babelConfig();
 mix.webpackConfig({
     output: {

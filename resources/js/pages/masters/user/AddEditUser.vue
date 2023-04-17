@@ -33,12 +33,12 @@
 
                             >
                                 <v-text-field
-                                    v-model="model.username"
+                                    v-model="model.name"
                                     label="Name*"
-                                    name="username"
+                                    name="name"
                                     v-validate="'required|max:191'"
                                     maxlength="191"
-                                    :error-messages="getErrorValue('username', errors, validationMessages)"
+                                    :error-messages="getErrorValue('name', errors, validationMessages)"
                                 />
                             </v-flex>
                             <v-flex
@@ -66,8 +66,35 @@
 
                             >
                                 <v-text-field
-                                    :disabled="isEditMode"
-                                    v-model="model.email"
+                                    v-model="model.company_name"
+                                    label="Company Name*"
+                                    name="company_name"
+                                    v-validate="'required'"
+                                    :error-messages="getErrorValue('company_name', errors, validationMessages)"
+                                />
+                            </v-flex>
+                            <v-flex
+                                xs12
+                                lg6
+                                class="p-md-2"
+
+                            >
+                                <v-text-field
+                                    v-model="model.city"
+                                    label="City*"
+                                    name="city"
+                                    v-validate="'required'"
+                                    :error-messages="getErrorValue('city', errors, validationMessages)"
+                                />
+                            </v-flex>
+                            <v-flex
+                                xs12
+                                lg6
+                                class="p-md-2"
+
+                            >
+                                <v-text-field
+                                    v-model="model.contact_number"
                                     label="Email*"
                                     name="email"
                                     v-validate="'required'"
@@ -97,6 +124,9 @@
                                         ? ''
                                         : {
                                               required: 'required',
+                                              min: 8,
+                                              max: 15,
+                                              regex: password_rules,
 
                                           }
                                 "

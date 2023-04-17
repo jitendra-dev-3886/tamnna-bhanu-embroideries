@@ -35,7 +35,10 @@ function getEmptyState() {
             email: '',
             role_id: '',
             password:'',
-            username:''
+            name:'',
+            contact_number:'',
+            company_name:'',
+            city:''
         },
         editId: 0,
 
@@ -43,7 +46,7 @@ function getEmptyState() {
         currentUserData: {
             id: "",
             email: "",
-            username:'',
+            name:'',
             contact_number:'',
             email_verified_at:"",
             role_id: "",
@@ -70,7 +73,7 @@ function getEmptyState() {
         viewModel: {
             id: "",
             email: "",
-            username:" ",
+            name:" ",
             contact_number:" ",
             email_verified_at:"",
             role_id: "",

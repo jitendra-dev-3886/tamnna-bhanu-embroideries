@@ -32,9 +32,11 @@ import { IRoleLightResponse } from "../../../../assets/types/role";
 class AddEditUser extends Mixins(CommonServices, CommonApis) {
     //Data Property
     errorMessage = "";
+    password_rules =
+    "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
     validationMessages: IUserValidations = {
 
-                    username:[{
+                    name:[{
                         key: 'required',
                         value: 'Name required'
                     }],
@@ -56,16 +58,20 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
 
                     password: [
                         {
-                            key: 'required',
-                            value: 'Password required'
+                            key: "required",
+                            value: "Password required",
                         },
                         {
-                            key: 'min',
-                            value: 'Password length should be at least 6'
+                            key: "min",
+                            value: "Password length should be at least 8",
                         },
                         {
-                            key: 'max',
-                            value: 'Maximum length should be 191'
+                            key: "max",
+                            value: "Maximum length should be 15",
+                        },
+                        {
+                            key: "regex",
+                            value: "Password contains atleast One Uppercase, One Lowercase, One Number and One Special Character",
                         },
                     ],
 
@@ -73,6 +79,18 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                         {
                             key: 'required',
                             value: 'Role Id required'
+                        },
+                    ],
+                    company_name: [
+                        {
+                            key: 'required',
+                            value: 'Company Name required'
+                        },
+                    ],
+                    city: [
+                        {
+                            key: 'required',
+                            value: 'City required'
                         },
                     ],
     };
@@ -102,8 +120,10 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
          /* JSON Form Submit - Start*/
     onSubmit(): void{
         this.$validator.validate().then((valid) => {
+
             const self = this;
             if (valid) {
+
                 self.isSubmitting = true;
                 let apiName = "create";
                 let editId: string | number = "";
@@ -116,9 +136,6 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
 
                 //To Submit JSON Request
                 const sendParamModel = JSON.parse(JSON.stringify(self.model));
-
-
-
                 UserModule[apiName]({ model: sendParamModel, editId }).then(
                     (
                         response: AxiosResponse<
@@ -145,9 +162,6 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
         this.onModalClear("user", "CLEAR_STORE");
         this.$router.push({ name: "user-list" });
     }
-
-
-
 
      /**
      * When Single Master call is needed
@@ -212,7 +226,10 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                         email: " ",
                         password: " ",
                         role_id: " ",
-                        username:" "
+                        name:" ",
+                        contact_number:" ",
+                        company_name:" ",
+                        city:" "
                     };
 
                     UserModule.SET_MODEL(userModel);

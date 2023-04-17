@@ -18,9 +18,9 @@
                     bgi-size-cover bgi-no-repeat
                     p-10 p-lg-15
                 "
-                :style="{ backgroundImage: `url(${backgroundImage})` }"
+               style="background-color: black;"
             >
-                <!--begin: Aside Container -->
+                <!--begin: Aside Container --  :style="{ backgroundImage: `url(${backgroundImage})` }"-->
                 <div
                     class="
                         d-flex
@@ -29,9 +29,7 @@
                     "
                 >
                     <!--begin: Aside header -->
-                    <a href="#" class="flex-column-auto">
-                        <img :src="$getConst('LOGO_IMG')" class="width-40" />
-                    </a>
+
                     <!--end: Aside header -->
                     <!--begin: Aside content -->
                     <div
@@ -42,9 +40,12 @@
                             justify-content-center
                         "
                     >
-                        <h3 class="font-size-h1 mt-10 mb-5 text-white">
+                    <a href="#" class="flex-column-auto">
+                        <img :src="$getConst('LOGO_IMG')" width="75%" height="75%">
+                    </a>
+                        <h2 class="font-size-h1 mt-10 mb-5 text-white" style="margin-left: 30px;">
                             Welcome to Bhanu Embroideries!
-                        </h3>
+                        </h2>
                     </div>
                     <!--end: Aside content -->
                     <!--begin: Aside footer for desktop -->
@@ -57,7 +58,7 @@
                             mt-15
                         "
                     >
-                        <div class="opacity-70 font-weight-bold text-white">
+                        <div class="opacity-70 font-weight-bold text-white" style="color:#ead09d">
                             © {{ currentYear }} Bhanu Embroideries
                         </div>
                     </div>

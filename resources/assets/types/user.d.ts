@@ -3,9 +3,12 @@ import {IRoleFullResponse, IRoleLightResponse} from "./role";
 
 export interface IUserModel {
     email: string;
+    contact_number:string;
     password: string;
     role_id: string;
-    username:string;
+    name:string;
+    company_name:string;
+    city:string;
 }
 
 export interface IUserParams {
@@ -19,13 +22,15 @@ export interface IUserValidations {
     email: ValidationObj;
     password: ValidationObj;
     role_id: ValidationObj;
-    username:ValidationObj;
+    name:ValidationObj;
+    company_name:ValidationObj;
+    city: ValidationObj;
 }
 
 export interface IUserLightResponse {
     id: string;
     email: string;
-    username:string;
+    name:string;
     contact_number:string
 }
 

@@ -16,6 +16,7 @@
         <div
             id="kt_aside_menu_wrapper"
             class="aside-menu-wrapper flex-column-fluid"
+            style="background-color: black;"
         >
             <div
                 id="kt_aside_menu"
