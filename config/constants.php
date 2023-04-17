@@ -149,6 +149,7 @@ return [
         '{{exportReport_modelName}}',
         '{{exportReport_dateTime}}',
         '{{exportReport_subject}}',
+        '{{users_otp}}',
     ],
 
     'sms_template' => [
@@ -459,6 +460,12 @@ return [
 
         'available_status' => [0 => 'Not-available', 1 => 'Available'],
         'available_status_enum' => ['not-available' => "0", 'available' => "1"],
+
+    ],
+    'homebanner' => [
+
+        'banner_status' => [0 => 'Inactive', 1 => 'Active'],
+        'banner_status_enum' => ['inactive' => "0", 'active' => "1"],
 
     ],
     'order' => [

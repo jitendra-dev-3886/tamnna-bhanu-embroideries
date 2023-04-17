@@ -85,6 +85,12 @@ Route::group([
         Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll');
         Route::get('carts-export', '\App\Http\Controllers\API\CartAPIController@export');
         Route::post('carts-import-bulk', '\App\Http\Controllers\API\CartAPIController@importBulk');
+
+        Route::post('homebanners/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@update'); // RM
+        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['except' => ['update']]); // RM
+        Route::post('homebanners-delete-multiple', '\App\Http\Controllers\API\HomeBannerAPIController@deleteAll'); // RM
+        // Route::get('homebanners-export', '\App\Http\Controllers\API\HomeBannerAPIController@export');
+        // Route::post('homebanners-import-bulk', '\App\Http\Controllers\API\HomeBannerAPIController@importBulk');
     });
 
     Route::group([
