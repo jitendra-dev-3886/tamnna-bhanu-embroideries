@@ -137,7 +137,7 @@ class Category extends VuexModule implements ICategory {
         param: ICategoryParams
     ): Promise<AxiosResponse<ResponseResult<ICategoryFullResponse>>> {
         return new Promise((resolve, reject) => {
-            HTTP.put(`${this.baseUrl}categories/${param.editId}`, param.model)
+            HTTP.post(`${this.baseUrl}categories/${param.editId}`, param.model)
                 .then(
                     (
                         response: AxiosResponse<

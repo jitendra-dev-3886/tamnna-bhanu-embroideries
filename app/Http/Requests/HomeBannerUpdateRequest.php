@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class CartUpdateRequest extends FormRequest
+class HomeBannerUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class CartUpdateRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-
         $urlArr = explode("/", $request->path());
         $id = end($urlArr);
 
-        return [
-            'user_id'    => 'required|exists:users,id,deleted_at,NULL',
-            'product_id' => 'required|exists:products,id,deleted_at,NULL',
-            'quantity'   => 'required|integer|min:1',
+        $rules = [
+            'name'           => 'required|max:191',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'banner_status'  => 'required|in:0,1',
         ];
+        return $rules;
     }
 }

@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
-class CheckEmailExistsRequest extends FormRequest
+class HomeBannerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +22,12 @@ class CheckEmailExistsRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'id' => 'nullable',
-            'email' => 'required|email',
+            'name'           => 'required|max:191',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'banner_status'  => 'required|in:0,1',
         ];
     }
 }

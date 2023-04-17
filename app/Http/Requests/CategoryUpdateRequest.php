@@ -24,17 +24,15 @@ class CategoryUpdateRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        
         $urlArr = explode("/", $request->path());
         $id = end($urlArr);
-        
-        return [
-            'name'=>'required|max:191', 
-            'description'=>'required', 
-            'featured_image'=>'required|max:500'
-            
-        ];
 
+        $rules = [
+            'name'           => 'required|max:191',
+            'description'    => 'required',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+        ];
+        // dd($rules);
+        return $rules;
     }
-    
 }

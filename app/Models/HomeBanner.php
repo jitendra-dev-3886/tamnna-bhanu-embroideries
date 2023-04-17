@@ -6,27 +6,29 @@ use App\Http\Resources\DataTrueResource;
 use App\Traits\CreatedbyUpdatedby;
 use App\Traits\Scopes;
 use App\Traits\UploadTrait;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\HomeBannerResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 
-class Category extends Model
+class HomeBanner extends Model
 {
+    protected $table = 'homebanners';
+
     use SoftDeletes, Scopes, CreatedbyUpdatedby, HasFactory, UploadTrait;
 
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'description', 'featured_image'];
+    protected $fillable = ['id', 'name', 'featured_image', 'banner_status'];
 
     /**
      * Activity log array
      *
      * @var array
      */
-    public $activity_log = ['id', 'name', 'description', 'featured_image'];
+    public $activity_log = ['id', 'name', 'featured_image', 'banner_status'];
 
     /**
      * Log Activity relationships array
@@ -40,19 +42,19 @@ class Category extends Model
      *
      * @var array
      */
-    public $light = ['id', 'name', 'description', 'featured_image'];
+    public $light = ['id', 'name', 'featured_image', 'banner_status'];
 
     /**
      * Related permission array
      *
      * @var array
      */
-    public $related_permission = ['products'];
+    // public $related_permission = ['products'];
 
     /**
      * @var array
      */
-    public $sortable = ['categories.created_at', 'categories.id', 'name', 'description', 'featured_image'];
+    public $sortable = ['homebanners.created_at', 'homebanners.id', 'name', 'featured_image', 'banner_status'];
 
     /**
      * @var array
@@ -77,17 +79,21 @@ class Category extends Model
     /**
      * @var array
      */
-    public $type_sortable = [];
+    public $type_sortable = ['banner_status'];
 
     /**
      * @var array
      */
-    public $type_enum = [];
+    public $type_enum = [
+        ['constants.homebanner.banner_status_enum.inactive', 'constants.homebanner.banner_status_enum.active']
+    ];
 
     /**
      * @var array
      */
-    public $type_enum_text = [];
+    public $type_enum_text = [
+        ['constants.homebanner.banner_status.0', 'constants.homebanner.banner_status.1']
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -110,10 +116,10 @@ class Category extends Model
      */
     protected $casts = [
 
-        'id' => 'string',
-        'name' => 'string',
-        'description' => 'string',
-        'featured_image' => 'string'
+        'id'             => 'string',
+        'name'           => 'string',
+        'featured_image' => 'string',
+        'banner_status'  => 'string',
 
     ];
 
@@ -123,7 +129,6 @@ class Category extends Model
      */
     public function getFeaturedImageAttribute($value)
     {
-        // dd($value);
         if ($this->is_file_exists($value))
             return \Illuminate\Support\Facades\Storage::url($value);
         else
@@ -131,68 +136,65 @@ class Category extends Model
     }
 
     /**
-     * Add Category
+     * Add HomeBanner
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeCreateCategory($query, $request)
+    public function scopeCreateHomeBanner($query, $request)
     {
-        $category = Category::create($request->all());
+        $homebanner = HomeBanner::create($request->all());
 
         if ($request->hasFile('featured_image')) {
-            $realPath = 'category/' . $category->id;
-            $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+            $realPath = 'homebanner/' . $homebanner->id;
+            $resizeImages = $homebanner->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
-            $category->update([
-                'category_id'    => $category->id,
+            $homebanner->update([
+                'homebanner_id'  => $homebanner->id,
                 'featured_image' => $resizeImages['image']
                 // 'profile_original' => $request->get('original'),
                 // 'profile_thumbnail' => $resizeImages['thumbnail']
             ]);
         }
 
-        return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.create_success'));
+        return \App\Models\User::GetMessage(new HomeBannerResource($homebanner), config('constants.messages.create_success'));
     }
 
     /**
-     * Update Category
+     * Update HomeBanner
      * @param Request $request
-     * @param Category $category
+     * @param HomeBanner $homebanner
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeUpdateCategory($query, $request, $category)
+    public function scopeUpdateHomeBanner($query, $request, $homebanner)
     {
         $data = $request->all();
 
         if ($request->hasFile('featured_image')) {
-            $realPath = 'category/' . $category->id . '/';
-            $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+            $realPath = 'homebanner/' . $homebanner->id;
+            $resizeImages = $homebanner->resizeImages($request->file('    '), $realPath, 100, 100);
 
             $data['featured_image'] = $resizeImages['image'];
             //     // $data['profile_original'] = $request->get('profile_image_original');
             //     // $data['profile_thumbnail'] = $resizeImages['thumbnail'];
         }
 
-        $category->update($data);
+        $homebanner->update($data);
 
-        return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.update_success'));
+        return \App\Models\User::GetMessage(new HomeBannerResource($homebanner), config('constants.messages.update_success'));
     }
 
     /**
-     * Delete Category
+     * Delete HomeBanner
      *
      * @param Request $request
-     * @param Category $category
+     * @param HomeBanner $homebanner
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function scopeDeleteCategory($query, $request, $category)
+    public function scopeDeleteHomeBanner($query, $request, $homebanner)
     {
-
-
-        $category->delete();
-
-        return new DataTrueResource($category, config('constants.messages.delete_success'));
+        $homebanner->delete();
+        return new DataTrueResource($homebanner, config('constants.messages.delete_success'));
     }
 
     /**
@@ -205,13 +207,9 @@ class Category extends Model
     {
         if (!empty($request->id)) {
 
-            Category::whereIn('id', $request->id)->get()->each(function ($category) {
-
-
-                $category->delete();
+            HomeBanner::whereIn('id', $request->id)->get()->each(function ($homebanner) {
+                $homebanner->delete();
             });
-
-
 
             return new DataTrueResource(true, config('constants.messages.delete_success'));
         } else {

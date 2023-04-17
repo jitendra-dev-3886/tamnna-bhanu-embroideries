@@ -21,10 +21,10 @@ Route::group([
     'prefix' => 'v1',
     'namespace' => 'API',
 ], function () {
-    Route::get('email/verify/{id}', '\App\Http\Controllers\API\VerificationAPIController@verify')->name('verification.verify');
-    Route::get('email/resend', '\App\Http\Controllers\API\VerificationAPIController@resend')->name('verification.resend');
+    // Route::get('email/verify/{id}', '\App\Http\Controllers\API\VerificationAPIController@verify')->name('verification.verify');
+    // Route::get('email/resend', '\App\Http\Controllers\API\VerificationAPIController@resend')->name('verification.resend');
 
-    Route::post('forgot-password', '\App\Http\Controllers\API\ForgotPasswordAPIController@sendResetLinkEmail');
+    // Route::post('forgot-password', '\App\Http\Controllers\API\ForgotPasswordAPIController@sendResetLinkEmail');
 
     Route::get('batch-request', '\App\Http\Controllers\API\UserAPIController@batchRequest');
     Route::post('login', '\App\Http\Controllers\API\LoginAPIController@login');
@@ -61,7 +61,8 @@ Route::group([
         Route::post('roles-import-bulk', '\App\Http\Controllers\API\RoleAPIController@importBulk');
         Route::get('get-role-by-permissions/{id}', '\App\Http\Controllers\API\RoleAPIController@getPermissionsByRole');
 
-        Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController');
+        Route::post('categories/{category}', '\App\Http\Controllers\API\CategoryAPIController@update');
+        Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController', ['except' => ['update']]);
         Route::post('categories-delete-multiple', '\App\Http\Controllers\API\CategoryAPIController@deleteAll');
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
         Route::post('categories-import-bulk', '\App\Http\Controllers\API\CategoryAPIController@importBulk');
@@ -84,6 +85,12 @@ Route::group([
         Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll');
         Route::get('carts-export', '\App\Http\Controllers\API\CartAPIController@export');
         Route::post('carts-import-bulk', '\App\Http\Controllers\API\CartAPIController@importBulk');
+
+        Route::post('homebanners/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@update'); // RM
+        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['except' => ['update']]); // RM
+        Route::post('homebanners-delete-multiple', '\App\Http\Controllers\API\HomeBannerAPIController@deleteAll'); // RM
+        // Route::get('homebanners-export', '\App\Http\Controllers\API\HomeBannerAPIController@export');
+        // Route::post('homebanners-import-bulk', '\App\Http\Controllers\API\HomeBannerAPIController@importBulk');
     });
 
     Route::group([

@@ -24,14 +24,10 @@ class CategoryRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        
         return [
-            'name'=>'required|max:191', 
-            'description'=>'required', 
-            'featured_image'=>'required|max:500',
-            
+            'name'           => 'required|max:191',
+            'description'    => 'required',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ];
-
     }
-    
 }

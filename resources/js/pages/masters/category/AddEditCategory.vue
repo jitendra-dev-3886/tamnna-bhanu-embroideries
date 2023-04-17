@@ -20,6 +20,7 @@
                     role="form"
                     novalidate
                     autocomplete="off"
+                    enctype="multipart/form-data"
                     @submit.prevent="onSubmit()"
 
                 >

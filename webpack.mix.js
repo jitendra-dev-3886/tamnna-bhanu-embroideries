@@ -17,6 +17,8 @@ mix.ts("resources/js/app.ts", "public/js").vue();
 mix.sass("resources/sass/app.scss", "public/css");
 mix.copyDirectory("resources/assets/images", "public/images");
 mix.copyDirectory("resources/assets/media", "public/media");
+
+//temporary samples folder is not needed/used but later for importing csv files it may be used as they are stored there
 //mix.copyDirectory("resources/assets/samples", "public/samples");
 mix.babelConfig();
 mix.webpackConfig({
