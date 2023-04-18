@@ -23,6 +23,7 @@
                         v-validate="'required|email'"
                         class="mt-4"
                         label="Enter your registered email *"
+                        data-test-id="email"
                         :error-messages="
                             getErrorValue('email', errors, validationMessages)
                         "
@@ -34,6 +35,7 @@
                         class="btn btn-primary mt-4"
                         :loading="isSubmittingForgotPassword"
                         type="submit"
+                        data-test-id="submit-btn"
                     >
                         {{ $getConst("BTN_SUBMIT") }}
                     </v-btn>
@@ -41,6 +43,7 @@
                         color=""
                         class="btn btn-grey ml-3 mt-4"
                         @click="onCancel()"
+                        data-test-id="cancel-btn"
                     >
                         {{ $getConst("BTN_CANCEL") }}
                     </v-btn>
