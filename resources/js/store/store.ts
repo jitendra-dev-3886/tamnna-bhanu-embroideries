@@ -16,6 +16,8 @@ import { IBreadcrumb } from "@/store/breadcrumbs";
 import { IChangePassword } from "@/store/change-password";
 import { IActivityLog } from "@/store/activity-log";
 
+import {ICustomer} from "@/store/customer";
+import { IHomeBanner } from "./homebanner";
 
 import { ICategory } from "@/store/category";
 import { IProduct } from "@/store/product";
@@ -46,6 +48,8 @@ export interface IRootState {
     product: IProduct;
     order: IOrder;
     cart: ICart;
+    customer:ICustomer;
+    homebanner:IHomeBanner
 }
 export default new Vuex.Store<IRootState>({
     plugins: [vuexPersist.plugin],

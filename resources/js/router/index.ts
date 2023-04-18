@@ -92,17 +92,6 @@ const routes: RouteConfig[] = [
                 },
             },
             {
-                path: "/customer",
-                name: "customer",
-                component: () =>
-                    import("../pages/masters/customer/Customer.vue"),
-                meta: {
-                    requiresAuth: true,
-                    title: `Customer${siteName}`,
-                    pageTitle: "Customer List",
-                },
-            },
-            {
                 path: "/role",
                 name: "role",
                 component: () => import("../pages/masters/role/Role.vue"),
@@ -170,47 +159,126 @@ const routes: RouteConfig[] = [
                     //         },
                     //     ]
                     // },
-
+                    {
+                        path: 'homebanner',
+                        name: 'homebanner',
+                        component: () => import('../pages/masters/homebanner/HomeBanner.vue'),
+                        children: [
+                          {
+                            path: '/',
+                            name: 'homebanner-list',
+                            component: () => import('../pages/masters/homebanner/HomeBannerList.vue'),
+                            meta: {
+                              requiresAuth: true,
+                              permission: 'homebanners',
+                              title: `Home Banners${siteName}`,
+                              pageTitle: 'Home Banners Management',
+                            },
+                          },
+                          {
+                              path: 'add',
+                              name: 'add-home-banners',
+                              component: () => import('../pages/masters/homebanner/AddEditHomeBanner.vue'),
+                              meta: {
+                                  requiresAuth: true,
+                                  permission: 'homebanners',
+                                  title: `Home Banners${siteName}`,
+                                  pageTitle: 'Home Banners Management',
+                              },
+                          },
+                          {
+                              path: 'edit/:id',
+                              name: 'edit-homebanner',
+                              component: () => import('../pages/masters/homebanner/AddEditHomeBanner.vue'),
+                              meta: {
+                                  requiresAuth: true,
+                                  permission: 'homebanners',
+                                  title: `Home Banners${siteName}`,
+                                  pageTitle: 'Home Banners Management',
+                              },
+                           },
+                        ]
+                      },
             {
-              path: 'category',
-              name: 'category',
-              component: () => import('../pages/masters/category/Category.vue'),
+              path: 'customer',
+              name: 'customer',
+              component: () => import('../pages/masters/customer/Customer.vue'),
               children: [
                 {
                   path: '/',
-                  name: 'category-list',
-                  component: () => import('../pages/masters/category/CategoryList.vue'),
+                  name: 'customer-list',
+                  component: () => import('../pages/masters/customer/CustomerList.vue'),
                   meta: {
                     requiresAuth: true,
-                    permission: 'categories',
-                    title: `Category${siteName}`,
-                    pageTitle: 'Category Management',
+                    permission: 'users',
+                    title: `Customer${siteName}`,
+                    pageTitle: 'Customer Management',
                   },
                 },
                 {
                     path: 'add',
-                    name: 'add-category',
-                    component: () => import('../pages/masters/category/AddEditCategory.vue'),
+                    name: 'add-customer',
+                    component: () => import('../pages/masters/customer/AddEditCustomer.vue'),
                     meta: {
                         requiresAuth: true,
-                        permission: 'categories',
-                        title: `Category${siteName}`,
-                        pageTitle: 'Category Management',
+                        permission: 'users',
+                        title: `Customer${siteName}`,
+                        pageTitle: 'Customer Management',
                     },
                 },
                 {
                     path: 'edit/:id',
-                    name: 'edit-category',
-                    component: () => import('../pages/masters/category/AddEditCategory.vue'),
+                    name: 'edit-customer',
+                    component: () => import('../pages/masters/customer/AddEditCustomer.vue'),
                     meta: {
                         requiresAuth: true,
-                        permission: 'categories',
-                        title: `Category${siteName}`,
-                        pageTitle: 'Category Management',
+                        permission: 'users',
+                        title: `Customer${siteName}`,
+                        pageTitle: 'Customer Management',
                     },
                  },
               ]
             },
+            {
+                path: 'category',
+                name: 'category',
+                component: () => import('../pages/masters/category/Category.vue'),
+                children: [
+                  {
+                    path: '/',
+                    name: 'category-list',
+                    component: () => import('../pages/masters/category/CategoryList.vue'),
+                    meta: {
+                      requiresAuth: true,
+                      permission: 'categories',
+                      title: `Category${siteName}`,
+                      pageTitle: 'Category Management',
+                    },
+                  },
+                  {
+                      path: 'add',
+                      name: 'add-category',
+                      component: () => import('../pages/masters/category/AddEditCategory.vue'),
+                      meta: {
+                          requiresAuth: true,
+                          permission: 'categories',
+                          title: `Category${siteName}`,
+                          pageTitle: 'Category Management',
+                      },
+                  },
+                  {
+                      path: 'edit/:id',
+                      name: 'edit-category',
+                      component: () => import('../pages/masters/category/AddEditCategory.vue'),
+                      meta: {
+                          requiresAuth: true,
+                          permission: 'categories',
+                          title: `Category${siteName}`,
+                          pageTitle: 'Category Management',
+                      },
+                   },
+                ]
+              },
 
             {
               path: 'product',

@@ -3,7 +3,7 @@
     <div id="kt_brand" ref="kt_brand" class="brand flex-column-auto" style="background-color: black;">
         <div class="brand-logo">
             <router-link to="/users">
-                <img class="width-80" :src="$getConst('LOGO_IMG')" alt="Logo" />
+                <img class="width-80" :src="$getConst('LOGO_IMG')" alt="Logo" style="margin-top: 20px;"/>
             </router-link>
         </div>
         <div v-if="allowMinimize" class="brand-tools">

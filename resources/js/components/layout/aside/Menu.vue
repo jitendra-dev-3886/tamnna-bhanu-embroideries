@@ -63,12 +63,36 @@
             <div class="menu-submenu">
                 <span class="menu-arrow"></span>
                 <ul class="menu-subnav">
+
+                    <router-link
+                        to="/masters/homebanner"
+                        v-slot="{ href, navigate, isActive, isExactActive }"
+                    >
+                        <li
+                            v-index="$getConst('HOMEBANNERS')"
+                            aria-haspopup="true"
+                            data-menu-toggle="hover"
+                            class="menu-item"
+                            :class="[
+                            isActive && 'menu-item-active',
+                            isExactActive && 'menu-item-active'
+                        ]"
+                        >
+                            <a :href="href" class="menu-link" @click="navigate">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">Home Banners</span>
+                            </a>
+                        </li>
+                    </router-link>
+
                     <router-link
                         to="/masters/customer"
                         v-slot="{ href, navigate, isActive, isExactActive }"
                     >
                         <li
-                            v-index="$getConst('CARTS')"
+                            v-index="$getConst('CUSTOMERS')"
                             aria-haspopup="true"
                             data-menu-toggle="hover"
                             class="menu-item"
@@ -85,6 +109,7 @@
                             </a>
                         </li>
                     </router-link>
+
                     <router-link
                         to="/masters/category"
                         v-slot="{ href, navigate, isActive, isExactActive }"

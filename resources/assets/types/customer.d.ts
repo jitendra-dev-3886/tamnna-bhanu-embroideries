@@ -3,7 +3,10 @@ export interface ICustomerModel {
     company_name:string;
     city: string;
     mobileno: string;
-    status:string|null;
+}
+
+export interface ICustomerFullResponse extends ICustomerModel {
+  status: string;
 }
 
 export interface ICustomerParams {
@@ -13,7 +16,7 @@ export interface ICustomerParams {
 
 export type ValidationObj = { key: string, value: string }[];
 
-export interface IUserValidations {
+export interface ICustomerValidations {
     name: ValidationObj;
     company_name:ValidationObj;
     city: ValidationObj;
