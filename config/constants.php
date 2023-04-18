@@ -473,5 +473,13 @@ return [
         'order_status' => [0 => 'Pending', 1 => 'Inprocess', 2 => 'Cancel', 3 => 'Completed', 4 => 'Return'],
         'order_status_enum' => ['pending' => "0", 'inprocess' => "1", 'cancel' => "2", 'completed' => "3", 'return' => "4"],
 
+        'status' => [
+            '0' => 'Pending',
+            '1' => 'Inprocess',
+            '2' => 'Cancel',
+            '3' => 'Completed',
+            '4' => 'Return'
+        ],
+
     ],
 ];

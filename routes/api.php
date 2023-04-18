@@ -101,5 +101,11 @@ Route::group([
         Route::post('orders-upload-zip', '\App\Http\Controllers\API\OrderAPIController@uploadZipFile');
 
         Route::post('user_status/verify', '\App\Http\Controllers\API\UserStatusUpdateAPIController@verify'); // RM
+        Route::get('categories', '\App\Http\Controllers\API\CategoryAPIController@index'); // RM
+        Route::get('products', '\App\Http\Controllers\API\ProductAPIController@index'); // RM
+        Route::get('products/{product}', '\App\Http\Controllers\API\ProductAPIController@show'); // RM
+
+        Route::get('orders/{order}', '\App\Http\Controllers\API\OrderAPIController@show'); // RM
+        Route::get('order-history', '\App\Http\Controllers\API\OrderAPIController@orderHistory');
     });
 });
