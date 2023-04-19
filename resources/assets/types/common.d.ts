@@ -37,7 +37,14 @@ export interface IConfirmationProps {
     btnCancelText: string;
     btnConfirmationText: string;
 }
+export interface IConfirmationModalProps extends IConfirmationProps {
+    isDisabledCancelButton: boolean;
+}
 
+export interface ILoginConfirmationProps extends IConfirmationProps {
+    isDisabledCancelButton: boolean;
+    isDisabledAllButtons: boolean;
+}
 export interface IImportReqParams {
     file: Blob | Blob[];
 }
@@ -54,7 +61,10 @@ export interface IImportResponse {
     created_at: string;
     updated_at: string;
 }
-
+export interface ICheckEmail {
+    id: string | number;
+    email: string;
+}
 export interface IImportCSVLogResponse {
     row: number;
     error: string[];

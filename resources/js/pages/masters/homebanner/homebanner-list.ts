@@ -19,6 +19,7 @@ import {
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
 import { IHomeBannerFullResponse } from '../../../../assets/types/homebanner';
+import HomeBannerViewModal from './HomeBannerViewModal.vue';
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -35,7 +36,7 @@ import {
         ColumnVisibilityBtn,
         ExportBtn,
         MultiDelete,
-       // homeBannerViewModal,
+        HomeBannerViewModal,
         Import,
     },
 })
@@ -82,9 +83,6 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
 
 
     homeBannerViewModal = false;
-
-
-
 
     /**
      * Redirect to add homebanner page
@@ -156,9 +154,6 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
             }
         );
     }
-
-
-
 
     refreshData(): void {
         const self = this;

@@ -20,7 +20,7 @@
             >
                 <p class="mt-2">Import</p>
             </v-tab>
-            
+
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">
@@ -54,7 +54,7 @@
                             </v-flex>
                             <v-flex xs12 sm12 md8 lg8>
                                 <div class="float-right mt-4">
-                                    
+
                                     <v-menu
                                         v-model="filterMenu"
                                         :close-on-content-click="false"
@@ -110,7 +110,7 @@
                                                         {{ icons.mdiClose }}
                                                     </v-icon>
                                                 </v-btn>
-                                                
+
                                                 <v-select
                                                   v-model="role_id"
                                                   name="role"
@@ -185,15 +185,13 @@
                             </v-flex>
                         </v-layout>
                     </template>
-                    
+
 
               <template v-slot:[`item.role_id`]="{ item }">
                 <span v-if="item.role">{{ item.role.name }}</span>
               </template>
-    
+
                     <template v-slot:[`item.actions`]="{ item }">
-                        
-                        
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
@@ -255,7 +253,7 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-            
+
         </v-tabs-items>
         <delete-modal
             v-model="modalOpen"
@@ -265,8 +263,8 @@
             aria-label="Delete user confirmation modal"
         />
         <user-view-modal v-model="userViewModal" aria-label="user view modal" />
-        
-        '
+
+
     </div>
 </template>
 

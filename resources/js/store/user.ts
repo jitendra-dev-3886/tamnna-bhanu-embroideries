@@ -9,10 +9,11 @@ import {
 } from "vuex-module-decorators";
 import {
     IImportReqParams,
+    IImportCSVLogResponse,
     IImportResponse,
-    IObject,
     ResponseResult,
     IDeleteProps,
+    IPagination
 } from "../../assets/types/common";
 import {
     isExistInLocalStorage
@@ -23,7 +24,7 @@ import {
     IUserParams,
     IUserFullResponse,
     IUserCheckEmail,
-    IUserLightResponse,
+    IUserLightResponse
 } from "../../assets/types/user";
 import { AxiosResponse } from "axios";
 import { ILoginModel } from "../../assets/types/auth";
@@ -31,7 +32,6 @@ import { ILoginModel } from "../../assets/types/auth";
 function getEmptyState() {
     return {
         model: {
-
             email: '',
             role_id: '',
             password:'',
@@ -40,14 +40,26 @@ function getEmptyState() {
             company_name:'',
             city:''
         },
+        pagination: {
+            query: "",
+            page: 1,
+            limit: 10,
+            orderBy: "",
+            descending: "default",
+            filter: "",
+        },
         editId: 0,
-
+        remember_me: "0",
+        tableData: {
+            data: [],
+        },
         userList: [],
         currentUserData: {
             id: "",
             email: "",
             name:'',
             contact_number:'',
+            company_name:'',
             email_verified_at:"",
             role_id: "",
             role: {
@@ -75,6 +87,7 @@ function getEmptyState() {
             email: "",
             name:" ",
             contact_number:" ",
+            company_name:'',
             email_verified_at:"",
             role_id: "",
             role: {
@@ -89,11 +102,14 @@ function getEmptyState() {
 }
 
 export interface IUser {
+    pagination: IPagination;
+    tableData: ResponseResult<IUserFullResponse[]>;
     userList: IUserLightResponse[];
     currentUserData: ICurrentUserData;
     model: IUserModel;
     viewModel: IUserFullResponse;
     editId: IUserParams["editId"];
+    remember_me: IUserParams["remember_me"];
     defaultRouteUrl: string;
 }
 
@@ -106,11 +122,16 @@ export interface IUser {
 })
 class User extends VuexModule implements IUser {
 
+    public pagination: IPagination = getEmptyState().pagination;
+    public tableData: ResponseResult<IUserFullResponse[]> =
+        getEmptyState().tableData;
     public userList: IUserLightResponse[] = getEmptyState().userList;
     public currentUserData: ICurrentUserData = getEmptyState().currentUserData;
     public model: IUserModel = getEmptyState().model;
     public viewModel: IUserFullResponse = getEmptyState().viewModel;
     public editId: IUserParams["editId"] = getEmptyState().editId;
+    public remember_me: IUserParams["remember_me"] =
+        getEmptyState().remember_me;
     public defaultRouteUrl: string = getEmptyState().defaultRouteUrl;
     public baseUrl = process.env.MIX_API_BASE_URL;
     public isCurrentPageRetain = false;
@@ -135,6 +156,10 @@ class User extends VuexModule implements IUser {
         this.editId = payload;
     }
 
+    @Mutation
+    SET_REMEMBER_ME(payload: string | number) {
+        this.remember_me = payload;
+    }
     @Mutation
     SET_MODEL(param: IUserModel) {
         this.model = param;

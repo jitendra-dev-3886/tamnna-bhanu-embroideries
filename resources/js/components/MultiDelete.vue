@@ -2,15 +2,18 @@
     <span>
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-                <!--        <v-icon class="mb-2 mr-2 cursor-pointer" v-on="on">{{ icons.mdiDelete }}</v-icon>-->
-                <img
-                    src="/images/trash.png"
-                    class="mb-2 mr-2 cursor-pointer action-img"
+                <v-btn
+                    :loading="loading"
+                    min-width="48"
+                    width="48"
+                    color="teal darken-2"
+                    dark
+                    class="mb-2 mr-2"
                     v-on="on"
-                    alt="Multiple Delete Icon Image"
-                    aria-label="Multiple Delete Icon Image"
-                    title="Multiple Delete Icon Image"
-                />
+                    aria-label="Multiple Delete Button"
+                >
+                    <v-icon small>{{ icons.mdiDelete }}</v-icon>
+                </v-btn>
             </template>
             <span>Multiple Delete</span>
         </v-tooltip>
@@ -23,7 +26,7 @@
         >
             <v-card>
                 <v-card-title class="headline black-bg" primary-title
-                    >{{ this.$getConst("DELETE_TITLE") }}
+                    >{{this.$getConst("DELETE_TITLE") }}
                 </v-card-title>
 
                 <v-card-text>

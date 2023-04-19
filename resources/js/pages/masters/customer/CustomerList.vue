@@ -14,16 +14,6 @@
                     Listing
                 </p>
             </v-tab>
-            <v-tab
-                href="#tab2"
-                v-importBulk="$getConst('CUSTOMERS')"
-                aria-label="Import tab"
-            >
-                <p class="mt-2">
-                    Import
-                </p>
-            </v-tab>
-
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">

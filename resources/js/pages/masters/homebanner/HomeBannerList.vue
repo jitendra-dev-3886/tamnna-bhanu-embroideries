@@ -1,3 +1,4 @@
+import HomeBannerViewModal from './homebanner-view-modal';
 <template>
     <div>
         <v-tabs
@@ -14,16 +15,6 @@
                     Listing
                 </p>
             </v-tab>
-            <v-tab
-                href="#tab2"
-                v-importBulk="$getConst('HOMEBANNERS')"
-                aria-label="Import tab"
-            >
-                <p class="mt-2">
-                    Import
-                </p>
-            </v-tab>
-
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">
@@ -116,13 +107,12 @@
                     <!--<template v-slot:[`item.banner_status`]="{ item }">
                         <span v-if="item.banner_status" v-html="item.banner_status"></span>
                     </template>-->
+
                     <template v-slot:[`item.actions`]="{ item }">
-
-
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    @click="onView(item.id, false)"
+                                   @click="onView(item.id,false)"
                                     class="mr-2"
                                     small
                                     v-canAccess="$getConst('HOMEBANNERS')"
@@ -188,7 +178,7 @@
             v-model="modalOpen"
             aria-label="Delete category confirmation modal"
         />
-       <homebanner-view-modal v-model="homeBannerViewModal" aria-label="homebanner view modal" />
+       <HomeBannerViewModal v-model="homeBannerViewModal" aria-label="homebanner view modal" />
 
 
     </div>

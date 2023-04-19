@@ -97,7 +97,7 @@
                                     v-model="model.contact_number"
                                     label="Email*"
                                     name="email"
-                                    v-validate="'required'"
+                                    v-validate="'required|email|max:191'"
 
                                     :error-messages="getErrorValue('email', errors, validationMessages)"
                                 />

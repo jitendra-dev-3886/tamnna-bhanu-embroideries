@@ -119,7 +119,6 @@
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             type="submit"
-                            :loading="isSubmitting"
 
                         >
                             {{ $getConst('BTN_SUBMIT') }}

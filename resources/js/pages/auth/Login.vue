@@ -32,10 +32,14 @@
                     </v-flex>
                     <v-flex xs12>
                         <v-text-field
+                            :append-icon="
+                                showPassword ? 'visibility' : 'visibility_off'
+                            "
                             v-model="loginDetail.password"
                             v-validate="'required'"
                             label="Password*"
-                            type="password"
+                            :type="showPassword ? 'text' : 'password'"
+                            @click:append="showPassword = !showPassword"
                             name="password"
                             data-test-id="password"
                             :error-messages="

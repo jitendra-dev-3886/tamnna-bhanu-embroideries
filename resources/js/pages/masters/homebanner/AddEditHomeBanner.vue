@@ -88,7 +88,7 @@
                             lg12
                             class="p-md-2"
                         >
-                        <v-radio-group
+                       <v-radio-group
                                 v-model="model.banner_status"
                                 label="Banner Status*"
                                 v-validate="'required'"
@@ -106,12 +106,11 @@
                             >
 
                                 <v-radio
-
                                     label="Inactive"
                                     value="0"
+
                                 />
                                 <v-radio
-
                                     label="Active"
                                     value="1"
                                 />
@@ -152,7 +151,6 @@
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             type="submit"
-                            :loading="isSubmitting"
 
                         >
                             {{ $getConst('BTN_SUBMIT') }}

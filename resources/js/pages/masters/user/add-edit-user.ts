@@ -53,7 +53,7 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                         {
                             key: 'email',
                             value: 'Email is invalid'
-                        },
+                        }
                     ],
 
                     password: [
@@ -219,9 +219,6 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                     ResponseResult<IUserFullResponse>
                 >;
                 if (castedUserResponse?.data?.data) {
-
-
-
                     const userModel: IUserModel = {
                         email: " ",
                         password: " ",

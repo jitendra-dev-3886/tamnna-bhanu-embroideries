@@ -10,7 +10,7 @@ import { UserModule } from "../../store/user";
 import { getTime } from "date-fns";
 import { ILoginValidations, ILoginModel } from "../../../assets/types/auth";
 import { AxiosResponse } from "axios";
-import { ResponseResult } from "../../../assets/types/common";
+import { ResponseResult,ILoginConfirmationProps } from "../../../assets/types/common";
 import { ICurrentUserData } from "../../../assets/types/user";
 
 @Component({
@@ -23,6 +23,7 @@ import { ICurrentUserData } from "../../../assets/types/user";
 })
 class Login extends mixins(CommonServices) {
     // Validation Message
+    showPassword = false;
     validationMessages: ILoginValidations = {
         email: [
             { key: "required", value: "Email required" },
@@ -57,6 +58,8 @@ class Login extends mixins(CommonServices) {
     forgotPasswordDialog = false;
     isSubmitting = false;
     errorMessage = "";
+    loginConfirmationModal = false;
+   // isBatchRequestLoading: boolean;
 
     get permissionDialog(): boolean {
         return PermissionModule.permissionDialog;
@@ -68,6 +71,108 @@ class Login extends mixins(CommonServices) {
 
     get defaultRouteUrl(): string {
         return UserModule.defaultRouteUrl;
+    }
+
+    loginConfirmation: ILoginConfirmationProps = {
+        title: "Confirmation !",
+        description: this.$getConst("LOGOUT_LAST_DEVICE"),
+        btnCancelText: this.$getConst("BTN_CANCEL"),
+        btnConfirmationText: this.$getConst("BTN_OK"),
+        isDisabledCancelButton: false,
+        isDisabledAllButtons: false,
+    };
+    login(isUserLogout: string): void {
+        const sendData = JSON.parse(JSON.stringify(this.loginDetail));
+        sendData.is_logout = isUserLogout;
+        this.isSubmitting = true;
+        UserModule.login(sendData)
+            .then(
+                (response: AxiosResponse<ResponseResult<ICurrentUserData>>) => {
+                    this.errorMessage = "";
+                   // this.CommonGetSettingList();
+                    // Set Data of Current user in store
+                    UserModule.SET_CURRENT_USER_DATA(
+                        <ICurrentUserData>response.data.data
+                    );
+                    // @ts-ignore
+                    CompanyInfoModule.SET_COMPANY_ID(response.data.data.company_id);
+                    // @ts-ignore
+                    CompanyInfoModule.SET_USER_ID(response.data.data.user_id);
+                    // Set permission data
+                    if (response.data?.data?.permissions) {
+                        const permission = <[]>response.data.data.permissions;
+                        if (permission.length > 0) {
+                            PermissionModule.SET_USER_PERMISSIONS(
+                                response.data.data.permissions
+                            );
+                        }
+                    }
+                    // go to which page after successfully login
+                    localStorage.setItem(
+                        "login-timestamp",
+                        String(getTime(new Date()))
+                    );
+                    if (
+                        (response.data.data as any).redirect_url &&
+                        (response.data.data as any).redirect_url != ""
+                    ) {
+                        let route_arr = (this.$router.options as any).routes[1]
+                            .children;
+                        let arr1 = route_arr[route_arr.length - 1];
+                        let arr2 = route_arr.concat(arr1.children);
+                        arr2.forEach((element) => {
+                            if (element.meta) {
+                                if (
+                                    element.meta.redirectPermission &&
+                                    element.meta.redirectPermission != ""
+                                ) {
+                                    if (
+                                        (response.data.data as any)
+                                            .redirect_url ==
+                                        element.meta.redirectPermission
+                                    ) {
+                                        this["$router"].push(
+                                            element.meta.redirectUrl
+                                        );
+                                    }
+                                }
+                            } else {
+                                element.children.forEach((element) => {
+                                    if (element.meta) {
+                                        if (
+                                            element.meta.redirectPermission &&
+                                            element.meta.redirectPermission !=
+                                                ""
+                                        ) {
+                                            if (
+                                                (response.data.data as any)
+                                                    .redirect_url ==
+                                                element.meta.redirectPermission
+                                            ) {
+                                                this["$router"].push(
+                                                    element.meta.redirectUrl
+                                                );
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        this.isSubmitting = false;
+                    } else {
+                        this.isSubmitting = true;
+                        this["$router"].push("/dashboard");
+                    }
+                    // this["$router"].push(this.defaultRouteUrl);
+                    // this["$router"].push("/dashboard");
+                    UserModule.RESET_DEFAULT_URL();
+                    this.subscribePrivateChannel();
+                }
+            )
+            .catch((error) => {
+                this.isSubmitting = false;
+                this.errorMessage = this.getAPIErrorMessage(error.response);
+            });
     }
 
     /**
@@ -119,6 +224,16 @@ class Login extends mixins(CommonServices) {
         });
     }
 
+    isLogin(isLogout: boolean): void {
+        if (isLogout) {
+            this.login("1");
+        }
+        this.loginConfirmationModal = false;
+    }
+
+    rememberMe(): void {
+        UserModule.SET_REMEMBER_ME(this.remember_me);
+    }
     /**
      * on google recaptcha execute
      */
@@ -165,5 +280,37 @@ class Login extends mixins(CommonServices) {
         }
     }
 }
+
+/**
+     * Abort login route if user already logged in
+     * @param to
+     * @param from
+     * @param next
+     */
+
+    /*beforeRouteEnter(
+        to: Route,
+        from: Route,
+        next: NavigationGuardNext<Vue>
+    ): void {
+        next(() => {
+            var authorization = "";
+            if (UserModule.remember_me != "1") {
+                authorization = "";
+            } else {
+                authorization = UserModule.currentUserData.authorization;
+            }
+            if (authorization && authorization != "" && authorization != null) {
+                if (from.fullPath == "/") {
+                    next(UserModule.defaultRouteUrl);
+                } else {
+                    next(from.fullPath);
+                }
+            } else {
+                next();
+            }
+        });
+        }
+    }*/
 
 export default Login;

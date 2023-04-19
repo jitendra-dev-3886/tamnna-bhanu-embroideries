@@ -13,7 +13,8 @@ export interface IUserModel {
 
 export interface IUserParams {
     model: IUserModel;
-    editId?: string | number
+    editId?: string | number;
+    remember_me?: string | number;
 }
 
 export type ValidationObj = { key: string, value: string }[];
@@ -31,7 +32,8 @@ export interface IUserLightResponse {
     id: string;
     email: string;
     name:string;
-    contact_number:string
+    contact_number:string;
+    company_name:string;
 }
 
 export interface IUserFullResponse extends IUserLightResponse{
