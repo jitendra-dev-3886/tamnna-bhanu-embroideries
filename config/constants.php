@@ -60,6 +60,17 @@ return [
         "voice" => "V",
     ],
 
+    'products' => [
+        'available_status' => [
+            '0' => 'Out of stock',
+            '1' => 'Available',
+        ],
+        'available_status_code' => [
+            'not_available' => '0',
+            'available' => '1',
+        ],
+    ],
+
     'messages' => [
 
         'user' => [
@@ -94,6 +105,13 @@ return [
             'app_login'                 => 'app-login',
             'app_login_verify_portal'   => 'app-login-verify-portal',
             'app_login_verify'          => 'app-login-verify',
+        ],
+        'wishlist' => [
+            'already_exists' => 'This product is already in your wishlist.',
+            'moved_to_cart' => 'Product has been moved to cart.',
+            'not_found_wishlist' => 'Wishlist not found for Logged in user.',
+            'not_allocated' => 'This product is not allocated to user.',
+            'out_of_stock' => 'This product is out of stock.',
         ],
         'otp_success'                => 'OTP send successfully.',
         'verified_mobile'            => 'Mobile No. is successfully verified.',
@@ -472,6 +490,14 @@ return [
 
         'order_status' => [0 => 'Pending', 1 => 'Inprocess', 2 => 'Cancel', 3 => 'Completed', 4 => 'Return'],
         'order_status_enum' => ['pending' => "0", 'inprocess' => "1", 'cancel' => "2", 'completed' => "3", 'return' => "4"],
+
+        'status' => [
+            '0' => 'Pending',
+            '1' => 'Inprocess',
+            '2' => 'Cancel',
+            '3' => 'Completed',
+            '4' => 'Return'
+        ],
 
     ],
 ];

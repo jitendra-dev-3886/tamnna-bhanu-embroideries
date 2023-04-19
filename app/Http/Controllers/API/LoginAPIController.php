@@ -43,7 +43,7 @@ class LoginAPIController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = request(['contact_number', 'password']);
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return User::GetError(config('constants.messages.user.invalid'));
 
         $user = $request->user();
@@ -96,7 +96,9 @@ class LoginAPIController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        return response()->json('You have been Successfully logged out!');
+        return response()->json([
+            'message' => 'You have been Successfully logged out!',
+        ]);
     }
 
     /**

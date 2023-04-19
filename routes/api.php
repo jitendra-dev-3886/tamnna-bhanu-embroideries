@@ -81,8 +81,8 @@ Route::group([
         Route::post('orders-import-bulk', '\App\Http\Controllers\API\OrderAPIController@importBulk');
         Route::delete('orders-product-id/{orderProduct}', '\App\Http\Controllers\API\OrderAPIController@deleteProductId');
 
-        Route::resource('carts', '\App\Http\Controllers\API\CartAPIController');
-        Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll');
+        // Route::resource('carts', '\App\Http\Controllers\API\CartAPIController');
+        // Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll');
         Route::get('carts-export', '\App\Http\Controllers\API\CartAPIController@export');
         Route::post('carts-import-bulk', '\App\Http\Controllers\API\CartAPIController@importBulk');
 
@@ -101,5 +101,14 @@ Route::group([
         Route::post('orders-upload-zip', '\App\Http\Controllers\API\OrderAPIController@uploadZipFile');
 
         Route::post('user_status/verify', '\App\Http\Controllers\API\UserStatusUpdateAPIController@verify'); // RM
+        Route::get('categories', '\App\Http\Controllers\API\CategoryAPIController@index'); // RM
+        Route::get('products', '\App\Http\Controllers\API\ProductAPIController@index'); // RM
+        Route::get('products/{product}', '\App\Http\Controllers\API\ProductAPIController@show'); // RM
+
+        Route::get('orders/{order}', '\App\Http\Controllers\API\OrderAPIController@show'); // RM
+        Route::get('order-history', '\App\Http\Controllers\API\OrderAPIController@orderHistory'); // RM
+
+        Route::resource('carts', '\App\Http\Controllers\API\CartAPIController'); // RM
+        Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll'); // RM
     });
 });
