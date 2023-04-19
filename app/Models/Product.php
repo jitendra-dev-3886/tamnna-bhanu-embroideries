@@ -207,7 +207,7 @@ class Product extends Model
         $data = $request->all();
 
         if ($request->hasFile('featured_image')) {
-            $realPath = 'product/' . $product->id . '/';
+            $realPath = 'product/' . $product->id;
             $resizeImages = $product->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
             $data['featured_image'] = $resizeImages['image'];
