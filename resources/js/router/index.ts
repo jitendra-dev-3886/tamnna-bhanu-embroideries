@@ -37,6 +37,18 @@ const routes: RouteConfig[] = [
         redirect: "/dashboard",
         component: () => import("../pages/layout/Layout.vue"),
         children: [
+
+                {
+                    path: "dashboard",
+                    name: "dashboard",
+                    component: () => import("../pages/dashboard/Dashboard.vue"),
+                    meta: {
+                        requiresAuth: true,
+                        permission: "", // Need to change here after backend changes
+                        title: `Dashboard${siteName}`,
+                        pageTitle: "Dashboard",
+                    },
+                },
             {
                 path: "users",
                 name: "users",

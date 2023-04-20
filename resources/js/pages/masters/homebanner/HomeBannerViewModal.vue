@@ -30,7 +30,12 @@
                         </tr>
                         <tr>
                             <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Featured Image:</td>
-                            <td class="font-weight-regular font-size-h6-sm"> {{ model.featured_image }}</td>
+                            <td>
+                                <a :href="model.featured_image">
+                                    <v-img :src="model.featured_image" v-if="model.featured_image" width="100" height="100">
+                                    </v-img>
+                                </a>
+                            </td>
                         </tr>
                         <tr>
                             <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Status:</td>

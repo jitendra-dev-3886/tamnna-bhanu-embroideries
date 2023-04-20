@@ -119,3 +119,11 @@ export interface IImportProps {
     multiple: boolean;
     zipName?: string;
 }
+export interface IDashboard {
+    customers: string;
+    categories: string;
+    products: string;
+    orders: string;
+    completed: string;
+
+}

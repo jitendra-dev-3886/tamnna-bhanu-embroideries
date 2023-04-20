@@ -43,6 +43,11 @@
                             type="password"
                             name="password"
                             :error-messages="getErrorValue('password', errors, validationMessages)"
+                            :type="showPassword ? 'text' : 'password'"
+                            :append-icon="
+                                showPassword ? 'visibility' : 'visibility_off'
+                            "
+                            @click:append="showPassword = !showPassword"
                         />
                     </div>
                 </v-layout>

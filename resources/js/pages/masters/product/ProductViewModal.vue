@@ -17,46 +17,51 @@
             <v-card-text>
                 <table class="table table-striped mx-0 px-0">
                     <tbody>
-                        
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Name:</td>
                         <td class="font-weight-regular font-size-h6-sm"> {{ model.name  != '' ? model.name  : '-' }}</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Price:</td>
                         <td class="font-weight-regular font-size-h6-sm"> {{ model.price  != '' ? model.price  : '-' }}</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Description:</td>
                         <td class="font-weight-regular font-size-h6-sm" v-if="model.description"><span v-html="model.description"></span></td>
                         <td class="font-weight-regular font-size-h6-sm" v-if="!model.description">-</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Item code:</td>
                         <td class="font-weight-regular font-size-h6-sm"> {{ model.item_code  != '' ? model.item_code  : '-' }}</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Category:</td>
                         <td class="font-weight-regular font-size-h6-sm"> {{ model.category ? model.category.name : '-' }}</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Available status:</td>
                         <td class="font-weight-regular font-size-h6-sm">{{ model.available_status_text != '' ? model.available_status_text : '-' }}</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Stock:</td>
                         <td class="font-weight-regular font-size-h6-sm"> {{ model.stock  != '' ? model.stock  : '-' }}</td>
                     </tr>
-            
+
                     <tr>
                         <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Featured image:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.featured_image  != '' ? model.featured_image  : '-' }}</td>
+                        <td>
+                                <a :href="model.featured_image">
+                                    <v-img :src="model.featured_image" v-if="model.featured_image" width="100" height="100">
+                                    </v-img>
+                                </a>
+                            </td>
                     </tr>
                     </tbody>
                 </table>

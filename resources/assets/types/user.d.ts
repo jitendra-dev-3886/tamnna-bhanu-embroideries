@@ -4,7 +4,7 @@ import {IRoleFullResponse, IRoleLightResponse} from "./role";
 export interface IUserModel {
     email: string;
     contact_number:string;
-    password: string;
+    password?: string;
     role_id: string;
     name:string;
     company_name:string;

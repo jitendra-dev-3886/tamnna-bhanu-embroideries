@@ -9,6 +9,8 @@ import { ILoginModel, ILoginValidations } from "../../../assets/types/auth";
 import { AxiosResponse } from "axios";
 import { ResponseResult } from "../../../assets/types/common";
 import { ICurrentUserData } from "../../../assets/types/user";
+import { PermissionModule } from "@/store/permission";
+import { NavigationGuardNext,Route } from "vue-router";
 
 @Component({
     components: {
@@ -36,8 +38,10 @@ class Logoff extends Mixins(CommonServices) {
     };
     fpdialog = false;
     isSubmitting = false;
+    showPassword = false;
 
     onSubmit(): void {
+        if (this.loginDetail.email) {
         // set spinner to submit button
 
         this["$validator"].validate().then((valid) => {
@@ -56,6 +60,18 @@ class Logoff extends Mixins(CommonServices) {
                             <ICurrentUserData>response.data.data
                         );
                         // go to which page after successfully login
+
+                        if (response.data?.data?.permissions) {
+                            const permission = <[]>(
+                                response.data.data.permissions
+                            );
+                            if (permission.length > 0) {
+                                PermissionModule.SET_USER_PERMISSIONS(
+                                    response.data.data.permissions
+                                );
+                            }
+                        }
+
                         localStorage.setItem(
                             "login-timestamp",
                             String(getTime(new Date()))
@@ -74,6 +90,10 @@ class Logoff extends Mixins(CommonServices) {
                 );
             }
         });
+     }
+      else {
+            this.$router.push("/login");
+        }
     }
 
     /**
@@ -113,6 +133,16 @@ class Logoff extends Mixins(CommonServices) {
 
     get UserProfilePicture(): string {
         return <string>UserModule.userProfilePicture;
+    }
+    beforeRouteEnter(
+        to: Route,
+        from: Route,
+        next: NavigationGuardNext<Vue>
+    ): void {
+        if (UserModule.currentUserData.email == "") {
+            next("/");
+        }
+        next();
     }
 }
 

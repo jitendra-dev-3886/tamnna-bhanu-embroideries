@@ -2,6 +2,25 @@
     <ul class="menu-nav" style="background-color: black;">
         <router-link
             v-slot="{ href, navigate, isActive, isExactActive }"
+            to="/dashboard"
+        >
+            <li
+                aria-haspopup="true"
+                data-menu-toggle="hover"
+                class="menu-item"
+                :class="[
+                    isActive && 'menu-item-active',
+                    isExactActive && 'menu-item-active',
+                ]"
+            >
+                <a :href="href" class="menu-link" @click="navigate">
+                    <i class="menu-icon flaticon-dashboard" />
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </li>
+        </router-link>
+        <router-link
+            v-slot="{ href, navigate, isActive, isExactActive }"
             to="/users"
         >
             <li

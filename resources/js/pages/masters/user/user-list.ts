@@ -125,7 +125,7 @@ class UserList extends mixins(ServerTable, CommonApis) {
      * */
     onEdit(id: string | number): void {
         UserModule.SET_EDIT_ID(id);
-        this.$router.push("/users/edit/" + id);
+        this.$router.push("/users/edit/"+ id);
     }
 
     /**
