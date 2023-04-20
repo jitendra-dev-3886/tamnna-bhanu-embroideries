@@ -1,4 +1,4 @@
-import HomeBannerViewModal from './homebanner-view-modal';
+
 <template>
     <div>
         <v-tabs
@@ -104,9 +104,10 @@ import HomeBannerViewModal from './homebanner-view-modal';
                         </v-layout>
                     </template>
 
-                    <!--<template v-slot:[`item.banner_status`]="{ item }">
-                        <span v-if="item.banner_status" v-html="item.banner_status"></span>
-                    </template>-->
+                    <template v-slot:[`item.banner_status`]="{item}">
+                        <span  v-if="item.banner_status === '1'">Active</span>
+                        <span  v-else-if="item.banner_status === '0'">Inactive</span>
+                    </template>
 
                     <template v-slot:[`item.actions`]="{ item }">
                         <v-tooltip bottom>
@@ -154,6 +155,11 @@ import HomeBannerViewModal from './homebanner-view-modal';
                             </template>
                             <span>{{ $getConst('DELETE_TOOLTIP') }}</span>
                         </v-tooltip>
+                    </template>
+                    <template v-slot:[`item.featured_image`]="{ item }">
+                        <a :href="item.featured_image">
+                            <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
+                        </a>
                     </template>
                 </v-data-table>
             </v-tab-item>

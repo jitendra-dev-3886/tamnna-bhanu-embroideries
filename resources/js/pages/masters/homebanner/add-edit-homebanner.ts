@@ -103,7 +103,7 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
 
                 const formData = new FormData();
                 formData.append("name", this.model.name);
-                formData.append("banner_status", this.model. banner_status);
+                formData.append("banner_status", this.model.banner_status);
                 formData.append("featured_image", this.model.featured_image);
 
 

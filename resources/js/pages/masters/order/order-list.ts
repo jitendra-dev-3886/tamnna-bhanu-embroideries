@@ -57,7 +57,7 @@ class Order extends mixins(ServerTable, CommonApis) {
     urlApi = "orders";
 
     headers: ITableHeaders[] = [
-        { text: 'User', value: 'user_id' },
+        { text: 'Customer', value: 'user_id' },
         { text: 'Quantity', value: 'quantity' },
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },

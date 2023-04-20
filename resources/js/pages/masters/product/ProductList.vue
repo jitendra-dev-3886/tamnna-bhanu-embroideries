@@ -214,6 +214,11 @@
                     <template v-slot:[`item.available_status`]="{ item }">
                         <span v-if="item.available_status_text">{{ item.available_status_text }}</span>
                     </template>
+                    <template v-slot:[`item.featured_image`]="{ item }">
+                        <a :href="item.featured_image">
+                            <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
+                        </a>
+                    </template>
                     <template v-slot:[`item.actions`]="{ item }">
 
                         <!-- Light Gallery View Start-->

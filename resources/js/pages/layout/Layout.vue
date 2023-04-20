@@ -76,7 +76,7 @@ import { IObject } from "../../../assets/types/common";
 class Layout extends Vue {
     beforeMount(): void {
         // show page loading
-        HTMLClassModule.addBodyClassName("page-loading");
+        //HTMLClassModule.addBodyClassName("page-loading");
 
         // initialize html element classes
         HtmlClass.init(ConfigModule.layoutConfig());

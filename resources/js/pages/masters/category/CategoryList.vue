@@ -23,7 +23,7 @@
                     Import
                 </p>
             </v-tab>
-            
+
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">
@@ -67,7 +67,7 @@
                                 xs12
                             >
                                 <div class="float-right mt-4">
-                                    
+
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on }">
                                             <v-btn
@@ -112,13 +112,18 @@
                             </v-flex>
                         </v-layout>
                     </template>
-                    
+
                     <template v-slot:[`item.description`]="{ item }">
                         <span v-if="item.description" v-html="item.description"></span>
                     </template>
+                    <template v-slot:[`item.featured_image`]="{ item }">
+                        <a :href="item.featured_image">
+                            <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
+                        </a>
+                    </template>
                     <template v-slot:[`item.actions`]="{ item }">
-                        
-                        
+
+
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
@@ -179,7 +184,7 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-            
+
         </v-tabs-items>
         <delete-modal
             :confirmation="confirmation"
@@ -189,8 +194,8 @@
             aria-label="Delete category confirmation modal"
         />
         <category-view-modal v-model="categoryViewModal" aria-label="category view modal" />
-        
-        
+
+
     </div>
 </template>
 
