@@ -823,4 +823,15 @@ trait Scopes
             Token::whereIn('id', $tokenIds)->delete();
         }
     }
+
+    /**
+     * Revoking user token
+     */
+    public static function revoke_token($token)
+    {
+        $token->update([
+            'updated_at' => Carbon::now(),
+            'revoked' => 1
+        ]);
+    }
 }

@@ -110,5 +110,7 @@ Route::group([
 
         Route::resource('carts', '\App\Http\Controllers\API\CartAPIController'); // RM
         Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll'); // RM
+
+        Route::post('refreshing-tokens', '\App\Http\Controllers\API\LoginAPIController@refreshingTokens'); // RM
     });
 });

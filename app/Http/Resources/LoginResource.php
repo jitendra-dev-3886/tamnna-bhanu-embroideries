@@ -22,8 +22,8 @@ class LoginResource extends JsonResource
             'otp_verified_at' => $this->otp_verified_at,
             'contact_number' => $this->contact_number,
             'permissions' => $this->permissions,
-            // 'authorization' => $this->authorization,
-            // 'refresh_token' => $this->refresh_token
+            'authorization' => $this->authorization,
+            'refresh_token' => $this->refresh_token,
             'role_id' => $this->role_id,
             'role' => $this->role,
             // 'device_token' => $this->device_token,
