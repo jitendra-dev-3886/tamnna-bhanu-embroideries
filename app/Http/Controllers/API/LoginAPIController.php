@@ -9,6 +9,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\DataTrueResource;
 use \App\Http\Resources\LoginResource;
+use App\Http\Resources\UserResource;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -165,6 +166,7 @@ class LoginAPIController extends Controller
      *
      * @param AppLoginVerifyRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @return LoginResource|\Illuminate\Http\JsonResponse
      */
     public function appLoginVerify(AppLoginVerifyRequest $request)
     {
@@ -244,6 +246,14 @@ class LoginAPIController extends Controller
         //     'updateId' => $lytLoginUsr->loginUId,
         // ]);
         // dd(User::GetAuthMessage(new config('constants.messages.login.success'), $accessToken, $refreshToken) . " = 247");
-        return User::GetAuthMessage(new $lytLoginUsr, config('constants.messages.login.success'), $accessToken, $refreshToken);
+        // return new LoginResource($lytLoginUsr);
+        // return User::GetAuthMessage(new LoginResource($lytLoginUsr), config('constants.messages.login.success'), $accessToken, $refreshToken);
+        $GetAuthMessage = response()->json([
+            'message'       => config('constants.messages.login.success'),
+            'authorization' => $accessToken,
+            'refresh_token' => $refreshToken,
+            'data'          => new LoginResource($lytLoginUsr),
+        ]);
+        return $GetAuthMessage;
     }
 }

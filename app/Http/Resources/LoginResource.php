@@ -15,14 +15,19 @@ class LoginResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'company_name' => $this->company_name,
+            'city' => $this->city,
+            'otp_verified_at' => $this->otp_verified_at,
+            'contact_number' => $this->contact_number,
             'permissions' => $this->permissions,
-            'authorization' => $this->authorization,
-            'id'=>$this->id, 
-            'email'=>$this->email, 
-            'email_verified_at'=>$this->email_verified_at, 
-            'role_id'=>$this->role_id, 
-            'role'=>$this->role,
-            'sample_excels'=>array([
+            // 'authorization' => $this->authorization,
+            // 'refresh_token' => $this->refresh_token
+            'role_id' => $this->role_id,
+            'role' => $this->role,
+            // 'device_token' => $this->device_token,
+            'sample_excels' => array([
                 'sample_user' => asset('samples/user.csv'),
                 'sample_category' => asset('samples/category.csv'),
                 'sample_product' => asset('samples/product.csv'),

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Http\Resources\DataTrueResource;
 use App\Traits\CreatedbyUpdatedby;
 use App\Traits\Scopes;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
@@ -18,78 +20,78 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = [ 'id', 'user_id', 'quantity', 'gst', 'payment_amount', 'order_status', 'order_status_remark', 'user_remark' ];
+    protected $fillable = ['id', 'user_id', 'quantity', 'gst', 'payment_amount', 'order_status', 'order_status_remark', 'user_remark'];
 
     /**
      * Activity log array
      *
      * @var array
      */
-    public $activity_log = [ 'id', 'quantity', 'gst', 'payment_amount', 'order_products->product_id' ];
+    public $activity_log = ['id', 'quantity', 'gst', 'payment_amount', 'order_products->product_id'];
 
     /**
      * Log Activity relationships array
      *
      * @var array
      */
-    public $log_relations = [ 'order_products' ];
+    public $log_relations = ['order_products'];
 
     /**
      * Lightweight response variable
      *
      * @var array
      */
-    public $light = [ 'id', 'user_id' ];
+    public $light = ['id', 'user_id'];
 
     /**
      * Related permission array
      *
      * @var array
      */
-    public $related_permission = [  ];
+    public $related_permission = [];
 
     /**
      * @var array
      */
-    public $sortable = [ 'orders.created_at', 'orders.id', 'quantity', 'gst', 'payment_amount' ];
+    public $sortable = ['orders.created_at', 'orders.id', 'quantity', 'gst', 'payment_amount'];
 
     /**
      * @var array
      */
-    public $foreign_sortable = [ 'user_id' ];
+    public $foreign_sortable = ['user_id'];
 
     /**
      * @var array
      */
-    public $foreign_table = [ 'users' ];
+    public $foreign_table = ['users'];
 
     /**
      * @var array
      */
-    public $foreign_key = [ 'name' ];
+    public $foreign_key = ['name'];
 
     /**
      * @var array
      */
-    public $foreign_method = [ 'user' ];
+    public $foreign_method = ['user'];
 
     /**
      * @var array
      */
-    public $type_sortable = [ 'order_status' ];
+    public $type_sortable = ['order_status'];
 
     /**
      * @var array
      */
     public $type_enum = [
-            ['constants.order.order_status_enum.pending','constants.order.order_status_enum.inprocess','constants.order.order_status_enum.cancel','constants.order.order_status_enum.completed','constants.order.order_status_enum.return']
+        ['constants.order.order_status_enum.pending', 'constants.order.order_status_enum.inprocess', 'constants.order.order_status_enum.cancel', 'constants.order.order_status_enum.completed', 'constants.order.order_status_enum.return']
     ];
 
     /**
      * @var array
      */
     public $type_enum_text = [
-            ['constants.order.order_status.0','constants.order.order_status.1','constants.order.order_status.2','constants.order.order_status.3','constants.order.order_status.4']
+        ['constants.order.order_status.0', 'constants.order.order_status.1', 'constants.order.order_status.2', 'constants.order.order_status.3', 'constants.order.order_status.4']
     ];
 
     /**
@@ -104,7 +106,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $hidden = [  ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -113,60 +115,63 @@ class Order extends Model
      */
     protected $casts = [
 
-            'id'=>'string', 
-            'user_id'=>'string', 
-            'quantity'=>'string', 
-            'gst'=>'string', 
-            'order_status'=>'string', 
-            'order_status_remark'=>'string', 
-            'user_remark'=>'string'
+        'id' => 'string',
+        'user_id' => 'string',
+        'quantity' => 'string',
+        'gst' => 'string',
+        'order_status' => 'string',
+        'order_status_remark' => 'string',
+        'user_remark' => 'string'
 
     ];
 
-    
 
-    
+
+
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-    public function user() {
-       return $this->belongsTo(\App\Models\User::class)->with(['role']);
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class)->with(['role']);
     }
-         
+
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-    public function order_products() {
-       return $this->hasMany(\App\Models\OrderProduct::class,'order_id');
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function order_products()
+    {
+        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id');
     }
-        
+
 
     /**
      * Add Order
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeCreateOrder($query, $request){
+    public function scopeCreateOrder($query, $request)
+    {
         $order = Order::create($request->all());
-        
-        
+
+
 
         if ($request->hasFile('order_products')) {
-           $realPath = 'order/' . $order->id . '/order_products';
+            $realPath = 'order/' . $order->id . '/order_products';
 
-           foreach ($request->file('order_products') as $vImgs) {
-               $resizeImages = $order->resizeImages($vImgs, $realPath, 100, 100);
-               \App\Models\OrderProduct::create([
-                   'order_id' => $order->id,
-                   'product_id' => $resizeImages['image'],
-                   'product_id_original' => $resizeImages['original'],
-                   'product_id_thumbnail' => $resizeImages['thumbnail']
-               ]);
-           }
+            foreach ($request->file('order_products') as $vImgs) {
+                $resizeImages = $order->resizeImages($vImgs, $realPath, 100, 100);
+                \App\Models\OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $resizeImages['image'],
+                    'product_id_original' => $resizeImages['original'],
+                    'product_id_thumbnail' => $resizeImages['thumbnail']
+                ]);
+            }
         }
 
-        
-        
+
+
         return \App\Models\User::GetMessage(new OrderResource($order), config('constants.messages.create_success'));
     }
 
@@ -176,10 +181,11 @@ class Order extends Model
      * @param Order $order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeUpdateOrder($query, $request, $order){
+    public function scopeUpdateOrder($query, $request, $order)
+    {
         $data = $request->all();
-        
-        
+
+
         if ($request->hasFile('order_products')) {
             \App\Models\OrderProduct::where(['order_id' => $order->id])->delete();
 
@@ -189,16 +195,16 @@ class Order extends Model
             foreach ($request->file('order_products') as $v_imgs) {
                 $resizeImages = $order->resizeImages($v_imgs, $realPath, 100, 100);
                 \App\Models\OrderProduct::create([
-                   'order_id' => $order->id,
-                   'product_id' => $resizeImages['image'],
-                   'product_id_original' => $resizeImages['original'],
-                   'product_id_thumbnail' => $resizeImages['thumbnail']
+                    'order_id' => $order->id,
+                    'product_id' => $resizeImages['image'],
+                    'product_id_original' => $resizeImages['original'],
+                    'product_id_thumbnail' => $resizeImages['thumbnail']
                 ]);
             }
         }
-        
+
         $order->update($data);
-        
+
         return \App\Models\User::GetMessage(new OrderResource($order), config('constants.messages.update_success'));
     }
 
@@ -210,14 +216,15 @@ class Order extends Model
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function scopeDeleteOrder($query, $request, $order){
-       
-       
-        $this->singleImageDelete($order, "order/"); // Delete image    
-            
-       $order->delete();
-       
-       return new DataTrueResource($order,config('constants.messages.delete_success'));
+    public function scopeDeleteOrder($query, $request, $order)
+    {
+
+
+        $this->singleImageDelete($order, "order/"); // Delete image
+
+        $order->delete();
+
+        return new DataTrueResource($order, config('constants.messages.delete_success'));
     }
 
     /**
@@ -226,25 +233,32 @@ class Order extends Model
      * @param $request
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      */
-    public function scopeDeleteAll($query,$request){
-        if(!empty($request->id)) {
+    public function scopeDeleteAll($query, $request)
+    {
+        if (!empty($request->id)) {
 
-            Order::whereIn('id', $request->id)->get()->each(function($order) {
-                
-                
-        $this->singleImageDelete($order, "order/"); // Delete image    
-            
+            Order::whereIn('id', $request->id)->get()->each(function ($order) {
+
+
+                $this->singleImageDelete($order, "order/"); // Delete image
+
                 $order->delete();
             });
 
-            
 
-            return new DataTrueResource(true,config('constants.messages.delete_success'));
-        }
-        else{
+
+            return new DataTrueResource(true, config('constants.messages.delete_success'));
+        } else {
             return User::GetError(config('constants.messages.delete_multiple_error'));
         }
     }
 
-    
+    public function newQuery()
+    {
+        $user = Auth::guard('api')->user();
+        if ($user)
+            return parent::newQuery()->where('user_id', '=', $user->id);
+
+        return parent::newQuery();
+    }
 }
