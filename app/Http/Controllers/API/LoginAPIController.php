@@ -174,7 +174,8 @@ class LoginAPIController extends Controller
 
         $user = User::where('contact_number', $mobileNo)->first(); // Search and Get result belongs to contact_number field.
 
-        $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
+        // $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
+        $user->otp = "123456";  //  Temp  OTP.
 
         $otpVrfCd = $user->otp;
         $user->otp_verified_at = Carbon::now(); // => Rocky => Send OTP date and time
@@ -309,8 +310,8 @@ class LoginAPIController extends Controller
         // return User::GetAuthMessage(new LoginResource($lytLoginUsr), config('constants.messages.login.success'), $accessToken, $refreshToken);
         $GetAuthMessage = response()->json([
             'message'       => config('constants.messages.login.success'),
-            'authorization' => $accessToken,
-            'refresh_token' => $refreshToken,
+            // 'authorization' => $accessToken,
+            // 'refresh_token' => $refreshToken,
             'data'          => new LoginResource($lytLoginUsr),
         ]);
         return $GetAuthMessage;

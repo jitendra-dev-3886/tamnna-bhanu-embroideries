@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://bhanuembroideries.com'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -176,7 +176,7 @@ return [
          * Package Service Providers...
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,       
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
 
     ],
 
@@ -230,7 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,    
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

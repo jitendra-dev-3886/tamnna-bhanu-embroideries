@@ -14,15 +14,15 @@ class RoleResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->get('is_light',false))
+        if ($request->get('is_light', false))
             return array_merge($this->attributesToArray(), $this->relationsToArray());
 
         return [
 
-            'id'=>$this->id, 
-            'name'=>$this->name, 
-            'guard_name'=>$this->guard_name, 
-            'landing_page'=>$this->landing_page
+            'id' => $this->id,
+            'name' => (string)$this->name,
+            'guard_name' => (string)$this->guard_name,
+            'landing_page' => (string)$this->landing_page
 
         ];
     }
