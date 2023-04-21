@@ -54,11 +54,13 @@ class UserAPIController extends Controller
 
             return Cache::rememberForever('user.all', function () use ($request) {
                 $user = new User();
-                $query = \App\Models\User::commonFunctionMethod(User::select($user->light), $request, true);
+                $query = User::commonFunctionMethod(User::select($user->light), $request, true);
                 return new UserCollection(UserResource::collection($query), UserResource::class);
             });
-        } else
-            $query = \App\Models\User::commonFunctionMethod(User::with(['role']), $request, true);
+        } else {
+            $user_role_id = config('constants.user.user_type_code.customer');
+            $query = User::commonFunctionMethod(User::where('role_id', '!=', $user_role_id)->with(['role']), $request, true);
+        }
 
         return new UserCollection(UserResource::collection($query), UserResource::class);
     }
@@ -141,8 +143,6 @@ class UserAPIController extends Controller
         return User::importBulk($request, new UserImport(), 'user', 'import/user/');
     }
 
-
-
     /**
      * This is a batch request API
      *
@@ -197,9 +197,9 @@ class UserAPIController extends Controller
     {
         if ($request->get('is_light', false)) {
             $activityLog = new ActivityLog();
-            $query = \App\Models\User::commonFunctionMethod(ActivityLog::select($activityLog->light), $request, true);
+            $query = User::commonFunctionMethod(ActivityLog::select($activityLog->light), $request, true);
         } else
-            $query = \App\Models\User::commonFunctionMethod(ActivityLog::with(['causer']), $request, true);
+            $query = User::commonFunctionMethod(ActivityLog::with(['causer']), $request, true);
 
         return new UserCollection(ActivityResource::collection($query), ActivityResource::class);
     }
@@ -212,6 +212,13 @@ class UserAPIController extends Controller
      */
     public function checkEmail(CheckEmailExistsRequest $request)
     {
-        return \App\Models\User::GetMessage(User::fieldExist($request, 'email'), "");
+        return User::GetMessage(User::fieldExist($request, 'email'), "");
+    }
+
+    public function customers(Request $request)
+    {
+        $user_role_id = config('constants.user.user_type_code.customer');
+        $query = User::commonFunctionMethod(User::where('role_id', $user_role_id), $request, true);
+        return new UserCollection(UserResource::collection($query), UserResource::class);
     }
 }

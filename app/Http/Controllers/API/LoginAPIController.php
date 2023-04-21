@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Passport\Client;
 use Laravel\Passport\Token;
 use Laravel\Passport\RefreshToken;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 
 /*
     |--------------------------------------------------------------------------
@@ -110,14 +112,14 @@ class LoginAPIController extends Controller
             $user->authorization = $tokenResult->access_token;
             $user->refresh_token = $tokenResult->refresh_token;
 
-            // return new LoginResource($user);
-            $GetAuthMessage = response()->json([
-                'message'       => config('constants.messages.login.success'),
-                // 'authorization' => $user->authorization,
-                // 'refresh_token' => $user->refresh_token,
-                'data'          => new LoginResource($user),
-            ]);
-            return $GetAuthMessage;
+            return new LoginResource($user);
+            // $GetAuthMessage = response()->json([
+            //     'message'       => config('constants.messages.login.success'),
+            //     // 'authorization' => $user->authorization,
+            //     // 'refresh_token' => $user->refresh_token,
+            //     'data'          => new LoginResource($user),
+            // ]);
+            // return $GetAuthMessage;
         } else {
             return User::GetError("No User found.");
         }
@@ -307,8 +309,8 @@ class LoginAPIController extends Controller
         // return User::GetAuthMessage(new LoginResource($lytLoginUsr), config('constants.messages.login.success'), $accessToken, $refreshToken);
         $GetAuthMessage = response()->json([
             'message'       => config('constants.messages.login.success'),
-            // 'authorization' => $accessToken,
-            // 'refresh_token' => $refreshToken,
+            'authorization' => $accessToken,
+            'refresh_token' => $refreshToken,
             'data'          => new LoginResource($lytLoginUsr),
         ]);
         return $GetAuthMessage;
@@ -335,10 +337,10 @@ class LoginAPIController extends Controller
         $tokenResult = json_decode(app()->handle($request)->getContent());
 
         if (!isset($tokenResult->access_token)) {
-            return User::GetError('The refresh token is invalid.');
+            return User::GetError('The refresh token is invalid OR Logged out due to concurrency login.');
         }
 
-        $tokenId = (new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder()))->parse($tokenResult->access_token)->claims()->all()['jti'];
+        $tokenId = (new Parser(new JoseEncoder()))->parse($tokenResult->access_token)->claims()->all()['jti'];
         $accessToken = Token::where('id', $tokenId)->first();
 
         if ($accessToken) {
@@ -347,7 +349,7 @@ class LoginAPIController extends Controller
             // Update scopes for each user access tokens
             $getToken = User::getUserActiveToken($lytLoginUsr->id, $oauthClient->id);
             if (is_null($getToken)) {
-                return User::GetError('The refresh token is invalid.');
+                return User::GetError('The refresh token is invalid Or Logged out due to concurrency login..');
             }
 
             $getToken->scopes = $lytLoginUsr->role->permissions->pluck('name')->toArray();

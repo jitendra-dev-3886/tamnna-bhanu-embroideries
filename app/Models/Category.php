@@ -165,7 +165,7 @@ class Category extends Model
         $data = $request->all();
 
         if ($request->hasFile('featured_image')) {
-            $realPath = 'category/' . $category->id . '/';
+            $realPath = 'category/' . $category->id;
             $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
             $data['featured_image'] = $resizeImages['image'];

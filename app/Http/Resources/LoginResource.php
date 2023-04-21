@@ -25,7 +25,8 @@ class LoginResource extends JsonResource
             'authorization' => $this->authorization,
             'refresh_token' => $this->refresh_token,
             'role_id' => $this->role_id,
-            'role' => $this->role,
+            // 'role' => $this->role,
+            'role' => new RoleResource($this->role),
             // 'device_token' => $this->device_token,
             'sample_excels' => array([
                 'sample_user' => asset('samples/user.csv'),
