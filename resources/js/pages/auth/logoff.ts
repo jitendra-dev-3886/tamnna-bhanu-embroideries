@@ -134,12 +134,12 @@ class Logoff extends Mixins(CommonServices) {
     get UserProfilePicture(): string {
         return <string>UserModule.userProfilePicture;
     }
-    beforeRouteEnter(
+   beforeRouteEnter(
         to: Route,
         from: Route,
         next: NavigationGuardNext<Vue>
     ): void {
-        if (UserModule.currentUserData.email == "") {
+        if (UserModule.currentUserData.contact_number== "") {
             next("/");
         }
         next();

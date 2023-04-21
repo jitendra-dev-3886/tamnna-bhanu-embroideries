@@ -20,6 +20,7 @@
             >
                 <div
                     role="alert"
+                    :class="{ show: errorMessage.length }"
                     class="alert fade alert-danger"
                 >
                     <div class="alert-text">
@@ -40,10 +41,9 @@
                             v-model="loginDetail.password"
                             v-validate="'required'"
                             label="Password*"
-                            type="password"
+                            :type="showPassword ? 'text' : 'password'"
                             name="password"
                             :error-messages="getErrorValue('password', errors, validationMessages)"
-                            :type="showPassword ? 'text' : 'password'"
                             :append-icon="
                                 showPassword ? 'visibility' : 'visibility_off'
                             "

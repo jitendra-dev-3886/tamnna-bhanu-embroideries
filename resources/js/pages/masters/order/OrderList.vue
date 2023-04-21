@@ -257,7 +257,7 @@
                             </template>
                             <span>{{ $getConst('VIEW_DETAILS_TOOLTIP') }}</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
+                       <!-- <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                     @click="onEdit(item.id, true)"
@@ -271,7 +271,7 @@
                                 </v-icon>
                             </template>
                             <span>{{ $getConst('EDIT_TOOLTIP') }}</span>
-                        </v-tooltip>
+                        </v-tooltip>-->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon

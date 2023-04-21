@@ -12,6 +12,8 @@ import { ILoginValidations, ILoginModel } from "../../../assets/types/auth";
 import { AxiosResponse } from "axios";
 import { ResponseResult,ILoginConfirmationProps } from "../../../assets/types/common";
 import { ICurrentUserData } from "../../../assets/types/user";
+import { NavigationGuardNext, Route } from "vue-router";
+Component.registerHooks(["beforeRouteEnter"]);
 
 @Component({
     components: {
@@ -279,7 +281,7 @@ class Login extends mixins(CommonServices) {
             this["$recaptchaInstance"].hideBadge();
         }
     }
-}
+
 
 /**
      * Abort login route if user already logged in
@@ -288,7 +290,7 @@ class Login extends mixins(CommonServices) {
      * @param next
      */
 
-    /*beforeRouteEnter(
+    beforeRouteEnter(
         to: Route,
         from: Route,
         next: NavigationGuardNext<Vue>
@@ -311,6 +313,6 @@ class Login extends mixins(CommonServices) {
             }
         });
         }
-    }*/
+    }
 
 export default Login;

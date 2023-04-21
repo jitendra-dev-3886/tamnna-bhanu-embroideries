@@ -9,7 +9,8 @@ import {
     mdiPaperclip,
     mdiPencil,
     mdiPlus,
-    mdiUpload
+    mdiUpload,
+    mdiImageEditOutline
 } from "@mdi/js";
 import Component, { mixins } from "vue-class-component";
 import Echo from "laravel-echo";
@@ -54,7 +55,8 @@ class CommonServices extends mixins(CommonDateMethods, CommonErrorMethods) {
         mdiEye,
         mdiDownload,
         mdiUpload,
-        mdiImage
+        mdiImage,
+        mdiImageEditOutline
     };
 
     editorConfig: IObject = {

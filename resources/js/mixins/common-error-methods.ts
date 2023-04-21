@@ -206,13 +206,11 @@ class CommonErrorMethods extends Vue {
     logout(): void {
         UserModule.userLogout().then(
             () => {
+
                 localStorage.clear();
                 UserModule.SET_DEFAULT_URL(window.location.pathname);
                 UserModule.CLEAR_USER_DATA();
                 this["$router"].push("/");
-            },
-            (error) => {
-                this.showDialog(error.response);
             }
         );
     }

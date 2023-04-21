@@ -75,7 +75,7 @@
                             </v-checkbox>
                             <!-- </v-flex>
                         <v-flex xs6> -->
-                            <a
+                         <!--   <a
                                 id="kt_login_forgot"
                                 class="
                                     text-dark-60 text-hover-primary
@@ -88,7 +88,7 @@
                                 data-test-id="loginpage-forgot-password"
                             >
                                 Forgot Password?
-                            </a>
+                            </a>-->
                         </v-flex>
                     </v-layout>
                     <v-btn

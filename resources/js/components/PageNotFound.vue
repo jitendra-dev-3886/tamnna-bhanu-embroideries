@@ -18,7 +18,7 @@
                     bgi-size-cover bgi-no-repeat
                     p-10 p-lg-15
                 "
-                :style="{ backgroundImage: `url(${backgroundImage})` }"
+                style="background-color: black;"
             >
                 <!--begin: Aside Container -->
                 <div
@@ -30,7 +30,7 @@
                 >
                     <!--begin: Aside header -->
                     <a href="#" class="flex-column-auto">
-                        <img src="../../assets/images/logo.png" class="" />
+                        <img :src="$getConst('LOGO_IMG')" width="75%" height="75%">
                     </a>
                     <!--end: Aside header -->
                     <!--begin: Aside content -->
@@ -43,7 +43,7 @@
                         "
                     >
                         <h3 class="font-size-h1 mt-10 mb-5 text-white">
-                            Welcome to Laravel!
+                            Welcome to Bhanu Embroideries!
                         </h3>
                     </div>
                     <!--end: Aside content -->
@@ -58,7 +58,7 @@
                         "
                     >
                         <div class="opacity-70 font-weight-bold text-white">
-                            © {{ currentYear }} Eastern Techno Solutions
+                            © {{ currentYear }} Bhanu Embroideries
                         </div>
                     </div>
                     <!--end: Aside footer for desktop -->
@@ -101,7 +101,8 @@
                                 Sorry!
                             </h1>
                             <h5 class="font-20 mb-4 mt-4">
-                               This Page is Under Construction.
+                                We can’t find the page you’re looking
+                                for.
                             </h5>
                             <v-btn
                                 height="50"
@@ -109,12 +110,12 @@
                                 color="primary"
                                 :to="`/${
                                     UserData && UserData.authorization
-                                        ? 'users'
-                                        : ''
+                                    ? 'users'
+                                    : ''
                                 }`"
                             >
-                                Go To
-                                {{
+                            Go Back
+                               {{
                                     UserData && UserData.authorization
                                         ? "Users"
                                         : "Login"

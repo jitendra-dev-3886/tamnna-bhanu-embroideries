@@ -143,6 +143,21 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
+                                    @click="onEditImage(item.id, true)"
+                                    class="mr-2"
+                                    small
+                                    v-on="on"
+                                    v-update="$getConst('HOMEBANNERS')"
+                                    aria-label="Edit homebanner"
+                                >
+                                    {{ icons.mdiImageEditOutline }}
+                                </v-icon>
+                            </template>
+                            <span>{{ $getConst('EDIT_TOOLTIP') }}</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-icon
                                     @click="deleteItem(item.id)"
                                     class="mr-2"
                                     small
@@ -158,7 +173,7 @@
                     </template>
                     <template v-slot:[`item.featured_image`]="{ item }">
                         <a :href="item.featured_image">
-                            <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
+                            <v-img :src="item.featured_image" v-if="item.featured_image" width="70" height="70"></v-img>
                         </a>
                     </template>
                 </v-data-table>
