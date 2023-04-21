@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Resources\DataTrueResource;
+use App\Http\Resources\OrderCollection;
+use App\Http\Resources\OrderHistoryResource;
+use App\Models\User;
 use App\Models\Order;
 use App\Http\Requests\CsvRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\OrderUpdateRequest;
-use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -43,18 +45,17 @@ class OrderAPIController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->get('is_light',false)){
+        if ($request->get('is_light', false)) {
 
-            return Cache::rememberForever('order.all', function () use($request){
+            return Cache::rememberForever('order.all', function () use ($request) {
                 $order = new Order();
-                $query = \App\Models\User::commonFunctionMethod(Order::select($order->light),$request,true);
-                return new OrderCollection(OrderResource::collection($query),OrderResource::class);
+                $query = \App\Models\User::commonFunctionMethod(Order::select($order->light), $request, true);
+                return new OrderCollection(OrderResource::collection($query), OrderResource::class);
             });
-        }
-        else
-            $query = \App\Models\User::commonFunctionMethod(Order::with(['user', 'order_products']),$request,true);
+        } else
+            $query = \App\Models\User::commonFunctionMethod(Order::with(['user', 'order_products']), $request, true);
 
-        return new OrderCollection(OrderResource::collection($query),OrderResource::class);
+        return new OrderCollection(OrderResource::collection($query), OrderResource::class);
     }
 
     /**
@@ -116,27 +117,27 @@ class OrderAPIController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-     public function export(Request $request)
-     {
-        $fileName = 'order_'.config('constants.file.name').'.csv';
-        $filePath = 'export/order/'.$fileName;
+    public function export(Request $request)
+    {
+        $fileName = 'order_' . config('constants.file.name') . '.csv';
+        $filePath = 'export/order/' . $fileName;
         $exportObj = new OrderExport($request);
         Excel::store($exportObj, $filePath);
 
         return response()->download(storage_path("app/public/{$filePath}"));
-     }
+    }
 
-      /**
-      * Import bulk
-      * @param CsvRequest $request
-      * @return \Illuminate\Http\JsonResponse
-      */
-      public function importBulk(CsvRequest $request)
-      {
-         return \App\Models\User::importBulk($request,new OrderImport(),'order','import/order/');
-      }
+    /**
+     * Import bulk
+     * @param CsvRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function importBulk(CsvRequest $request)
+    {
+        return \App\Models\User::importBulk($request, new OrderImport(), 'order', 'import/order/');
+    }
 
-      
+
     /**
      * Delete product_id
      * @param Request $request
@@ -150,7 +151,7 @@ class OrderAPIController extends Controller
         $orderProduct->deleteOne('order/' . $orderProduct->order_id . '/order_products/thumbs/' . basename($orderProduct->product_id_thumbnail));
         $orderProduct->delete();
 
-        return new DataTrueResource($orderProduct,config('constants.messages.delete_success'));
+        return new DataTrueResource($orderProduct, config('constants.messages.delete_success'));
     }
 
     /**
@@ -163,5 +164,10 @@ class OrderAPIController extends Controller
     {
         return Order::uploadZipFile($request);
     }
-    
+
+    public function orderHistory(Request $request)
+    {
+        $query = User::commonFunctionMethod(Order::where('order_status', '!=', config('constants.order.status_code.embedded_order')), $request, true);
+        return new OrderCollection(OrderHistoryResource::collection($query), OrderHistoryResource::class);
+    }
 }

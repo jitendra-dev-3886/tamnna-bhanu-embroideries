@@ -451,13 +451,13 @@ return [
         'user_status' => [0 => 'Inactive', 1 => 'Active'],
         'user_status_enum' => ['inactive' => "0", 'active' => "1"],
         'user_type' => [
-            '0' => 'Admin',
-            '1' => 'User',
+            '1' => 'Admin',
+            '2' => 'Customer',
         ],
 
         'user_type_code' => [
-            'admin' => '0',
-            'user' => '1',
+            'admin' => '1',
+            'customer' => '2',
         ],
     ],
     'user_status' => [
@@ -465,13 +465,13 @@ return [
         'status' => [0 => 'Inactive', 1 => 'Active'],
         'status_enum' => ['inactive' => "0", 'active' => "1"],
         'user_type' => [
-            '0' => 'Admin',
-            '1' => 'User',
+            '1' => 'Admin',
+            '2' => 'Customer',
         ],
 
         'user_type_code' => [
-            'admin' => '0',
-            'user' => '1',
+            'admin' => '1',
+            'customer' => '2',
         ],
     ],
     'product' => [
@@ -490,6 +490,14 @@ return [
 
         'order_status' => [0 => 'Pending', 1 => 'Inprocess', 2 => 'Cancel', 3 => 'Completed', 4 => 'Return'],
         'order_status_enum' => ['pending' => "0", 'inprocess' => "1", 'cancel' => "2", 'completed' => "3", 'return' => "4"],
+
+        'status_text' => [
+            'pending' => '0',
+            'inprocess' => '1',
+            'cancel' => '2',
+            'completed' => '3',
+            'return' => '4',
+        ],
 
         'status' => [
             '0' => 'Pending',

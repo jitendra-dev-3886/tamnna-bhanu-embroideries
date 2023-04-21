@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Laravel\Passport\Client;
 use Laravel\Passport\Token;
+use Laravel\Passport\RefreshToken;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 
 /*
     |--------------------------------------------------------------------------
@@ -48,18 +51,75 @@ class LoginAPIController extends Controller
 
         $user = $request->user();
 
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
+        // $tokenResult = $user->createToken('Personal Access Token');
+        // $token = $tokenResult->token;
+        // dd($tokenResult);
+        // if ($user != null) {
+        //     //get User Permission and save permission in token
+        //     $role = Role::findorfail($user->role_id); //get role details
+        //     $token->scopes = $user->role->permissions->pluck('name')->toArray();
+        //     $token->save();
+        //     $user->permissions = Permission::getPermissions($role);
+        //     $user->authorization = $tokenResult->accessToken;
+        //     $accessToken  = $tokenResult->accessToken;
+        //     $refreshToken = $tokenResult->refresh_token;
+        //     User::addOrchangeLastLoginTime($user->id); // Add/Change last login time
+        //     // return new LoginResource($user);
+        //     $GetAuthMessage = response()->json([
+        //         'message'       => config('constants.messages.login.success'),
+        //         'authorization' => $accessToken,
+        //         'refresh_token' => $refreshToken,
+        //         'data'          => new LoginResource($user),
+        //     ]);
+        //     return $GetAuthMessage;
+        // } else {
+        //     return User::GetError("No User found.");
+        // }
+        $oauthClient = Client::where('password_client', 1)->latest()->first();
+        if (is_null($oauthClient))
+            return User::GetError('Oauth password client not found.');
 
         if ($user != null) {
+
+            foreach ($user->tokens->where('revoked', '0') as $token) {
+                RefreshToken::where('access_token_id', $token->id)->update([
+                    'revoked' => '1'
+                ]); //Revoked refresh token
+                if (!$token->revoked) {
+                    User::revoke_token($token); //Revoking token
+                }
+            }
+
             //get User Permission and save permission in token
             $role = Role::findorfail($user->role_id); //get role details
-            $token->scopes = $user->role->permissions->pluck('name')->toArray();
-            $token->save();
+
+            $data = [
+                'username' => $request->contact_number,
+                'password' => $request->password,
+                'client_id' => $oauthClient->id,
+                'client_secret' => $oauthClient->secret,
+                'grant_type' => 'password',
+            ];
+
+            $request = app('request')->create('/oauth/token', 'POST', $data);
+            $tokenResult = json_decode(app()->handle($request)->getContent());
+
+            $getToken = User::getUserActiveToken($user->id, $oauthClient->id);
+            $getToken->scopes = $user->role->permissions->pluck('name')->toArray();
+            $getToken->save(); // Update scope for user latest access token
+
             $user->permissions = Permission::getPermissions($role);
-            $user->authorization = $tokenResult->accessToken;
-            User::addOrchangeLastLoginTime($user->id); // Add/Change last login time
+            $user->authorization = $tokenResult->access_token;
+            $user->refresh_token = $tokenResult->refresh_token;
+
             return new LoginResource($user);
+            // $GetAuthMessage = response()->json([
+            //     'message'       => config('constants.messages.login.success'),
+            //     // 'authorization' => $user->authorization,
+            //     // 'refresh_token' => $user->refresh_token,
+            //     'data'          => new LoginResource($user),
+            // ]);
+            // return $GetAuthMessage;
         } else {
             return User::GetError("No User found.");
         }
@@ -165,6 +225,7 @@ class LoginAPIController extends Controller
      *
      * @param AppLoginVerifyRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @return LoginResource|\Illuminate\Http\JsonResponse
      */
     public function appLoginVerify(AppLoginVerifyRequest $request)
     {
@@ -244,6 +305,61 @@ class LoginAPIController extends Controller
         //     'updateId' => $lytLoginUsr->loginUId,
         // ]);
         // dd(User::GetAuthMessage(new config('constants.messages.login.success'), $accessToken, $refreshToken) . " = 247");
-        return User::GetAuthMessage(new $lytLoginUsr, config('constants.messages.login.success'), $accessToken, $refreshToken);
+        // return new LoginResource($lytLoginUsr);
+        // return User::GetAuthMessage(new LoginResource($lytLoginUsr), config('constants.messages.login.success'), $accessToken, $refreshToken);
+        $GetAuthMessage = response()->json([
+            'message'       => config('constants.messages.login.success'),
+            'authorization' => $accessToken,
+            'refresh_token' => $refreshToken,
+            'data'          => new LoginResource($lytLoginUsr),
+        ]);
+        return $GetAuthMessage;
+    }
+
+    public function refreshingTokens(Request $request)
+    {
+        $request->validate([
+            'refresh_token' => 'required'
+        ]);
+
+        $oauthClient = Client::where('password_client', 1)->latest()->first();
+        if (is_null($oauthClient))
+            return User::GetError('Oauth password client not found.');
+
+        $data = [
+            'client_id' => $oauthClient->id,
+            'client_secret' => $oauthClient->secret,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $request->refresh_token,
+        ];
+
+        $request = app('request')->create('/oauth/token', 'POST', $data);
+        $tokenResult = json_decode(app()->handle($request)->getContent());
+
+        if (!isset($tokenResult->access_token)) {
+            return User::GetError('The refresh token is invalid OR Logged out due to concurrency login.');
+        }
+
+        $tokenId = (new Parser(new JoseEncoder()))->parse($tokenResult->access_token)->claims()->all()['jti'];
+        $accessToken = Token::where('id', $tokenId)->first();
+
+        if ($accessToken) {
+            $lytLoginUsr = User::where('id', $accessToken->user_id)->with(['role'])->firstorfail();
+
+            // Update scopes for each user access tokens
+            $getToken = User::getUserActiveToken($lytLoginUsr->id, $oauthClient->id);
+            if (is_null($getToken)) {
+                return User::GetError('The refresh token is invalid Or Logged out due to concurrency login..');
+            }
+
+            $getToken->scopes = $lytLoginUsr->role->permissions->pluck('name')->toArray();
+            $getToken->save();
+        }
+
+        if (isset($tokenResult->error)) {
+            return User::GetError($tokenResult->message);
+        }
+
+        return response()->json($tokenResult);
     }
 }

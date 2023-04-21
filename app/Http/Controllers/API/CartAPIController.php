@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Resources\DataTrueResource;
+use App\Models\User;
 use App\Models\Cart;
 use App\Http\Requests\CsvRequest;
 use App\Http\Requests\CartRequest;
@@ -43,18 +44,19 @@ class CartAPIController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->get('is_light',false)){
+        if ($request->get('is_light', false)) {
 
-            return Cache::rememberForever('cart.all', function () use($request){
-                $cart = new Cart();
-                $query = \App\Models\User::commonFunctionMethod(Cart::select($cart->light),$request,true);
-                return new CartCollection(CartResource::collection($query),CartResource::class);
+            return Cache::rememberForever('cart.all', function () use ($request) {
+                // $cart = new Cart();
+                // $query = \App\Models\User::commonFunctionMethod(Cart::select($cart->light),$request,true);
+                $cart = Cart::where('id', $request->cart_id);
+                $query = User::commonFunctionMethod($cart, $request, true);
+                return new CartCollection(CartResource::collection($query), CartResource::class);
             });
-        }
-        else
-            $query = \App\Models\User::commonFunctionMethod(Cart::with(['user', 'product']),$request,true);
+        } else
+            $query = User::commonFunctionMethod(Cart::with(['user', 'product']), $request, true);
 
-        return new CartCollection(CartResource::collection($query),CartResource::class);
+        return new CartCollection(CartResource::collection($query), CartResource::class);
     }
 
     /**
@@ -116,25 +118,23 @@ class CartAPIController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-     public function export(Request $request)
-     {
-        $fileName = 'cart_'.config('constants.file.name').'.csv';
-        $filePath = 'export/cart/'.$fileName;
+    public function export(Request $request)
+    {
+        $fileName = 'cart_' . config('constants.file.name') . '.csv';
+        $filePath = 'export/cart/' . $fileName;
         $exportObj = new CartExport($request);
         Excel::store($exportObj, $filePath);
 
         return response()->download(storage_path("app/public/{$filePath}"));
-     }
+    }
 
-      /**
-      * Import bulk
-      * @param CsvRequest $request
-      * @return \Illuminate\Http\JsonResponse
-      */
-      public function importBulk(CsvRequest $request)
-      {
-         return \App\Models\User::importBulk($request,new CartImport(),'cart','import/cart/');
-      }
-
-      
+    /**
+     * Import bulk
+     * @param CsvRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function importBulk(CsvRequest $request)
+    {
+        return \App\Models\User::importBulk($request, new CartImport(), 'cart', 'import/cart/');
+    }
 }
