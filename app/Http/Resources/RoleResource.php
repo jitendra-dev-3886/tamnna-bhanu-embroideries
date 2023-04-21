@@ -20,9 +20,9 @@ class RoleResource extends JsonResource
         return [
 
             'id' => $this->id,
-            'name' => (string)$this->name,
-            'guard_name' => (string)$this->guard_name,
-            'landing_page' => (string)$this->landing_page
+            'name' => $this->name,
+            'guard_name' => $this->guard_name,
+            'landing_page' => $this->landing_page
 
         ];
     }

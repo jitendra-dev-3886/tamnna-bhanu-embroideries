@@ -21,11 +21,11 @@ class LoginResource extends JsonResource
             'city' => $this->city,
             'otp_verified_at' => $this->otp_verified_at,
             'contact_number' => $this->contact_number,
-            'permissions' => (string)$this->permissions,
+            'permissions' => $this->permissions,
             'authorization' => $this->authorization,
             'refresh_token' => $this->refresh_token,
             'role_id' => $this->role_id,
-            'role' => (string)$this->role,
+            'role' => $this->role,
             // 'device_token' => $this->device_token,
             'sample_excels' => array([
                 'sample_user' => asset('samples/user.csv'),
