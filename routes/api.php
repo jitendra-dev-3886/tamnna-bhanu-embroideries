@@ -38,10 +38,13 @@ Route::group([
     Route::get('users-export', '\App\Http\Controllers\API\UserAPIController@export');
     Route::post('users-import-bulk', '\App\Http\Controllers\API\UserAPIController@importBulk');
 
+    // Refreshing Token
+    Route::post('refreshing-tokens', '\App\Http\Controllers\API\LoginAPIController@refreshingTokens'); // RM
+
     Route::group([
         'middleware' => ['auth:api', 'check.permission'],
     ], function () {
-
+        // Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
         Route::get('auth-batch-request', '\App\Http\Controllers\API\UserAPIController@batchRequest');
         Route::get('get-activities', '\App\Http\Controllers\API\UserAPIController@getActivities');
         Route::post('check-email', '\App\Http\Controllers\API\UserAPIController@checkEmail');
@@ -108,11 +111,11 @@ Route::group([
 
         Route::get('orders/{order}', '\App\Http\Controllers\API\OrderAPIController@show'); // RM
         Route::get('order-history', '\App\Http\Controllers\API\OrderAPIController@orderHistory'); // RM
+        Route::resource('orders', '\App\Http\Controllers\API\OrderAPIController', ['except' => ['update']]); // RM
 
         Route::resource('carts', '\App\Http\Controllers\API\CartAPIController'); // RM
         Route::post('carts-delete-multiple', '\App\Http\Controllers\API\CartAPIController@deleteAll'); // RM
 
-        Route::post('refreshing-tokens', '\App\Http\Controllers\API\LoginAPIController@refreshingTokens'); // RM
         Route::get('customers', '\App\Http\Controllers\API\UserAPIController@customers'); // RM
 
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM

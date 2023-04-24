@@ -46,35 +46,13 @@ class LoginAPIController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = request(['contact_number', 'password']);
+        // $credentials = array_merge($request->all(), ['role_id' => config('constants.user.user_type_code.admin')]);
+
         if (!Auth::attempt($credentials))
             return User::GetError(config('constants.messages.user.invalid'));
 
         $user = $request->user();
 
-        // $tokenResult = $user->createToken('Personal Access Token');
-        // $token = $tokenResult->token;
-        // dd($tokenResult);
-        // if ($user != null) {
-        //     //get User Permission and save permission in token
-        //     $role = Role::findorfail($user->role_id); //get role details
-        //     $token->scopes = $user->role->permissions->pluck('name')->toArray();
-        //     $token->save();
-        //     $user->permissions = Permission::getPermissions($role);
-        //     $user->authorization = $tokenResult->accessToken;
-        //     $accessToken  = $tokenResult->accessToken;
-        //     $refreshToken = $tokenResult->refresh_token;
-        //     User::addOrchangeLastLoginTime($user->id); // Add/Change last login time
-        //     // return new LoginResource($user);
-        //     $GetAuthMessage = response()->json([
-        //         'message'       => config('constants.messages.login.success'),
-        //         'authorization' => $accessToken,
-        //         'refresh_token' => $refreshToken,
-        //         'data'          => new LoginResource($user),
-        //     ]);
-        //     return $GetAuthMessage;
-        // } else {
-        //     return User::GetError("No User found.");
-        // }
         $oauthClient = Client::where('password_client', 1)->latest()->first();
         if (is_null($oauthClient))
             return User::GetError('Oauth password client not found.');
@@ -113,13 +91,6 @@ class LoginAPIController extends Controller
             $user->refresh_token = $tokenResult->refresh_token;
 
             return new LoginResource($user);
-            // $GetAuthMessage = response()->json([
-            //     'message'       => config('constants.messages.login.success'),
-            //     // 'authorization' => $user->authorization,
-            //     // 'refresh_token' => $user->refresh_token,
-            //     'data'          => new LoginResource($user),
-            // ]);
-            // return $GetAuthMessage;
         } else {
             return User::GetError("No User found.");
         }
@@ -174,10 +145,8 @@ class LoginAPIController extends Controller
 
         $user = User::where('contact_number', $mobileNo)->first(); // Search and Get result belongs to contact_number field.
 
-        $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
+        // $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
         $user->otp = "123456";  //  Temp  OTP.
-
-        $otpVrfCd = $user->otp;
         $user->otp_verified_at = Carbon::now(); // => Rocky => Send OTP date and time
         $user->save();
 
@@ -185,41 +154,13 @@ class LoginAPIController extends Controller
         Smsable::sendOtp([$user], ['{{auto_otp_detection_code}}' => config('bw.mtalkz.auto_otp_detection_code')]); // Connection between Laravel and mTalkz
         return response()->json(
             [
-                'message' => config('constants.messages.otp_success'),
-                'data'    => (object)[]
+                'message'  => config('constants.messages.otp_success'),
+                'mobileNo' => $mobileNo,
             ],
             config('constants.validation_codes.ok')
         );
     }
 
-    /**
-     * Login user and create token
-     *
-     * @param AppLoginVerifyRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function appLoginVerifyPortal(AppLoginVerifyRequest $request)
-    {
-        // $ctmInfluncr = CtmInfluncr::noLock()->where('inflCode', $request->get('inflCode'))->first();
-        $mobileNo = $request->get('contact_number');
-        $lytLoginUsr = User::where('contact_number', $request->get('contact_number'))
-            ->where('otp', $request->get('otp'))
-            ->where('otp_verified_at', '>=', Carbon::now()->addMinute(-10)) //OTP Valid for 10 minute
-            ->first();
-
-        if (is_null($lytLoginUsr))
-            return User::GetError(config('constants.messages.invalid_mobile_vrf_code'));
-
-        $randomPassword = User::getRandomPassword();
-        $lytLoginUsr->update([
-            'otp'             => null,
-            'otp_verified_at' => null,
-            'device_token'    => $request->get('device_token'),
-            // 'password'        => bcrypt($randomPassword)
-        ]);
-
-        return User::GetMessage(true, config('constants.messages.login.success_portal'));
-    }
 
     /**
      * Login user and create token
@@ -236,7 +177,6 @@ class LoginAPIController extends Controller
             ->where('otp', $request->get('otp'))
             ->where('otp_verified_at', '>=', Carbon::now()->addMinute(-10)) //OTP Valid for 10 minute
             ->first();
-        // $user = User::where('contact_number', $mobileNo)->first();
 
         if (is_null($lytLoginUsr))
             return User::GetError(config('constants.messages.invalid_mobile_vrf_code'));
@@ -244,8 +184,6 @@ class LoginAPIController extends Controller
         // $oauthClient = Client::lock('WITH (NOLOCK)')->where('password_client', 1)->latest()->first();
         $oauthClient = Client::where('password_client', 1)->latest()->first();
 
-        // print_r($oauthClient);
-        // die(" = 187  ");
         if (is_null($oauthClient))
             return User::GetError('Oauth password client not found.');
 
@@ -275,11 +213,7 @@ class LoginAPIController extends Controller
 
         $request = app('request')->create('/oauth/token', 'POST', $data);
         $tokenResult = json_decode(app()->handle($request)->getContent());
-        // dump($tokenResult);
-        // die(" = 218");
         $getToken = User::getUserActiveToken($lytLoginUsr->id, $oauthClient->id);
-        // print_r($getToken);
-        // die(" = 221");
         if ($getToken) {
             $getToken->scopes = [];
             $getToken->save(); // Update scope for user latest access token
@@ -299,22 +233,15 @@ class LoginAPIController extends Controller
 
         User::addOrChangeLastLoginTime($lytLoginUsr->id); // Add/Change last login time
 
-        // add successfully login attempt for historical data
-        // $lytLoginUsr->lytLoginHst()->create([
-        //     'remoteIP' => User::getIp(),
-        //     'createId' => $lytLoginUsr->loginUId,
-        //     'updateId' => $lytLoginUsr->loginUId,
-        // ]);
-        // dd(User::GetAuthMessage(new config('constants.messages.login.success'), $accessToken, $refreshToken) . " = 247");
-        // return new LoginResource($lytLoginUsr);
+        return new LoginResource($lytLoginUsr);
         // return User::GetAuthMessage(new LoginResource($lytLoginUsr), config('constants.messages.login.success'), $accessToken, $refreshToken);
-        $GetAuthMessage = response()->json([
-            'message'       => config('constants.messages.login.success'),
-            'authorization' => $accessToken,
-            'refresh_token' => $refreshToken,
-            'data'          => new LoginResource($lytLoginUsr),
-        ]);
-        return $GetAuthMessage;
+        // $GetAuthMessage = response()->json([
+        //     'message'       => config('constants.messages.login.success'),
+        //     'authorization' => $accessToken,
+        //     'refresh_token' => $refreshToken,
+        //     'data'          => new LoginResource($lytLoginUsr),
+        // ]);
+        // return $GetAuthMessage;
     }
 
     public function refreshingTokens(Request $request)

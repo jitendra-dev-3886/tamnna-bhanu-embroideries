@@ -14,19 +14,18 @@ class OrderProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->get('is_light',false))
+        if ($request->get('is_light', false))
             return array_merge($this->attributesToArray(), $this->relationsToArray());
 
         return [
-
-            'id'=>$this->id, 
-            'order_id'=>$this->order_id, 
-            'product_id'=>$this->product_id, 
-            'product_name'=>$this->product_name, 
-            'category_name'=>$this->category_name, 
-            'featured_image'=>$this->featured_image, 
-            'quantity'=>$this->quantity
-
+            'id' => $this->id,
+            'order_id' => $this->order_id,
+            'product_id' => $this->product_id,
+            'product_name' => $this->product_name,
+            'price' => $this->price,
+            'category_name' => $this->category_name,
+            'featured_image' => $this->featured_image,
+            'quantity' => $this->quantity
         ];
     }
 }

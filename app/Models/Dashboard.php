@@ -27,6 +27,7 @@ class Dashboard extends Model
      */
     public static function getAllData()
     {
+
         /* Products */
         $products = [];
         // get total products from products table
@@ -50,61 +51,13 @@ class Dashboard extends Model
         // get total Delivered orders from orders table
         $orders['total_delivered_orders'] = (string)Order::where('order_status', config('constants.order.status_text.completed'))->count();
 
-        // // get last 5 orders from orders table
-        // $listorders = Order::latest()->limit(5)->get();
-        // $order_data_array = [];
-        // foreach ($listorders as $list_orders) {
-        //     $order_data_array[] = [
-        //         'id' => $list_orders->id,
-        //         'first_name' => $list_orders->first_name,
-        //         'last_name' => $list_orders->last_name,
-        //         'total_points' => $list_orders->total_points,
-        //         'order_status' => $list_orders->order_status,
-        //         'order_status_text' => config('constants.order.status.' . $list_orders->order_status),
-        //         'created_at' => (string)$list_orders->created_at,
-        //     ];
-        // }
-        // $orders['last_orders'] = $order_data_array;
-
-        // Orders Status Pie Chart (Current Month)
-        // $loyaltyConstant = 'constants.order.status';
-        // $orderstartDate = config('constants.calender.start_Of_month');
-        // $start_Of_month = explode(" ", $orderstartDate->toDateTimeString());
-        // $order_start_Date = $start_Of_month[0];
-        // $order_end_Date = config('constants.calender.date_format');
-        // $orders['orders_pie_chart'] = [
-        //     'label' => [
-        //         config($loyaltyConstant . '.0'),
-        //         config($loyaltyConstant . '.1'),
-        //         config($loyaltyConstant . '.2'),
-        //         config($loyaltyConstant . '.3'),
-        //         config($loyaltyConstant . '.4'),
-        //     ],
-        //     'data' => [
-        //         Dashboard::getOrderStatusByCount($order_start_Date, $order_end_Date, config('constants.order.status_text.pending')),
-        //         Dashboard::getOrderStatusByCount($order_start_Date, $order_end_Date, config('constants.order.status_text.inprocess')),
-        //         Dashboard::getOrderStatusByCount($order_start_Date, $order_end_Date, config('constants.order.status_text.shipped')),
-        //         Dashboard::getOrderStatusByCount($order_start_Date, $order_end_Date, config('constants.order.status_text.delivered')),
-        //         Dashboard::getOrderStatusByCount($order_start_Date, $order_end_Date, config('constants.order.status_text.cancel')),
-        //     ],
-        // ];
-
         /*Users*/
         $users = [];
         // get total front-end users from users table
-        $users['total_users'] = (string)User::all()->count();
+        $user_role_id = config('constants.user.user_type_code.customer');
+        $users['total_users'] = (string)User::where('role_id', $user_role_id)->count();
 
-        // Users Activity chart (Last One Year)
-        // $startDate = config('constants.calender.last_year_date');
-        // $endDate = new DateTime();
-        // $month = Dashboard::getMonthListFromDate($startDate, $endDate);
-        // $usersCount = Dashboard::getUsersCountFromActivityLog($month);
-        // $users['users_activity_chart'] = [
-        //     'label' => $month,
-        //     'data' => $usersCount,
-        // ];
-
-
+        // Data stores in an $response array.
         $response['products'] = $products;
         $response['categories'] = $categories;
         $response['users'] = $users;
