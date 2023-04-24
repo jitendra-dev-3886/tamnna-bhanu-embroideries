@@ -18,7 +18,7 @@ class Dashboard extends Mixins(CommonServices) {
         completed: "0",
     };
 
-    get allTickets() {
+    get allData() {
         return (
             Number(this.dashboardData.customers) +
             Number(this.dashboardData.categories) +
@@ -30,7 +30,7 @@ class Dashboard extends Mixins(CommonServices) {
     get canTicketCounterAccessible(): boolean {
         return isPermission(
             PermissionModule.userPermissions,
-            this.$getConst("TICKETS"),
+            this.$getConst("DASHBOARD"),
             "getTicketStatusCount"
         );
     }
@@ -46,7 +46,7 @@ class Dashboard extends Mixins(CommonServices) {
     created(): void {
         if (this.canTicketCounterAccessible) {
             CommonModule.getAll({
-                apiName: "get-ticket-status-count",
+                apiName: "dashboards",
                 pagination: {},
             }).then(
                 (response: AxiosResponse<ResponseResult<unknown>>) => {

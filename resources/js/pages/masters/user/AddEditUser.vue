@@ -34,7 +34,7 @@
                             >
                                 <v-text-field
                                     v-model="model.name"
-                                    label="Name*"
+                                    label="Name"
                                     name="name"
                                     v-validate="'required|max:191'"
                                     maxlength="191"
@@ -49,7 +49,7 @@
                                 <v-select
                                     v-model="model.role_id"
                                     v-validate="'required'"
-                                    label="Role*"
+                                    label="Role"
                                     name="role_id"
                                     :items="roleList"
                                     item-text="name"
@@ -69,8 +69,6 @@
                                     v-model="model.company_name"
                                     label="Company Name*"
                                     name="company_name"
-                                    v-validate="'required'"
-                                    :error-messages="getErrorValue('company_name', errors, validationMessages)"
                                 />
                             </v-flex>
                             <v-flex
@@ -83,8 +81,6 @@
                                     v-model="model.city"
                                     label="City*"
                                     name="city"
-                                    v-validate="'required'"
-                                    :error-messages="getErrorValue('city', errors, validationMessages)"
                                 />
                             </v-flex>
                             <v-flex
@@ -94,7 +90,7 @@
 
                             >
                                 <v-text-field
-                                    v-model="model.contact_number"
+                                    v-model="model.email"
                                     label="Email*"
                                     name="email"
                                     v-validate="'required|email|max:191'"
@@ -131,6 +127,20 @@
                                           }
                                 "
                                     :error-messages="getErrorValue('password', errors, validationMessages)"
+                                />
+                            </v-flex>
+                            <v-flex
+                                xs12
+                                lg6
+                                class="p-md-2"
+
+                            >
+                                <v-text-field
+                                    v-model="model.contact_number"
+                                    label="Mobile Number*"
+                                    name="contact_number"
+                                    v-validate="'required|min:10'"
+                                    :error-messages="getErrorValue('contact_number', errors, validationMessages)"
                                 />
                             </v-flex>
                     </v-layout>

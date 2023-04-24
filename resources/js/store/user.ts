@@ -60,6 +60,8 @@ function getEmptyState() {
             name:'',
             contact_number:'',
             company_name:'',
+            password:'',
+            city:'',
             email_verified_at:"",
             role_id: "",
             role: {
@@ -88,6 +90,8 @@ function getEmptyState() {
             name:" ",
             contact_number:" ",
             company_name:'',
+            password:'',
+            city:'',
             email_verified_at:"",
             role_id: "",
             role: {
@@ -97,7 +101,7 @@ function getEmptyState() {
                 name:""
             }
         },
-        defaultRouteUrl: "/users",
+        defaultRouteUrl: "/dashboard",
     };
 }
 

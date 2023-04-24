@@ -119,12 +119,12 @@
                         <v-flex
                             xs12
                             lg12
+                            v-show="!isEditMode"
                             class="p-md-2"
                         >
                             <v-file-input
                                 id="featured_image"
                                 ref="featured_image"
-
                                 v-model="model.featured_image"
                                 v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
                                 attach
@@ -140,6 +140,7 @@
                                 "
                                 @click:clear="model.featured_image='' "
                                 aria-label="Featured_image"
+
                             />
                         </v-flex>
                     </v-layout>

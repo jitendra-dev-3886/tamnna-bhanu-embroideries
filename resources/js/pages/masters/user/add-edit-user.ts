@@ -55,6 +55,16 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                             value: 'Email is invalid'
                         }
                     ],
+                    contact_number:[
+                        {
+                            key:'required',
+                            value:'Mobile Number Required'
+                        },
+                        {
+                            key:'min',
+                            value:'Mobile Number should be of 10 digits'
+                        }
+                    ],
 
                     password: [
                         {
@@ -63,7 +73,7 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                         },
                         {
                             key: "min",
-                            value: "Password length should be at least 8",
+                            value: "Password length should be at least 8 characters",
                         },
                         {
                             key: "max",
@@ -78,7 +88,7 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                     role_id: [
                         {
                             key: 'required',
-                            value: 'Role Id required'
+                            value: 'Role required'
                         },
                     ],
                     company_name: [
@@ -220,13 +230,13 @@ class AddEditUser extends Mixins(CommonServices, CommonApis) {
                 >;
                 if (castedUserResponse?.data?.data) {
                     const userModel: IUserModel = {
-                        email: " ",
-                        password: " ",
-                        role_id: " ",
-                        name:" ",
-                        contact_number:" ",
-                        company_name:" ",
-                        city:" "
+                        email: castedUserResponse.data?.data?.email,
+                        password: castedUserResponse.data?.data?.password,
+                        role_id: castedUserResponse.data?.data?.role_id,
+                        name:castedUserResponse.data?.data?.name,
+                        contact_number:castedUserResponse.data?.data?.contact_number,
+                        company_name:castedUserResponse.data?.data?.company_name,
+                        city:castedUserResponse.data?.data?.city
                     };
 
                     UserModule.SET_MODEL(userModel);

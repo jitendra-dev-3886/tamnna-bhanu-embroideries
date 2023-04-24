@@ -25,10 +25,6 @@
                     <tbody>
 
                         <tr>
-                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Email/Contact_number:</td>
-                            <td class="font-weight-regular font-size-h6-sm"> {{ model.contact_number }}</td>
-                        </tr>
-                        <tr>
                             <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Name:</td>
                             <td class="font-weight-regular font-size-h6-sm"> {{ model.name }}</td>
                         </tr>
@@ -39,6 +35,14 @@
                         <tr>
                             <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Role:</td>
                             <td class="font-weight-regular font-size-h6-sm"> {{ model.role.name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Email:</td>
+                            <td class="font-weight-regular font-size-h6-sm"> {{ model.email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Mobile Number:</td>
+                            <td class="font-weight-regular font-size-h6-sm"> {{ model.contact_number }}</td>
                         </tr>
                     </tbody>
                 </table>

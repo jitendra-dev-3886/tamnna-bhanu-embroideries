@@ -20,6 +20,8 @@ import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
 import { IHomeBannerFullResponse } from '../../../../assets/types/homebanner';
 import HomeBannerViewModal from './HomeBannerViewModal.vue';
+import HomeBannerEditImages from './HomeBannerEditImages.vue';
+
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -37,6 +39,7 @@ import {
         ExportBtn,
         MultiDelete,
         HomeBannerViewModal,
+        HomeBannerEditImages,
         Import,
     },
 })
@@ -83,6 +86,7 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
 
 
     homeBannerViewModal = false;
+    homeBannerEditImages=false;
 
     /**
      * Redirect to add homebanner page
@@ -147,6 +151,22 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
                 );
                 HTMLClassModule.removeBodyClassName("page-loading");
                 this.homeBannerViewModal = true;
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+    onEditImages(id: string): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+        HomeBannerModule.getById(id).then(
+            (response: AxiosResponse<ResponseResult<IHomeBannerFullResponse>>) => {
+                HomeBannerModule.SET_VIEW_MODEL(
+                    response.data.data as IHomeBannerFullResponse
+                );
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.homeBannerEditImages = true;
             },
             (error) => {
                 HTMLClassModule.removeBodyClassName("page-loading");

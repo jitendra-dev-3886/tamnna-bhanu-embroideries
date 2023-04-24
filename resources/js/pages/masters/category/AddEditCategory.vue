@@ -88,6 +88,7 @@
                             xs12
                             lg12
                             class="p-md-2"
+                            v-show="!isEditMode"
                         >
                             <v-file-input
                                 id="featured_image"

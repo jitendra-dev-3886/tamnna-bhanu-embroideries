@@ -10,7 +10,13 @@ import {
     mdiPencil,
     mdiPlus,
     mdiUpload,
-    mdiImageEditOutline
+    mdiImageEditOutline,
+    mdiAccountMultiple,
+    mdiShopping,
+    mdiCart,
+    mdiBasket
+
+
 } from "@mdi/js";
 import Component, { mixins } from "vue-class-component";
 import Echo from "laravel-echo";
@@ -56,7 +62,11 @@ class CommonServices extends mixins(CommonDateMethods, CommonErrorMethods) {
         mdiDownload,
         mdiUpload,
         mdiImage,
-        mdiImageEditOutline
+        mdiImageEditOutline,
+        mdiAccountMultiple,
+        mdiShopping,
+        mdiCart,
+        mdiBasket
     };
 
     editorConfig: IObject = {

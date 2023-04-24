@@ -168,6 +168,7 @@
                             xs12
                             lg6
                             class="p-md-2"
+                            v-show="!isEditMode"
                         >
                             <v-file-input
                                 id="featured_image"
@@ -216,6 +217,7 @@
                             xs12
                             lg6
                             class="p-md-2"
+                            v-show="!isEditMode"
                         >
                             <v-file-input
                                 v-model="model.product_galleries"

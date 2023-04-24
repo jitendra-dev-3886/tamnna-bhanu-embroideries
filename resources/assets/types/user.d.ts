@@ -21,6 +21,7 @@ export type ValidationObj = { key: string, value: string }[];
 
 export interface IUserValidations {
     email: ValidationObj;
+    contact_number:ValidationObj;
     password: ValidationObj;
     role_id: ValidationObj;
     name:ValidationObj;
@@ -34,6 +35,8 @@ export interface IUserLightResponse {
     name:string;
     contact_number:string;
     company_name:string;
+    password?: string;
+    city:string
 }
 
 export interface IUserFullResponse extends IUserLightResponse{

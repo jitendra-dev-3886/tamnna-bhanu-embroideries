@@ -1,99 +1,107 @@
 <template>
-    <div v-getTicketStatusCount="$getConst('TICKETS')">
+    <div v-getTicketStatusCount="$getConst('DASHBOARD')">
         <v-layout row wrap class="m-0 card-stretch gutter-b">
             <v-flex xs12 lg12 class="mt-7"></v-flex>
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-info px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
-                    @click="viewTicktLists('-1')"
                 >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-info d-block my-2"
                     >
                         <v-icon class="text-info">{{
-                            icons.mdiPaperclip
+                            icons.mdiAccountMultiple
                         }}</v-icon>
                     </span>
                     <span
                         class="text-info font-weight-bold font-size-h6"
                         v-if="dashboardData"
                     >
-                       Orders:
-                    </span>
-                </div>
-            </v-flex>
-            <v-flex xs12 lg3 md3 sm6>
-                <div
-                    class="bg-light-warning px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
-                    @click="
-                        viewTicktLists(
-                            $getConst('TICKET_STATUS_VALUES').assigned
-                        )
-                    "
-                >
-                    <span
-                        class="svg-icon svg-icon-3x svg-icon-warning d-block my-2"
-                    >
-                        <v-icon class="text-warning">{{
-                            icons.mdiPencil
-                        }}</v-icon>
-                    </span>
-                    <span
-                        class="text-warning font-weight-bold font-size-h6"
-                        v-if="dashboardData"
-                    >
-                        {{ $getConst("TICKET_STATUS_TYPE_TEXT")["0"] }}:
-                        {{ dashboardData.customers }}
+                       Users: {{ dashboardData.users.total_users }}
                     </span>
                 </div>
             </v-flex>
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-danger px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
-                    @click="
-                        viewTicktLists(
-                            $getConst('TICKET_STATUS_VALUES').inProgress
-                        )
-                    "
                 >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-danger d-block my-2"
                     >
                         <v-icon class="text-danger">{{
-                            icons.mdiExport
+                            icons.mdiBasket
                         }}</v-icon>
                     </span>
                     <span
                         class="text-danger font-weight-bold font-size-h6"
                         v-if="dashboardData"
                     >
-                        {{ $getConst("TICKET_STATUS_TYPE_TEXT")["1"] }}:
-                        {{ dashboardData.categories }}
+                    Categories: {{ dashboardData.categories.total_categories }}
                     </span>
                 </div>
             </v-flex>
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-success px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
-                    @click="
-                        viewTicktLists(
-                            $getConst('TICKET_STATUS_VALUES').completed
-                        )
-                    "
-                >
+                   >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-success d-block my-2"
                     >
                         <v-icon class="text-success">{{
-                            icons.mdiDownload
+                            icons.mdiShopping
                         }}</v-icon>
                     </span>
                     <span
-                        class="text-success font-weight-bold font-size-h6"
+                        class="text-success font-weight-bold font-size-h1"
                         v-if="dashboardData"
                     >
-                        {{ $getConst("TICKET_STATUS_TYPE_TEXT")["2"] }}:
-                        {{ dashboardData.completed }}
+                    Products: {{ dashboardData.products.total_products }}
+
+                    </span><br>
+                    <span
+                        class="text-success font-weight-normal font-size-h6"
+                        v-if="dashboardData"
+                    >
+                    Available: {{ dashboardData.products.total_available_products }}
+
+                    </span><br>
+                    <span
+                        class="text-success font-weight-normal font-size-h6"
+                        v-if="dashboardData"
+                    >
+                    Out Of Stock: {{ dashboardData.products.total_out_of_stock_products }}
+
+                    </span>
+                </div>
+            </v-flex>
+            <v-flex xs12 lg3 md3 sm6>
+                <div
+                    class="bg-light-warning px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
+                >
+                    <span
+                        class="svg-icon svg-icon-3x svg-icon-warning d-block my-2"
+                    >
+                        <v-icon class="text-warning">{{
+                            icons.mdiCart
+                        }}</v-icon>
+                    </span>
+                    <span
+                        class="text-warning font-weight-bold font-size-h1"
+                        v-if="dashboardData"
+                    >
+                    Orders: {{ dashboardData.orders.total_orders }}
+                    </span><br>
+                    <span
+                        class="text-warning font-weight-normal font-size-h6"
+                        v-if="dashboardData"
+                    >
+                    Pending: {{ dashboardData.orders.total_pending_orders }}
+                    </span><br>
+                    <span
+                        class="text-warning font-weight-normal font-size-h6"
+                        v-if="dashboardData"
+                    >
+                    Delivered: {{ dashboardData.orders.total_delivered_orders }}
                     </span>
                 </div>
             </v-flex>

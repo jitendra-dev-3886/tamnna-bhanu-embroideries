@@ -153,7 +153,7 @@
                                     {{ icons.mdiImageEditOutline }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('EDIT_TOOLTIP') }}</span>
+                            <span>{{ $getConst('EDIT_IMAGE_TOOLTIP') }}</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -200,7 +200,7 @@
             aria-label="Delete category confirmation modal"
         />
        <HomeBannerViewModal v-model="homeBannerViewModal" aria-label="homebanner view modal" />
-
+    <HomeBannerEditImages v-model="HomeBannerEditImages" aria-lable="homebanner edit images"/>
 
     </div>
 </template>

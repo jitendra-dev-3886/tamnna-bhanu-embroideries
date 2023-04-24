@@ -8,9 +8,7 @@ import PERMISSION_CONSTANTS from "./permission-constants";
 //     Vue.prototype.$getConst = (key) => YOUR_CONSTS[key];
 //   },
 // };
-
 //
-
 const YOUR_CONSTS = {
     DATE_CONST: "dd-MM-yyyy",
     TIME_CONST: "hh:mm:ss a",
@@ -57,6 +55,7 @@ const YOUR_CONSTS = {
     VIEW_DETAILS_TOOLTIP: "View Details",
     DOWNLOAD_TOOLTIP: "Download",
     EDIT_TOOLTIP: "Edit",
+    EDIT_IMAGE_TOOLTIP:"Edit Image",
     DELETE_TOOLTIP: "Delete",
     FILTER_TOOLTIP: "Filter",
     LOGGOFF_TEXT:
@@ -66,7 +65,33 @@ const YOUR_CONSTS = {
     LOGO_IMG: "/images/Logo A.jpg",
     MISSING_PARAM_ID: "Param ID is missing in route",
 
+    DASHBOARD_STATUS_COLORS: {
+        "0": "warning",
+        "1": "error",
+        "2": "success",
+        "3": "error",
+        "4": "error",
+    },
+    DASHBOARD_PRODUCT_STATUS: [
+        { value: "0", label: "Out of Stock" },
+        { value: "1", label: "Available" },
+        { value: "2", label: "Total Number" },
 
+    ],
+    DASHBOARD_ORDER_STATUS_TYPE_TEXT: {
+        "0": "Pending",
+        "1": "Delivered",
+        "2": "Total Number",
+        "3": "Shipped",
+        "4": "Returned",
+    },
+    DASHBOARD_ORDER_STATUS_VALUES: {
+        Pending: "0",
+        Delivered: "1",
+        TotalNumber: "2",
+        Shipped: "3",
+        Returned: "4",
+    },
 
     //  Broadcasting public channel events constant::Begin
     PUBLIC_CHANNELS: [
