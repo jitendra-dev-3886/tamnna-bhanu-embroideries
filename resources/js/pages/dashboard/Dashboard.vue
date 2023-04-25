@@ -17,7 +17,7 @@
                         class="text-info font-weight-bold font-size-h6"
                         v-if="dashboardData"
                     >
-                       Users: {{ dashboardData.users.total_users }}
+                       Customers: {{ dashboardData.users.total_users }}
                     </span>
                 </div>
             </v-flex>

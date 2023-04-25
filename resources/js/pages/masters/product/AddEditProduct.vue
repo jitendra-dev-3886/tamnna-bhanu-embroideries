@@ -67,7 +67,7 @@
                                 v-model="model.price"
                                 label="Price*"
                                 name="price"
-                                v-validate="'required'"
+                                v-validate="'required|numeric'"
                                 :error-messages="
                                     getErrorValue(
                                         'price',
@@ -128,6 +128,7 @@
                                     )
                                 "
                                  aria-label="Category"
+                                 multiple
                             />
                         </v-flex>
 
@@ -201,7 +202,7 @@
                                 v-model="model.stock"
                                 label="Stock"
                                 name="stock"
-
+                                v-validate="'required|numeric'"
                                 :error-messages="
                                     getErrorValue(
                                         'stock',
@@ -233,7 +234,7 @@
                                         validationMessages
                                     )
                                 "
-                                :label="isEditMode ? 'Product Galleries' : 'Product Galleries*' "
+                                :label="isEditMode ? 'Product Galleries' : 'Product Galleries' "
                                 @click:clear="model.product_galleries=[]"
                                 aria-label="Product Galleries"
                             />
@@ -245,11 +246,10 @@
                         >
                         <v-textarea
                                 id="description"
-                                label="Remarks*"
+                                label="Remarks"
                                 v-model="model.description"
                                 name="description"
                                 ref="description"
-                                v-validate="'required'"
                                 auto-grow
                                 outlined
                                 :error-messages="

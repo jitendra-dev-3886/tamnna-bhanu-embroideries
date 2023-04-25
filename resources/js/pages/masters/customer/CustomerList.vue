@@ -57,7 +57,6 @@
                                 xs12
                             >
                                 <div class="float-right mt-4">
-
                                     <export-btn
                                         :export-props="exportProps"
                                         @click.native="setExport()"
@@ -83,6 +82,33 @@
                                 </div>
                             </v-flex>
                         </v-layout>
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+
+                        <template>
+                            <div class="text-center rounded-xl">
+                                <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                    color="primary"
+                                    dark
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    >
+                                    Approve
+                                    </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-item value="1">
+                                    <v-list-item-title>Approve</v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item value="0">
+                                    <v-list-item-title>Disapprove</v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                                </v-menu>
+                            </div>
+                        </template>
                     </template>
                 </v-data-table>
             </v-tab-item>

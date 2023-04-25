@@ -59,7 +59,7 @@
 
                                 />
                             </v-flex>
-                            <v-flex
+                           <!-- <v-flex
                                 xs12
                                 lg6
                                 class="p-md-2"
@@ -82,7 +82,7 @@
                                     label="City*"
                                     name="city"
                                 />
-                            </v-flex>
+                            </v-flex>-->
                             <v-flex
                                 xs12
                                 lg6
@@ -139,7 +139,7 @@
                                     v-model="model.contact_number"
                                     label="Mobile Number*"
                                     name="contact_number"
-                                    v-validate="'required|min:10'"
+                                    v-validate="'min:10'"
                                     :error-messages="getErrorValue('contact_number', errors, validationMessages)"
                                 />
                             </v-flex>

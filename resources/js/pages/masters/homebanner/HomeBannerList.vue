@@ -200,7 +200,7 @@
             aria-label="Delete category confirmation modal"
         />
        <HomeBannerViewModal v-model="homeBannerViewModal" aria-label="homebanner view modal" />
-    <HomeBannerEditImages v-model="HomeBannerEditImages" aria-lable="homebanner edit images"/>
+    <!--<HomeBannerEditImages v-model="HomeBannerEditImages" aria-lable="homebanner edit images"/>-->
 
     </div>
 </template>

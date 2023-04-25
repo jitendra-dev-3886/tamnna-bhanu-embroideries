@@ -1,12 +1,12 @@
 import { Component, Mixins } from "vue-property-decorator";
 import CommonServices from "../../../mixins/common";
 import CommonApis from "../../../mixins/common-apis";
-import ErrorBlockServer from "../../../components/ErrorBlockServer.vue"; 
+import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 import { HTMLClassModule } from "../../../store/htmlclass";
 import { ProductModule } from "../../../store/product";
 import { SnackbarModule } from "../../../store/snackbar";
 
-import { 
+import {
     IProductModel,
     IProductFullResponse,
     IProductValidations,
@@ -20,7 +20,7 @@ import { AxiosResponse } from "axios";
 
 
 import {
-    ResponseResult, 
+    ResponseResult,
 } from "../../../../assets/types/common";
 
 
@@ -28,7 +28,7 @@ import {
 @Component({
     components: {
         ErrorBlockServer,
-        
+
     },
 })
 class AddEditProduct extends Mixins(CommonServices, CommonApis) {
@@ -36,8 +36,8 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
 
     errorMessage = "";
 
-    validationMessages: IProductValidations = { 
-            
+    validationMessages: IProductValidations = {
+
                 name: [
                     {
                         key: 'required',
@@ -48,21 +48,25 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                         value: 'Maximum length should be 191'
                     },
                 ],
-            
+
                 price: [
                     {
                         key: 'required',
                         value: 'Price required'
                     },
+                    {
+                        key:'numeric',
+                        value:'Enter valid number for price of the product'
+                    }
                 ],
-            
+
                 description: [
                     {
                         key: 'required',
                         value: 'Description required'
                     },
                 ],
-            
+
                 item_code: [
                     {
                         key: 'required',
@@ -73,24 +77,32 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                         value: 'Maximum length should be 191'
                     },
                 ],
-            
+
                 category_id: [
                     {
                         key: 'required',
                         value: 'Category required'
                     },
                 ],
-            
+
                 available_status: [
                     {
                         key: 'required',
-                        value: 'Available Status required'
+                        value: 'Availability required'
                     },
                 ],
-            
+
                 stock: [
+                    {
+                        key: 'required',
+                        value: 'Available Number of Stock required'
+                    },
+                    {
+                        key:'numeric',
+                        value:'Enter valid number for stock available'
+                    }
                 ],
-            
+
                 featured_image: [
                     {
                         key: 'required',
@@ -101,7 +113,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                         value: 'Maximum length should be 500'
                     },
                 ],
-            
+
                 product_galleries: [
                     {
                         key: 'required',
@@ -127,7 +139,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     };
 
     isSubmitting = false;
-     
+
     isDataLoading= false;
 
     get model(): IProductModel {
@@ -137,14 +149,14 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     get isEditMode(): boolean {
         return ProductModule.editId ? ProductModule.editId > 0 : false;
     }
-    
+
     get categoryList(): ICategoryLightResponse[] {
         return CategoryModule.categoryList;
     }
-    
+
 
     //Methods
-    
+
     /**
      * Register Submit Method - Form Data
      */
@@ -158,7 +170,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
 
                 const formData = new FormData();
 
-                
+
             formData.append('name', self.model.name);
             formData.append('price', self.model.price);
             formData.append('description', self.model.description);
@@ -167,7 +179,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             formData.append('available_status', self.model.available_status);
             formData.append('stock', self.model.stock);
             formData.append('featured_image', self.model.featured_image);
-            
+
                 // Multiple Product Gallery array
                 if (
                     self.model.product_galleries &&
@@ -188,7 +200,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                     apiName = "edit";
                     editId = ProductModule.editId;
                 } else {
-                    
+
                 }
 
                 ProductModule[apiName]({ model: formData, editId }).then(
@@ -218,7 +230,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         this["$router"].push("/masters/product");
     }
 
-    
+
 
 
      /**
@@ -256,20 +268,20 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 >;
                 if (castedProductResponse?.data?.data) {
 
-                    
+
 
                     const productModel: IProductModel = {
-                        name: castedProductResponse.data?.data?.name, 
-            price: castedProductResponse.data?.data?.price, 
-            description: castedProductResponse.data?.data?.description, 
-            item_code: castedProductResponse.data?.data?.item_code, 
-            category_id: castedProductResponse.data?.data?.category_id, 
-            available_status: castedProductResponse.data?.data?.available_status, 
-            stock: castedProductResponse.data?.data?.stock, 
-            featured_image: castedProductResponse.data?.data?.featured_image, 
+                        name: castedProductResponse.data?.data?.name,
+            price: castedProductResponse.data?.data?.price,
+            description: castedProductResponse.data?.data?.description,
+            item_code: castedProductResponse.data?.data?.item_code,
+            category_id: castedProductResponse.data?.data?.category_id,
+            available_status: castedProductResponse.data?.data?.available_status,
+            stock: castedProductResponse.data?.data?.stock,
+            featured_image: castedProductResponse.data?.data?.featured_image,
             product_galleries: [],
                     };
-                    
+
                     ProductModule.SET_MODEL(productModel);
                 }
             },
@@ -278,7 +290,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             }
         );
 
-        
+
         if (this.done24Hours('add-edit-product-call')) {
             this.commonDataFetch();
         }

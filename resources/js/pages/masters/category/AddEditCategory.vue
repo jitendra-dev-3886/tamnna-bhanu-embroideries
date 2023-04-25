@@ -66,7 +66,6 @@
                                 v-model="model.description"
                                 name="description"
                                 ref="description"
-                                v-validate="'required'"
                                 auto-grow
                                 outlined
                                 :error-messages="

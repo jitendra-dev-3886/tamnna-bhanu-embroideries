@@ -7,14 +7,14 @@ import {
     Mutation,
     getModule,
 } from "vuex-module-decorators";
-import {   
+import {
     IImportReqParams,
     IImportResponse,
-    ResponseResult,  
+    ResponseResult,
     IDeleteProps
 } from "../../assets/types/common";
 import {
-    isExistInLocalStorage    
+    isExistInLocalStorage
 } from "@/filters/common";
 import {
     IProductModel,
@@ -27,8 +27,8 @@ import { AxiosResponse } from "axios";
 
 // mutation types
 function getEmptyState() {
-    return {        
-        
+    return {
+
         galleryList: [],
         productList: [],
         model: {
@@ -37,12 +37,12 @@ function getEmptyState() {
             description: "",
             item_code: "",
             category_id: "",
-            available_status: "",
+            available_status: "1",
             stock: "",
             featured_image: "",
             product_galleries: [],
         },
-        viewModel: { 
+        viewModel: {
             id: "",
             name: "",
             price: "",
@@ -50,10 +50,10 @@ function getEmptyState() {
             item_code: "",
             category_id: "",
             available_status: "",
-            available_status_text: "",
+            available_status_text:" ",
             stock: "",
             featured_image: "",
-            product_galleries: [], 
+            product_galleries: [],
             category: {
                 id: "",
                 name: "",
@@ -64,7 +64,7 @@ function getEmptyState() {
         editId: 0,
     };
 }
-export interface IProduct {    
+export interface IProduct {
     productList: IProductLightResponse[];
     model: IProductModel;
     galleryList: IProductGalleries[];
@@ -79,9 +79,9 @@ export interface IProduct {
     namespaced: true,
     preserveState: isExistInLocalStorage("product"),
 })
-class Product extends VuexModule implements IProduct {    
+class Product extends VuexModule implements IProduct {
     public productList: IProductLightResponse[] = getEmptyState().productList;
-    
+
     public galleryList: IProductGalleries[] = getEmptyState().galleryList;
     public model: IProductModel = getEmptyState().model;
     public viewModel: IProductFullResponse = getEmptyState().viewModel;
@@ -104,7 +104,7 @@ class Product extends VuexModule implements IProduct {
         this.galleryList = this.viewModel.product_galleries;
     }
 
-    
+
 
     @Mutation
     SET_GALLERY_LIST(payload: IProductGalleries[]) {
@@ -131,7 +131,7 @@ class Product extends VuexModule implements IProduct {
         this.viewModel = getEmptyState().viewModel;
     }
 
-    
+
 
     /**
      * Used for add product
@@ -243,7 +243,7 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
-    
+
 
     /**
      *  Manage Gallery
@@ -288,7 +288,7 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
-    
+
     /**
      * Used for import zip functionality (upload file)
      * @param param
@@ -306,7 +306,7 @@ class Product extends VuexModule implements IProduct {
                     reject(e);
                 });
         });
-    }    
+    }
 
 }
 

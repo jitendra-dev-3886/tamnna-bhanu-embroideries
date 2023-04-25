@@ -37,13 +37,13 @@ function getEmptyState() {
         homeBannerList: [],
         model: {
            name: "",
-           banner_status: "",
+           banner_status: "1",
             featured_image: "",
         },
         viewModel: {
             id: "",
             name: "",
-            banner_status: "",
+            banner_status: "1",
             featured_image: "",
         },
         editId: 0,

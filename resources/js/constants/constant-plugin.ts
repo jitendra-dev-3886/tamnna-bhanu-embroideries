@@ -58,6 +58,7 @@ const YOUR_CONSTS = {
     EDIT_IMAGE_TOOLTIP:"Edit Image",
     DELETE_TOOLTIP: "Delete",
     FILTER_TOOLTIP: "Filter",
+    APPROVE_CUSTOMER_TOOLTIP:"Approve",
     LOGGOFF_TEXT:
         "You have been logged off. Please enter your password to login.",
     SUPER_ADMIN_DELETE_WARNING: "Super admin can not be deleted.",
