@@ -1,10 +1,11 @@
 <template>
-    <div v-getTicketStatusCount="$getConst('DASHBOARD')">
+    <div>
         <v-layout row wrap class="m-0 card-stretch gutter-b">
             <v-flex xs12 lg12 class="mt-7"></v-flex>
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-info px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
+                    @click="redirectTo(1)"
                 >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-info d-block my-2"
@@ -24,6 +25,7 @@
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-danger px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
+                    @click="redirectTo(2)"
                 >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-danger d-block my-2"
@@ -43,6 +45,7 @@
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-success px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
+                    @click="redirectTo(3)"
                    >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-success d-block my-2"
@@ -57,26 +60,13 @@
                     >
                     Products: {{ dashboardData.products.total_products }}
 
-                    </span><br>
-                    <span
-                        class="text-success font-weight-normal font-size-h6"
-                        v-if="dashboardData"
-                    >
-                    Available: {{ dashboardData.products.total_available_products }}
-
-                    </span><br>
-                    <span
-                        class="text-success font-weight-normal font-size-h6"
-                        v-if="dashboardData"
-                    >
-                    Out Of Stock: {{ dashboardData.products.total_out_of_stock_products }}
-
                     </span>
                 </div>
             </v-flex>
             <v-flex xs12 lg3 md3 sm6>
                 <div
                     class="bg-light-warning px-6 py-8 rounded-xl ml-7 mr-7 mb-7 cursor-pointer"
+                    @click="redirectTo(4)"
                 >
                     <span
                         class="svg-icon svg-icon-3x svg-icon-warning d-block my-2"
@@ -90,18 +80,6 @@
                         v-if="dashboardData"
                     >
                     Orders: {{ dashboardData.orders.total_orders }}
-                    </span><br>
-                    <span
-                        class="text-warning font-weight-normal font-size-h6"
-                        v-if="dashboardData"
-                    >
-                    Pending: {{ dashboardData.orders.total_pending_orders }}
-                    </span><br>
-                    <span
-                        class="text-warning font-weight-normal font-size-h6"
-                        v-if="dashboardData"
-                    >
-                    Delivered: {{ dashboardData.orders.total_delivered_orders }}
                     </span>
                 </div>
             </v-flex>

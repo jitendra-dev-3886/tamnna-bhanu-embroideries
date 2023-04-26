@@ -62,7 +62,7 @@
                         >
                             <v-textarea
                                 id="description"
-                                label="Remarks*"
+                                label="Remarks"
                                 v-model="model.description"
                                 name="description"
                                 ref="description"

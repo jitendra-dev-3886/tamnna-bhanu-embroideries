@@ -110,4 +110,4 @@
 </v-dialog>
 </template>
 
-<script src="./homebanner-edit-images.ts"></script>
+<script src="./category-edit-images.ts"></script>

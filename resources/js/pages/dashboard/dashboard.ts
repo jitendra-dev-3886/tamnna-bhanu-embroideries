@@ -35,12 +35,19 @@ class Dashboard extends Mixins(CommonServices) {
         );
     }
 
-    viewTicktLists(statusType: string): void {
-        if (statusType == "-1") {
-            this.$router.push("/masters/ticket");
-        } else {
-            this.$router.push(`/masters/ticket/${statusType}`);
+   redirectTo(path: number): void {
+        if (path == 1) {
+            this.$router.push("/masters/customer");
+        } else if(path==2){
+            this.$router.push(`/masters/category`);
         }
+        else if(path==3){
+            this.$router.push(`/masters/product`);
+        }
+        else{
+            this.$router.push(`/masters/order`);
+        }
+
     }
 
     created(): void {

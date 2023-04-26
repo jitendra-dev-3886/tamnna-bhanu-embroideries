@@ -1,8 +1,8 @@
-import CommonServices from "@/mixins/common";
+
 import { Prop } from "vue-property-decorator";
-import { HomeBannerModule } from "@/store/homebanner";
+import { CategoryModule } from "@/store/category";
 import CommonApis from "@/mixins/common-apis";
-import { IHomeBannerFullResponse } from "../../../../assets/types/homebanner";
+import { ICategoryFullResponse } from "../../../../assets/types/category";
 import Component, { mixins } from "vue-class-component";
 import DeleteModal from "../../../components/DeleteModal.vue";
 
@@ -17,10 +17,10 @@ import {
 import ServerTable from "@/mixins/customtable/server-table";
 @Component({
     components: {
-        DeleteModal,
+        DeleteModal
     },
 })
-class HomeBannerEditImages extends mixins(ServerTable, CommonApis) {
+class CategoryEditImages extends mixins(ServerTable, CommonApis) {
     modalOpen=false;
     confirmation: IConfirmationProps = {
         title: "",
@@ -38,18 +38,18 @@ class HomeBannerEditImages extends mixins(ServerTable, CommonApis) {
     };
     @Prop({ default: false }) value!: boolean;
 
-    get model(): IHomeBannerFullResponse {
-        return HomeBannerModule.viewModel;
+    get model(): ICategoryFullResponse {
+        return CategoryModule.viewModel;
     }
 
     onCancel(): void {
-        this.onModalClear("homebanner", "CLEAR_STORE");
-        this["$router"].push("/masters/homebanner");
+        this.onModalClear("category", "CLEAR_STORE");
+        this["$router"].push("/masters/category");
     }
     deleteItem(id: string | number): void {
         alert("Are you sure you want to delete the image?");
         this.paramProps.idProps = id;
-        this.paramProps.storeProps = "homebanner";
+        this.paramProps.storeProps = "category";
         this.confirmation.title = this.$getConst("DELETE_TITLE");
         this.confirmation.description = this.$getConst("WARNING");
         this.modalOpen = true;
@@ -57,4 +57,4 @@ class HomeBannerEditImages extends mixins(ServerTable, CommonApis) {
 
 
 }
-export default HomeBannerEditImages;
+export default CategoryEditImages;

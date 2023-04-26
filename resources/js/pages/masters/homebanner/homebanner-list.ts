@@ -107,7 +107,6 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
         this.exportProps.ids = rowIds;
         (<any>this.$refs.exportbtn).exportToCSV();
     }
-
     /**
      * Delete homebanner
      * @param id
@@ -139,8 +138,8 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
         this["$router"].push("/masters/homebanner/edit/" + id);
     }
     onEditImage(id: string): void {
-        HomeBannerModule.SET_EDIT_ID(id);
-        this["$router"].push("/masters/homebanner/edit-image/" + id);
+       //HomeBannerModule.SET_EDIT_ID(id);
+       //this["$router"].push("/masters/homebanner/edit-image/" + id);
         HTMLClassModule.addBodyClassName("page-loading");
         HomeBannerModule.getById(id).then(
             (response: AxiosResponse<ResponseResult<IHomeBannerFullResponse>>) => {
@@ -148,7 +147,7 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
                     response.data.data as IHomeBannerFullResponse
                 );
                 HTMLClassModule.removeBodyClassName("page-loading");
-                this.homeBannerViewModal = true;
+                this.homeBannerEditImages = true;
             },
             (error) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
@@ -176,22 +175,6 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
             }
         );
     }
-    onEditImages(id: string): void {
-        HTMLClassModule.addBodyClassName("page-loading");
-        HomeBannerModule.getById(id).then(
-            (response: AxiosResponse<ResponseResult<IHomeBannerFullResponse>>) => {
-                HomeBannerModule.SET_VIEW_MODEL(
-                    response.data.data as IHomeBannerFullResponse
-                );
-                HTMLClassModule.removeBodyClassName("page-loading");
-                this.homeBannerEditImages = true;
-            },
-            (error) => {
-                HTMLClassModule.removeBodyClassName("page-loading");
-                this.showDialog(this.getAPIErrorMessage(error.response));
-            }
-        );
-    }
 
     refreshData(): void {
         const self = this;
@@ -206,9 +189,6 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
             }
         }, 100);
     }
-
-
-
 
     created(): void {
 

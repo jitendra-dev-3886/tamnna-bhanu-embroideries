@@ -1,34 +1,35 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteModal from "../../../components/DeleteModal.vue";
 import ExportBtn from "../../../components/ExportBtn.vue";
 import ColumnVisibilityBtn from "../../../components/ColumnVisibilityBtn.vue";
-import MultiDelete from "../../../components/MultiDelete.vue"; 
+import MultiDelete from "../../../components/MultiDelete.vue";
 import Import from "../../../components/Import.vue";
 import CommonApis from "../../../mixins/common-apis";
 import CategoryViewModal from "./CategoryViewModal.vue";
-import { HTMLClassModule } from "../../../store/htmlclass"; 
+import CategoryEditImagesVue from "./CategoryEditImages.vue";
+import { HTMLClassModule } from "../../../store/htmlclass";
 import Component, { mixins } from "vue-class-component";
 import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 
 import { CategoryModule } from "../../../store/category";
 
 import {
-    ITableHeaders, 
+    ITableHeaders,
 } from "../../../../assets/types/table";
 
-import {  
+import {
     ICategoryFullResponse,
 } from "../../../../assets/types/category";
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
+import CategoryEditImages from './category-edit-images';
 import {
     IConfirmationProps,
     IDeleteProps,
     IExportProps,
     IImportProps,
-    IParamProps,   
-    ResponseResult, 
+    IParamProps,
+    ResponseResult,
 } from "../../../../assets/types/common";
 
 @Component({
@@ -39,7 +40,8 @@ import {
         ExportBtn,
         MultiDelete,
         CategoryViewModal,
-        Import,  
+        CategoryEditImagesVue,
+        Import,
     },
 })
 class Category extends mixins(ServerTable, CommonApis) {
@@ -54,7 +56,7 @@ class Category extends mixins(ServerTable, CommonApis) {
         { text: 'Featured Image', value: 'featured_image' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
-            
+
     customSortableKeys = {
             };
     confirmation: IConfirmationProps = {
@@ -72,22 +74,22 @@ class Category extends mixins(ServerTable, CommonApis) {
         modelName: "category", //as per Module Name
         multiple: false,
     };
-    
+
     exportProps: IExportProps = {
-        ids: "",        
+        ids: "",
         fileName: "Category",
-        apiName: "categories-export",                
+        apiName: "categories-export",
     };
     paramProps: IParamProps = {
         idProps: "",
         storeProps: "",
     };
-    
-    
-    categoryViewModal = false;
 
-    
-    
+
+    categoryViewModal = false;
+    categoryEditImages=false;
+
+
 
     /**
      * Redirect to add category page
@@ -105,7 +107,7 @@ class Category extends mixins(ServerTable, CommonApis) {
             rowIds[index] = element.id;
         });
 
-        this.exportProps.ids = rowIds;        
+        this.exportProps.ids = rowIds;
         (<any>this.$refs.exportbtn).exportToCSV();
     }
 
@@ -139,6 +141,24 @@ class Category extends mixins(ServerTable, CommonApis) {
         CategoryModule.SET_EDIT_ID(id);
         this["$router"].push("/masters/category/edit/" + id);
     }
+
+    onEditImage(id: string): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+        CategoryModule.getById(id).then(
+            (response: AxiosResponse<ResponseResult<ICategoryFullResponse>>) => {
+                CategoryModule.SET_VIEW_MODEL(
+                    response.data.data as ICategoryFullResponse
+                );
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.categoryEditImages = true;
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+
     /**
      * View Category
      * @param id
@@ -160,11 +180,11 @@ class Category extends mixins(ServerTable, CommonApis) {
         );
     }
 
-    
-    
+
+
 
     refreshData(): void {
-        const self = this;        
+        const self = this;
         setTimeout(function () {
             if (self.tab == "tab1") {
                 self.refresh();
@@ -177,11 +197,11 @@ class Category extends mixins(ServerTable, CommonApis) {
         }, 100);
     }
 
-    
-    
+
+
 
     created(): void {
-        
+
     }
 }
 export default Category;

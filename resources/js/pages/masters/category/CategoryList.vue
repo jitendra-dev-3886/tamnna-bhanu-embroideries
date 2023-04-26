@@ -1,3 +1,4 @@
+import CategoryEditImages from './category-edit-images';
 <template>
     <div>
         <v-tabs
@@ -209,6 +210,7 @@
             aria-label="Delete category confirmation modal"
         />
         <category-view-modal v-model="categoryViewModal" aria-label="category view modal" />
+        <CategoryEditImages v-model="categoryEditImages" aria-label="categoryEditImages"/>
 
 
     </div>

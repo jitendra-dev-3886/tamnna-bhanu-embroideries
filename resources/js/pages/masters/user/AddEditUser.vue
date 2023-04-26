@@ -34,7 +34,7 @@
                             >
                                 <v-text-field
                                     v-model="model.name"
-                                    label="Name"
+                                    label="Name*"
                                     name="name"
                                     v-validate="'required|max:191'"
                                     maxlength="191"
@@ -49,7 +49,7 @@
                                 <v-select
                                     v-model="model.role_id"
                                     v-validate="'required'"
-                                    label="Role"
+                                    label="Role*"
                                     name="role_id"
                                     :items="roleList"
                                     item-text="name"

@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <v-tabs
@@ -197,10 +196,10 @@
             :param-props="paramProps"
             @delete-success="getData(), selected=[]"
             v-model="modalOpen"
-            aria-label="Delete category confirmation modal"
+            aria-label="Delete homebanner confirmation modal"
         />
        <HomeBannerViewModal v-model="homeBannerViewModal" aria-label="homebanner view modal" />
-    <!--<HomeBannerEditImages v-model="HomeBannerEditImages" aria-lable="homebanner edit images"/>-->
+       <HomeBannerEditImages v-model="homeBannerEditImages" aria-lable="homebanner edit images"/>
 
     </div>
 </template>

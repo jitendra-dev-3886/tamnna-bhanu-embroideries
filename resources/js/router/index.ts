@@ -208,18 +208,7 @@ const routes: RouteConfig[] = [
                                   title: `Home Banners${siteName}`,
                                   pageTitle: 'Home Banners Management',
                               },
-                           },
-                           {
-                            path: 'edit-image/:id',
-                            name: 'edit-image-homebanner',
-                            component: () => import('../pages/masters/homebanner/HomeBannerEditImages.vue'),
-                            meta: {
-                                requiresAuth: true,
-                                permission: 'homebanners',
-                                title: `Home Banners${siteName}`,
-                                pageTitle: 'Home Banners Management',
-                            },
-                         },
+                           }
                         ]
                       },
             {

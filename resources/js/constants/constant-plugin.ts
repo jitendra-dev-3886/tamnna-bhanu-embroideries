@@ -66,6 +66,11 @@ const YOUR_CONSTS = {
     LOGO_IMG: "/images/Logo A.jpg",
     MISSING_PARAM_ID: "Param ID is missing in route",
 
+    DASHBOARD_REDIRECT_CUSTOMERS:1,
+    DASHBOARD_REDIRECT_CATEGORIES:2,
+    DASHBOARD_REDIRECT_PRODUCTS:3,
+    DASHBOARD_REDIRECT_ORDERS:4,
+
     DASHBOARD_STATUS_COLORS: {
         "0": "warning",
         "1": "error",
