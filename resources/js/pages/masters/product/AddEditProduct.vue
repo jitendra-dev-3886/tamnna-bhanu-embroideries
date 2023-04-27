@@ -177,9 +177,11 @@
                                 v-model="model.featured_image"
                                 v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
                                 attach
-                                :label="isEditMode ? 'Featured Image' : 'Featured Image*' "
                                 name="featured_image"
+                                label="Feature Image*"
+                                accept="image/*"
                                 hint="Maximum 500KB"
+                                counter="1"
                                 :error-messages="
                                     getErrorValue(
                                         'featured_image',
@@ -224,6 +226,7 @@
                                 v-model="model.product_galleries"
                                 v-validate.continues="isEditMode ? 'ext:jpeg,png,jpg,gif,svg|size:4096|valid_file_length:5' : 'required|ext:jpeg,png,jpg,gif,svg|size:4096|valid_file_length:5'"
                                 multiple
+                                accept="image/*"
                                 name="product_galleries"
                                 hint="Maximum 4MB"
                                 counter="5"

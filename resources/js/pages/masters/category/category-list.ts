@@ -5,7 +5,7 @@ import MultiDelete from "../../../components/MultiDelete.vue";
 import Import from "../../../components/Import.vue";
 import CommonApis from "../../../mixins/common-apis";
 import CategoryViewModal from "./CategoryViewModal.vue";
-import CategoryEditImagesVue from "./CategoryEditImages.vue";
+import CategoryEditImages from "./CategoryEditImages.vue";
 import { HTMLClassModule } from "../../../store/htmlclass";
 import Component, { mixins } from "vue-class-component";
 import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
@@ -22,7 +22,7 @@ import {
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
-import CategoryEditImages from './category-edit-images';
+
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -40,7 +40,7 @@ import {
         ExportBtn,
         MultiDelete,
         CategoryViewModal,
-        CategoryEditImagesVue,
+        CategoryEditImages,
         Import,
     },
 })
@@ -53,7 +53,7 @@ class Category extends mixins(ServerTable, CommonApis) {
     headers: ITableHeaders[] = [
         { text: 'Name', value: 'name' },
         { text: 'Description', value: 'description' },
-        { text: 'Featured Image', value: 'featured_image' },
+        { text: 'Feature Image', value: 'featured_image' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
 
@@ -179,10 +179,6 @@ class Category extends mixins(ServerTable, CommonApis) {
             }
         );
     }
-
-
-
-
     refreshData(): void {
         const self = this;
         setTimeout(function () {
@@ -196,10 +192,6 @@ class Category extends mixins(ServerTable, CommonApis) {
             }
         }, 100);
     }
-
-
-
-
     created(): void {
 
     }

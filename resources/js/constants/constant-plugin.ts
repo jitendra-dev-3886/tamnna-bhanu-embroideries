@@ -49,7 +49,7 @@ const YOUR_CONSTS = {
     SELECT_FILE_LABEL: "Click here to upload csv file",
     SELECT_ZIP_LABEL: "Click here to upload zip",
 
-    MANAGE_PRODUCT_GALLERY_TOOLTIP:"Manage Products Gallery",
+    MANAGE_IMAGES:"Manage Images",
     VIEW_PRODUCT_GALLERY_TOOLTIP:"View Gallery",
     COLUMN_TOOLTIP: "Columns Visibility",
     VIEW_DETAILS_TOOLTIP: "View Details",

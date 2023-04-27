@@ -265,7 +265,7 @@
                                 </v-icon>
                             </template>
                             <span>{{
-                                $getConst("MANAGE_PRODUCT_GALLERY_TOOLTIP")
+                                $getConst("MANAGE_IMAGES")
                             }}</span>
                         </v-tooltip>
                         <!-- Manage Gallery End -->

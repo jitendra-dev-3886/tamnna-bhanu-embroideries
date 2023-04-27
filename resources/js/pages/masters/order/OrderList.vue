@@ -188,9 +188,15 @@
                     <template v-slot:[`item.user_id`]="{ item }">
                         <span v-if="item.user">{{ item.user.name }}</span>
                     </template>
-
                     <template v-slot:[`item.order_status`]="{ item }">
                         <span v-if="item.order_status_text">{{ item.order_status_text }}</span>
+                    </template>
+
+                    <template v-slot:[`item.gst`]="{ item }">
+                        <span>{{ parseFloat(item.gst).toFixed() }}</span>
+                    </template>
+                    <template v-slot:[`item.payment_amount`]="{ item }">
+                        <span>{{ parseFloat(item.payment_amount).toFixed() }}</span>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
 

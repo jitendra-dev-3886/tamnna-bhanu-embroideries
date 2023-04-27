@@ -34,9 +34,9 @@
                     <td>
                         <v-file-input
                             show-size
-                            counter
-                            multiple
-                            label="File input"
+                            counter="1"
+                            label="Choose an image file"
+                            accept="image/*"
                             @click:clear="model.featured_image='' "
                         >
                         </v-file-input>
@@ -49,7 +49,7 @@
                                 class="btn btn-theme float-xs-none"
                                 :loading="addImagesLoading"
                                 :disabled="isUploading"
-                                >Upload Image
+                                >Upload
                             </v-btn>
                         </v-flex>
                     </td>

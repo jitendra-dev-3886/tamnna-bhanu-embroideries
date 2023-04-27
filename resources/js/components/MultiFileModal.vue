@@ -3,7 +3,7 @@
         :value="fileModal"
         @click:outside="onCancel()"
         @keydown.esc="onCancel"
-        content-class="modal-dialog"
+        content-class="modal-lg modal-dialog view-modal"
     >
         <v-card>
             <v-card-title class="headline black-bg" primary-title>
@@ -16,9 +16,123 @@
             <v-card-text>
                 <ErrorBlockServer :error-message="errorMessage" />
                 <v-layout class="display-block m-0" row wrap>
+                    <div
+                        class="table-responsive table table-cp scrollbar height22 pd-images-table"
+                    >
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Featured Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <v-file-input
+                                            show-size
+                                            counter="1"
+                                            label="Change Featured Image"
+                                            accept="image/*"
+                                            @click:clear="
+                                                model.featured_image = ''
+                                            "
+                                        >
+                                        </v-file-input>
+                                    </td>
+                                    <td>
+                                        <v-flex xs12 sm2 lg2 class="pl-2">
+                                            <v-btn
+                                                color="primary"
+                                                type="submit"
+                                                class="btn btn-theme float-xs-none"
+                                                >Upload
+                                            </v-btn>
+                                        </v-flex>
+                                    </td>
+                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Existing Featured Image</th>
+
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        <a :href="model.featured_image" target="_blank"
+                                ><img
+                                    :src="model.featured_image"
+                                    width="auto"
+                                    height="100px"
+                                    class="mb-4"
+                            />
+                        </a>
+                                    </td>
+                                    <td style="width: 35%">
+                                            <v-tooltip bottom>
+                                                <template
+                                                    v-slot:activator="{ on }"
+                                                >
+                                                    <v-icon
+                                                        @click="
+                                                            confirmDelete(
+                                                                singleFile.id,
+                                                                index
+                                                            )
+                                                        "
+                                                        class="mr-2"
+                                                        small
+                                                        v-on="on"
+                                                        aria-label="Delete image"
+                                                    >
+                                                        {{ icons.mdiDelete }}
+                                                    </v-icon>
+                                                </template>
+                                                <span>{{
+                                                    $getConst("DELETE_TOOLTIP")
+                                                }}</span>
+                                            </v-tooltip>
+                                        </td>
+                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Gallery Images</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        <v-file-input
+                                            show-size
+                                            hint="Maximum 4MB"
+                                            counter="5"
+                                            label="Change Gallery Images"
+                                            accept="image/*"
+                                            @click:clear="
+                                                model.featured_image = ''
+                                            "
+                                        >
+                                        </v-file-input>
+                                    </td>
+                                    <td>
+                                        <v-flex xs12 sm2 lg2 class="pl-2">
+                                            <v-btn
+                                                color="primary"
+                                                type="submit"
+                                                class="btn btn-theme float-xs-none"
+                                                >Upload
+                                            </v-btn>
+                                        </v-flex>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <v-flex xs12>
                         <table class="table">
                             <thead>
+                                <tr>
+                                    <th>Existing Gallery Images</th>
+                                </tr>
+
                                 <tr class="no-border">
                                     <th>File</th>
                                     <th>Action</th>
@@ -43,7 +157,7 @@
                                                                 '_thumbnail'
                                                         ]
                                                     "
-                                                    height="70px"
+                                                    height="100px"
                                                     v-if="
                                                         checkIfImage(
                                                             singleFile[filePath]
@@ -121,8 +235,14 @@ import ErrorBlockServer from "./ErrorBlockServer.vue";
 import DeleteConfirm from "./DeleteConfirm.vue";
 import { Component, Mixins, Prop } from "vue-property-decorator";
 import { SnackbarModule } from "../store/snackbar";
-import { IObject, ResponseResult, IParamProps } from "../../assets/types/common";
+import {
+    IObject,
+    ResponseResult,
+    IParamProps,
+} from "../../assets/types/common";
 import { AxiosResponse } from "axios";
+import { ProductModule } from "../store/product";
+import { IProductFullResponse } from '../../assets/types/product';
 
 @Component({
     components: {
@@ -145,6 +265,10 @@ class MultiFileModal extends Mixins(CommonServices) {
     };
     fileModal = false;
     deleting = false;
+
+    get model(): IProductFullResponse {
+        return ProductModule.viewModel;
+    }
 
     /**
      * Open Modal Box

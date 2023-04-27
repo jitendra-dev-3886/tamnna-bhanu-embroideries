@@ -151,7 +151,8 @@ class CommonErrorMethods extends Vue {
         } else if (response.status == 427) {
             error = response.data.message;
         } else if (response.status == 401) {
-            this.logout();
+           // this.logout();
+            this["$router"].push("/");
         }
         return error;
     }

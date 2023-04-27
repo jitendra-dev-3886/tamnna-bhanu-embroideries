@@ -1,4 +1,4 @@
-import CategoryEditImages from './category-edit-images';
+
 <template>
     <div>
         <v-tabs
