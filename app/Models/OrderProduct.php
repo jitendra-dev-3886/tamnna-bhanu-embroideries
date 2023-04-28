@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Http\Resources\DataTrueResource;
 use App\Traits\CreatedbyUpdatedby;
 use App\Traits\Scopes;
@@ -18,79 +19,75 @@ class OrderProduct extends Model
     /**
      * @var array
      */
-    protected $fillable = [ 'id', 'order_id', 'product_id', 'product_name', 'category_name', 'featured_image', 'quantity' ];
+    protected $fillable = ['id', 'order_id', 'product_id', 'product_name', 'category_name', 'price', 'featured_image', 'quantity'];
 
     /**
      * Activity log array
      *
      * @var array
      */
-    public $activity_log = [  ];
+    public $activity_log = [];
 
     /**
      * Log Activity relationships array
      *
      * @var array
      */
-    public $log_relations = [  ];
+    public $log_relations = [];
 
     /**
      * Lightweight response variable
      *
      * @var array
      */
-    public $light = [ 'id', 'order_id', 'product_id', 'product_name', 'category_name', 'featured_image' ];
+    public $light = ['id', 'order_id', 'product_id', 'product_name', 'price', 'category_name', 'featured_image'];
 
     /**
      * Related permission array
      *
      * @var array
      */
-    public $related_permission = [ 'orders' ];
+    public $related_permission = ['orders'];
 
     /**
      * @var array
      */
-    public $sortable = [ 'order_products.created_at', 'order_products.id', 'order_id', 'product_name', 'category_name', 'featured_image', 'quantity' ];
+    public $sortable = ['order_products.created_at', 'order_products.id', 'order_id', 'product_name', 'price', 'category_name', 'featured_image', 'quantity'];
 
     /**
      * @var array
      */
-    public $foreign_sortable = [ 'product_id' ];
+    public $foreign_sortable = ['product_id'];
 
     /**
      * @var array
      */
-    public $foreign_table = [ 'products' ];
+    public $foreign_table = ['products'];
 
     /**
      * @var array
      */
-    public $foreign_key = [ 'name' ];
+    public $foreign_key = ['name'];
 
     /**
      * @var array
      */
-    public $foreign_method = [ 'product' ];
+    public $foreign_method = ['product'];
 
     /**
      * @var array
      */
-    public $type_sortable = [  ];
+    public $type_sortable = [];
 
     /**
      * @var array
      */
-    public $type_enum = [
-            
-    ];
+    public $type_enum = [];
 
     /**
      * @var array
      */
-    public $type_enum_text = [
-            
-    ];
+    public $type_enum_text = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -104,7 +101,7 @@ class OrderProduct extends Model
      *
      * @var array
      */
-    protected $hidden = [  ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -112,31 +109,24 @@ class OrderProduct extends Model
      * @var array
      */
     protected $casts = [
-
-            'id'=>'string', 
-            'order_id'=>'string', 
-            'product_id'=>'string', 
-            'product_name'=>'string', 
-            'category_name'=>'string', 
-            'featured_image'=>'string', 
-            'quantity'=>'string'
-
+        'id' => 'string',
+        'order_id' => 'string',
+        'product_id' => 'string',
+        'product_name' => 'string',
+        'price' => 'string',
+        'category_name' => 'string',
+        'featured_image' => 'string',
+        'quantity' => 'string'
     ];
-
-    
-
-    
 
     /**
      * Add OrderProduct
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeCreateOrderProduct($query, $request){
+    public function scopeCreateOrderProduct($query, $request)
+    {
         $orderProduct = OrderProduct::create($request->all());
-        
-        
-        
         return \App\Models\User::GetMessage(new OrderProductResource($orderProduct), config('constants.messages.create_success'));
     }
 
@@ -146,12 +136,10 @@ class OrderProduct extends Model
      * @param OrderProduct $orderProduct
      * @return \Illuminate\Http\JsonResponse
      */
-    public function scopeUpdateOrderProduct($query, $request, $orderProduct){
+    public function scopeUpdateOrderProduct($query, $request, $orderProduct)
+    {
         $data = $request->all();
-        
-        
         $orderProduct->update($data);
-        
         return \App\Models\User::GetMessage(new OrderProductResource($orderProduct), config('constants.messages.update_success'));
     }
 
@@ -163,12 +151,10 @@ class OrderProduct extends Model
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function scopeDeleteOrderProduct($query, $request, $orderProduct){
-       
-       
-       $orderProduct->delete();
-       
-       return new DataTrueResource($orderProduct,config('constants.messages.delete_success'));
+    public function scopeDeleteOrderProduct($query, $request, $orderProduct)
+    {
+        $orderProduct->delete();
+        return new DataTrueResource($orderProduct, config('constants.messages.delete_success'));
     }
 
     /**
@@ -177,23 +163,15 @@ class OrderProduct extends Model
      * @param $request
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      */
-    public function scopeDeleteAll($query,$request){
-        if(!empty($request->id)) {
-
-            OrderProduct::whereIn('id', $request->id)->get()->each(function($orderProduct) {
-                
-                
+    public function scopeDeleteAll($query, $request)
+    {
+        if (!empty($request->id)) {
+            OrderProduct::whereIn('id', $request->id)->get()->each(function ($orderProduct) {
                 $orderProduct->delete();
             });
-
-            
-
-            return new DataTrueResource(true,config('constants.messages.delete_success'));
-        }
-        else{
+            return new DataTrueResource(true, config('constants.messages.delete_success'));
+        } else {
             return User::GetError(config('constants.messages.delete_multiple_error'));
         }
     }
-
-    
 }

@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'company_name' => $this->company_name,
             'city' => $this->city,
+            'email' => $this->email,
             'user_status' => $this->user_status,
             'user_status_text' => config('constants.user.status.' . $this->user_status),
             'role_id' => $this->role_id,

@@ -24,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @var array
      */
-    protected $fillable = ['id', 'role_id', 'name', 'company_name', 'city', 'contact_number', 'otp', 'otp_verified_at', 'device_token', 'user_status', 'password'];
+    protected $fillable = ['id', 'role_id', 'name', 'company_name', 'city', 'email', 'contact_number', 'otp', 'otp_verified_at', 'device_token', 'user_status', 'password'];
 
     /**
      * Activity log array
@@ -220,6 +220,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function scopeCreateUser($query, $request)
     {
+
         $data = $request->all();
         $data['password'] = bcrypt($data['password']);
         $data['user_status'] = config('constants.user.user_status_enum.inactive');

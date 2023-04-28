@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
 
 class Order extends Model
 {
@@ -153,6 +154,7 @@ class Order extends Model
     public function scopeCreateOrder($query, $request)
     {
         $order = Order::create($request->all());
+        $orders = $request->all();
 
 
 
@@ -170,6 +172,10 @@ class Order extends Model
             }
         }
 
+        foreach ($orders as $Productsorder) {
+
+            Cart::where('user_id', $order->user_id)->delete();
+        }
 
 
         return \App\Models\User::GetMessage(new OrderResource($order), config('constants.messages.create_success'));

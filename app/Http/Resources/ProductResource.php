@@ -19,17 +19,18 @@ class ProductResource extends JsonResource
 
         return [
 
-            'id'=>$this->id, 
-            'name'=>$this->name, 
-            'price'=>$this->price, 
-            'description'=>$this->description, 
-            'item_code'=>$this->item_code, 
-            'category_id'=>$this->category_id, 
-            'category'=>new CategoryResource($this->category), 
-            'available_status'=>$this->available_status, 
-            'available_status_text'=>config('constants.product.available_status.'.$this->available_status), 
-            'stock'=>$this->stock, 
-            'featured_image'=>$this->featured_image, 
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'price'=>$this->price,
+            'description'=>$this->description,
+            'item_code'=>$this->item_code,
+            // 'category_id'=>$this->category_id,
+            'category_id' => $this->categories->pluck('id'),
+            'category'=> $this->categories,
+            'available_status'=>$this->available_status,
+            'available_status_text'=>config('constants.product.available_status.'.$this->available_status),
+            'stock'=>$this->stock,
+            'featured_image'=>$this->featured_image,
             'product_galleries'=>ProductGalleryResource::collection($this->product_galleries)
 
         ];

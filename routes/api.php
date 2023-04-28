@@ -33,7 +33,11 @@ Route::group([
     Route::post('app-login-verify', '\App\Http\Controllers\API\LoginAPIController@appLoginVerify'); // RM
 
     // Route::put('users/{user}', '\App\Http\Controllers\API\UserAPIController@update');
-    Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
+    Route::resource('users', '\App\Http\Controllers\API\UserAPIController', ['only' => ['store']]);
+    /* Creating a resource route for the `users` endpoint in the API, which maps to the
+    `UserAPIController` controller. However, it only allows the `store` method to be accessed for
+    this endpoint. This means that only the functionality to create a new user is available through
+    this endpoint. */
     Route::post('users-delete-multiple', '\App\Http\Controllers\API\UserAPIController@deleteAll');
     Route::get('users-export', '\App\Http\Controllers\API\UserAPIController@export');
     Route::post('users-import-bulk', '\App\Http\Controllers\API\UserAPIController@importBulk');
@@ -101,6 +105,8 @@ Route::group([
         'middleware' => ['auth:api'],
     ], function () {
 
+        Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
+
         Route::post('products-upload-zip', '\App\Http\Controllers\API\ProductAPIController@uploadZipFile');
         Route::post('orders-upload-zip', '\App\Http\Controllers\API\OrderAPIController@uploadZipFile');
 
@@ -119,6 +125,8 @@ Route::group([
         Route::get('customers', '\App\Http\Controllers\API\UserAPIController@customers'); // RM
 
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
+
+        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['only' => ['show']]);
 
     });
 });

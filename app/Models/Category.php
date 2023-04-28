@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
+use App\Models\CategoryProduct;
 
 class Category extends Model
 {
@@ -178,6 +179,14 @@ class Category extends Model
         return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.update_success'));
     }
 
+
+        /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products()
+    {
+        return $this->hasMany(CategoryProduct::class, 'category_id');
+    }
     /**
      * Delete Category
      *
@@ -194,6 +203,7 @@ class Category extends Model
 
         return new DataTrueResource($category, config('constants.messages.delete_success'));
     }
+
 
     /**
      * Multiple Delete

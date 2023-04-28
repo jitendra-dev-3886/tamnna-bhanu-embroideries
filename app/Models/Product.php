@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\Category;
+
 class Product extends Model
 {
     use SoftDeletes, Scopes, CreatedbyUpdatedby, HasFactory, UploadTrait;
@@ -20,7 +22,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'category_id', 'available_status', 'stock', 'featured_image'];
+    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image'];
 
     /**
      * Activity log array
@@ -34,7 +36,7 @@ class Product extends Model
      *
      * @var array
      */
-    public $log_relations = ['category', 'product_galleries'];
+    public $log_relations = ['categories', 'product_galleries'];
 
     /**
      * Lightweight response variable
@@ -73,7 +75,7 @@ class Product extends Model
     /**
      * @var array
      */
-    public $foreign_method = ['category'];
+    public $foreign_method = ['categories'];
 
     /**
      * @var array
@@ -120,7 +122,6 @@ class Product extends Model
         'price' => 'string',
         'description' => 'string',
         'item_code' => 'string',
-        'category_id' => 'string',
         'available_status' => 'string',
         'featured_image' => 'string'
 
@@ -132,7 +133,7 @@ class Product extends Model
      */
     public function getFeaturedImageAttribute($value)
     {
-        // dd($value);
+
         if ($this->is_file_exists($value))
             return \Illuminate\Support\Facades\Storage::url($value);
         else
@@ -143,10 +144,10 @@ class Product extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
-    {
-        return $this->belongsTo(\App\Models\Category::class);
-    }
+    // public function category()
+    // {
+    //     return $this->belongsTo(\App\Models\Category::class);
+    // }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -156,6 +157,14 @@ class Product extends Model
         return $this->hasMany(\App\Models\ProductGallery::class, 'product_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+
+        return $this->belongsToMany(Category::class, "category_products", "product_id", "category_id");
+    }
 
     /**
      * Add Product
@@ -164,7 +173,15 @@ class Product extends Model
      */
     public function scopeCreateProduct($query, $request)
     {
-        $product = Product::create($request->all());
+        $data = $request->all();
+
+        $product = Product::create($data);
+
+        if ($request['category_id']) {
+            //this executes the insert-query
+            $product->categories()->attach($request['category_id']);
+        }
+
 
         if ($request->hasFile('featured_image')) {
             $realPath = 'product/' . $product->id;
@@ -195,6 +212,7 @@ class Product extends Model
 
         return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.create_success'));
     }
+
 
     /**
      * Update Product

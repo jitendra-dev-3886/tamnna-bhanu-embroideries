@@ -45,13 +45,15 @@ class ProductAPIController extends Controller
     {
         if ($request->get('is_light', false)) {
 
+
             return Cache::rememberForever('product.all', function () use ($request) {
                 $product = new Product();
+
                 $query = \App\Models\User::commonFunctionMethod(Product::select($product->light), $request, true);
                 return new ProductCollection(ProductResource::collection($query), ProductResource::class);
             });
         } else
-            $query = \App\Models\User::commonFunctionMethod(Product::with(['category', 'product_galleries']), $request, true);
+            $query = \App\Models\User::commonFunctionMethod(Product::with(['categories', 'product_galleries']), $request, true);
 
         return new ProductCollection(ProductResource::collection($query), ProductResource::class);
     }
@@ -73,6 +75,7 @@ class ProductAPIController extends Controller
      */
     public function store(ProductRequest $request)
     {
+
         return Product::createProduct($request);
     }
 
