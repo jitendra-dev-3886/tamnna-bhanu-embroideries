@@ -1,17 +1,16 @@
 export interface ICustomerModel {
+    id:string;
     name: string;
     company_name:string;
     city: string;
     mobileno: string;
-}
+    user_status?: string;
 
-export interface ICustomerFullResponse extends ICustomerModel {
-  status: string;
 }
-
 export interface ICustomerParams {
     model: ICustomerModel;
-    status?: string | number
+    editId?: string | number;
+    remember_me?: string | number;
 }
 
 export type ValidationObj = { key: string, value: string }[];
@@ -21,6 +20,6 @@ export interface ICustomerValidations {
     company_name:ValidationObj;
     city: ValidationObj;
     mobileno: ValidationObj;
-    status:ValidationObj
+    user_status:ValidationObj
 }
 

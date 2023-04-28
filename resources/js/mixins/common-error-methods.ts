@@ -121,6 +121,7 @@ class CommonErrorMethods extends Vue {
             error = response.data.message;
         } else if (response.status == 401) {
             this.logout();
+
         }
         return error;
     }
@@ -151,8 +152,9 @@ class CommonErrorMethods extends Vue {
         } else if (response.status == 427) {
             error = response.data.message;
         } else if (response.status == 401) {
-           // this.logout();
-            this["$router"].push("/");
+            error = this.$getConst("SESSION_EXPIRED");
+           this.logout();
+
         }
         return error;
     }

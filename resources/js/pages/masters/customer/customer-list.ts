@@ -17,7 +17,6 @@ import {
 } from "../../../../assets/types/table";
 
 import {
-    ICustomerFullResponse,
     ICustomerModel
 } from "../../../../assets/types/customer";
 
@@ -52,9 +51,8 @@ class Customer extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] = [
         { text: 'Name', value: 'name' },
-        { text: 'Company Name', value: 'company_name' },
-        { text: 'City', value: 'city' },
-        {text: 'Mobile Number', value: 'mobileno' },
+        {text: 'Mobile Number', value: 'contact_number' },
+        {text: 'Status', value: 'user_status_text' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
 
@@ -108,7 +106,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
      */
     deleteItem(id: string | number): void {
         this.paramProps.idProps = id;
-        this.paramProps.storeProps = "category";
+        this.paramProps.storeProps = "customer";
         this.confirmation.title = this["$getConst"]("DELETE_TITLE");
         this.confirmation.description = this["$getConst"]("WARNING");
         this.modalOpen = true;
@@ -124,11 +122,11 @@ class Customer extends mixins(ServerTable, CommonApis) {
         });
 
         this.deleteProps.ids = rowIds;
-        this.deleteProps.store = "category";
+        this.deleteProps.store = "customer";
         (<any>this.$refs.multipleDeleteBtn).deleteMulti();
     }
 
-    onEdit(id: string | number): void {
+    onEdit(id: string): void {
         CustomerModule.SET_EDIT_ID(id);
         this["$router"].push("/masters/customer/edit/" + id);
     }
@@ -141,7 +139,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
         CustomerModule.getById(id).then(
             (response: AxiosResponse<ResponseResult<ICustomerModel>>) => {
                 CustomerModule.SET_MODEL(
-                    response.data.data as ICustomerFullResponse
+                    response.data.data as ICustomerModel
                 );
                 HTMLClassModule.removeBodyClassName("page-loading");
                 //this.categoryViewModal = true;
@@ -153,10 +151,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
         );
     }
 
-
-
-
-    refreshData(): void {
+refreshData(): void {
         const self = this;
         setTimeout(function () {
             if (self.tab == "tab1") {
@@ -169,11 +164,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
             }
         }, 100);
     }
-
-
-
-
-    created(): void {
+created(): void {
 
     }
 }

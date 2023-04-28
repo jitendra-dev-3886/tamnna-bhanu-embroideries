@@ -65,6 +65,7 @@ const YOUR_CONSTS = {
     ADMIN_DELETE_WARNING: "Admin role can not be deleted.",
     LOGO_IMG: "/images/Logo A.jpg",
     MISSING_PARAM_ID: "Param ID is missing in route",
+    SESSION_EXPIRED: "Your session has expired! please login again.",
 
     DASHBOARD_REDIRECT_CUSTOMERS:1,
     DASHBOARD_REDIRECT_CATEGORIES:2,

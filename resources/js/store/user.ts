@@ -38,7 +38,8 @@ function getEmptyState() {
             name:'',
             contact_number:'',
             company_name:'',
-            city:''
+            city:'',
+            user_status:''
         },
         pagination: {
             query: "",
@@ -73,6 +74,7 @@ function getEmptyState() {
             profile:"",
             permissions: [],
             authorization: "",
+            refresh_token:" ",
             sample_excels: [
                {
                     sample_user: "",
@@ -82,6 +84,7 @@ function getEmptyState() {
                     sample_cart: "",
                 },
             ],
+            user_status:''
 
         },
         viewModel: {
@@ -94,6 +97,7 @@ function getEmptyState() {
             city:'',
             email_verified_at:"",
             role_id: "",
+            user_status:"",
             role: {
                 guard_name: "",
                 id: "",
@@ -102,6 +106,7 @@ function getEmptyState() {
             }
         },
         defaultRouteUrl: "/dashboard",
+
     };
 }
 
@@ -194,7 +199,17 @@ class User extends VuexModule implements IUser {
         this.viewModel = getEmptyState().viewModel;
     }
 
-
+    @Mutation
+    public SET_TOKENS({
+        access_token,
+        refresh_token,
+    }: {
+        access_token: string;
+        refresh_token: string;
+    }) {
+        this.currentUserData.refresh_token = refresh_token;
+        this.currentUserData.authorization = access_token;
+    }
 
     @Mutation
     SET_DEFAULT_URL(payload: string) {

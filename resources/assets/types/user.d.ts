@@ -36,7 +36,8 @@ export interface IUserLightResponse {
     contact_number:string;
     company_name:string;
     password?: string;
-    city:string
+    city:string;
+    user_status:string;
 }
 
 export interface IUserFullResponse extends IUserLightResponse{
@@ -55,6 +56,8 @@ export interface ICurrentUserData extends IUserFullResponse{
     authorization: string;
     profile:string;
     permissions: IPermissionResponse[];
+    refresh_token:string;
+    user_status:string;
     sample_excels:{
         sample_user: string;
         sample_category: string;

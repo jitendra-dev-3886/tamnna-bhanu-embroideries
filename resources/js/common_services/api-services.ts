@@ -62,9 +62,76 @@ HTTP.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
+let isRefreshing = false;
+let failedQueue: any = [];
+
+const processQueue = (error, token = null) => {
+    failedQueue.forEach((prom) => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+
+    failedQueue = [];
+};
 
 HTTP.interceptors.response.use(
     (response) => response,
-    (error) => Promise.reject(error)
+    function(err){
+        const originalRequest = err.config;
+
+        if (
+            err.response.status === 427 &&
+            originalRequest.url.includes("refreshing-tokens")
+        ) {
+            localStorage.clear();
+            window.location.href = "/";
+            return Promise.reject(err);
+        }
+
+        if (err.response.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                return new Promise(function (resolve, reject) {
+                    failedQueue.push({ resolve, reject });
+                })
+                    .then((token) => {
+                        originalRequest.headers["Authorization"] =
+                            "Bearer " + token;
+                        return HTTP(originalRequest);
+                    })
+                    .catch((err) => {
+                        return Promise.reject(err);
+                    });
+            }
+
+            originalRequest._retry = true;
+            isRefreshing = true;
+
+            return new Promise(function (resolve, reject) {
+                HTTP.post("/api/v1/refreshing-tokens", {
+                    refresh_token: UserModule.currentUserData.refresh_token,
+                })
+                    .then((res) => {
+                        originalRequest.headers.Authorization =
+                            "Bearer " + res.data.access_token;
+                        HTTP.defaults.headers.common["Authorization"] =
+                            "Bearer " + res.data.access_token;
+                        UserModule.SET_TOKENS(res.data);
+                        processQueue(null, res.data.access_token);
+                        resolve(HTTP(originalRequest));
+                    })
+                    .catch((err) => {
+                        processQueue(err, null);
+                        reject(err);
+                    })
+                    .then(() => {
+                        isRefreshing = false;
+                    });
+            });
+        }
+        return Promise.reject(err);
+    }
 );
 export default HTTP;

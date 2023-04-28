@@ -9,7 +9,7 @@ import {
 } from "vuex-module-decorators";
 import {
     IImportReqParams,
-    IImportResponse,
+    IPagination,
     ResponseResult,
     IDeleteProps
 } from "../../assets/types/common";
@@ -18,7 +18,7 @@ import {
 } from "@/filters/common";
 import {
     ICustomerModel,
-    ICustomerFullResponse,
+
     ICustomerParams
 
 } from "../../assets/types/customer";
@@ -28,30 +28,40 @@ import { AxiosResponse } from "axios";
 function getEmptyState() {
     return {
 
-      //  customerList: [],
+      customerList: [],
         model: {
+            id:"",
             name: " ",
             company_name:" ",
             city: " ",
             mobileno: " ",
+            user_status:" "
         },
-        viewModel:{
-            name: " ",
-            company_name:" ",
-            city: " ",
-            mobileno: " ",
-            status:" ",
+        pagination: {
+            query: "",
+            page: 1,
+            limit: 10,
+            orderBy: "",
+            descending: "default",
+            filter: "",
         },
         editId: 0,
+        defaultRouteUrl:"",
+        remember_me: "0",
+        tableData: {
+            data: [],
+        },
 
     };
 }
 export interface ICustomer {
 
     model: ICustomerModel;
-    //customerList:ICustomerModel[];
-    viewModel: ICustomerFullResponse;
-    editId: ICustomerParams["status"];
+    editId: ICustomerParams["editId"];
+    pagination: IPagination;
+    tableData: ResponseResult<ICustomerModel[]>;
+    remember_me: ICustomerParams["remember_me"];
+    defaultRouteUrl: string;
 }
 
 @Module({
@@ -63,17 +73,23 @@ export interface ICustomer {
 })
 class Customer extends VuexModule implements ICustomer {
 
+    public pagination: IPagination = getEmptyState().pagination;
     public model: ICustomerModel = getEmptyState().model;
     //public customerList: ICustomerModel=getEmptyState().model;
-    public viewModel:ICustomerFullResponse=getEmptyState().viewModel;
+    public tableData: ResponseResult<ICustomerModel[]> =
+        getEmptyState().tableData;
 
-    public editId: ICustomerParams["status"] = getEmptyState().editId;
+    public editId: ICustomerParams["editId"] = getEmptyState().editId;
+    public remember_me: ICustomerParams["remember_me"] =
+        getEmptyState().remember_me;
+    public defaultRouteUrl: string = getEmptyState().defaultRouteUrl;
     baseUrl = process.env.MIX_API_BASE_URL;
 
     @Mutation
-    SET_EDIT_ID(payload: string | number) {
+    SET_EDIT_ID(payload: string) {
         this.editId = payload;
     }
+
 
     @Mutation
     SET_MODEL(param: ICustomerModel) {
@@ -109,7 +125,7 @@ class Customer extends VuexModule implements ICustomer {
         param: ICustomerParams
     ): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
         return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}customers`, param.model)
+            HTTP.post(`${this.baseUrl}customers`, param.editId)
                 .then(
                     (
                         response: AxiosResponse<
@@ -134,7 +150,7 @@ class Customer extends VuexModule implements ICustomer {
         param: ICustomerParams
     ): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
         return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}customers/${param.status}`, param.model)
+            HTTP.post(`${this.baseUrl}customers/${param.model}`, param.editId)
                 .then(
                     (
                         response: AxiosResponse<
@@ -209,6 +225,34 @@ class Customer extends VuexModule implements ICustomer {
                 });
         });
     }
+
+     /**
+     * Used to change the existing status of the customer
+     */
+     @Action({ rawError: true })
+     setCustomerStatus(
+         param: string
+     ): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
+         return new Promise((resolve, reject) => {
+
+             HTTP.get(`${this.baseUrl}customers/${param}`)
+                 .then(
+                     (
+                         response: AxiosResponse<
+                             ResponseResult<ICustomerModel>
+                         >
+                     ) => {
+                         resolve(response);
+                     }
+                 )
+                 .catch((e) => {
+                     reject(e);
+                 });
+         });
+     }
+
+     /**
+
 
     /**
      * Used for import zip functionality (upload file)

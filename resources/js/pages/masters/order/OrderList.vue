@@ -193,10 +193,10 @@
                     </template>
 
                     <template v-slot:[`item.gst`]="{ item }">
-                        <span>{{ parseFloat(item.gst).toFixed() }}</span>
+                        <span>{{parseFloat(item.gst).toFixed(2)}}</span>
                     </template>
                     <template v-slot:[`item.payment_amount`]="{ item }">
-                        <span>{{ parseFloat(item.payment_amount).toFixed() }}</span>
+                        <span>{{parseFloat(item.payment_amount).toFixed(2)}}</span>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
 
