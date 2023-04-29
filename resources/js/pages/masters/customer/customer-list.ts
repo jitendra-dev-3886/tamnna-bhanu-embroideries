@@ -125,7 +125,6 @@ class Customer extends mixins(ServerTable, CommonApis) {
         this.deleteProps.store = "customer";
         (<any>this.$refs.multipleDeleteBtn).deleteMulti();
     }
-
     onEdit(id: string): void {
         CustomerModule.SET_EDIT_ID(id);
         this["$router"].push("/masters/customer/edit/" + id);

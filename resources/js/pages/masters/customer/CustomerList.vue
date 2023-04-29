@@ -84,30 +84,18 @@
                         </v-layout>
                     </template>
 
-                <!--    <template v-slot:[`item.user_status`]="{ item }">
-                        <v-chip :color="item.status==='Active'?'green':'red'" dark>{{ item.status }}</v-chip>
-                    </template>
-                    <template v-slot:[`item.action`]="{ item }">
-                        <v-btn :disabled="item.status!== 'Inactive'" color="primary">Action</v-btn>
-                    </template>-->
-
-                 <template v-slot:[`item.actions`]="{ item }">
-
-                        <template>
-                            <div class="text-center rounded-xl">
-                                <v-menu>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
+                    <template v-slot:[`item.actions`]="{ item }">
+                       <template>
+                                <v-btn
                                     color="primary"
-                                    dark
-                                    :disabled="((item.user_status)=='Inactive')"
-                                  >
+                                    v-model="item.user_status"
+                                    :disabled="item.user_status_text!=='Inactive'"
+                                >
                                     Activate
-                                    </v-btn>
-                                </template>
-                                </v-menu>
-                            </div>
+                                </v-btn>
                         </template>
+
+
                     </template>
                 </v-data-table>
             </v-tab-item>

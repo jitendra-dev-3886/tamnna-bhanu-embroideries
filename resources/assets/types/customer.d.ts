@@ -8,7 +8,7 @@ export interface ICustomerModel {
 
 }
 export interface ICustomerParams {
-    model: ICustomerModel;
+    user_status: string|number;
     editId?: string | number;
     remember_me?: string | number;
 }

@@ -51,7 +51,7 @@ class HomeBanner extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] = [
         { text: 'Name', value: 'name' },
-        { text: 'Feature Image', value: 'featured_image' },
+        { text: 'Feature Image', value: 'featured_image',sortable: false },
         //{ text: 'Status', value: 'status' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];

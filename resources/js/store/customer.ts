@@ -150,7 +150,7 @@ class Customer extends VuexModule implements ICustomer {
         param: ICustomerParams
     ): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
         return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}customers/${param.model}`, param.editId)
+            HTTP.post(`${this.baseUrl}customers/${param}`, param.editId)
                 .then(
                     (
                         response: AxiosResponse<
@@ -231,12 +231,11 @@ class Customer extends VuexModule implements ICustomer {
      */
      @Action({ rawError: true })
      setCustomerStatus(
-         param: string
+         customerStatus: ICustomerParams
      ): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
          return new Promise((resolve, reject) => {
-
-             HTTP.get(`${this.baseUrl}customers/${param}`)
-                 .then(
+            HTTP.post(`${this.baseUrl}customers`, customerStatus)
+                .then(
                      (
                          response: AxiosResponse<
                              ResponseResult<ICustomerModel>
@@ -253,6 +252,26 @@ class Customer extends VuexModule implements ICustomer {
 
      /**
 
+    @Action({ rawError: true }) //This is for if request reject
+    public login(
+        userInfo: ILoginModel
+    ): Promise<AxiosResponse<ResponseResult<ICurrentUserData>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}login`, userInfo)
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<ICurrentUserData>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
 
     /**
      * Used for import zip functionality (upload file)
