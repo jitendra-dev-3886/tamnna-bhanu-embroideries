@@ -126,7 +126,7 @@ Route::group([
 
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
-        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['only' => ['show']]);
+        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['except' => ['store', 'update', 'delete']]);
 
     });
 });
