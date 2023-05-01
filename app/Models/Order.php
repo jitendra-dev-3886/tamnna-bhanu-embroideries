@@ -142,7 +142,22 @@ class Order extends Model
      */
     public function order_products()
     {
-        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id');
+        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id')->select([
+            'order_id',
+            'product_id',
+            'product_name',
+            'price',
+            'category_name',
+            'quantity',
+            'created_by',
+            'created_by',
+            'updated_by',
+            'deleted_by',
+            'created_at',
+            'updated_at',
+            'deleted_at'
+
+        ]);
     }
 
 
@@ -154,7 +169,9 @@ class Order extends Model
     public function scopeCreateOrder($query, $request)
     {
         $order = Order::create($request->all());
-        $orders = $request->all();
+
+        $orderProduct = $request->all();
+
 
 
 
@@ -172,9 +189,55 @@ class Order extends Model
             }
         }
 
-        foreach ($orders as $Productsorder) {
 
-            Cart::where('user_id', $order->user_id)->delete();
+        $cartProducts = Cart::where('user_id', $order->user_id)->where('deleted_at', null)->get();
+
+        $quantity = 0;
+        $productIds = [];
+
+        foreach ($cartProducts as $cartProduct) {
+
+
+            $outOfStockProduct = Product::where('id', $cartProduct->product_id)->where('available_status', config('constants.products.available_status_code.not_available'))->first();
+
+            if (!is_null($outOfStockProduct)) {
+                $productIds[] = $outOfStockProduct->name;
+            }
+
+            $products = Product::where('id', $cartProduct->product_id)
+                        ->where('available_status', config('constants.products.available_status_code.available'))
+                        ->get();
+
+
+            if (!empty($productIds)) {
+                $ProductArray = implode(', ', $productIds);
+                return response()->json([
+                    'error' => $ProductArray . ' is out of stock.'
+                ], config('constants.validation_codes.unprocessable_entity'));
+
+            }
+
+            $ordersQty = $order->quantity;
+
+            $order_id =  $order->id;
+
+            $productid = $cartProduct->product_id;
+
+            foreach ($cartProducts as $cartProduct) {
+
+                $products = Product::where('id', $cartProduct->product_id)->get();
+
+                foreach ($products as $product) {
+                    $productData['order_id'] =  $order->id;
+                    $productData['product_id'] = $cartProduct->product_id;
+                    $productData['product_name'] = Category::where('id', $product->sub_category_id)->value('name');
+                    // $productData['price'] = $product->featured_image;
+                    // $productData['featured_image'] = $product->point;
+                    $productData['quantity'] = $order->quantity;
+
+                    OrderProduct::create($productData); //Insert order products into order_products table
+                }
+            }
         }
 
 
@@ -267,4 +330,8 @@ class Order extends Model
 
         return parent::newQuery();
     }
+
+
+
+
 }
