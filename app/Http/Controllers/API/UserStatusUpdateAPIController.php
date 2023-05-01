@@ -28,10 +28,20 @@ class UserStatusUpdateAPIController extends Controller
      */
     public function verify(UserStatusUpdateRequest $request)
     {
+
         $user = User::find($request['user_id']);
 
-        $user->user_status = config('constants.user.status_enum.active');
-        $user->save();
+        $userStatus = $request->user_status;
+
+        if ($request->user_status == 0 ) {
+
+            $user->user_status = config('constants.user.status_enum.active');
+            $user->save();
+
+        } else {
+            $user->user_status = config('constants.user.status_enum.inactive');
+            $user->save();
+        }
 
         return redirect('');
     }

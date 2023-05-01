@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Http\Requests\CsvRequest;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Requests\CategoryImageUpdateRequest;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
@@ -85,6 +86,19 @@ class CategoryAPIController extends Controller
      */
     public function update(CategoryUpdateRequest $request, Category $category)
     {
+        // dd($request);
+        return Category::updateCategory($request, $category);
+    }
+
+      /**
+     * Update Category
+     * @param CategoryRequest $request
+     * @param Category $category
+     * @return CategoryResource
+     */
+    public function updateCategoryImage(CategoryImageUpdateRequest $request, Category $category)
+    {
+        // dd($request);
         return Category::updateCategory($request, $category);
     }
 
@@ -136,5 +150,5 @@ class CategoryAPIController extends Controller
          return \App\Models\User::importBulk($request,new CategoryImport(),'category','import/category/');
       }
 
-      
+
 }
