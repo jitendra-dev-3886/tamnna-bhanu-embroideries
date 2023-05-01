@@ -90,6 +90,7 @@
                                     color="primary"
                                     v-model="item.user_status"
                                     :disabled="item.user_status_text!=='Inactive'"
+                                    @click="changeStatus(item.id,item.user_status)"
                                 >
                                     Activate
                                 </v-btn>

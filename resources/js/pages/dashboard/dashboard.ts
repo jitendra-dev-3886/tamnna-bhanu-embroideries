@@ -10,8 +10,13 @@ import { PermissionModule } from "@/store/permission";
     name: "Dashboard",
 })
 class Dashboard extends Mixins(CommonServices) {
+    public total_users:number=0;
+    public total_products:number=0;
+    public total_categories:number=0;
+    public total_orders:number=0;
+
     dashboardData: IDashboard = {
-        customers: "0",
+        users: "0",
         categories: "0",
         products: "0",
         orders: "0",
@@ -20,18 +25,10 @@ class Dashboard extends Mixins(CommonServices) {
 
     get allData() {
         return (
-            Number(this.dashboardData.customers) +
+            Number(this.dashboardData.users) +
             Number(this.dashboardData.categories) +
             Number(this.dashboardData.products)+
             Number(this.dashboardData.orders)
-        );
-    }
-
-    get canTicketCounterAccessible(): boolean {
-        return isPermission(
-            PermissionModule.userPermissions,
-            this.$getConst("DASHBOARD"),
-            "getTicketStatusCount"
         );
     }
 
@@ -51,7 +48,7 @@ class Dashboard extends Mixins(CommonServices) {
     }
 
     created(): void {
-        if (this.canTicketCounterAccessible) {
+
             CommonModule.getAll({
                 apiName: "dashboards",
                 pagination: {},
@@ -63,7 +60,7 @@ class Dashboard extends Mixins(CommonServices) {
                     this.showDialog(this.getAPIErrorMessage(error.response));
                 }
             );
-        }
+
     }
 }
 export default Dashboard;

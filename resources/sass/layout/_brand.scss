@@ -7,8 +7,10 @@
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: row;
-	padding: 0 get($page-padding, desktop);
-	height: get($header-config, desktop, default, height);
+    padding:20px 0px 0px 20px !important;
+    height:100px !important;
+	// padding: 0 get($page-padding, desktop);
+	// height: get($header-config, desktop, default, height);
 
 	// Logo
 	.brand-logo {

@@ -17,7 +17,7 @@ import {
 } from "../../../../assets/types/table";
 
 import {
-    ICustomerModel
+    ICustomerModel, ICustomerParams
 } from "../../../../assets/types/customer";
 
 import { AxiosResponse } from "axios";
@@ -32,6 +32,7 @@ import {
     ResponseResult,
 } from "../../../../assets/types/common";
 import { CustomerModule } from "@/store/customer";
+import HTTP from "@/common_services/api-services";
 
 @Component({
     components: {
@@ -48,6 +49,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
     modalOpen = false;
     isImportLoaded = false;
     urlApi = "customers";
+    baseUrl = process.env.MIX_API_BASE_URL;
 
     headers: ITableHeaders[] = [
         { text: 'Name', value: 'name' },
@@ -84,7 +86,23 @@ class Customer extends mixins(ServerTable, CommonApis) {
         storeProps: "",
     };
 
-
+    changeStatus(id:string,status:string): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
+        return new Promise((resolve, reject) => {
+           HTTP.post(`${this.baseUrl}user_status/verify/`,{user_id:id,user_status:status})
+               .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<ICustomerModel>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
     customerViewModal = false;
 
     /**

@@ -41,9 +41,9 @@
                         "
                     >
                     <a href="#" class="flex-column-auto">
-                        <img :src="$getConst('LOGO_IMG')" width="75%" height="75%">
+                        <img :src="$getConst('LOGO_IMG')" width="100%" height="auto">
                     </a>
-                        <h2 class="font-size-h1 mt-10 mb-5 text-white" style="margin-left: 30px;">
+                        <h2 class="font-size-h1 mt-10 mb-5 text-white" style="font-size: 28px !important;">
                             Welcome to Bhanu Embroideries!
                         </h2>
                     </div>

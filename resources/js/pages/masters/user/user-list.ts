@@ -53,7 +53,7 @@ class UserList extends mixins(ServerTable, CommonApis) {
           [
 
              { text: 'Name', value: 'name' },
-             { text: 'Company Name', value: 'company_name' },
+          // { text: 'Company Name', value: 'company_name' },
              { text: 'Role', value: 'role_id'},
              { text: 'Email', value: 'email' },
              { text: 'Mobile Number', value: 'contact_number' },

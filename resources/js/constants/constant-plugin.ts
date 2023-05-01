@@ -64,6 +64,7 @@ const YOUR_CONSTS = {
     SUPER_ADMIN_DELETE_WARNING: "Super admin can not be deleted.",
     ADMIN_DELETE_WARNING: "Admin role can not be deleted.",
     LOGO_IMG: "/images/Logo A.jpg",
+    LOGO_IMG_TITLE:"/images/Logo A-title.jpg" ,
     MISSING_PARAM_ID: "Param ID is missing in route",
     SESSION_EXPIRED: "Your session has expired! please login again.",
 

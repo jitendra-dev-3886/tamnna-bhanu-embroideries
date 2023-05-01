@@ -49159,8 +49159,8 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  padding: 0 25px;
-  height: 65px;
+  padding: 20px 0px 0px 20px !important;
+  height: 100px !important;
 }
 .brand .brand-logo {
   display: -webkit-box;

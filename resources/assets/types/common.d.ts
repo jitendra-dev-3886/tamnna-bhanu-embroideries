@@ -120,7 +120,7 @@ export interface IImportProps {
     zipName?: string;
 }
 export interface IDashboard {
-    customers: string;
+    users: string;
     categories: string;
     products: string;
     orders: string;

@@ -58,10 +58,11 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] = [
         { text: 'Customer', value: 'user_id' },
-        { text: 'Quantity', value: 'quantity' },
+       // { text: 'Quantity', value: 'quantity' },
+       {text:'Products',value:'order_products'},
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },
-        { text: 'Order Status', value: 'order_status_text' },
+      // { text: 'Order Status', value: 'order_status_text' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
 
