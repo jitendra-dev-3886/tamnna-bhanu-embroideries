@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class CategoryUpdateRequest extends FormRequest
+class CategoryImageUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,10 +27,11 @@ class CategoryUpdateRequest extends FormRequest
         $urlArr = explode("/", $request->path());
         $id = end($urlArr);
 
+
         $rules = [
-            'name'           => 'required|max:191',
-            'description'    => 'required',
-            // 'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+            // 'name'           => 'required|max:191',
+            // 'description'    => 'required',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ];
         // dd($rules);
         return $rules;

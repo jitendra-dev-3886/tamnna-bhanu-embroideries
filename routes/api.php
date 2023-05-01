@@ -68,8 +68,8 @@ Route::group([
         Route::post('roles-import-bulk', '\App\Http\Controllers\API\RoleAPIController@importBulk');
         Route::get('get-role-by-permissions/{id}', '\App\Http\Controllers\API\RoleAPIController@getPermissionsByRole');
 
-        Route::post('categories/{category}', '\App\Http\Controllers\API\CategoryAPIController@update');
-        Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController', ['except' => ['update']]);
+        // Route::post('categories/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+        Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController');
         Route::post('categories-delete-multiple', '\App\Http\Controllers\API\CategoryAPIController@deleteAll');
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
         Route::post('categories-import-bulk', '\App\Http\Controllers\API\CategoryAPIController@importBulk');
@@ -104,6 +104,9 @@ Route::group([
     Route::group([
         'middleware' => ['auth:api'],
     ], function () {
+
+        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+
 
         Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
 
