@@ -29,7 +29,7 @@ class CategoryUpdateRequest extends FormRequest
 
         $rules = [
             'name'           => 'required|max:191',
-            'description'    => 'required',
+            'description'    => '',
             // 'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ];
         // dd($rules);
