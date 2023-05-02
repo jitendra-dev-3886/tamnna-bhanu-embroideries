@@ -28,15 +28,15 @@ class ProductRequest extends FormRequest
         return [
             'name' => 'required|max:191',
             'price' => 'required',
-            'description' => 'required',
+            'description' => 'max:191',
             'item_code' => 'required|max:191',
             'category_id' => 'required|array',
             'category_id.*' => 'required|exists:categories,id,deleted_at,NULL',
             'available_status' => 'required|in:0,1',
-            'stock' => 'nullable',
+            'stock' => 'required|numeric|min:0',
             'featured_image' => 'required|max:500',
-            'product_galleries' => 'required|array|max:5',
-            'product_galleries.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'product_galleries' => 'array|max:5',
+            'product_galleries.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
 
         ];
     }
