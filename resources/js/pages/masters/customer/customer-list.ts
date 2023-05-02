@@ -96,12 +96,14 @@ class Customer extends mixins(ServerTable, CommonApis) {
                         >
                     ) => {
                         resolve(response);
+                        this.refresh();
                     }
                 )
                 .catch((e) => {
                     reject(e);
                 });
         });
+
     }
     customerViewModal = false;
 

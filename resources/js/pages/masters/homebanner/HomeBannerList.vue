@@ -112,7 +112,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                   @click="onView(item.id,false)"
+                                   @click="onView(item.id)"
                                     class="mr-2"
                                     small
                                     v-canAccess="$getConst('HOMEBANNERS')"
@@ -127,7 +127,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    @click="onEdit(item.id, true)"
+                                    @click="onEdit(item.id)"
                                     class="mr-2"
                                     small
                                     v-on="on"
@@ -142,7 +142,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    @click="onEditImage(item.id, true)"
+                                    @click="onEditImage(item.id)"
                                     class="mr-2"
                                     small
                                     v-on="on"

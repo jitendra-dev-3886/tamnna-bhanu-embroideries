@@ -87,12 +87,13 @@
                     <template v-slot:[`item.actions`]="{ item }">
                        <template>
                                 <v-btn
-                                    color="primary"
+                                    :color="item.user_status_text=='Active'?'error':'success'"
                                     v-model="item.user_status"
-                                    :disabled="item.user_status_text!=='Inactive'"
                                     @click="changeStatus(item.id,item.user_status)"
+                                    elevated
+                                    class="ma-2" style="width:100px;"
                                 >
-                                    Activate
+                                 <span  class="text-truncate" style="width:100px;">   {{item.user_status_text=='Inactive'?'Activate':'Deactivate'}} </span>
                                 </v-btn>
                         </template>
 

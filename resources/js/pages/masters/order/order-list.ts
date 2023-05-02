@@ -16,6 +16,7 @@ import { UserModule } from "@/store/user";
 import { IUserLightResponse } from "../../../../assets/types/user";
 import { OrderModule } from "../../../store/order";
 
+
 import {
     ITableHeaders,
     IFilterModel,
@@ -47,7 +48,7 @@ import {
         OrderViewModal,
         Import,
         MultiFileModal,
-        ImageViewer,
+        ImageViewer
     },
 })
 class Order extends mixins(ServerTable, CommonApis) {
@@ -106,7 +107,6 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     images: { thumbnail: string; source: string }[] = [];
     orderViewModal = false;
-
 
     get userList(): IUserLightResponse[] {
         return UserModule.userList;
@@ -170,7 +170,7 @@ class Order extends mixins(ServerTable, CommonApis) {
      * View Order
      * @param id
      */
-    onView(id: string): void {
+   /* onView(id: string): void {
         HTMLClassModule.addBodyClassName("page-loading");
         OrderModule.getById(id).then(
             (response: AxiosResponse<ResponseResult<IOrderFullResponse>>) => {
@@ -185,8 +185,24 @@ class Order extends mixins(ServerTable, CommonApis) {
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
-    }
+    }*/
 
+    onView(id: string): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+        OrderModule.getById(id).then(
+            (response: AxiosResponse<ResponseResult<IOrderFullResponse>>) => {
+                OrderModule.SET_VIEW_MODEL(
+                    response.data.data as IOrderFullResponse
+                );
+                HTMLClassModule.removeBodyClassName("page-loading");
+                     this.orderViewModal = true;
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+     }
 
     /**
      * Change Filter
