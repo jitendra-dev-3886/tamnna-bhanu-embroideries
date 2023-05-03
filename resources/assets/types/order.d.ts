@@ -1,5 +1,3 @@
-
-import {IUserFullResponse, IUserLightResponse} from "./user";
 export interface IOrderModel {
     user_id: string;
     quantity: string;
@@ -8,7 +6,7 @@ export interface IOrderModel {
     order_status: string;
     order_status_remark: string;
     user_remark: string;
-    order_products: Blob[];
+    order_products: Object[];
 }
 
 export interface IOrderParams {
@@ -54,7 +52,14 @@ export interface CommonFileResponse {
 
 export interface IOrderProducts extends CommonFileResponse{
     product_id: string;
+    product_name:string;
+    category_name:string;
     product_id_original: string;
     product_id_thumbnail: string;
+    featured_image:Blob;
+    price:string;
+    quantity:string;
+    user_name:string;
+    payment_amount:string;
 }
-                                    
+

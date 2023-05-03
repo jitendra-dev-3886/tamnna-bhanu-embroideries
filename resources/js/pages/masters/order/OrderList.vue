@@ -219,7 +219,7 @@
                                 </v-icon>
                             </template>
                             <span>{{
-                                $getConst("VIEW_ORDER_PRODUCT_TOOLTIP")
+                                $getConst("VIEW_PRODUCT_GALLERY_TOOLTIP")
                             }}</span>
                         </v-tooltip>
                         <!-- Light Product Id View End-->
@@ -240,18 +240,18 @@
                                     @click="openProductIdModal(item.id)"
                                     aria-label="Manage Product Id icon"
                                 >
-                                    {{ icons.mdiPaperclip }}
+                                    {{ icons.mdiImageEditOutline }}
                                 </v-icon>
                             </template>
                             <span>{{
-                                $getConst("MANAGE_ORDER_PRODUCT_TOOLTIP")
+                                $getConst("MANAGE_IMAGES")
                             }}</span>
                         </v-tooltip>
                         <!-- Manage Product Id End -->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    @click="onView(item.id, false)"
+                                    @click="onView(item.id)"
                                     class="mr-2"
                                     small
                                     v-canAccess="$getConst('ORDERS')"

@@ -6,408 +6,96 @@
         @click:outside="onCancel()"
         @keydown.esc="onCancel()"
     >
-        <v-card>
-            <v-card-title primary-title>
-                <h3>Order Detail</h3>
-            </v-card-title>
-            <v-card-text>
-                <v-layout>
-                    <v-flex xs12 sm12 md12 lg12>
-                        <h3>Order No #{{ model.id }}</h3>
-                    </v-flex>
-                </v-layout>
-            </v-card-text>
-        </v-card>
-        <v-card>
-            <v-card-title primary-title>
-                <h3>Product Details</h3>
-            </v-card-title>
-            <table class="table table-striped mx-0 px-0">
-                <tbody>
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Product Name:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.order_products.product_name != ""
-                                    ? model.order_products.product_name
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Feature Image:
-                        </td>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            <a :href="model.order_products.featured_image">
-                                <v-img
-                                    :src="model.order_products.featured_image"
-                                    v-if="model.order_products.featured_image"
-                                    width="100"
-                                    height="100"
-                                >
-                                </v-img>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Quantity:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{ model.quantity != "" ? model.quantity : "-" }}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Category Name:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.order_products.category_name != ""
-                                    ? model.order_products.category_name
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </v-card>
-        <v-card>
-            <v-card-title>
-                <h3>Payment Details</h3>
-                <v-btn icon dark @click="onCancel">
-                    <v-icon>{{ icons.mdiClose }}</v-icon>
-                </v-btn>
-            </v-card-title>
-            <table class="table table-striped mx-0 px-0">
-                <tbody>
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Gst:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.gst != ""
-                                    ? parseFloat(model.gst).toFixed(2)
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Payment amount:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.payment_amount != ""
-                                    ? parseFloat(model.payment_amount).toFixed(
-                                          2
-                                      )
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Order status:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.order_status_text != ""
-                                    ? model.order_status_text
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            Order status remark:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.order_status_remark != ""
-                                    ? model.order_status_remark
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td
-                            class="font-weight-medium font-size-h6-sm"
-                            style="width: 30%"
-                        >
-                            User remark:
-                        </td>
-                        <td class="font-weight-regular font-size-h6-sm">
-                            {{
-                                model.user_remark != ""
-                                    ? model.user_remark
-                                    : "-"
-                            }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </v-card>
-    </v-dialog>
-</template>
-<script lang="ts" src="./order-view-modal.ts"></script>
-<!--<template>
     <div class="order-detail">
-        <v-card>
+    <v-card>
             <v-card-text>
                 <v-layout class="fs">
                     <v-flex xs12 sm12 md12 lg12>
+                        <v-spacer></v-spacer>
                         <h3 class="mb-4">Order id #{{ model.id }}</h3>
                     </v-flex>
                 </v-layout>
-
                 <form
                     method="POST"
                     name="order-status-form"
                     role="form"
                     novalidate
                     autocomplete="off"
-                    @submit.prevent="changeOrderStatus()"
                 >
                     <v-layout class="fs">
-                        <v-flex xs12 sm12 md3 lg3>
-                            <v-select
-                                label="Status"
-                                name="order_status"
-                                v-model="model.order_status"
-                                :items="orderStatusList"
-                                item-text="name"
-                                item-value="order_status"
-                                clearable
-                            ></v-select>
-                        </v-flex>
-                        <v-flex xs12 sm12 md3 lg4 class="pl-lg-4 pl-sm-0">
-                            <v-text-field
-                                label="Status remark"
-                                type="text"
-                                name="order_status_remark"
-                                v-model="model.order_status_remark"
-                            ></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm12 md3 lg3 class="pl-lg-4 pl-sm-0">
-                            <v-btn
-                                class="btn btn-primary mt-3"
-                                type="submit"
-                                :loading="statusLoading"
+                       <table>
+                        <tr>
+
+                           <td><h2 style="color: teal;">Order Status </h2></td>
+
+                            <td><v-tab></v-tab></td>
+
+                        <td><v-chip
+                            class="ma-2"
+                            color="success"
+                            variant="outlined"
+                            label
                             >
-                                {{ $getConst("ORDER_STATUS_UPDATE_BTN") }}
-                            </v-btn>
-                        </v-flex>
+                        {{ model.order_status_remark }}</v-chip></td>
+                    </tr>
+                    </table>
                     </v-layout>
                 </form>
                 <v-divider></v-divider>
-                <form
-                    method="POST"
-                    name="delivery-partner-form"
-                    role="form"
-                    novalidate
-                    autocomplete="off"
-                    @submit.prevent="changeDeliveryDetail"
-                >
-                    <ErrorBlockServer
-                        :errorMessage="errorMessage"
-                    ></ErrorBlockServer>
-                    <v-layout class="fs">
-                        <v-flex xs12 sm2 md2 lg2>
-                            <h6 class="mt-5">Delivery partner</h6>
-                        </v-flex>
-                        <v-flex xs12 sm3 md3 lg2 class="pl-lg-4 pl-sm-0">
-                            <v-text-field
-                                label="Delivery"
-                                type="text"
-                                name="courier_name"
-                                :disabled="model.order_status == '4'"
-                                v-model="model.courier_name"
-                                :error-messages="getErrorValue('courier_name')"
-                                v-validate="'required'"
-                            ></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm3 md3 lg2 class="pl-lg-4 pl-sm-0">
-                            <v-text-field
-                                label="Enter tracking ID"
-                                type="text"
-                                name="tracking_id"
-                                :disabled="model.order_status == '4'"
-                                v-model="model.tracking_id"
-                                :error-messages="getErrorValue('tracking_id')"
-                                v-validate="'required'"
-                            ></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm3 md3 lg3 class="pl-lg-4 pl-sm-0">
-                            <v-text-field
-                                label="Tracking link"
-                                type="text"
-                                name="courier_link"
-                                :disabled="model.order_status == '4'"
-                                v-model="model.courier_link"
-                                :error-messages="getErrorValue('courier_link')"
-                                v-validate="'required'"
-                            ></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm12 md3 lg3 class="pl-lg-4 pl-sm-0">
-                            <v-btn
-                                class="btn btn-primary mt-3"
-                                type="submit"
-                                :disabled="model.order_status == '4'"
-                                :loading="deliveryLoading"
-                            >
-                                {{ $getConst("ORDER_DELIVERY_UPDATE_BTN") }}
-                            </v-btn>
-                        </v-flex>
-                    </v-layout>
-                </form>
-                <v-divider></v-divider>
-                <template v-for="(product,index) in model.products">
+                <template v-for="(order_products,index) in model.order_products">
                     <v-layout class="fs mt-7 mb-8" :key="index">
-                        <v-flex xs12 sm12 md2 lg1>
+                        <table>
+                        <td>
                             <img
-                                :src="product.featured_image"
+                                :src="model.order_products[index].featured_image"
                                 class="img-responsive"
                                 width="80px"
                                 height="80px"
+                               style="margin-top: 20px;"
                             />
-                        </v-flex>
-                        <v-flex xs12 sm12 md8 lg9>
-                            <h6>{{ product.product_name }}</h6>
-                            <h6>{{ product.category_name }}</h6>
-                            <h6>Qty: {{ product.quantity }}</h6>
-                        </v-flex>
-                        <v-flex xs12 sm12 md2 lg2>
-                            <h6>{{ product.total_points | formatNumber }}</h6>
-                        </v-flex>
+                        </td>
+                        <td>
+                            <v-tab></v-tab>
+                        </td>
+                        <td>
+                            <h6 style="color: teal; margin-top: 20px;"><span style="color: black;padding-right: 20px;">Product Name:</span>{{ model.order_products[index].product_name }}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Category Name:</span>{{ model.order_products[index].category_name }}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Quantity:</span>{{ model.order_products[index].quantity}}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Price:</span>{{ model.order_products[index].price}}</h6>
+                        </td>
+
+                    </table>
                     </v-layout>
                 </template>
-                <v-layout class="fs mb-6">
-                    <v-flex xs12 sm12 md8 lg8 class="address-shipped-block">
-                        <h3 class="mb-5">Shipping Address</h3>
-                        <table>
-                            <tr>
-                                <td><h6>Name:</h6></td>
-                                <td>
-                                    <div class="pl-lg-4 pl-sm-0 text">
-                                        {{
-                                            model.first_name +
-                                                " " +
-                                                model.last_name
-                                        }}
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><h6>Address:</h6></td>
-                                <td>
-                                    <div class="pl-lg-4 pl-sm-0 text">
-                                        <div>{{ model.address }}</div>
-                                        <div>
-                                            {{
-                                                model.city +
-                                                    ", " +
-                                                    model.state +
-                                                    "-" +
-                                                    model.pin_code
-                                            }}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><h6>Mobile No.:</h6></td>
-                                <td>
-                                    <div class="pl-lg-4 pl-sm-0 text">
-                                        {{ model.contact_number }}
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><h6>Email Address:</h6></td>
-                                <td>
-                                    <div class="pl-lg-4 pl-sm-0 text">
-                                        {{ model.email }}
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </v-flex>
-                    <v-flex xs12 sm12 md4 lg4 class="payment-detail-block">
-                        <h3 class="mb-5">Payment detail</h3>
-                        <div>
-                            <h6 class="d-inline-block">Points redeemed:</h6>
-                            <div class="pl-lg-4 pl-sm-0 text">
-                                {{ model.redeemed_points | formatNumber }}
-                            </div>
-                        </div>
-                        <div>
-                            <h6 class="d-inline-block">PG transaction:</h6>
-                            <div class="pl-lg-4 pl-sm-0 text">
-                                {{ model.payment_amount | formatNumber }}
-                            </div>
-                        </div>
-                        <div>
-                            <h6 class="d-inline-block">Ref id#</h6>
-                            <div class="pl-lg-4 pl-sm-0 text">
-                                {{ model.payment_transaction_id }}
-                            </div>
-                        </div>
-                        <div>
-                            <h6 class="d-inline-block">Mode:</h6>
-                            <div class="pl-lg-4 pl-sm-0 text">
-                                {{ model.payment_mode_text }}
-                            </div>
-                        </div>
-                    </v-flex>
+                <v-layout class="fs mt-7 mb-8">
+                    <table>
+                        <v-divider></v-divider>
+                        <tr>
+
+                            <td><h2 style="color: teal;">Payment Amount </h2></td>
+
+                            <td><v-tab></v-tab></td>
+
+                            <td><v-chip
+                            class="ma-2"
+                            color="success"
+                            variant="outlined"
+                            label
+                            >
+                            {{ model.payment_amount }}</v-chip></td>
+                        </tr>
+                    </table>
+
                 </v-layout>
-                <v-layout>
-                    <v-flex xs12 sm12 md12 lg12>
-                        <v-btn class="btn btn-primary" @click="orderListing()">
+                <v-flex xs12 sm12 md12 lg12>
+                        <v-btn class="btn btn-primary" @click=onCancel()>
                             Back
+
                         </v-btn>
                     </v-flex>
-                </v-layout>
-                              <pre>{{model}} </pre>
             </v-card-text>
         </v-card>
     </div>
+    </v-dialog>
 </template>
-
-<script src="./order-detail.ts"></script>-->
+<script lang="ts" src="./order-view-modal.ts"></script>

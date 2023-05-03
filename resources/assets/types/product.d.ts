@@ -5,7 +5,7 @@ export interface IProductModel {
     price: string;
     description: string;
     item_code: string;
-    category_id: string;
+    category_id: string[];
     available_status: string;
     stock: string;
     featured_image: string;
@@ -27,7 +27,7 @@ export interface IProductLightResponse {
 }
 
 export interface IProductFullResponse extends IProductLightResponse{
-    category_id: string;
+    category_id: string[];
     category: ICategoryFullResponse;
     available_status: string;
     available_status_text: string;
@@ -61,4 +61,4 @@ export interface IProductGalleries extends CommonFileResponse{
     gallery_original: string;
     gallery_thumbnail: string;
 }
-                                    
+

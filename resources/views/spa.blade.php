@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/icons/Logo-A.ico') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('images/icons/fav-t.png') }}" type="image/png">
     <title>Admin Panel</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700|Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" scoped>

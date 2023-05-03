@@ -261,7 +261,7 @@
                                     @click="openGalleryModal(item.id)"
                                     aria-label="Manage Gallery icon"
                                 >
-                                    {{ icons.mdiPaperclip }}
+                                    {{ icons.mdiImageEditOutline }}
                                 </v-icon>
                             </template>
                             <span>{{
@@ -272,7 +272,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    @click="onView(item.id, false)"
+                                    @click="onView(item.id)"
                                     class="mr-2"
                                     small
                                     v-canAccess="$getConst('PRODUCTS')"
@@ -287,7 +287,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    @click="onEdit(item.id, true)"
+                                    @click="onEdit(item.id)"
                                     class="mr-2"
                                     small
                                     v-on="on"

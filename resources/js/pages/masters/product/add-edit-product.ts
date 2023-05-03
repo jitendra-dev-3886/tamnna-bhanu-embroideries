@@ -175,11 +175,24 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             formData.append('price', self.model.price);
             formData.append('description', self.model.description);
             formData.append('item_code', self.model.item_code);
-            formData.append('category_id', self.model.category_id);
             formData.append('available_status', self.model.available_status);
             formData.append('stock', self.model.stock);
             formData.append('featured_image', self.model.featured_image);
 
+            //Multiple Categories Array
+            if (
+                self.model.category_id &&
+                self.model.category_id.length > 0
+            ) {
+                Array.from(self.model.category_id).forEach(
+                    (category_id) => {
+                        formData.append(
+                            "category_id[]",
+                            <string>category_id
+                        );
+                    }
+                );
+            }
                 // Multiple Product Gallery array
                 if (
                     self.model.product_galleries &&
