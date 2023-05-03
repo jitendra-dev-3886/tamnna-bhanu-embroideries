@@ -8,6 +8,7 @@ use App\Http\Resources\DataTrueResource;
 use App\Models\HomeBanner;
 use App\Http\Requests\CsvRequest;
 use App\Http\Requests\HomeBannerRequest;
+use App\Http\Requests\HomeBannerImageUpdateRequest;
 use App\Http\Requests\HomeBannerUpdateRequest;
 use App\Http\Resources\HomeBannerCollection;
 use App\Http\Resources\HomeBannerResource;
@@ -117,6 +118,24 @@ class HomeBannerAPIController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(HomeBannerUpdateRequest $request, HomeBanner $homebanner)
+    {
+        return HomeBanner::updateHomeBanner($request, $homebanner);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBannerImage(HomeBannerImageUpdateRequest $request, HomeBanner $homebanner)
     {
         return HomeBanner::updateHomeBanner($request, $homebanner);
     }
