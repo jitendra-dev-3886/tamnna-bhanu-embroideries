@@ -68,7 +68,7 @@ Route::group([
         Route::post('roles-import-bulk', '\App\Http\Controllers\API\RoleAPIController@importBulk');
         Route::get('get-role-by-permissions/{id}', '\App\Http\Controllers\API\RoleAPIController@getPermissionsByRole');
 
-        // Route::post('categories/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
         Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController');
         Route::post('categories-delete-multiple', '\App\Http\Controllers\API\CategoryAPIController@deleteAll');
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
@@ -93,11 +93,12 @@ Route::group([
         Route::get('carts-export', '\App\Http\Controllers\API\CartAPIController@export');
         Route::post('carts-import-bulk', '\App\Http\Controllers\API\CartAPIController@importBulk');
 
-        Route::post('homebanners/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@update'); // RM
-        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['except' => ['update']]); // RM
+        Route::post('homebanners-update-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@updateBannerImage'); // RM
+        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController'); // RM
         Route::post('homebanners-delete-multiple', '\App\Http\Controllers\API\HomeBannerAPIController@deleteAll'); // RM
         // Route::get('homebanners-export', '\App\Http\Controllers\API\HomeBannerAPIController@export');
         // Route::post('homebanners-import-bulk', '\App\Http\Controllers\API\HomeBannerAPIController@importBulk');
+
 
     });
 
@@ -105,7 +106,9 @@ Route::group([
         'middleware' => ['auth:api'],
     ], function () {
 
-        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+
+
+        Route::post('update-product-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
 
 
         Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
@@ -129,7 +132,7 @@ Route::group([
 
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
-        Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController', ['except' => ['store', 'update', 'delete']]);
+        Route::get('homebanners', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
     });
 });

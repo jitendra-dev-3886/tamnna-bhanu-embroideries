@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class HomeBannerUpdateRequest extends FormRequest
+class HomeBannerImageUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +28,9 @@ class HomeBannerUpdateRequest extends FormRequest
         $id = end($urlArr);
 
         $rules = [
-            'name'           => 'required|max:191',
-            // 'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'banner_status'  => 'required|in:0,1',
+            // 'name'           => 'required|max:191',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            // 'banner_status'  => 'required|in:0,1',
         ];
         return $rules;
     }
