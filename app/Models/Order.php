@@ -172,10 +172,6 @@ class Order extends Model
     {
         $order = Order::create($request->all());
 
-        $orderProduct = $request->all();
-
-
-
 
         if ($request->hasFile('order_products')) {
             $realPath = 'order/' . $order->id . '/order_products';
@@ -191,19 +187,16 @@ class Order extends Model
             }
         }
 
-
         $cartProducts = Cart::where('user_id', $order->user_id)->where('deleted_at', null)->get();
 
-
-
+        $total_amount = 0;
+        $quantity = 0;
         foreach ($cartProducts as $cartProduct) {
-
-
 
             $outOfStockProduct = Product::where('id', $cartProduct->product_id)->where('available_status', config('constants.products.available_status_code.not_available'))->first();
 
-
             if (!is_null($outOfStockProduct)) {
+
                 $productIds[] = $outOfStockProduct->name;
             }
 
@@ -211,27 +204,21 @@ class Order extends Model
                         ->where('available_status', config('constants.products.available_status_code.available'))
                         ->get();
 
+            foreach ($products as $product) {
+
+                // $payment_amount =  $products->price->sum;
+
+            }
+            // $quantity = $quantity + $order->quantity;
+
+        }
 
             if (!empty($productIds)) {
                 $ProductArray = implode(', ', $productIds);
+
                 return response()->json([
                     'error' => $ProductArray . ' is out of stock.'
                 ], config('constants.validation_codes.unprocessable_entity'));
-
-            }
-
-            $productDB = DB::table('products')->get();
-
-
-            foreach ($productDB as $productsDB) {
-
-
-                $productsDB->name;
-                $productsDB->price;
-                $gst =  $order->gst;
-                $productsDB->description;
-                $productsDB->featured_image;
-                $productsDB->category_id;
 
             }
 
@@ -241,7 +228,9 @@ class Order extends Model
 
             $productid = $cartProduct->product_id;
 
+
             foreach ($cartProducts as $cartProduct) {
+
 
                 $products = Product::where('id', $cartProduct->product_id)->get();
 
@@ -249,10 +238,8 @@ class Order extends Model
                 foreach ($products as $product) {
 
                     $product->featured_image;
+                    $product->price;
 
-                    // dd($product->featured_image);
-
-                    // $categoryName = Category::where('id', $product->category_id)->pluck('name');
                     $categoryName = Category::where('id', $product->category_id)->first();
 
                     $categoryName->name;
@@ -260,16 +247,18 @@ class Order extends Model
                     $productData['order_id'] =  $order->id;
                     $productData['product_id'] = $cartProduct->product_id;
                     $productData['product_name'] = $product->name;
-                    $productData['price'] =$productsDB->price;
-                    $productData['featured_image'] =  $productsDB->featured_image;
-                    $productData['quantity'] =  $ordersQty = $order->quantity;
+                    $productData['price'] = $product->price;
+                    $productData['featured_image'] =  $product->featured_image;
+                    $productData['quantity']  = $order->quantity;
                     $productData['category_name'] =  $categoryName->name;
                     $productData['featured_image'] =  $product->featured_image;
+
                     OrderProduct::create($productData); //Insert order products into order_products table
+
+                    Cart::where('user_id', $order->user_id)->where('product_id', $cartProduct->product_id)->delete();
+
                 }
             }
-        }
-
 
         return \App\Models\User::GetMessage(new OrderResource($order), config('constants.messages.create_success'));
     }

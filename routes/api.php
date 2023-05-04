@@ -74,6 +74,7 @@ Route::group([
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
         Route::post('categories-import-bulk', '\App\Http\Controllers\API\CategoryAPIController@importBulk');
 
+        Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
         Route::post('products/{product}', '\App\Http\Controllers\API\ProductAPIController@update');
         Route::resource('products', '\App\Http\Controllers\API\ProductAPIController', ['except' => ['update']]);
         Route::post('products-delete-multiple', '\App\Http\Controllers\API\ProductAPIController@deleteAll');
@@ -106,12 +107,12 @@ Route::group([
         'middleware' => ['auth:api'],
     ], function () {
 
-
-
-        Route::post('update-product-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
-
-
         Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
+
+        //Update single image
+        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+        Route::post('homebanners-update-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@updateBannerImage'); // RM
+        Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
 
         Route::post('products-upload-zip', '\App\Http\Controllers\API\ProductAPIController@uploadZipFile');
         Route::post('orders-upload-zip', '\App\Http\Controllers\API\OrderAPIController@uploadZipFile');
@@ -132,7 +133,7 @@ Route::group([
 
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
-        Route::get('homebanners', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
+        Route::get('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController@index'); // RM
 
     });
 });
