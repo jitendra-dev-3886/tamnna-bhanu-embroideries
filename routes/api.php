@@ -134,6 +134,7 @@ Route::group([
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
         Route::get('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController@index'); // RM
+        
 
     });
 });
