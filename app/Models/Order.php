@@ -204,13 +204,6 @@ class Order extends Model
                         ->where('available_status', config('constants.products.available_status_code.available'))
                         ->get();
 
-            foreach ($products as $product) {
-
-                // $payment_amount =  $products->price->sum;
-
-            }
-            // $quantity = $quantity + $order->quantity;
-
         }
 
             if (!empty($productIds)) {
