@@ -19,18 +19,19 @@
                     <tbody>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Name:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.name  != '' ? model.name  : '-' }}</td>
+
+                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Name:</td>
+                        <td class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.name  != '' ? model.name  : '-' }}</td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Description:</td>
-                        <td class="font-weight-regular font-size-h6-sm" v-if="model.description"><span v-html="model.description"></span></td>
-                        <td class="font-weight-regular font-size-h6-sm" v-if="!model.description">-</td>
+                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Description:</td>
+                        <td class="font-weight-regular font-size-h6-sm" style="color:teal" v-if="model.description"><span v-html="model.description"></span></td>
+                        <td class="font-weight-regular font-size-h6-sm" style="color:teal" v-if="!model.description">-</td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Feature Image:</td>
+                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Feature Image:</td>
                         <td>
                                 <a :href="model.featured_image">
                                     <v-img :src="model.featured_image" v-if="model.featured_image" width="100" height="100">

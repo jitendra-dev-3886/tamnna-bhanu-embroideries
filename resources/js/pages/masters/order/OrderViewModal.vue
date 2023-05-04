@@ -36,7 +36,7 @@
                             variant="outlined"
                             label
                             >
-                        {{ model.order_status_remark }}</v-chip></td>
+                        {{ model.order_status_text}}</v-chip></td>
                     </tr>
                     </table>
                     </v-layout>
@@ -72,17 +72,29 @@
                         <v-divider></v-divider>
                         <tr>
 
-                            <td><h2 style="color: teal;">Payment Amount </h2></td>
+                            <td>
+                                <h6 style="color:black; margin-top: 20px;">GST:</h6>
+                            </td>
 
-                            <td><v-tab></v-tab></td>
+                            <td>
+                                <h6>
+                                    <span style="color:teal;padding-left:20px;padding-top:20px;">{{parseFloat(model.gst).toFixed(2)}}</span>
+                                </h6>
+                            </td>
+                        </tr>
+                        <tr>
 
-                            <td><v-chip
+                            <td><h2 style="color: teal;">Total Amount </h2></td>
+
+
+
+                            <td style="color:teal;padding-left:20px;"><v-chip
                             class="ma-2"
                             color="success"
                             variant="outlined"
                             label
                             >
-                            {{ model.payment_amount }}</v-chip></td>
+                            {{parseFloat(model.payment_amount).toFixed(2)}}</v-chip></td>
                         </tr>
                     </table>
 

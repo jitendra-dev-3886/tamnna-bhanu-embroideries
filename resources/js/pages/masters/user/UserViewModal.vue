@@ -25,24 +25,24 @@
                     <tbody>
 
                         <tr>
-                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Name:</td>
-                            <td class="font-weight-regular font-size-h6-sm"> {{ model.name }}</td>
+                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Name:</td>
+                            <td class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.name }}</td>
                         </tr>
                        <!-- <tr>
                             <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Company Name:</td>
                             <td class="font-weight-regular font-size-h6-sm"> {{ model.company_name }}</td>
                         </tr>-->
                         <tr>
-                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Role:</td>
-                            <td class="font-weight-regular font-size-h6-sm"> {{ model.role.name}}</td>
+                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Role:</td>
+                            <td class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.role.name}}</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Email:</td>
-                            <td class="font-weight-regular font-size-h6-sm"> {{ model.email }}</td>
+                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Email:</td>
+                            <td class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.email }}</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Mobile Number:</td>
-                            <td class="font-weight-regular font-size-h6-sm"> {{ model.contact_number }}</td>
+                            <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Mobile Number:</td>
+                            <td class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.contact_number }}</td>
                         </tr>
                     </tbody>
                 </table>

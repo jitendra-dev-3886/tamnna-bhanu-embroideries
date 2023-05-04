@@ -1,15 +1,15 @@
 
 import {ICategoryFullResponse, ICategoryLightResponse} from "./category";
 export interface IProductModel {
+    available_status: string;
+    category_id: string[];
+    description: string;
+    featured_image: string;
+    item_code: string;
     name: string;
     price: string;
-    description: string;
-    item_code: string;
-    category_id: string[];
-    available_status: string;
-    stock: string;
-    featured_image: string;
     product_galleries: Blob[];
+    stock: string;
 }
 
 export interface IProductParams {
@@ -29,10 +29,12 @@ export interface IProductLightResponse {
 export interface IProductFullResponse extends IProductLightResponse{
     category_id: string[];
     category: ICategoryFullResponse;
+    product_galleries: IProductGalleries[];
+    category_detail:Object[];
     available_status: string;
     available_status_text: string;
     stock: string;
-    product_galleries: IProductGalleries[];
+
 }
 
 export type ValidationObj = { key: string, value: string }[];

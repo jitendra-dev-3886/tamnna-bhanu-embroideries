@@ -54,6 +54,7 @@ function getEmptyState() {
             stock: "",
             featured_image: "",
             product_galleries: [],
+            category_detail:[],
             category: {
                 id: "",
                 name: "",

@@ -19,43 +19,37 @@
                     <tbody>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Name:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.name  != '' ? model.name  : '-' }}</td>
+                        <td ><h5 class="font-weight-medium font-size-h3-sm" style="color: black;">Name:</h5></td>
+                        <td><h5 class="font-weight-regular font-size-h3-sm" style="color:teal;"> {{ model.name  != '' ? model.name  : '-' }}</h5></td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Price:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.price  != '' ? model.price  : '-' }}</td>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Price:</h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal;"> {{ model.price  != '' ? model.price  : '-' }}</h4></td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Description:</td>
-                        <td class="font-weight-regular font-size-h6-sm" v-if="model.description"><span v-html="model.description"></span></td>
-                        <td class="font-weight-regular font-size-h6-sm" v-if="!model.description">-</td>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Description:</h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" v-if="model.description" style="color:teal;"><span v-html="model.description"></span></h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" v-if="!model.description" style="color:teal;">-</h4></td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Item code:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.item_code  != '' ? model.item_code  : '-' }}</td>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Item Code:</h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal;"> {{ model.item_code  != '' ? model.item_code  : '-' }}</h4></td>
+                    </tr>
+                    <tr>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Available Status:</h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal;">{{ model.available_status_text != '' ? model.available_status_text : '-' }}</h4></td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Category:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.category ? model.category.name : '-' }}</td>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Stock:</h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal;"> {{ model.stock  != '' ? model.stock  : '-' }}</h4></td>
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Available status:</td>
-                        <td class="font-weight-regular font-size-h6-sm">{{ model.available_status_text != '' ? model.available_status_text : '-' }}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Stock:</td>
-                        <td class="font-weight-regular font-size-h6-sm"> {{ model.stock  != '' ? model.stock  : '-' }}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%">Feature Image:</td>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Feature Image:</h4></td>
                         <td>
                                 <a :href="model.featured_image">
                                     <v-img :src="model.featured_image" v-if="model.featured_image" width="100" height="100">
@@ -65,6 +59,20 @@
                     </tr>
                     </tbody>
                 </table>
+                <table>
+                    <tr>
+                        <td ><h4 class="font-weight-medium font-size-h3-sm" style="color: black;">Category:</h4></td>
+                    <v-tab></v-tab>
+                    <v-tab></v-tab>
+                    <td v-for="(category,index) in model.category" :key="index" >
+                        <h6 style="color:teal;">
+                        {{ model.category[index].name?model.category[index].name:'-' }}
+                        </h6>
+                        <v-tab></v-tab>
+                    </td>
+                    </tr>
+                </table>
+
             </v-card-text>
         </v-card>
     </v-dialog>
