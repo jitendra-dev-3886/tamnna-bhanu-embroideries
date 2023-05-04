@@ -171,7 +171,7 @@ class HomeBanner extends Model
 
         if ($request->hasFile('featured_image')) {
             $realPath = 'homebanner/' . $homebanner->id;
-            $resizeImages = $homebanner->resizeImages($request->file('    '), $realPath, 100, 100);
+            $resizeImages = $homebanner->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
             $data['featured_image'] = $resizeImages['image'];
             //     // $data['profile_original'] = $request->get('profile_image_original');

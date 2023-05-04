@@ -32,7 +32,7 @@ Route::group([
     Route::post('app-login', '\App\Http\Controllers\API\LoginAPIController@appLogin'); // RM
     Route::post('app-login-verify', '\App\Http\Controllers\API\LoginAPIController@appLoginVerify'); // RM
 
-    // Route::put('users/{user}', '\App\Http\Controllers\API\UserAPIController@update');
+    // Route::put('users/{user}', '\App\Http\Controllers\API\UserAPIController@update'); RM
     Route::resource('users', '\App\Http\Controllers\API\UserAPIController', ['only' => ['store']]);
     /* Creating a resource route for the `users` endpoint in the API, which maps to the
     `UserAPIController` controller. However, it only allows the `store` method to be accessed for
@@ -48,7 +48,8 @@ Route::group([
     Route::group([
         'middleware' => ['auth:api', 'check.permission'],
     ], function () {
-        // Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
+
+        Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
         Route::get('auth-batch-request', '\App\Http\Controllers\API\UserAPIController@batchRequest');
         Route::get('get-activities', '\App\Http\Controllers\API\UserAPIController@getActivities');
         Route::post('check-email', '\App\Http\Controllers\API\UserAPIController@checkEmail');
@@ -74,8 +75,11 @@ Route::group([
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
         Route::post('categories-import-bulk', '\App\Http\Controllers\API\CategoryAPIController@importBulk');
 
+        Route::post('product-update-gallery/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductGallery');
+
+        Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
         Route::post('products/{product}', '\App\Http\Controllers\API\ProductAPIController@update');
-        Route::resource('products', '\App\Http\Controllers\API\ProductAPIController', ['except' => ['update']]);
+        Route::resource('products', '\App\Http\Controllers\API\ProductAPIController');
         Route::post('products-delete-multiple', '\App\Http\Controllers\API\ProductAPIController@deleteAll');
         Route::get('products-export', '\App\Http\Controllers\API\ProductAPIController@export');
         Route::post('products-import-bulk', '\App\Http\Controllers\API\ProductAPIController@importBulk');
@@ -106,12 +110,14 @@ Route::group([
         'middleware' => ['auth:api'],
     ], function () {
 
+        // Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
 
+        //Update single image
+        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+        Route::post('homebanners-update-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@updateBannerImage'); // RM
+        Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
 
-        Route::post('update-product-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
-
-
-        Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
+        Route::post('product-update-gallery/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductGallery');
 
         Route::post('products-upload-zip', '\App\Http\Controllers\API\ProductAPIController@uploadZipFile');
         Route::post('orders-upload-zip', '\App\Http\Controllers\API\OrderAPIController@uploadZipFile');
@@ -132,7 +138,7 @@ Route::group([
 
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
-        Route::get('homebanners', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
+        Route::get('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController@index'); // RM
 
     });
 });

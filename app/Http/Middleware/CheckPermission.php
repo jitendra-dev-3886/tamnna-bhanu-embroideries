@@ -36,7 +36,8 @@ class CheckPermission
                 'logout-logins',
                 'getActivities-users',
                 'checkEmail-users',
-                'batchRequest-users'
+                'batchRequest-users',
+                'updateCategoryImage-categories'
         ];
 
         if($request->path() == 'api/v1/batch-request' || $request->path() == 'api/v1/auth-batch-request')
