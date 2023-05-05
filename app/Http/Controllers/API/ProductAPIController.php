@@ -67,6 +67,7 @@ class ProductAPIController extends Controller
      */
     public function show(Product $product)
     {
+
         return new ProductResource($product->load([]));
     }
 
@@ -93,23 +94,20 @@ class ProductAPIController extends Controller
     }
 
     /**
-     * Update Product Image
+     * Delete Product
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return DataTrueResource|\Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    /**
+     * Update Product
      * @param ProductRequest $request
      * @param Product $product
      * @return ProductResource
      */
     public function updateProductImage(ProductImageUpdateRequest $request, Product $product)
-    {
-        return Product::updateProduct($request, $product);
-    }
-
-    /**
-     * Update Product Image
-     * @param ProductRequest $request
-     * @param Product $product
-     * @return ProductResource
-     */
-    public function updateProductGallery(ProductGalleryUpdateRequest $request, Product $product)
     {
         return Product::updateProduct($request, $product);
     }

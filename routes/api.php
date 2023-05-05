@@ -69,7 +69,7 @@ Route::group([
         Route::post('roles-import-bulk', '\App\Http\Controllers\API\RoleAPIController@importBulk');
         Route::get('get-role-by-permissions/{id}', '\App\Http\Controllers\API\RoleAPIController@getPermissionsByRole');
 
-        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+
         Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController');
         Route::post('categories-delete-multiple', '\App\Http\Controllers\API\CategoryAPIController@deleteAll');
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
@@ -104,6 +104,13 @@ Route::group([
         // Route::get('homebanners-export', '\App\Http\Controllers\API\HomeBannerAPIController@export');
         // Route::post('homebanners-import-bulk', '\App\Http\Controllers\API\HomeBannerAPIController@importBulk');
 
+         //Update single image
+         Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
+         Route::post('homebanners-update-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@updateBannerImage'); // RM
+         Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
+
+         Route::post('product-update-gallery/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductGallery');
+
 
     });
 
@@ -111,13 +118,7 @@ Route::group([
         'middleware' => ['auth:api'],
     ], function () {
 
-        Route::resource('users', '\App\Http\Controllers\API\UserAPIController');
-
-        //Update single image
-        Route::post('categories-update-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@updateCategoryImage');
-        Route::post('homebanners-update-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@updateBannerImage'); // RM
-        Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
-
+        Route::get('users', '\App\Http\Controllers\API\UserAPIController@index');
         Route::post('products-upload-zip', '\App\Http\Controllers\API\ProductAPIController@uploadZipFile');
         Route::post('orders-upload-zip', '\App\Http\Controllers\API\OrderAPIController@uploadZipFile');
 
@@ -138,8 +139,6 @@ Route::group([
         Route::get('dashboards', '\App\Http\Controllers\API\DashboardAPIController@index'); // RM
 
         Route::get('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController@index'); // RM
-        Route::get('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController@index'); // RM
-
 
 
     });
