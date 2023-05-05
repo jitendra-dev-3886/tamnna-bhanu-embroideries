@@ -29,8 +29,7 @@ class ProductImageUpdateRequest extends FormRequest
         $id = end($urlArr);
 
         return [
-            'featured_image'=>'required|max:500'
-
+            'featured_image'=>'required|max:500',
         ];
 
     }
