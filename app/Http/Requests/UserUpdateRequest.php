@@ -29,9 +29,13 @@ class UserUpdateRequest extends FormRequest
         $id = end($urlArr);
 
         return [
-            'contact_number' => 'required|max:255',
-            'password' => 'required|min:6|max:191',
-            'role_id' => 'required|exists:roles,id,deleted_at,NULL'
+                'contact_number' => 'max:255',
+                'name' => 'required|max:191',
+                'company_name' => 'max:191',
+                'city' => 'max:191',
+                'password' => 'required|min:8|max:191|email',
+                'email' =>  'max:255',
+                'role_id' => 'exists:roles,id,deleted_at,NULL'
 
         ];
     }

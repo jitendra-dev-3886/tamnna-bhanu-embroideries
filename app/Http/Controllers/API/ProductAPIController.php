@@ -8,6 +8,7 @@ use App\Http\Requests\CsvRequest;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\ProductImageUpdateRequest;
+use App\Http\Requests\ProductGalleryUpdateRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class ProductAPIController extends Controller
      */
     public function show(Product $product)
     {
+
         return new ProductResource($product->load([]));
     }
 
@@ -92,7 +94,7 @@ class ProductAPIController extends Controller
     }
 
     /**
-     * Delete Product
+     * Update Product Image
      *
      * @param Request $request
      * @param Product $product
@@ -106,6 +108,25 @@ class ProductAPIController extends Controller
      * @return ProductResource
      */
     public function updateProductImage(ProductImageUpdateRequest $request, Product $product)
+    {
+        return Product::updateProduct($request, $product);
+    }
+
+    /**
+     * Update Product Gallery
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return DataTrueResource|\Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    /**
+     * Update Product
+     * @param ProductRequest $request
+     * @param Product $product
+     * @return ProductResource
+     */
+    public function updateProductGallery(ProductGalleryUpdateRequest $request, Product $product)
     {
         return Product::updateProduct($request, $product);
     }

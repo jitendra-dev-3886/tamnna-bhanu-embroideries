@@ -34,7 +34,7 @@ class ProductRequest extends FormRequest
             'category_id.*' => 'required|exists:categories,id,deleted_at,NULL',
             'available_status' => 'required|in:0,1',
             'stock' => 'required|numeric|min:0',
-            'featured_image' => 'required|max:500',
+            'featured_image' => 'max:500',
             'product_galleries' => 'array|max:5',
             'product_galleries.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
 
