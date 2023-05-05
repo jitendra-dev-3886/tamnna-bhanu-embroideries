@@ -126,20 +126,12 @@
                                 id="featured_image"
                                 ref="featured_image"
                                 v-model="model.featured_image"
-                                v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
                                 attach
                                 counter="1"
                                 accept="image/*"
                                 :label="isEditMode ? 'Feature Image' : 'Feature Image*' "
                                 name="featured_image"
                                 hint="Maximum 500KB"
-                                :error-messages="
-                                    getErrorValue(
-                                        'featured_image',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
                                 @click:clear="model.featured_image='' "
                                 aria-label="Featured_image"
 
@@ -150,20 +142,25 @@
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
 
-                        <v-btn
+                        <!--<v-btn
                             aria-label="Submit"
+                            :loading="isSubmitting"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             type="submit"
 
                         >
                             {{ $getConst('BTN_SUBMIT') }}
                         </v-btn>
+                        -->
+                        <v-btn class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4" v-show="isEditMode" :loading="isSubmitting" @click.prevent="EditDetail()">{{ $getConst('TXT_UPDATE') }}</v-btn>
+                        <v-btn class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4" v-show="!isEditMode" :loading="isSubmitting" type="submit">{{ $getConst('BTN_SUBMIT') }}</v-btn>
                         <v-btn
                             class="btn btn-grey font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             @click.prevent="onCancel()"
                         >
                             {{ $getConst('BTN_CANCEL') }}
                         </v-btn>
+
                     </div>
                     <!--end::Action-->
                 </v-form>

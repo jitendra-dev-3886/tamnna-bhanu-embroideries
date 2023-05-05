@@ -65,7 +65,7 @@
                     <v-tab></v-tab>
                     <v-tab></v-tab>
                     <td v-for="(category,index) in model.category" :key="index" >
-                        <h6 style="color:teal;">
+                        <h6 style="color:teal; padding-left: 80px;">
                         {{ model.category[index].name?model.category[index].name:'-' }}
                         </h6>
                         <v-tab></v-tab>

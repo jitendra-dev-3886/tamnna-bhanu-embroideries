@@ -143,7 +143,7 @@ class HomeBanner extends VuexModule implements IHomeBanner {
         param: IHomeBannerParams
     ): Promise<AxiosResponse<ResponseResult<IHomeBannerFullResponse>>> {
         return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}homebanners/${param.editId}`, param.model)
+            HTTP.put(`${this.baseUrl}homebanners/${param.editId}`, param.model)
                 .then(
                     (
                         response: AxiosResponse<
