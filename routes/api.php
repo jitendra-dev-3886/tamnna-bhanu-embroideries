@@ -69,7 +69,6 @@ Route::group([
         Route::post('roles-import-bulk', '\App\Http\Controllers\API\RoleAPIController@importBulk');
         Route::get('get-role-by-permissions/{id}', '\App\Http\Controllers\API\RoleAPIController@getPermissionsByRole');
 
-
         Route::resource('categories', '\App\Http\Controllers\API\CategoryAPIController');
         Route::post('categories-delete-multiple', '\App\Http\Controllers\API\CategoryAPIController@deleteAll');
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
