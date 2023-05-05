@@ -203,6 +203,7 @@ class Order extends Model
             $products = Product::where('id', $cartProduct->product_id)
                         ->where('available_status', config('constants.products.available_status_code.available'))
                         ->get();
+
         }
 
             if (!empty($productIds)) {
