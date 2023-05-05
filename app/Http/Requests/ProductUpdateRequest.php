@@ -22,6 +22,7 @@ class ProductUpdateRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules(Request $request)
     {
 

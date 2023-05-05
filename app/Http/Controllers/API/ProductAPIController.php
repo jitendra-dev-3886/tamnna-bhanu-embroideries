@@ -101,13 +101,21 @@ class ProductAPIController extends Controller
      * @return DataTrueResource|\Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    /**
-     * Update Product
-     * @param ProductRequest $request
-     * @param Product $product
-     * @return ProductResource
-     */
     public function updateProductImage(ProductImageUpdateRequest $request, Product $product)
+    {
+        return Product::updateProduct($request, $product);
+    }
+
+    /**
+     * Update Product Gallery
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return DataTrueResource|\Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+
+    public function updateProductGallery(ProductGalleryUpdateRequest $request, Product $product)
     {
         return Product::updateProduct($request, $product);
     }
