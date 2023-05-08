@@ -20,13 +20,13 @@
                     <ErrorBlockServer :error-message="errorMessage" />
                     <v-flex xs12>
                         <v-text-field
-                            v-model="loginDetail.contact_number"
+                            v-model="loginDetail.email"
                             v-validate="'required'"
                             label="Username*"
                             type="text"
-                            name="contact_number"
+                            name="email"
                             autofocus
-                            :error-messages="getErrorValue('contact_number', errors, validationMessages)"
+                            :error-messages="getErrorValue('email', errors, validationMessages)"
                             data-test-id="username"
                         />
                     </v-flex>
