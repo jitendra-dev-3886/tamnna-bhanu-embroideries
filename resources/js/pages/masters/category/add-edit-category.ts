@@ -55,6 +55,10 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                 key: "size",
                 value: "Maximum size allowed is 1 MB",
             },
+            {
+                key: "ext",
+                value: "Extension: jpeg, png or jpg are only accepted",
+            },
         ],
     };
 
