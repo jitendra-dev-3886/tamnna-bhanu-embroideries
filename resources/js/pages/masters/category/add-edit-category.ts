@@ -9,23 +9,17 @@ import {
     ICategoryModel,
     ICategoryFullResponse,
     ICategoryValidations,
+    ICategoryUpdatePayload,
 } from "../../../../assets/types/category";
-
 
 import { CommonModule } from "@/store/common";
 import { AxiosResponse } from "axios";
 
-
-import {
-    ResponseResult,
-} from "../../../../assets/types/common";
-
-
+import { ResponseResult } from "../../../../assets/types/common";
 
 @Component({
     components: {
         ErrorBlockServer,
-
     },
 })
 class AddEditCategory extends Mixins(CommonServices, CommonApis) {
@@ -34,82 +28,97 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
     errorMessage = "";
 
     validationMessages: ICategoryValidations = {
+        name: [
+            {
+                key: "required",
+                value: "Name required",
+            },
+            {
+                key: "max",
+                value: "Maximum length should be 191",
+            },
+        ],
 
-                name: [
-                    {
-                        key: 'required',
-                        value: 'Name required'
-                    },
-                    {
-                        key: 'max',
-                        value: 'Maximum length should be 191'
-                    },
-                ],
+        description: [
+            {
+                key: "required",
+                value: "Description required",
+            },
+        ],
 
-                description: [
-                    {
-                        key: 'required',
-                        value: 'Description required'
-                    },
-                ],
-
-                featured_image: [
-                    {
-                        key: 'required',
-                        value: 'Featured Image required'
-                    },
-                    {
-                        key: 'max',
-                        value: 'Maximum length should be 500'
-                    },
-                ],
+        featured_image: [
+            {
+                key: "required",
+                value: "Featured Image required",
+            },
+            {
+                key: "size",
+                value: "Maximum size allowed is 1 MB",
+            },
+            {
+                key: "ext",
+                value: "Extension: jpeg, png or jpg are only accepted",
+            },
+        ],
     };
 
     isSubmitting = false;
-
-
 
     get model(): ICategoryModel {
         return CategoryModule.model;
     }
 
     get isEditMode(): boolean {
-        return CategoryModule.editId ? CategoryModule.editId > 0 : false;
+        return CategoryModule.editId
+            ? <number>CategoryModule.editId > 0
+            : false;
     }
-
-
 
     //Methods
 
-         /* JSON Form Submit - Start*/
-    onSubmit(): void{
-
+    /* JSON Form Submit - Start*/
+    onSubmit(): void {
         this.$validator.validate().then((valid) => {
             const self = this;
             if (valid) {
-
                 self.isSubmitting = true;
                 let apiName = "create";
                 let editId: string | number = "";
 
                 // For Edit Category
-                if (CategoryModule.editId && CategoryModule.editId > 0) {
+                if (
+                    CategoryModule.editId &&
+                    <number>CategoryModule.editId > 0
+                ) {
                     apiName = "edit";
                     editId = CategoryModule.editId;
                 }
 
                 //To Submit JSON Request
-               //const sendParamModel = JSON.parse(JSON.stringify(self.model));
+                //const sendParamModel = JSON.parse(JSON.stringify(self.model));
 
                 const formData = new FormData();
-                formData.append("name", this.model.name);
-                formData.append("description", this.model.description);
-                formData.append("featured_image", this.model.featured_image);
+                const payload: ICategoryUpdatePayload = {
+                    name: "",
+                    description: "",
+                };
 
+                if (!this.isEditMode) {
+                    formData.append("name", this.model.name);
+                    formData.append("description", this.model.description);
+                    formData.append(
+                        "featured_image",
+                        this.model.featured_image
+                    );
+                } else {
+                    payload.name = this.model.name;
+                    payload.description = this.model.description;
+                }
 
-
-
-                CategoryModule[apiName]({ model: formData, editId }).then(
+                CategoryModule[apiName]({
+                    model: !this.isEditMode ? formData : payload,
+                    editId,
+                }).then(
                     (
                         response: AxiosResponse<
                             ResponseResult<ICategoryFullResponse>
@@ -136,23 +145,19 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
         this["$router"].push("/masters/category");
     }
 
-
-
     created(): void {
-
         this.resetStoreData("category").then(
             (response: unknown) => {
                 const castedCategoryResponse = response as AxiosResponse<
                     ResponseResult<ICategoryFullResponse>
                 >;
                 if (castedCategoryResponse?.data?.data) {
-
-
-
                     const categoryModel: ICategoryModel = {
                         name: castedCategoryResponse.data?.data?.name,
-                        description: castedCategoryResponse.data?.data?.description,
-                        featured_image: castedCategoryResponse.data?.data?.featured_image,
+                        description:
+                            castedCategoryResponse.data?.data?.description,
+                        featured_image:
+                            castedCategoryResponse.data?.data?.featured_image,
                     };
 
                     CategoryModule.SET_MODEL(categoryModel);
@@ -162,8 +167,6 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
-
-
     }
 }
 

@@ -305,10 +305,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->contact_number; // Mobile number for SMS
     }
 
-    public function findForPassport($username)
-    {
-        return $this->where('contact_number', $username)->first();
-    }
+    // public function findForPassport($username)
+    // {
+    //     return $this->where('contact_number', $username)->first();
+    // }
 
     /**
      *  Common Display Messsage Response.

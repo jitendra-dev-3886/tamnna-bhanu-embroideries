@@ -1,13 +1,14 @@
 <template>
     <div>
-        <div
-            class="headline black-bg mb-4"
-            primary-title
-        >
-        <span>
-          {{ isEditMode ? $getConst('TXT_UPDATE') : $getConst('TXT_CREATE') }}
-          Category
-        </span>
+        <div class="headline black-bg mb-4" primary-title>
+            <span>
+                {{
+                    isEditMode
+                        ? $getConst("TXT_UPDATE")
+                        : $getConst("TXT_CREATE")
+                }}
+                Category
+            </span>
         </div>
 
         <div>
@@ -22,23 +23,11 @@
                     autocomplete="off"
                     enctype="multipart/form-data"
                     @submit.prevent="onSubmit()"
-
                 >
                     <ErrorBlockServer :error-message="errorMessage" />
-                    <v-layout
-                        row
-                        wrap
-                        class="m-0"
-                    >
-
-                        <v-flex
-                            xs12
-                            lg12
-                            class="p-md-2"
-
-                        >
+                    <v-layout row wrap class="m-0">
+                        <v-flex xs12 lg12 class="p-md-2">
                             <v-text-field
-
                                 v-model="model.name"
                                 label="Name*"
                                 name="name"
@@ -55,11 +44,7 @@
                             />
                         </v-flex>
 
-                        <v-flex
-                            xs12
-                            lg12
-                            class="p-md-2"
-                        >
+                        <v-flex xs12 lg12 class="p-md-2">
                             <v-textarea
                                 id="description"
                                 label="Remarks"
@@ -75,7 +60,7 @@
                                         validationMessages
                                     )
                                 "
-                                ></v-textarea>
+                            ></v-textarea>
                             <ErrorBlock
                                 validationField="description"
                                 :errorList="errors"
@@ -83,24 +68,23 @@
                             ></ErrorBlock>
                         </v-flex>
 
-                        <v-flex
-                            xs12
-                            lg12
-                            class="p-md-2"
-                            v-show="!isEditMode"
-                        >
+                        <v-flex xs12 lg12 class="p-md-2" v-show="!isEditMode">
                             <v-file-input
                                 id="featured_image"
                                 ref="featured_image"
-
                                 v-model="model.featured_image"
-                                v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
+                                v-validate="
+                                    isEditMode
+                                        ? ''
+                                        : 'required|ext:jpeg,png,jpg|size:1024'
+                                "
                                 attach
                                 counter="1"
-                                :label="isEditMode ? 'Feature Image' : 'Feature Image*' "
+                                label="'Feature Image*'"
                                 name="featured_image"
-                                accept="image/*"
-                                hint="Maximum 500KB"
+                                accept="image/jpg, image/jpeg, image/png"
+                                :persistent-hint="true"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 1MB"
                                 :error-messages="
                                     getErrorValue(
                                         'featured_image',
@@ -108,7 +92,7 @@
                                         validationMessages
                                     )
                                 "
-                                @click:clear="model.featured_image='' "
+                                @click:clear="model.featured_image = ''"
                                 aria-label="Featured_image"
                             />
                         </v-flex>
@@ -116,21 +100,19 @@
 
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
-
                         <v-btn
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             type="submit"
                             :loading="isSubmitting"
-
                         >
-                            {{ $getConst('BTN_SUBMIT') }}
+                            {{ $getConst("BTN_SUBMIT") }}
                         </v-btn>
                         <v-btn
                             class="btn btn-grey font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             @click.prevent="onCancel()"
                         >
-                            {{ $getConst('BTN_CANCEL') }}
+                            {{ $getConst("BTN_CANCEL") }}
                         </v-btn>
                     </div>
                     <!--end::Action-->
