@@ -45,7 +45,7 @@ class LoginAPIController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $credentials = request(['contact_number', 'password']);
+        $credentials = request(['email', 'password']);
         // $credentials = array_merge($request->all(), ['role_id' => config('constants.user.user_type_code.admin')]);
 
         if (!Auth::attempt($credentials))
@@ -71,8 +71,9 @@ class LoginAPIController extends Controller
             //get User Permission and save permission in token
             $role = Role::findorfail($user->role_id); //get role details
 
+
             $data = [
-                'username' => $request->contact_number,
+                'username' => $request->email,
                 'password' => $request->password,
                 'client_id' => $oauthClient->id,
                 'client_secret' => $oauthClient->secret,
@@ -81,9 +82,10 @@ class LoginAPIController extends Controller
 
             $request = app('request')->create('/oauth/token', 'POST', $data);
             $tokenResult = json_decode(app()->handle($request)->getContent());
-
             $getToken = User::getUserActiveToken($user->id, $oauthClient->id);
             $getToken->scopes = $user->role->permissions->pluck('name')->toArray();
+
+
             $getToken->save(); // Update scope for user latest access token
 
             $user->permissions = Permission::getPermissions($role);
@@ -291,3 +293,5 @@ class LoginAPIController extends Controller
         return response()->json($tokenResult);
     }
 }
+
+
