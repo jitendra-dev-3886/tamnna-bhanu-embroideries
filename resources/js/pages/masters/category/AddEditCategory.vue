@@ -94,13 +94,13 @@
                                 ref="featured_image"
 
                                 v-model="model.featured_image"
-                                v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
+                                v-validate="isEditMode ? '' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:1024'"
                                 attach
                                 counter="1"
                                 :label="isEditMode ? 'Feature Image' : 'Feature Image*' "
                                 name="featured_image"
                                 accept="image/*"
-                                hint="Maximum 500KB"
+                                hint="Maximum 1MB"
                                 :error-messages="
                                     getErrorValue(
                                         'featured_image',
