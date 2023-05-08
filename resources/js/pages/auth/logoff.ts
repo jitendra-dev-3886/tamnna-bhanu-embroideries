@@ -76,7 +76,6 @@ class Logoff extends Mixins(CommonServices) {
                             "login-timestamp",
                             String(getTime(new Date()))
                         );
-                        this.subscribePrivateChannel();
                         this["$router"].push(UserModule.defaultRouteUrl);
                         UserModule.RESET_DEFAULT_URL();
                     },

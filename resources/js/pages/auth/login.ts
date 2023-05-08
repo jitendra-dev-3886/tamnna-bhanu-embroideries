@@ -168,7 +168,6 @@ class Login extends mixins(CommonServices) {
                     // this["$router"].push(this.defaultRouteUrl);
                     // this["$router"].push("/dashboard");
                     UserModule.RESET_DEFAULT_URL();
-                    this.subscribePrivateChannel();
                 }
             )
             .catch((error) => {
@@ -213,7 +212,6 @@ class Login extends mixins(CommonServices) {
                                 "login-timestamp",
                                 String(getTime(new Date()))
                             );
-                            this.subscribePrivateChannel();
                             this["$router"].push(this.defaultRouteUrl);
                             UserModule.RESET_DEFAULT_URL();
                         }

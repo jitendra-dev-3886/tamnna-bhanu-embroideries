@@ -49,20 +49,7 @@ window["PerfectScrollbar"] = PerfectScrollbar;
 const authorizationToken = UserModule.currentUserData
     ? UserModule.currentUserData.authorization
     : "";
-window["Pusher"] = require("pusher-js");
 
-window["Echo"] = new Echo({
-    broadcaster: "pusher",
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: true,
-    auth: {
-        headers: {
-            Authorization: `Bearer ${authorizationToken}`,
-        },
-    },
-});
-// Pusher configuration :: end
 
 Vue.use(VueRouter);
 Vue.use(Vuex);

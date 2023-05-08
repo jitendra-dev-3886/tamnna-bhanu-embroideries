@@ -233,64 +233,6 @@ class CommonServices extends mixins(CommonDateMethods, CommonErrorMethods) {
         return false;
     }
 
-    subscribePrivateChannel(): void {
-        // Receiving events for private channels::begin
-        window["Echo"] = new Echo({
-            broadcaster: "pusher",
-            key: process.env.MIX_PUSHER_APP_KEY,
-            cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-            forceTLS: true,
-            auth: {
-                headers: {
-                    Authorization: `Bearer ${this.UserData.authorization}`
-                }
-            }
-        });
-        if (this.UserData && this.UserData.authorization != "") {
-            this.$getConst("PRIVATE_CHANNELS").forEach(
-                (item: IPuhserChannels) => {
-                    window.Echo.private(item.name).listen(
-                        item.event,
-                        (e: IObject) => {
-                            if (
-                                e.operation == this.$getConst("ADD_OPERATION")
-                            ) {
-                                this.$store.commit(
-                                    `${item.storeName}/APPEND_${item.mutationSuffix}`,
-                                    e[item.responseName as string]
-                                );
-                            } else if (
-                                e.operation == this.$getConst("EDIT_OPERATION")
-                            ) {
-                                this.$store.commit(
-                                    `${item.storeName}/UPDATE_${item.mutationSuffix}`,
-                                    e[item.responseName as string]
-                                );
-                            } else if (
-                                e.operation ==
-                                this.$getConst("REMOVE_OPERATION")
-                            ) {
-                                this.$store.commit(
-                                    `${item.storeName}/REMOVE_${item.mutationSuffix}`,
-                                    e[item.responseName as string]
-                                );
-                            } else if (
-                                e.operation ==
-                                this.$getConst("REMOVE_MULTIPLE_OPERATION")
-                            ) {
-                                this.$store.commit(
-                                    `${item.storeName}/REMOVE_SELECTED_${item.mutationSuffix}`,
-                                    e[item.responseName as string]
-                                );
-                            }
-                        }
-                    );
-                }
-            );
-        }
-        // Receiving events for private channels :: end
-    }
-
     /**
      * Modal clear functionality
      * @param storeName
