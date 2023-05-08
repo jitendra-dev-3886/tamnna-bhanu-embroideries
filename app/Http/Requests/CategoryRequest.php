@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name'           => 'required|max:191',
-            'description'    => 'required',
+            'description'    => 'max:255',
             'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ];
     }
