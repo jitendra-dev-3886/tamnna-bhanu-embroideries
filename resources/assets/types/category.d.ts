@@ -4,6 +4,11 @@ export interface ICategoryModel {
     featured_image: File | Blob | string;
 }
 
+export interface ICategoryUpdatePayload {
+    name: string;
+    description: string;
+}
+
 export interface ICategoryParams {
     model: ICategoryModel;
     editId?: string | number;

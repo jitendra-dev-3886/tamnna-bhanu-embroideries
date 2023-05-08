@@ -9,6 +9,7 @@ import {
     ICategoryModel,
     ICategoryFullResponse,
     ICategoryValidations,
+    ICategoryUpdatePayload,
 } from "../../../../assets/types/category";
 
 import { CommonModule } from "@/store/common";
@@ -51,8 +52,8 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                 value: "Featured Image required",
             },
             {
-                key: "max",
-                value: "Maximum length should be 500",
+                key: "size",
+                value: "Maximum size allowed is 1 MB",
             },
         ],
     };
@@ -93,16 +94,27 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                 //const sendParamModel = JSON.parse(JSON.stringify(self.model));
 
                 const formData = new FormData();
-                formData.append("name", this.model.name);
-                formData.append("description", this.model.description);
+                const payload: ICategoryUpdatePayload = {
+                    name: "",
+                    description: "",
+                };
+
                 if (!this.isEditMode) {
+                    formData.append("name", this.model.name);
+                    formData.append("description", this.model.description);
                     formData.append(
                         "featured_image",
                         this.model.featured_image
                     );
+                } else {
+                    payload.name = this.model.name;
+                    payload.description = this.model.description;
                 }
 
-                CategoryModule[apiName]({ model: formData, editId }).then(
+                CategoryModule[apiName]({
+                    model: !this.isEditMode ? formData : payload,
+                    editId,
+                }).then(
                     (
                         response: AxiosResponse<
                             ResponseResult<ICategoryFullResponse>
