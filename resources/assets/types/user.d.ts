@@ -7,8 +7,6 @@ export interface IUserModel {
     password?: string;
     role_id: string;
     name:string;
-    company_name:string;
-    city:string;
 }
 
 export interface IUserParams {
@@ -25,8 +23,6 @@ export interface IUserValidations {
     password: ValidationObj;
     role_id: ValidationObj;
     name:ValidationObj;
-    company_name:ValidationObj;
-    city: ValidationObj;
 }
 
 export interface IUserLightResponse {
@@ -34,9 +30,7 @@ export interface IUserLightResponse {
     email: string;
     name:string;
     contact_number:string;
-    company_name:string;
     password?: string;
-    city:string;
     user_status:string;
 }
 

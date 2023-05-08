@@ -13,18 +13,16 @@ import {
     IImportResponse,
     ResponseResult,
     IDeleteProps,
-    IPagination
+    IPagination,
 } from "../../assets/types/common";
-import {
-    isExistInLocalStorage
-} from "@/filters/common";
+import { isExistInLocalStorage } from "@/filters/common";
 import {
     ICurrentUserData,
     IUserModel,
     IUserParams,
     IUserFullResponse,
     IUserCheckEmail,
-    IUserLightResponse
+    IUserLightResponse,
 } from "../../assets/types/user";
 import { AxiosResponse } from "axios";
 import { ILoginModel } from "../../assets/types/auth";
@@ -32,14 +30,11 @@ import { ILoginModel } from "../../assets/types/auth";
 function getEmptyState() {
     return {
         model: {
-            email: '',
-            role_id: '',
-            password:'',
-            name:'',
-            contact_number:'',
-            company_name:'',
-            city:'',
-            user_status:''
+            email: "",
+            role_id: "",
+            password: "",
+            name: "",
+            contact_number: "",
         },
         pagination: {
             query: "",
@@ -58,25 +53,25 @@ function getEmptyState() {
         currentUserData: {
             id: "",
             email: "",
-            name:'',
-            contact_number:'',
-            company_name:'',
-            password:'',
-            city:'',
-            email_verified_at:"",
+            name: "",
+            contact_number: "",
+            company_name: "",
+            password: "",
+            city: "",
+            email_verified_at: "",
             role_id: "",
             role: {
                 guard_name: "",
                 id: "",
-                landing_page:"",
-                name:""
+                landing_page: "",
+                name: "",
             },
-            profile:"",
+            profile: "",
             permissions: [],
             authorization: "",
-            refresh_token:" ",
+            refresh_token: " ",
             sample_excels: [
-               {
+                {
                     sample_user: "",
                     sample_category: "",
                     sample_product: "",
@@ -84,29 +79,27 @@ function getEmptyState() {
                     sample_cart: "",
                 },
             ],
-            user_status:''
-
+            user_status: "",
         },
         viewModel: {
             id: "",
             email: "",
-            name:" ",
-            contact_number:" ",
-            company_name:'',
-            password:'',
-            city:'',
-            email_verified_at:"",
+            name: " ",
+            contact_number: " ",
+            company_name: "",
+            password: "",
+            city: "",
+            email_verified_at: "",
             role_id: "",
-            user_status:"",
+            user_status: "",
             role: {
                 guard_name: "",
                 id: "",
-                landing_page:"",
-                name:""
-            }
+                landing_page: "",
+                name: "",
+            },
         },
         defaultRouteUrl: "/dashboard",
-
     };
 }
 
@@ -130,7 +123,6 @@ export interface IUser {
     preserveState: isExistInLocalStorage("user"),
 })
 class User extends VuexModule implements IUser {
-
     public pagination: IPagination = getEmptyState().pagination;
     public tableData: ResponseResult<IUserFullResponse[]> =
         getEmptyState().tableData;
@@ -178,7 +170,6 @@ class User extends VuexModule implements IUser {
     SET_VIEW_MODEL(param: IUserFullResponse) {
         this.viewModel = param;
     }
-
 
     @Mutation
     SET_USER_LIST(payload: IUserLightResponse[]) {
@@ -329,7 +320,9 @@ class User extends VuexModule implements IUser {
      * Used to get a particular user record
      */
     @Action({ rawError: true })
-    getById(id:string|number): Promise<AxiosResponse<ResponseResult<IUserFullResponse>>> {
+    getById(
+        id: string | number
+    ): Promise<AxiosResponse<ResponseResult<IUserFullResponse>>> {
         return new Promise((resolve, reject) => {
             HTTP.get(`${this.baseUrl}users/${id}`)
                 .then(
@@ -356,7 +349,7 @@ class User extends VuexModule implements IUser {
         param: IUserParams
     ): Promise<AxiosResponse<ResponseResult<IUserFullResponse>>> {
         return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}users/${this.editId}`, param.model)
+            HTTP.put(`${this.baseUrl}users/${this.editId}`, param.model)
                 .then(
                     (
                         response: AxiosResponse<
@@ -408,8 +401,6 @@ class User extends VuexModule implements IUser {
         });
     }
 
-
-
     /**
      * Used for import functionality (upload file)
      * @param param
@@ -433,15 +424,11 @@ class User extends VuexModule implements IUser {
         });
     }
 
-
-
     /**
      * Used to get user fullname
      */
     get userFullName() {
-
         return this.currentUserData ? "Adminstrator" : "Sub Admin";
-
     }
 
     /**
