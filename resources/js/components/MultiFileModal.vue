@@ -405,6 +405,7 @@ class MultiFileModal extends Mixins(CommonServices) {
                 SnackbarModule.setMsg(response.data.message as string);
             },
             (error) => {
+                this.isProdFISubmitting = false;
                 this.isProdGalSubmitting = false;
                 this.errorMessage = this.getAPIErrorMessage(error.response);
             }
