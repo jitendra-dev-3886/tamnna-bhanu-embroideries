@@ -77,10 +77,9 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
     /* JSON Form Submit - Start*/
     onSubmit(): void {
         this.$validator.validate().then((valid) => {
-            const self = this;
-
             if (valid) {
-                self.isSubmitting = true;
+                this.isSubmitting = true;
+                this.errorMessage = "";
                 let apiName = this.isEditMode ? "edit" : "create";
                 let editId: string | number = "";
                 const formData = new FormData();
@@ -97,7 +96,7 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
                 }
 
                 //To Submit JSON Request
-                //const sendParamModel = JSON.parse(JSON.stringify(self.model));*/
+                //const sendParamModel = JSON.parse(JSON.stringify(this.model));*/
 
                 HomeBannerModule[apiName]({
                     model: this.isEditMode ? this.model : formData,
@@ -108,12 +107,13 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
                             ResponseResult<IHomeBannerFullResponse>
                         >
                     ) => {
+                        this.errorMessage = "";
                         this.onCancel();
                         SnackbarModule.setMsg(response.data.message as string);
                     },
                     (error) => {
-                        self.isSubmitting = false;
-                        self.errorMessage = self.getAPIErrorMessage(
+                        this.isSubmitting = false;
+                        this.errorMessage = this.getAPIErrorMessage(
                             error.response
                         );
                     }
