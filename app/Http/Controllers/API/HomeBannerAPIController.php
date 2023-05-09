@@ -162,6 +162,22 @@ class HomeBannerAPIController extends Controller
     }
 
     /**
+     * Delete HomeBanner Image
+     * @param Request $request
+     * @return DataTrueResource
+     */
+    public function deleteBannerImage(Request $request)
+    {
+        $urlArr = explode("/", $request->path());
+        $id = end($urlArr);
+        HomeBanner::where('id', $id)->update(['featured_image'=>'NULL']);
+
+            // return  "Home Banner image deleted successfully!!!";
+            return new DataTrueResource($request, config('constants.messages.delete_success'));
+    }
+
+
+    /**
      * Export HomeBanner Data
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

@@ -109,6 +109,10 @@ Route::group([
          Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
 
          Route::post('product-update-gallery/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductGallery');
+        //Delete single image
+        Route::post('categories-delete-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@deleteCategoryImage');
+        Route::post('homebanners-delete-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@deleteBannerImage');
+        Route::post('product-delete-image/{product}', '\App\Http\Controllers\API\ProductAPIController@deleteProductImage');
 
 
     });
