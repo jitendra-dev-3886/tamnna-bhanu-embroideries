@@ -160,6 +160,8 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             const self = this;
             if (valid) {
                 self.isSubmitting = true;
+                this.errorMessage = "";
+
                 let apiName = "create";
                 let editId: string | number = "";
 
@@ -210,13 +212,9 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                             }
                         );
                     }
-                }
-
-                // For Edit Product
-                if (ProductModule.editId && <number>ProductModule.editId > 0) {
-                    apiName = "edit";
-                    editId = ProductModule.editId;
                 } else {
+                    apiName = "edit";
+                    editId = <number>ProductModule.editId;
                 }
 
                 ProductModule[apiName]({ model: formData, editId }).then(
