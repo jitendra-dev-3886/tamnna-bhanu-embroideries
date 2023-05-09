@@ -1,13 +1,14 @@
 <template>
     <div>
-        <div
-            class="headline black-bg mb-4"
-            primary-title
-        >
-        <span>
-          {{ isEditMode ? $getConst('TXT_UPDATE') : $getConst('TXT_CREATE') }}
-          Product
-        </span>
+        <div class="headline black-bg mb-4" primary-title>
+            <span>
+                {{
+                    isEditMode
+                        ? $getConst("TXT_UPDATE")
+                        : $getConst("TXT_CREATE")
+                }}
+                Product
+            </span>
         </div>
 
         <div>
@@ -24,20 +25,9 @@
                     enctype="multipart/form-data"
                 >
                     <ErrorBlockServer :error-message="errorMessage" />
-                    <v-layout
-                        row
-                        wrap
-                        class="m-0"
-                    >
-
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-
-                        >
+                    <v-layout row wrap class="m-0">
+                        <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-
                                 v-model="model.name"
                                 label="Name*"
                                 name="name"
@@ -54,16 +44,8 @@
                             />
                         </v-flex>
 
-
-
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-
-                        >
+                        <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-
                                 v-model="model.price"
                                 label="Price*"
                                 name="price"
@@ -80,15 +62,8 @@
                             />
                         </v-flex>
 
-
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-
-                        >
+                        <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-
                                 v-model="model.item_code"
                                 label="Item Code*"
                                 name="item_code"
@@ -105,11 +80,7 @@
                             />
                         </v-flex>
 
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                        >
+                        <v-flex xs12 lg6 class="p-md-2">
                             <v-select
                                 v-model="model.category_id"
                                 v-validate="'required'"
@@ -118,7 +89,6 @@
                                 :items="categoryList"
                                 item-text="name"
                                 item-value="id"
-
                                 :loading="isDataLoading"
                                 :error-messages="
                                     getErrorValue(
@@ -127,16 +97,12 @@
                                         validationMessages
                                     )
                                 "
-                                 aria-label="Category"
-                                 multiple
+                                aria-label="Category"
+                                multiple
                             />
                         </v-flex>
 
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                        >
+                        <v-flex xs12 lg6 class="p-md-2">
                             <label></label>
                             <v-radio-group
                                 v-model="model.available_status"
@@ -154,33 +120,26 @@
                                 class="p-0 mt-1"
                                 aria-label="Available Status"
                             >
-
-                                <v-radio
-                                    label="Not-available"
-                                    value="0"
-                                />
-                                <v-radio
-                                    label="Available"
-                                    value="1"
-                                />
+                                <v-radio label="Not-available" value="0" />
+                                <v-radio label="Available" value="1" />
                             </v-radio-group>
                         </v-flex>
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                            v-show="!isEditMode"
-                        >
+                        <v-flex xs12 lg6 class="p-md-2" v-show="!isEditMode">
                             <v-file-input
                                 id="featured_image"
                                 ref="featured_image"
                                 v-model="model.featured_image"
-                                v-validate="isEditMode ? 'ext:ext:jpeg,png,jpg,gif,svg|size:500' : 'required|ext:ext:jpeg,png,jpg,gif,svg|size:500'"
+                                v-validate="
+                                    isEditMode
+                                        ? ''
+                                        : 'required|ext:jpeg,png,jpg|size:1024'
+                                "
                                 attach
                                 name="featured_image"
                                 label="Feature Image*"
-                                accept="image/*"
-                                hint="Maximum 500KB"
+                                accept="image/jpg, image/jpeg, image/png"
+                                :persistent-hint="true"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 1MB"
                                 counter="1"
                                 :error-messages="
                                     getErrorValue(
@@ -189,18 +148,12 @@
                                         validationMessages
                                     )
                                 "
-                                @click:clear="model.featured_image=''"
+                                @click:clear="model.featured_image = ''"
                                 aria-label="Featured_image"
                             />
                         </v-flex>
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-
-                        >
+                        <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-
                                 v-model="model.stock"
                                 label="Stock"
                                 name="stock"
@@ -216,19 +169,19 @@
                                 aria-label="Stock"
                             />
                         </v-flex>
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                            v-show="!isEditMode"
-                        >
+                        <v-flex xs12 lg6 class="p-md-2" v-show="!isEditMode">
                             <v-file-input
                                 v-model="model.product_galleries"
-                                v-validate.continues="isEditMode ? 'ext:jpeg,png,jpg,gif,svg|size:4096|valid_file_length:5' : 'required|ext:jpeg,png,jpg,gif,svg|size:4096|valid_file_length:5'"
+                                v-validate.continues="
+                                    isEditMode
+                                        ? ''
+                                        : 'ext:jpeg,png,jpg|size:5120|valid_file_length:5'
+                                "
                                 multiple
-                                accept="image/*"
                                 name="product_galleries"
-                                hint="Maximum 4MB"
+                                accept="image/jpg, image/jpeg, image/png"
+                                :persistent-hint="true"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
                                 counter="5"
                                 :error-messages="
                                     getErrorValue(
@@ -237,17 +190,14 @@
                                         validationMessages
                                     )
                                 "
-                                :label="isEditMode ? 'Product Galleries' : 'Product Galleries' "
-                                @click:clear="model.product_galleries=[]"
+                                label=" Product Galleries
+                                "
+                                @click:clear="model.product_galleries = []"
                                 aria-label="Product Galleries"
                             />
                         </v-flex>
-                        <v-flex
-                            xs12
-                            lg6
-                            class="p-md-2"
-                        >
-                        <v-textarea
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-textarea
                                 id="description"
                                 label="Remarks"
                                 v-model="model.description"
@@ -262,7 +212,7 @@
                                         validationMessages
                                     )
                                 "
-                                ></v-textarea>
+                            ></v-textarea>
                             <ErrorBlock
                                 validationField="description"
                                 :errorList="errors"
@@ -273,20 +223,19 @@
 
                     <!--begin::Action-->
                     <div class="form-group d-flex flex-wrap flex-left">
-
                         <v-btn
                             aria-label="Submit"
                             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             type="submit"
-                           :loading="isSubmitting"
+                            :loading="isSubmitting"
                         >
-                            {{ $getConst('BTN_SUBMIT') }}
+                            {{ $getConst("BTN_SUBMIT") }}
                         </v-btn>
                         <v-btn
                             class="btn btn-grey font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
                             @click.prevent="onCancel()"
                         >
-                            {{ $getConst('BTN_CANCEL') }}
+                            {{ $getConst("BTN_CANCEL") }}
                         </v-btn>
                     </div>
                     <!--end::Action-->
