@@ -27,7 +27,7 @@ import {
 } from "../../assets/types/homebanner";
 
 import { AxiosResponse } from "axios";
-import { IProductGalleryParams } from "assets$";
+import { IProductGalleryParams } from "../../assets/types/product";
 
 // mutation types
 function getEmptyState() {
