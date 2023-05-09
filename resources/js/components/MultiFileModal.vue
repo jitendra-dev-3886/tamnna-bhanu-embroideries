@@ -53,70 +53,78 @@
                                 <thead>
                                     <tr>
                                         <th>Existing Featured Image</th>
-
                                     </tr>
                                 </thead>
                                 <tr>
                                     <td>
-                                        <a :href="model.featured_image" target="_blank"
-                                ><img
-                                    :src="model.featured_image"
-                                    width="auto"
-                                    height="100px"
-                                    class="mb-4"
-                            />
-                        </a>
+                                        <a
+                                            :href="model.featured_image"
+                                            target="_blank"
+                                            ><img
+                                                :src="model.featured_image"
+                                                width="auto"
+                                                height="100px"
+                                                class="mb-4"
+                                            />
+                                        </a>
                                     </td>
                                     <td style="width: 35%">
-                                            <v-tooltip bottom>
-                                                <template
-                                                    v-slot:activator="{ on }"
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-icon
+                                                    @click="
+                                                        confirmDelete(
+                                                            singleFile.id,
+                                                            index
+                                                        )
+                                                    "
+                                                    class="mr-2"
+                                                    small
+                                                    v-on="on"
+                                                    aria-label="Delete image"
                                                 >
-                                                    <v-icon
-                                                        @click="
-                                                            confirmDelete(
-                                                                singleFile.id,
-                                                                index
-                                                            )
-                                                        "
-                                                        class="mr-2"
-                                                        small
-                                                        v-on="on"
-                                                        aria-label="Delete image"
-                                                    >
-                                                        {{ icons.mdiDelete }}
-                                                    </v-icon>
-                                                </template>
-                                                <span>{{
-                                                    $getConst("DELETE_TOOLTIP")
-                                                }}</span>
-                                            </v-tooltip>
-                                        </td>
+                                                    {{ icons.mdiDelete }}
+                                                </v-icon>
+                                            </template>
+                                            <span>{{
+                                                $getConst("DELETE_TOOLTIP")
+                                            }}</span>
+                                        </v-tooltip>
+                                    </td>
                                 </tr>
                                 <thead>
                                     <tr>
-                                        <th>Gallery Images</th>
+                                        <th>Product Gallery Images</th>
                                     </tr>
                                 </thead>
                                 <tr>
                                     <td>
                                         <v-file-input
-                                            show-size
-                                            hint="Maximum 4MB"
-                                            counter="5"
-                                            label="Change Gallery Images"
-                                            accept="image/*"
-                                            @click:clear="
-                                                model.featured_image = ''
+                                            v-model="product_galleries"
+                                            v-validate.continues="
+                                                'ext:jpeg,png,jpg|size:5120|valid_file_length:5'
                                             "
-                                        >
-                                        </v-file-input>
+                                            multiple
+                                            name="product_galleries"
+                                            accept="image/jpg, image/jpeg, image/png"
+                                            :persistent-hint="true"
+                                            hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
+                                            counter="5"
+                                            label=" Product Galleries
+                                "
+                                            @click:clear="
+                                                product_galleries = []
+                                            "
+                                            aria-label="Product Galleries"
+                                        />
                                     </td>
                                     <td>
                                         <v-flex xs12 sm2 lg2 class="pl-2">
                                             <v-btn
                                                 color="primary"
                                                 type="submit"
+                                                :loading="isProdGalSubmitting"
+                                                @click="uploadProdGallery()"
                                                 class="btn btn-theme float-xs-none"
                                                 >Upload
                                             </v-btn>
@@ -242,7 +250,10 @@ import {
 } from "../../assets/types/common";
 import { AxiosResponse } from "axios";
 import { ProductModule } from "../store/product";
-import { IProductFullResponse } from '../../assets/types/product';
+import {
+    IProductFullResponse,
+    IProductGalleries,
+} from "../../assets/types/product";
 
 @Component({
     components: {
@@ -251,7 +262,7 @@ import { IProductFullResponse } from '../../assets/types/product';
     },
 })
 class MultiFileModal extends Mixins(CommonServices) {
-    @Prop({ default: () => [] }) fileArr!: IObject[];
+    @Prop({ default: () => [] }) fileArr!: IProductGalleries[];
     @Prop({ default: "" }) storeName!: string;
     @Prop({ default: "" }) variableMutation!: string;
     @Prop({ default: "" }) filePath!: string;
@@ -259,6 +270,9 @@ class MultiFileModal extends Mixins(CommonServices) {
 
     email = "";
     deleteConfirm = false;
+    isProdGalSubmitting = false;
+    product_galleries: Blob[] = [];
+
     paramProps: IParamProps = {
         idProps: "",
         storeProps: "",
@@ -295,29 +309,49 @@ class MultiFileModal extends Mixins(CommonServices) {
     deleteGallery(payload: IParamProps): void {
         this.deleteConfirm = false;
         this.deleting = true;
-        this.$store
-            .dispatch(
-                `${this.storeName}/delete${this.variableMutation}`,
-                payload.idProps
-            )
-            .then(
-                (response: AxiosResponse<ResponseResult<boolean>>) => {
-                    this.deleting = false;
-                    this.fileArr.splice(payload.indexProps as number, 1); // remove the image that we want to delete
-                    this.$store.commit(
-                        `${
-                            this.storeName
-                        }/SET_${this.variableMutation.toLocaleUpperCase()}_LIST`,
-                        this.fileArr
-                    ); // set file list
-                    SnackbarModule.setMsg(response.data.message);
-                    this.$parent["getData"]();
-                    this.$emit("delete-success");
-                },
-                (error) => {
-                    this.showDialog(this.getAPIErrorMessage(error.response));
+        ProductModule["deleteGallery"](payload.idProps as string).then(
+            (response: AxiosResponse<ResponseResult<boolean>>) => {
+                this.deleting = false;
+                this.fileArr.splice(payload.indexProps as number, 1); // remove the image from list which we have deleted
+                ProductModule.SET_GALLERY_LIST(this.fileArr);
+                SnackbarModule.setMsg(response.data.message as string);
+            },
+            (error) => {
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+
+    uploadProdGallery(): void {
+        const formData = new FormData();
+        this.isProdGalSubmitting = true;
+
+        // Multiple Product Gallery array
+        if (this.product_galleries && this.product_galleries.length > 0) {
+            Array.from(this.product_galleries).forEach((product_galleries) => {
+                formData.append("product_galleries[]", <Blob>product_galleries);
+            });
+        }
+        ProductModule["updateProductGallery"]({
+            images: formData,
+            editId: this.model.id,
+        }).then(
+            (response: AxiosResponse<ResponseResult<IProductFullResponse>>) => {
+                if (response.data.data) {
+                    this.product_galleries = [];
+                    this.fileArr = response.data.data.product_galleries;
+                    ProductModule.SET_GALLERY_LIST(this.fileArr);
                 }
-            );
+
+                this.isProdGalSubmitting = false;
+                // Success message
+                SnackbarModule.setMsg(response.data.message as string);
+            },
+            (error) => {
+                this.isProdGalSubmitting = false;
+                this.errorMessage = this.getAPIErrorMessage(error.response);
+            }
+        );
     }
 
     checkIfImage(fileUrl: string): boolean {

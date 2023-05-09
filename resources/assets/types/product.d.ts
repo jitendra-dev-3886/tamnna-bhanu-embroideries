@@ -1,5 +1,4 @@
-
-import {ICategoryFullResponse, ICategoryLightResponse} from "./category";
+import { ICategoryFullResponse, ICategoryLightResponse } from "./category";
 export interface IProductModel {
     available_status: string;
     category_id: string[];
@@ -14,7 +13,12 @@ export interface IProductModel {
 
 export interface IProductParams {
     model: IProductModel;
-    editId?: string|number
+    editId?: string | number;
+}
+
+export interface IProductGalleryParams {
+    images: any;
+    editId?: string | number;
 }
 
 export interface IProductLightResponse {
@@ -26,18 +30,17 @@ export interface IProductLightResponse {
     featured_image: string;
 }
 
-export interface IProductFullResponse extends IProductLightResponse{
+export interface IProductFullResponse extends IProductLightResponse {
     category_id: string[];
     category: ICategoryFullResponse;
     product_galleries: IProductGalleries[];
-    category_detail:Object[];
+    category_detail: Object[];
     available_status: string;
     available_status_text: string;
     stock: string;
-
 }
 
-export type ValidationObj = { key: string, value: string }[];
+export type ValidationObj = { key: string; value: string }[];
 
 export interface IProductValidations {
     name: ValidationObj;
@@ -51,16 +54,13 @@ export interface IProductValidations {
     product_galleries: ValidationObj;
 }
 
-
-
 export interface CommonFileResponse {
     id: string;
     Product_id: string;
 }
 
-export interface IProductGalleries extends CommonFileResponse{
+export interface IProductGalleries extends CommonFileResponse {
     gallery: string;
     gallery_original: string;
     gallery_thumbnail: string;
 }
-
