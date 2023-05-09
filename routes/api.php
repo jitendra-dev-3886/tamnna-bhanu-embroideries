@@ -40,7 +40,10 @@ Route::group([
     this endpoint. */
     Route::post('users-delete-multiple', '\App\Http\Controllers\API\UserAPIController@deleteAll');
     Route::get('users-export', '\App\Http\Controllers\API\UserAPIController@export');
+    Route::get('customers-export', '\App\Http\Controllers\API\UserAPIController@customersExport');
     Route::post('users-import-bulk', '\App\Http\Controllers\API\UserAPIController@importBulk');
+
+    Route::get('homebanners-export', '\App\Http\Controllers\API\HomeBannerAPIController@export');
 
     // Refreshing Token
     Route::post('refreshing-tokens', '\App\Http\Controllers\API\LoginAPIController@refreshingTokens'); // RM
@@ -100,7 +103,7 @@ Route::group([
         Route::post('homebanners-update-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@updateBannerImage'); // RM
         Route::resource('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController'); // RM
         Route::post('homebanners-delete-multiple', '\App\Http\Controllers\API\HomeBannerAPIController@deleteAll'); // RM
-        // Route::get('homebanners-export', '\App\Http\Controllers\API\HomeBannerAPIController@export');
+
         // Route::post('homebanners-import-bulk', '\App\Http\Controllers\API\HomeBannerAPIController@importBulk');
 
          //Update single image
@@ -109,6 +112,10 @@ Route::group([
          Route::post('product-update-image/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductImage');
 
          Route::post('product-update-gallery/{product}', '\App\Http\Controllers\API\ProductAPIController@updateProductGallery');
+        //Delete single image
+        Route::post('categories-delete-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@deleteCategoryImage');
+        Route::post('homebanners-delete-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@deleteBannerImage');
+        Route::post('product-delete-image/{product}', '\App\Http\Controllers\API\ProductAPIController@deleteProductImage');
 
 
     });

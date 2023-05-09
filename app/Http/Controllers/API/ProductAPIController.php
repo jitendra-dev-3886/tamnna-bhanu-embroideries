@@ -144,6 +144,21 @@ class ProductAPIController extends Controller
     }
 
     /**
+     * Delete Product multiple
+     * @param Request $request
+     * @return DataTrueResource
+     */
+    public function deleteProductImage(Request $request)
+    {
+            $urlArr = explode("/", $request->path());
+            $id = end($urlArr);
+             Product::where('id', $id)->update(['featured_image'=>'NULL']);
+
+             return new DataTrueResource($request, config('constants.messages.delete_success'));
+
+    }
+
+    /**
      * Export Product Data
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

@@ -126,6 +126,22 @@ class CategoryAPIController extends Controller
     }
 
     /**
+     * Delete Category Image
+     * @param Request $request
+     * @return DataTrueResource
+     */
+    public function deleteCategoryImage(Request $request)
+    {
+        $urlArr = explode("category/", $request->path());
+        $id = end($urlArr);
+
+         Category::where('id', $id)->update(['featured_image'=>'NULL']);
+
+         return new DataTrueResource($request, config('constants.messages.delete_success'));
+    }
+
+
+    /**
      * Export Category Data
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

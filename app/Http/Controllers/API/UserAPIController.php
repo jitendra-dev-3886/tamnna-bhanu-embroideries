@@ -7,6 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\CheckEmailExistsRequest;
 use App\Http\Requests\CsvRequest;
 use App\Exports\UserExport;
+use App\Exports\CustomerExport;
 use App\Imports\UserImport;
 use App\Models\User;
 use App\Http\Resources\ActivityResource;
@@ -133,6 +134,21 @@ class UserAPIController extends Controller
         return response()->download(storage_path("app/public/{$filePath}"));
     }
 
+     /**
+     * Export User Data
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function customersExport(Request $request)
+    {
+        $fileName = 'user_' . config('constants.file.name') . '.csv';
+        $filePath = 'export/user/' . $fileName;
+        $exportObj = new CustomerExport($request);
+        Excel::store($exportObj, $filePath);
+
+        return response()->download(storage_path("app/public/{$filePath}"));
+    }
+
     /**
      * Import bulk
      * @param CsvRequest $request
@@ -222,3 +238,4 @@ class UserAPIController extends Controller
         return new UserCollection(UserResource::collection($query), UserResource::class);
     }
 }
+
