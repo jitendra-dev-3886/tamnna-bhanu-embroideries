@@ -238,31 +238,62 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
-
-     /**
+    /**
      * Used for edit product
      * @param param
      */
-     @Action({ rawError: true })
-     updateProductGallery(
+    @Action({ rawError: true })
+    updateProductGallery(
         param: IProductGalleryParams
-     ): Promise<AxiosResponse<ResponseResult<IProductFullResponse>>> {
-         return new Promise((resolve, reject) => {
-             HTTP.post(`${this.baseUrl}product-update-gallery/${param.editId}`, param.images)
-                 .then(
-                     (
-                         response: AxiosResponse<
-                             ResponseResult<IProductFullResponse>
-                         >
-                     ) => {
-                         resolve(response);
-                     }
-                 )
-                 .catch((e) => {
-                     reject(e);
-                 });
-         });
-     }
+    ): Promise<AxiosResponse<ResponseResult<IProductFullResponse>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(
+                `${this.baseUrl}product-update-gallery/${param.editId}`,
+                param.images
+            )
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<IProductFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    
+    /**
+     * Used for edit product
+     * @param param
+     */
+    @Action({ rawError: true })
+    updateFeatureImg(
+        param: IProductGalleryParams
+    ): Promise<AxiosResponse<ResponseResult<IProductFullResponse>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(
+                `${this.baseUrl}product-update-image/${param.editId}`,
+                param.images
+            )
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<IProductFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
 
     /**
      *  Manage Gallery
@@ -275,6 +306,26 @@ class Product extends VuexModule implements IProduct {
     ): Promise<AxiosResponse<ResponseResult<boolean>>> {
         return new Promise((resolve, reject) => {
             HTTP.delete(`${this.baseUrl}products-gallery/${param}`)
+                .then((response: AxiosResponse<ResponseResult<boolean>>) => {
+                    resolve(response);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    /**
+     *  Manage Gallery
+     * Used for delete feature image
+     * @param param
+     */
+    @Action({ rawError: true })
+    deleteFeatureImg(
+        param: string
+    ): Promise<AxiosResponse<ResponseResult<boolean>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}product-delete-image/${param}`)
                 .then((response: AxiosResponse<ResponseResult<boolean>>) => {
                     resolve(response);
                 })
