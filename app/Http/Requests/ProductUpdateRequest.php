@@ -38,9 +38,9 @@ class ProductUpdateRequest extends FormRequest
             'category_id.*'=>'required|exists:categories,id,deleted_at,NULL',
             'available_status'=>'required|in:0,1',
             'stock'=>'nullable',
-            'featured_image'=>'required|max:500',
+            'featured_image'=>'image|mimes:jpeg,png,jpg|max:1024',
             'product_galleries'=>'nullable|array|max:5',
-            'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096'
+            'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg|max:5120'
 
         ];
 

@@ -30,7 +30,7 @@ class ProductGalleryUpdateRequest extends FormRequest
 
         return [
             'product_galleries'=>'nullable|array|max:5',
-            'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096'
+            'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg|max:5120'
 
         ];
 

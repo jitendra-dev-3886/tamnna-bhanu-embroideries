@@ -12,9 +12,8 @@ use App\Http\Requests\HomeBannerImageUpdateRequest;
 use App\Http\Requests\HomeBannerUpdateRequest;
 use App\Http\Resources\HomeBannerCollection;
 use App\Http\Resources\HomeBannerResource;
-// use App\Exports\HomeBannerExport;
-// use App\Imports\HomeBannerImport;
-// use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\HomeBannerExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
 
 
@@ -182,15 +181,15 @@ class HomeBannerAPIController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    // public function export(Request $request)
-    // {
-    //     $fileName = 'homebanner_' . config('constants.file.name') . '.csv';
-    //     $filePath = 'export/homebanner/' . $fileName;
-    //     $exportObj = new HomeBannerExport($request);
-    //     Excel::store($exportObj, $filePath);
+    public function export(Request $request)
+    {
+        $fileName = 'homebanner_' . config('constants.file.name') . '.csv';
+        $filePath = 'export/homebanner/' . $fileName;
+        $exportObj = new HomeBannerExport($request);
+        Excel::store($exportObj, $filePath);
 
-    //     return response()->download(storage_path("app/public/{$filePath}"));
-    // }
+        return response()->download(storage_path("app/public/{$filePath}"));
+    }
 
     /**
      * Import bulk
