@@ -47,7 +47,7 @@ class CategoryEditImages extends mixins(ServerTable, CommonApis) {
         this["$router"].push("/masters/category");
     }
     deleteItem(id: string | number): void {
-        alert("Are you sure you want to delete the image?");
+        debugger;
         this.paramProps.idProps = id;
         this.paramProps.storeProps = "category";
         this.confirmation.title = this.$getConst("DELETE_TITLE");
