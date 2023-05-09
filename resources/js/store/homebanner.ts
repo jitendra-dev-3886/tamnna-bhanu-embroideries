@@ -14,12 +14,10 @@ import {
     IImportReqParams,
     IImportResponse,
     ResponseResult,
-    IDeleteProps
+    IDeleteProps,
 } from "../../assets/types/common";
 
-import {
-    isExistInLocalStorage
-} from "@/filters/common";
+import { isExistInLocalStorage } from "@/filters/common";
 
 import {
     IHomeBannerModel,
@@ -29,15 +27,15 @@ import {
 } from "../../assets/types/homebanner";
 
 import { AxiosResponse } from "axios";
+import { IProductGalleryParams } from "assets$";
 
 // mutation types
 function getEmptyState() {
     return {
-
         homeBannerList: [],
         model: {
-           name: "",
-           banner_status: "1",
+            name: "",
+            banner_status: "1",
             featured_image: "",
         },
         viewModel: {
@@ -64,7 +62,8 @@ export interface IHomeBanner {
     preserveState: isExistInLocalStorage("homebanner"),
 })
 class HomeBanner extends VuexModule implements IHomeBanner {
-    public homeBannerList: IHomeBannerLightResponse[] = getEmptyState().homeBannerList;
+    public homeBannerList: IHomeBannerLightResponse[] =
+        getEmptyState().homeBannerList;
 
     public model: IHomeBannerModel = getEmptyState().model;
     public viewModel: IHomeBannerFullResponse = getEmptyState().viewModel;
@@ -86,8 +85,6 @@ class HomeBanner extends VuexModule implements IHomeBanner {
         this.viewModel = param;
     }
 
-
-
     @Mutation
     SET_HOMEBANNER_LIST(payload: IHomeBannerLightResponse[]) {
         this.homeBannerList = payload;
@@ -106,8 +103,6 @@ class HomeBanner extends VuexModule implements IHomeBanner {
         this.editId = getEmptyState().editId;
         this.viewModel = getEmptyState().viewModel;
     }
-
-
 
     /**
      * Used for add homebanner
@@ -128,6 +123,54 @@ class HomeBanner extends VuexModule implements IHomeBanner {
                         resolve(response);
                     }
                 )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    /**
+     * Used for edit image
+     * @param param
+     */
+    @Action({ rawError: true })
+    updateFeatureImg(
+        param: IProductGalleryParams
+    ): Promise<AxiosResponse<ResponseResult<IHomeBannerFullResponse>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(
+                `${this.baseUrl}homebanners-update-image/${param.editId}`,
+                param.images
+            )
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<IHomeBannerFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    /**
+     *  Edit Image
+     * Used for delete feature image
+     * @param param
+     */
+    @Action({ rawError: true })
+    deleteFeatureImg(
+        param: string
+    ): Promise<AxiosResponse<ResponseResult<boolean>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}homebanners-delete-image/${param}`)
+                .then((response: AxiosResponse<ResponseResult<boolean>>) => {
+                    resolve(response);
+                })
                 .catch((e) => {
                     reject(e);
                 });
@@ -218,8 +261,6 @@ class HomeBanner extends VuexModule implements IHomeBanner {
                 });
         });
     }
-
-
 
     /**
      * Used for import functionality (upload file)
