@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'price'=>$this->price,
-            'description'=>$this->description,
+            'description'=>(string)$this->description,
             'item_code'=>$this->item_code,
             // 'category_id'=>$this->category_id,
             'category_id' => $this->categories->pluck('id'),

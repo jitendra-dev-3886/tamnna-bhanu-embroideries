@@ -30,7 +30,7 @@ class UserRequest extends FormRequest
         if($role_Id == 1)
         {
             return [
-            'contact_number' => 'required|max:255|unique:users,contact_number,NULL,id,deleted_at,NULL',
+            'contact_number' => 'required|digits:10|unique:users,contact_number,NULL,id,deleted_at,NULL',
             'name' => 'required|max:191',
             'company_name' => 'max:191',
             'city' => 'max:191',
@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
 
         }else{
             return [
-                'contact_number' => 'required|max:255|unique:users,contact_number,NULL,id,deleted_at,NULL',
+                'contact_number' => 'required|digits:10|unique:users,contact_number,NULL,id,deleted_at,NULL',
                 'name' => 'required|max:191',
                 'company_name' => 'required|max:191',
                 'city' => 'required|max:191',
