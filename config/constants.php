@@ -481,10 +481,12 @@ return [
 
     ],
     'homebanner' => [
-
         'banner_status' => [0 => 'Inactive', 1 => 'Active'],
         'banner_status_enum' => ['inactive' => "0", 'active' => "1"],
-
+    ],
+    'category' => [
+        'category_status' => [0 => 'Inactive', 1 => 'Active'],
+        'category_status_enum' => ['inactive' => "0", 'active' => "1"],
     ],
     'order' => [
 

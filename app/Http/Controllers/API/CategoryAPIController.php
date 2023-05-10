@@ -166,5 +166,24 @@ class CategoryAPIController extends Controller
          return \App\Models\User::importBulk($request,new CategoryImport(),'category','import/category/');
       }
 
+      /**
+     * Categories List of Display Active categories
+     * @param Request $request
+     * @return CategoryCollection
+     */
+    public function catagoriesList(Request $request)
+    {
+        if($request->get('is_light',false)){
+            return Cache::rememberForever('category.all', function () use($request){
+                $category = new Category();
+                $query = \App\Models\User::commonFunctionMethod(Category::select($category->light)->where('category_status', config('constants.library.category_status_enum.active')),$request,true);
+                return new CategoryCollection(CategoryResource::collection($query),CategoryResource::class);
+            });
+        } else {
+            $query = \App\Models\User::commonFunctionMethod(Category::where('category_status', 1),$request, true);
+        }
+
+        return new CategoryCollection(CategoryResource::collection($query),CategoryResource::class);
+    }
 
 }
