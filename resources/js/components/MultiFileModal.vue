@@ -26,6 +26,21 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="mb-3">
+                                    <td>
+                                        <a
+                                            :href="model.featured_image"
+                                            target="_blank"
+                                            ><img
+                                                :src="model.featured_image"
+                                                width="100%"
+                                                height="100px"
+                                                class="mb-3"
+                                            />
+                                        </a>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td>
                                         <v-file-input
@@ -52,60 +67,14 @@
                                                 color="primary"
                                                 type="submit"
                                                 :loading="isProdFISubmitting"
+                                                :disabled="featured_image == ''"
                                                 @click="uploadProdGallery(true)"
                                                 class="btn btn-theme float-xs-none"
-                                                >Upload
+                                                >Update
                                             </v-btn>
                                         </v-flex>
                                     </td>
                                 </tr>
-                                <template v-if="model.featured_image">
-                                    <thead>
-                                        <tr>
-                                            <th>Existing Featured Image</th>
-                                        </tr>
-                                    </thead>
-                                    <tr v-if="model.featured_image">
-                                        <td>
-                                            <a
-                                                :href="model.featured_image"
-                                                target="_blank"
-                                                ><img
-                                                    :src="model.featured_image"
-                                                    width="auto"
-                                                    height="100px"
-                                                    class="mb-4"
-                                                />
-                                            </a>
-                                        </td>
-                                        <td style="width: 35%">
-                                            <v-tooltip bottom>
-                                                <template
-                                                    v-slot:activator="{ on }"
-                                                >
-                                                    <v-icon
-                                                        @click="
-                                                            confirmDelete(
-                                                                model.id,
-                                                                '',
-                                                                true
-                                                            )
-                                                        "
-                                                        class="mr-2"
-                                                        small
-                                                        v-on="on"
-                                                        aria-label="Delete image"
-                                                    >
-                                                        {{ icons.mdiDelete }}
-                                                    </v-icon>
-                                                </template>
-                                                <span>{{
-                                                    $getConst("DELETE_TOOLTIP")
-                                                }}</span>
-                                            </v-tooltip>
-                                        </td>
-                                    </tr>
-                                </template>
 
                                 <thead>
                                     <tr>
@@ -139,11 +108,15 @@
                                                 color="primary"
                                                 type="submit"
                                                 :loading="isProdGalSubmitting"
+                                                :disabled="
+                                                    product_galleries.length ==
+                                                    0
+                                                "
                                                 @click="
                                                     uploadProdGallery(false)
                                                 "
                                                 class="btn btn-theme float-xs-none"
-                                                >Upload
+                                                >Update
                                             </v-btn>
                                         </v-flex>
                                     </td>
@@ -348,6 +321,7 @@ class MultiFileModal extends Mixins(CommonServices) {
                     this.fileArr.splice(payload.indexProps as number, 1); // remove the image from list which we have deleted
                     ProductModule.SET_GALLERY_LIST(this.fileArr);
                 }
+                (this.$parent as any)["getData"]();
 
                 SnackbarModule.setMsg(response.data.message as string);
             },
@@ -400,6 +374,8 @@ class MultiFileModal extends Mixins(CommonServices) {
                         this.isProdGalSubmitting = false;
                     }
                 }
+
+                (this.$parent as any)["getData"]();
 
                 // Success message
                 SnackbarModule.setMsg(response.data.message as string);
