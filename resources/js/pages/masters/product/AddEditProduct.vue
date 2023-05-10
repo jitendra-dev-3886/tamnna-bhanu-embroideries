@@ -108,6 +108,11 @@
                                 v-model="model.available_status"
                                 label="Available Status*"
                                 v-validate="'required'"
+                                @change="
+                                    model.available_status == '0'
+                                        ? setStock()
+                                        : ''
+                                "
                                 row
                                 name="available_status"
                                 :error-messages="
@@ -157,7 +162,12 @@
                                 v-model="model.stock"
                                 label="Stock"
                                 name="stock"
-                                v-validate="'required|numeric'"
+                                :disabled="model.available_status == '0'"
+                                v-validate="
+                                    model.available_status == '1'
+                                        ? 'required|numeric|min:1'
+                                        : 'numeric'
+                                "
                                 :error-messages="
                                     getErrorValue(
                                         'stock',
