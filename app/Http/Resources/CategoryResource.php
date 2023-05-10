@@ -18,12 +18,11 @@ class CategoryResource extends JsonResource
             return array_merge($this->attributesToArray(), $this->relationsToArray());
 
         return [
-
-            'id'=>$this->id, 
-            'name'=>$this->name, 
-            'description'=>$this->description, 
-            'featured_image'=>$this->featured_image
-
+            'id' => (string)$this->id,
+            'name' => (string)$this->name,
+            'description' => (string)$this->description,
+            'featured_image' => (string)$this->featured_image,
+            'category_status' => (string)$this->category_status,
         ];
     }
 }

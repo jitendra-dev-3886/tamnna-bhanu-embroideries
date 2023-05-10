@@ -20,14 +20,14 @@ class Category extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'description', 'featured_image'];
+    protected $fillable = ['id', 'name', 'description', 'featured_image', 'category_status'];
 
     /**
      * Activity log array
      *
      * @var array
      */
-    public $activity_log = ['id', 'name', 'description', 'featured_image'];
+    public $activity_log = ['id', 'name', 'description', 'featured_image', 'category_status'];
 
     /**
      * Log Activity relationships array
@@ -41,7 +41,7 @@ class Category extends Model
      *
      * @var array
      */
-    public $light = ['id', 'name', 'description', 'featured_image'];
+    public $light = ['id', 'name', 'description', 'featured_image', 'category_status'];
 
     /**
      * Related permission array
@@ -53,7 +53,7 @@ class Category extends Model
     /**
      * @var array
      */
-    public $sortable = ['categories.created_at', 'categories.id', 'name', 'description', 'featured_image'];
+    public $sortable = ['categories.created_at', 'categories.id', 'name', 'description', 'featured_image', 'category_status'];
 
     /**
      * @var array
@@ -78,17 +78,21 @@ class Category extends Model
     /**
      * @var array
      */
-    public $type_sortable = [];
+    public $type_sortable = ['category_status'];
 
     /**
      * @var array
      */
-    public $type_enum = [];
+    public $type_enum = [
+        ['constants.category.category_status_enum.inactive', 'constants.category.category_status_enum.active']
+    ];
 
     /**
      * @var array
      */
-    public $type_enum_text = [];
+    public $type_enum_text = [
+        ['constants.category.category_status.0', 'constants.category.category_status.1']
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -114,7 +118,8 @@ class Category extends Model
         'id' => 'string',
         'name' => 'string',
         'description' => 'string',
-        'featured_image' => 'string'
+        'featured_image' => 'string',
+        'category_status' => 'string',
 
     ];
 
