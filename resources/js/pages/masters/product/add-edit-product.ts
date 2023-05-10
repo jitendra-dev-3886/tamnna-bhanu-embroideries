@@ -93,6 +93,10 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 key: "numeric",
                 value: "Enter valid number for stock available",
             },
+            {
+                key: "min_value",
+                value: "Stock should have proper value",
+            },
         ],
 
         featured_image: [
@@ -175,7 +179,10 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                     "available_status",
                     self.model.available_status
                 );
-                formData.append("stock", self.model.stock);
+                formData.append(
+                    "stock",
+                    self.model.available_status == "1" ? self.model.stock : "0"
+                );
 
                 //Multiple Categories Array
                 if (
@@ -238,6 +245,10 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         });
     }
 
+    setStock(): void {
+        this.model.stock =
+            this.model.available_status == "0" ? "0" : this.model.stock;
+    }
     /* Cancel */
     onCancel(): void {
         this.onModalClear("product", "CLEAR_STORE");

@@ -94,7 +94,7 @@ class DeleteModal extends Mixins(CommonServices) {
                 this.paramProps.idProps
             )
             .then(
-                () => {
+                () => {slack
                     SnackbarModule.setMsg(this.$getConst("DELETE_ACTION"));
                     this.$emit("delete-success");
                     this.onCancel();

@@ -11,11 +11,9 @@ import {
     IImportReqParams,
     IImportResponse,
     ResponseResult,
-    IDeleteProps
+    IDeleteProps,
 } from "../../assets/types/common";
-import {
-    isExistInLocalStorage
-} from "@/filters/common";
+import { isExistInLocalStorage } from "@/filters/common";
 import {
     ICategoryModel,
     ICategoryParams,
@@ -23,14 +21,14 @@ import {
     ICategoryLightResponse,
 } from "../../assets/types/category";
 import { AxiosResponse } from "axios";
+import { IProductGalleryParams } from "../../assets/types/product";
 
 // mutation types
 function getEmptyState() {
     return {
-
         categoryList: [],
         model: {
-           name: "",
+            name: "",
             description: "",
             featured_image: "",
         },
@@ -58,7 +56,8 @@ export interface ICategory {
     preserveState: isExistInLocalStorage("category"),
 })
 class Category extends VuexModule implements ICategory {
-    public categoryList: ICategoryLightResponse[] = getEmptyState().categoryList;
+    public categoryList: ICategoryLightResponse[] =
+        getEmptyState().categoryList;
 
     public model: ICategoryModel = getEmptyState().model;
     public viewModel: ICategoryFullResponse = getEmptyState().viewModel;
@@ -80,8 +79,6 @@ class Category extends VuexModule implements ICategory {
         this.viewModel = param;
     }
 
-
-
     @Mutation
     SET_CATEGORY_LIST(payload: ICategoryLightResponse[]) {
         this.categoryList = payload;
@@ -100,8 +97,6 @@ class Category extends VuexModule implements ICategory {
         this.editId = getEmptyState().editId;
         this.viewModel = getEmptyState().viewModel;
     }
-
-
 
     /**
      * Used for add category
@@ -190,6 +185,34 @@ class Category extends VuexModule implements ICategory {
     }
 
     /**
+     * Used for edit image
+     * @param param
+     */
+    @Action({ rawError: true })
+    updateFeatureImg(
+        param: IProductGalleryParams
+    ): Promise<AxiosResponse<ResponseResult<ICategoryFullResponse>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(
+                `${this.baseUrl}categories-update-image/${param.editId}`,
+                param.images
+            )
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<ICategoryFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    /**
      * Used to get a particular category record
      */
     @Action({ rawError: true })
@@ -213,8 +236,6 @@ class Category extends VuexModule implements ICategory {
         });
     }
 
-
-
     /**
      * Used for import functionality (upload file)
      * @param param
@@ -237,9 +258,6 @@ class Category extends VuexModule implements ICategory {
                 });
         });
     }
-
-
-
 }
 
 export const CategoryModule = getModule(Category);

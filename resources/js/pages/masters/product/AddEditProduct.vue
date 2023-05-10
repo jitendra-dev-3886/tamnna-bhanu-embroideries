@@ -108,6 +108,11 @@
                                 v-model="model.available_status"
                                 label="Available Status*"
                                 v-validate="'required'"
+                                @change="
+                                    model.available_status == '0'
+                                        ? setStock()
+                                        : ''
+                                "
                                 row
                                 name="available_status"
                                 :error-messages="
@@ -155,9 +160,19 @@
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
                                 v-model="model.stock"
-                                label="Stock"
+                                :label="
+                                    model.available_status == '1'
+                                        ? 'Stock*'
+                                        : 'Stock'
+                                "
                                 name="stock"
-                                v-validate="'required|numeric'"
+                                type="number"
+                                :disabled="model.available_status == '0'"
+                                v-validate="
+                                    model.available_status == '1'
+                                        ? 'required|numeric|min_value:1'
+                                        : 'numeric'
+                                "
                                 :error-messages="
                                     getErrorValue(
                                         'stock',
