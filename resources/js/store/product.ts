@@ -11,28 +11,26 @@ import {
     IImportReqParams,
     IImportResponse,
     ResponseResult,
-    IDeleteProps
+    IDeleteProps,
 } from "../../assets/types/common";
-import {
-    isExistInLocalStorage
-} from "@/filters/common";
+import { isExistInLocalStorage } from "@/filters/common";
 import {
     IProductModel,
     IProductParams,
     IProductFullResponse,
     IProductLightResponse,
     IProductGalleries,
+    IProductGalleryParams,
 } from "../../assets/types/product";
 import { AxiosResponse } from "axios";
 
 // mutation types
 function getEmptyState() {
     return {
-
         galleryList: [],
         productList: [],
         model: {
-           name: "",
+            name: "",
             price: "",
             description: "",
             item_code: "",
@@ -50,11 +48,11 @@ function getEmptyState() {
             item_code: "",
             category_id: [],
             available_status: "",
-            available_status_text:" ",
+            available_status_text: " ",
             stock: "",
             featured_image: "",
             product_galleries: [],
-            category_detail:[],
+            category_detail: [],
             category: {
                 id: "",
                 name: "",
@@ -105,8 +103,6 @@ class Product extends VuexModule implements IProduct {
         this.galleryList = this.viewModel.product_galleries;
     }
 
-
-
     @Mutation
     SET_GALLERY_LIST(payload: IProductGalleries[]) {
         this.galleryList = payload;
@@ -131,8 +127,6 @@ class Product extends VuexModule implements IProduct {
         this.editId = getEmptyState().editId;
         this.viewModel = getEmptyState().viewModel;
     }
-
-
 
     /**
      * Used for add product
@@ -244,27 +238,102 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
+    /**
+     * Used for edit product
+     * @param param
+     */
+    @Action({ rawError: true })
+    updateProductGallery(
+        param: IProductGalleryParams
+    ): Promise<AxiosResponse<ResponseResult<IProductFullResponse>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(
+                `${this.baseUrl}product-update-gallery/${param.editId}`,
+                param.images
+            )
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<IProductFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
 
+    
+    /**
+     * Used for edit product
+     * @param param
+     */
+    @Action({ rawError: true })
+    updateFeatureImg(
+        param: IProductGalleryParams
+    ): Promise<AxiosResponse<ResponseResult<IProductFullResponse>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(
+                `${this.baseUrl}product-update-image/${param.editId}`,
+                param.images
+            )
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<IProductFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
 
     /**
      *  Manage Gallery
      * Used for delete gallery image
      * @param param
      */
-     @Action({ rawError: true })
-     deleteGallery(
+    @Action({ rawError: true })
+    deleteGallery(
         param: string
-     ): Promise<AxiosResponse<ResponseResult<boolean>>> {
+    ): Promise<AxiosResponse<ResponseResult<boolean>>> {
         return new Promise((resolve, reject) => {
             HTTP.delete(`${this.baseUrl}products-gallery/${param}`)
                 .then((response: AxiosResponse<ResponseResult<boolean>>) => {
-                resolve(response);
-            })
-            .catch((e) => {
-                reject(e);
-            });
+                    resolve(response);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
         });
-     }
+    }
+
+    /**
+     *  Manage Gallery
+     * Used for delete feature image
+     * @param param
+     */
+    @Action({ rawError: true })
+    deleteFeatureImg(
+        param: string
+    ): Promise<AxiosResponse<ResponseResult<boolean>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}product-delete-image/${param}`)
+                .then((response: AxiosResponse<ResponseResult<boolean>>) => {
+                    resolve(response);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
 
     /**
      * Used for import functionality (upload file)
@@ -289,13 +358,12 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
-
     /**
      * Used for import zip functionality (upload file)
      * @param param
      */
-     @Action({ rawError: true })
-     importZip(
+    @Action({ rawError: true })
+    importZip(
         param: IImportReqParams
     ): Promise<AxiosResponse<ResponseResult<boolean>>> {
         return new Promise((resolve, reject) => {
@@ -308,7 +376,6 @@ class Product extends VuexModule implements IProduct {
                 });
         });
     }
-
 }
 
 export const ProductModule = getModule(Product);

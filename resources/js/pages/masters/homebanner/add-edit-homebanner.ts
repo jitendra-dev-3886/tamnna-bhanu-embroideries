@@ -11,21 +11,13 @@ import {
     IHomeBannerValidations,
 } from "../../../../assets/types/homebanner";
 
-
-import { CommonModule } from "@/store/common";
 import { AxiosResponse } from "axios";
 
-
-import {
-    ResponseResult,
-} from "../../../../assets/types/common";
-
-
+import { ResponseResult } from "../../../../assets/types/common";
 
 @Component({
     components: {
         ErrorBlockServer,
-
     },
 })
 class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
@@ -34,108 +26,94 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
     errorMessage = "";
 
     validationMessages: IHomeBannerValidations = {
+        name: [
+            {
+                key: "required",
+                value: "Name required",
+            },
+            {
+                key: "max",
+                value: "Maximum length should be 191",
+            },
+        ],
 
-                name: [
-                    {
-                        key: 'required',
-                        value: 'Name required'
-                    },
-                    {
-                        key: 'max',
-                        value: 'Maximum length should be 191'
-                    },
-                ],
+        banner_status: [
+            {
+                key: "required",
+                value: "Banner status required",
+            },
+        ],
 
-                banner_status: [
-                    {
-                        key: 'required',
-                        value: 'Banner status required'
-                    },
-                ],
-
-                featured_image: [
-                    {
-                        key: 'required',
-                        value: 'Featured Image required'
-                    },
-                    {
-                        key: 'max',
-                        value: 'Maximum length should be 500'
-                    },
-                ],
+        featured_image: [
+            {
+                key: "required",
+                value: "Featured Image required",
+            },
+            {
+                key: "ext",
+                value: "Extension: jpeg, png or jpg are only accepted",
+            },
+            {
+                key: "size",
+                value: "Maximum size allowed is 1 MB",
+            },
+        ],
     };
 
     isSubmitting = false;
-
-
 
     get model(): IHomeBannerModel {
         return HomeBannerModule.model;
     }
 
     get isEditMode(): boolean {
-        return HomeBannerModule.editId ? HomeBannerModule.editId > 0 : false;
+        return HomeBannerModule.editId
+            ? <number>HomeBannerModule.editId > 0
+            : false;
     }
 
     //Methods
 
-         /* JSON Form Submit - Start*/
-    onSubmit(): void{
-
+    /* JSON Form Submit - Start*/
+    onSubmit(): void {
         this.$validator.validate().then((valid) => {
-            const self = this;
-
             if (valid) {
-
-                self.isSubmitting = true;
-                let apiName = "create";
+                this.isSubmitting = true;
+                this.errorMessage = "";
+                let apiName = this.isEditMode ? "edit" : "create";
                 let editId: string | number = "";
+                const formData = new FormData();
 
-                // For Edit HomeBanner
-              /*  if (HomeBannerModule.editId && HomeBannerModule.editId > 0) {
-                    apiName = "edit";
-                    editId = HomeBannerModule.editId;
-                    const sendParamModel = JSON.parse(JSON.stringify(self.model));
-                    HomeBannerModule[apiName]({ model: sendParamModel, editId }).then(
-                        (
-                            response: AxiosResponse<
-                                ResponseResult<IHomeBannerFullResponse>
-                            >
-                        ) => {
-                            this.onCancel();
-                            SnackbarModule.setMsg(response.data.message as string);
-                        },
-                        (error) => {
-                            self.isSubmitting = false;
-                            self.errorMessage = self.getAPIErrorMessage(
-                                error.response
-                            );
-                        }
+                if (this.isEditMode) {
+                    editId = <number>HomeBannerModule.editId;
+                } else {
+                    formData.append("name", this.model.name);
+                    formData.append("banner_status", this.model.banner_status);
+                    formData.append(
+                        "featured_image",
+                        this.model.featured_image
                     );
                 }
 
                 //To Submit JSON Request
-               //const sendParamModel = JSON.parse(JSON.stringify(self.model));*/
+                //const sendParamModel = JSON.parse(JSON.stringify(this.model));*/
 
-
-                const formData = new FormData();
-                formData.append("name", this.model.name);
-                formData.append("banner_status", this.model.banner_status);
-                formData.append("featured_image", this.model.featured_image);
-
-
-                HomeBannerModule[apiName]({ model: formData, editId }).then(
+                HomeBannerModule[apiName]({
+                    model: this.isEditMode ? this.model : formData,
+                    editId,
+                }).then(
                     (
                         response: AxiosResponse<
                             ResponseResult<IHomeBannerFullResponse>
                         >
                     ) => {
+                        this.errorMessage = "";
                         this.onCancel();
                         SnackbarModule.setMsg(response.data.message as string);
                     },
                     (error) => {
-                        self.isSubmitting = false;
-                        self.errorMessage = self.getAPIErrorMessage(
+                        this.isSubmitting = false;
+                        this.errorMessage = this.getAPIErrorMessage(
                             error.response
                         );
                     }
@@ -145,44 +123,12 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
     }
     /* JSON Form Submit - End*/
 
-    EditDetail():void{
-        const self = this;
-
-        let editId: string | number = "";
-        let apiName="homebanners";
-                // For Edit HomeBanner
-                if (HomeBannerModule.editId && HomeBannerModule.editId > 0) {
-                    apiName = "edit";
-                    editId = HomeBannerModule.editId;
-
-                    const sendParamModel = JSON.parse(JSON.stringify(self.model));
-
-                    HomeBannerModule[apiName]({ model: sendParamModel, editId }).then(
-                        (
-                            response: AxiosResponse<
-                                ResponseResult<IHomeBannerFullResponse>
-                            >
-                        ) => {
-                            this.onCancel();
-                            SnackbarModule.setMsg(response.data.message as string);
-                        },
-                        (error) => {
-                            self.isSubmitting = false;
-                            self.errorMessage = self.getAPIErrorMessage(
-                                error.response
-                            );
-                        }
-                    );
-                }
-
-    }
     /* Cancel */
     onCancel(): void {
         this.onModalClear("homebanner", "CLEAR_STORE");
         this["$router"].push("/masters/homebanner");
     }
     created(): void {
-
         this.resetStoreData("homebanner").then(
             (response: unknown) => {
                 const castedCategoryResponse = response as AxiosResponse<
@@ -191,8 +137,10 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
                 if (castedCategoryResponse?.data?.data) {
                     const homeBannerModel: IHomeBannerModel = {
                         name: castedCategoryResponse.data?.data?.name,
-                        banner_status: castedCategoryResponse.data?.data?.banner_status,
-                        featured_image: castedCategoryResponse.data?.data?.featured_image,
+                        banner_status:
+                            castedCategoryResponse.data?.data?.banner_status,
+                        featured_image:
+                            castedCategoryResponse.data?.data?.featured_image,
                     };
 
                     HomeBannerModule.SET_MODEL(homeBannerModel);
@@ -202,8 +150,6 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
-
-
     }
 }
 

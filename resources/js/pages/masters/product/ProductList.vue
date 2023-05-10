@@ -4,27 +4,25 @@
             aria-label="Tabs"
             @change="refreshData()"
             class="mb-5"
-            v-model="tab">
+            v-model="tab"
+        >
             <v-tab
                 href="#tab1"
                 v-index="$getConst('PRODUCTS')"
                 aria-label="product tab"
             >
-                <p class="mt-2">
-                    Listing
-                </p>
+                <p class="mt-2">Listing</p>
             </v-tab>
             <v-tab
                 href="#tab2"
                 v-importBulk="$getConst('PRODUCTS')"
                 aria-label="Import tab"
             >
-                <p class="mt-2">
-                    Import
-                </p>
+                <p class="mt-2">Import</p>
             </v-tab>
 
-            <v-tab href="#tab3" aria-label="Import images tab"> <!-- Zip upload tab -->
+            <v-tab href="#tab3" aria-label="Import images tab">
+                <!-- Zip upload tab -->
                 <p class="mt-1">Import Zip</p>
             </v-tab>
         </v-tabs>
@@ -48,12 +46,7 @@
                 >
                     <template v-slot:top>
                         <v-layout>
-                            <v-flex
-                                lg4
-                                md4
-                                sm12
-                                xs12
-                            >
+                            <v-flex lg4 md4 sm12 xs12>
                                 <v-text-field
                                     @input="onSearch"
                                     class="mx-4 mt-4"
@@ -63,14 +56,8 @@
                                     aria-label="Search product"
                                 />
                             </v-flex>
-                            <v-flex
-                                lg8
-                                md8
-                                sm12
-                                xs12
-                            >
+                            <v-flex lg8 md8 sm12 xs12>
                                 <div class="float-right mt-4">
-
                                     <v-menu
                                         v-model="filterMenu"
                                         :close-on-content-click="false"
@@ -115,10 +102,7 @@
                                             <v-list>
                                                 <v-btn
                                                     text
-                                                    class="
-                                                        float-right
-                                                        filter-close-btn
-                                                    "
+                                                    class="float-right filter-close-btn"
                                                     @click="filterMenu = false"
                                                     aria-label="Close filter"
                                                 >
@@ -128,14 +112,14 @@
                                                 </v-btn>
 
                                                 <v-select
-                                                  v-model="category_id"
-                                                  name="category"
-                                                  item-text="name"
-                                                  item-value="id"
-                                                  :items="categoryList"
-                                                  label="Category"
-                                                  class="mt-4"
-                                                  aria-label="Category"
+                                                    v-model="category_id"
+                                                    name="category"
+                                                    item-text="name"
+                                                    item-value="id"
+                                                    :items="categoryList"
+                                                    label="Category"
+                                                    class="mt-4"
+                                                    aria-label="Category"
                                                 />
                                             </v-list>
                                             <v-card-actions>
@@ -189,11 +173,13 @@
                                         @close-menu="closeMenuColumn"
                                         @update-headers="setSelectedHeaders"
                                     ></column-visibility-btn>
-                                    <template v-if="selected.length>1">
+                                    <template v-if="selected.length > 1">
                                         <multi-delete
                                             :delete-props="deleteProps"
                                             @click.native="multipleDelete()"
-                                            @multiDelete="getData(), selected = []"
+                                            @multiDelete="
+                                                getData(), (selected = [])
+                                            "
                                             ref="multipleDeleteBtn"
                                             v-deleteAll="$getConst('PRODUCTS')"
                                         />
@@ -204,23 +190,34 @@
                     </template>
 
                     <template v-slot:[`item.description`]="{ item }">
-                        <span v-if="item.description" v-html="item.description"></span>
+                        <span
+                            v-if="item.description"
+                            v-html="item.description"
+                        ></span>
                     </template>
 
                     <template v-slot:[`item.category_id`]="{ item }">
-                        <span v-if="item.category">{{ item.category.name }}</span>
+                        <span v-if="item.category">{{
+                            item.category.name
+                        }}</span>
                     </template>
 
                     <template v-slot:[`item.available_status`]="{ item }">
-                        <span v-if="item.available_status_text">{{ item.available_status_text }}</span>
+                        <span v-if="item.available_status_text">{{
+                            item.available_status_text
+                        }}</span>
                     </template>
                     <template v-slot:[`item.featured_image`]="{ item }">
                         <a :href="item.featured_image">
-                            <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
+                            <v-img
+                                :src="item.featured_image"
+                                v-if="item.featured_image"
+                                width="80"
+                                height="80"
+                            ></v-img>
                         </a>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
-
                         <!-- Light Gallery View Start-->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -245,15 +242,10 @@
                         </v-tooltip>
                         <!-- Light Gallery View End-->
 
-
                         <!-- Manage Gallery Start -->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    v-if="
-                                        item.product_galleries &&
-                                        item.product_galleries.length > 0
-                                    "
                                     v-deleteGallery="$getConst('PRODUCTS')"
                                     small
                                     class="mr-2"
@@ -264,9 +256,7 @@
                                     {{ icons.mdiImageEditOutline }}
                                 </v-icon>
                             </template>
-                            <span>{{
-                                $getConst("MANAGE_IMAGES")
-                            }}</span>
+                            <span>{{ $getConst("MANAGE_IMAGES") }}</span>
                         </v-tooltip>
                         <!-- Manage Gallery End -->
                         <v-tooltip bottom>
@@ -282,7 +272,7 @@
                                     {{ icons.mdiEye }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('VIEW_DETAILS_TOOLTIP') }}</span>
+                            <span>{{ $getConst("VIEW_DETAILS_TOOLTIP") }}</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -297,7 +287,7 @@
                                     {{ icons.mdiPencil }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('EDIT_TOOLTIP') }}</span>
+                            <span>{{ $getConst("EDIT_TOOLTIP") }}</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -312,7 +302,7 @@
                                     {{ icons.mdiDelete }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('DELETE_TOOLTIP') }}</span>
+                            <span>{{ $getConst("DELETE_TOOLTIP") }}</span>
                         </v-tooltip>
                     </template>
                 </v-data-table>
@@ -345,12 +335,14 @@
         <delete-modal
             :confirmation="confirmation"
             :param-props="paramProps"
-            @delete-success="getData(), selected=[]"
+            @delete-success="getData(), (selected = [])"
             v-model="modalOpen"
             aria-label="Delete product confirmation modal"
         />
-        <product-view-modal v-model="productViewModal" aria-label="product view modal" />
-
+        <product-view-modal
+            v-model="productViewModal"
+            aria-label="product view modal"
+        />
 
         <!-- Manage Gallery Start -->
         <multi-file-modal

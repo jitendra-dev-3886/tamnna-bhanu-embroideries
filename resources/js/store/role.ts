@@ -56,7 +56,8 @@ class Role extends VuexModule implements IRole {
 
     @Mutation
     SET_ROLE_LIST(payload: IRoleLightResponse[]) {
-        this.roleList = payload;
+        // for removing role id = 2 that is customers
+        this.roleList = payload.filter(x => x.id != '2');
     }
 
     @Mutation

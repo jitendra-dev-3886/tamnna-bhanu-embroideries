@@ -307,7 +307,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function findForPassport($username)
     {
-        return $this->where('contact_number', $username)->first();
+        return $this->where('contact_number', $username)->orWhere('email', $username)->first();
     }
 
     /**

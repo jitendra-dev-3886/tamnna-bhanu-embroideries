@@ -38,7 +38,7 @@ class AppLoginRequest extends FormRequest
             'contact_number' => [
                 'required',
                 // 'integer',
-                // 'digits:10',
+                'digits:10',
                 // 'starts_with:9,8,7,6',
                 // 'exists:users,contact_number',
             ]
