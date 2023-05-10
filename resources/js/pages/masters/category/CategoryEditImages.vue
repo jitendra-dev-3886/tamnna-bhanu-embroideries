@@ -27,7 +27,7 @@
                     ><img
                         :src="model.featured_image"
                         width="100%"
-                        height="150"
+                        height="250"
                         class="mb-2"
                 /></a>
                 <div

@@ -34,7 +34,7 @@
                                             ><img
                                                 :src="model.featured_image"
                                                 width="100%"
-                                                height="100px"
+                                                height="250px"
                                                 class="mb-3"
                                             />
                                         </a>

@@ -118,7 +118,7 @@
                         <span v-if="item.description" v-html="item.description"></span>
                     </template>
                     <template v-slot:[`item.featured_image`]="{ item }">
-                        <a :href="item.featured_image">
+                        <a :href="item.featured_image" target="_blank">
                             <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
                         </a>
                     </template>
