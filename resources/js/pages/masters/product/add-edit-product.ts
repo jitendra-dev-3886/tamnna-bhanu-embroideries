@@ -94,7 +94,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 value: "Enter valid number for stock available",
             },
             {
-                key: "min",
+                key: "min_value",
                 value: "Stock should have proper value",
             },
         ],
