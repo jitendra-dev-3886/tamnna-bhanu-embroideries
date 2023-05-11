@@ -143,6 +143,7 @@ Route::group([
         Route::get('homebanners', '\App\Http\Controllers\API\HomeBannerAPIController@index'); // RM
 
         Route::get('categories-list', '\App\Http\Controllers\API\CategoryAPIController@catagoriesList'); // RM
+        Route::get('products-list/{product}', '\App\Http\Controllers\API\ProductAPIController@productList');
 
     });
 });

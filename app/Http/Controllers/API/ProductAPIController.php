@@ -210,4 +210,28 @@ class ProductAPIController extends Controller
     {
         return Product::uploadZipFile($request);
     }
+
+     /**
+     *  Product display category wise
+     *
+     *
+     * @return mixed
+     */
+    public function productList(Request $request)
+    {
+        $urlArr = explode("/", $request->path());
+        $myCategoryId = end($urlArr);
+
+
+        if ($request->get('is_light', false)) {
+            return Cache::rememberForever('product.all', function () use ($request) {
+                $product = new Product();
+                $query = \App\Models\User::commonFunctionMethod(Product::select($product->light)->where('category_id', $myCategoryId), $request, true);
+                return new ProductCollection(ProductResource::collection($query), ProductResource::class);
+            });
+        } else
+            $query = \App\Models\User::commonFunctionMethod(Product::with(['categories', 'product_galleries'])->where('category_id', $myCategoryId), $request, true);
+
+        return new ProductCollection(ProductResource::collection($query), ProductResource::class);
+    }
 }
