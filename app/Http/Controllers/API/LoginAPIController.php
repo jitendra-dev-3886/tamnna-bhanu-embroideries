@@ -147,20 +147,24 @@ class LoginAPIController extends Controller
 
         $user = User::where('contact_number', $mobileNo)->first(); // Search and Get result belongs to contact_number field.
 
-        $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
-        // $user->otp = "123456";  //  Temp  OTP.
-        $user->otp_verified_at = Carbon::now(); // => Rocky => Send OTP date and time
-        $user->save();
+        if ($user->user_status == config('constants.user.status_enum.active')) {
+            $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
+            // $user->otp = "123456";  //  Temp  OTP.
+            $user->otp_verified_at = Carbon::now(); // => Rocky => Send OTP date and time
+            $user->save();
 
-        // Start development of SendOTP to contact_number.
-        Smsable::sendOtp([$user], ['{{auto_otp_detection_code}}' => config('bw.mtalkz.auto_otp_detection_code')]); // Connection between Laravel and mTalkz
-        return response()->json(
-            [
-                'message'  => config('constants.messages.otp_success'),
-                'mobileNo' => $mobileNo,
-            ],
-            config('constants.validation_codes.ok')
-        );
+            // Start development of SendOTP to contact_number.
+            Smsable::sendOtp([$user], ['{{auto_otp_detection_code}}' => config('bw.mtalkz.auto_otp_detection_code')]); // Connection between Laravel and mTalkz
+            return response()->json(
+                [
+                    'message'  => config('constants.messages.otp_success'),
+                    'mobileNo' => $mobileNo,
+                ],
+                config('constants.validation_codes.ok')
+            );
+        } else {
+            return User::GetError(config("constants.messages.user.inactive"));
+        }
     }
 
 
@@ -293,5 +297,3 @@ class LoginAPIController extends Controller
         return response()->json($tokenResult);
     }
 }
-
-

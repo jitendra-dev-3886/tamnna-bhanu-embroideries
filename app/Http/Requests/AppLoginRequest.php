@@ -25,33 +25,9 @@ class AppLoginRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        //TODO Should mobile be in Active state validation required ?
-
-
-        // $requestPath = User::getPathWithoutId($request);
-        // $realURI = str_replace('api/v1/', '', $requestPath);
-
-
-
-        // if ($realURI == config('constants.login_api.app_login')) {
         return [
-            'contact_number' => [
-                'required',
-                // 'integer',
-                'digits:10',
-                // 'starts_with:9,8,7,6',
-                // 'exists:users,contact_number',
-            ]
+            'contact_number' => 'required|digits:10|exists:users,contact_number,deleted_at,NULL'
         ];
-        // }
-        // elseif ($realURI == config('constants.login_api.app_login_portal')) {
-
-        //     return [
-        //         'inflCode' => 'required|exists:ctmInfluncr,inflCode'
-        //     ];
-        // }
-
-        // return $request;
     }
 
     /**
