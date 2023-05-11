@@ -234,7 +234,7 @@ class Customer extends VuexModule implements ICustomer {
          customerStatus: ICustomerParams
      ): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
          return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}customers`, customerStatus)
+            HTTP.post(`${this.baseUrl}user_status/verify`, customerStatus)
                 .then(
                      (
                          response: AxiosResponse<
