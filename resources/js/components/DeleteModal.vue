@@ -9,7 +9,7 @@
                 {{
                     confirmation.title
                         ? confirmation.title
-                        : this.$getConst("DELETE_TITLE")
+                        : $getConst("DELETE_TITLE")
                 }}
             </v-card-title>
 
@@ -21,7 +21,7 @@
                             {{
                                 confirmation.description
                                     ? confirmation.description
-                                    : this.$getConst("WARNING")
+                                    : $getConst("WARNING")
                             }}
                         </p>
                     </v-flex>
@@ -31,10 +31,11 @@
                     <v-flex xs12>
                         <v-btn
                             class="btn btn-black m-b-10 m-t-10"
+                            :loading="isSubmitting"
                             @click.native="deleteAction"
                             aria-label="Delete"
                         >
-                            {{ this.$getConst("BTN_DELETE") }}
+                            {{ $getConst("BTN_DELETE") }}
                         </v-btn>
                         <v-btn
                             class="btn btn-grey m-b-10 ml-3 m-t-10"
@@ -44,7 +45,7 @@
                             {{
                                 confirmation.btnCancelText
                                     ? confirmation.btnCancelText
-                                    : this.$getConst("BTN_CANCEL")
+                                    : $getConst("BTN_CANCEL")
                             }}
                         </v-btn>
                     </v-flex>
@@ -88,18 +89,21 @@ class DeleteModal extends Mixins(CommonServices) {
     public errorMessage = "";
 
     deleteAction(): void {
+        this.isSubmitting = true;
         this.$store
             .dispatch(
                 `${this.paramProps.storeProps}/delete`,
                 this.paramProps.idProps
             )
             .then(
-                () => {slack
+                () => {
+                    this.isSubmitting = false;
                     SnackbarModule.setMsg(this.$getConst("DELETE_ACTION"));
                     this.$emit("delete-success");
                     this.onCancel();
                 },
                 (error) => {
+                    this.isSubmitting = false;
                     this.errorMessage = this.getAPIErrorMessage(error.response);
                 }
             );
