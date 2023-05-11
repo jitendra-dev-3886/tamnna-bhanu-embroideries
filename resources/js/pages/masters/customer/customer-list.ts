@@ -12,12 +12,11 @@ import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 
 import { CategoryModule } from "../../../store/category";
 
-import {
-    ITableHeaders,
-} from "../../../../assets/types/table";
+import { ITableHeaders } from "../../../../assets/types/table";
 
 import {
-    ICustomerModel, ICustomerParams
+    ICustomerModel,
+    ICustomerParams,
 } from "../../../../assets/types/customer";
 
 import { AxiosResponse } from "axios";
@@ -52,14 +51,13 @@ class Customer extends mixins(ServerTable, CommonApis) {
     baseUrl = process.env.MIX_API_BASE_URL;
 
     headers: ITableHeaders[] = [
-        { text: 'Name', value: 'name' },
-        {text: 'Mobile Number', value: 'contact_number' },
-        {text: 'Status', value: 'user_status_text' },
-        { text: 'Actions', value: 'actions', sortable: false },
-            ];
+        { text: "Name", value: "name" },
+        { text: "Mobile Number", value: "contact_number" },
+        { text: "Status", value: "user_status_text" },
+        { text: "Actions", value: "actions", sortable: false },
+    ];
 
-    customSortableKeys = {
-            };
+    customSortableKeys = {};
     confirmation: IConfirmationProps = {
         title: "",
         description: "",
@@ -86,26 +84,6 @@ class Customer extends mixins(ServerTable, CommonApis) {
         storeProps: "",
     };
 
-    changeStatus(id:string,status:string): Promise<AxiosResponse<ResponseResult<ICustomerModel>>> {
-        return new Promise((resolve, reject) => {
-           HTTP.post(`${this.baseUrl}user_status/verify/`,{user_id:id,user_status:status})
-               .then(
-                    (
-                        response: AxiosResponse<
-                            ResponseResult<ICustomerModel>
-                        >
-                    ) => {
-                        resolve(response);
-                        this.refresh();
-                    }
-                )
-                .catch((e) => {
-                    reject(e);
-                });
-        });
-
-    }
-    customerViewModal = false;
 
     /**
      * Export data in CSV file
@@ -157,9 +135,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
         HTMLClassModule.addBodyClassName("page-loading");
         CustomerModule.getById(id).then(
             (response: AxiosResponse<ResponseResult<ICustomerModel>>) => {
-                CustomerModule.SET_MODEL(
-                    response.data.data as ICustomerModel
-                );
+                CustomerModule.SET_MODEL(response.data.data as ICustomerModel);
                 HTMLClassModule.removeBodyClassName("page-loading");
                 //this.categoryViewModal = true;
             },
@@ -170,21 +146,37 @@ class Customer extends mixins(ServerTable, CommonApis) {
         );
     }
 
-refreshData(): void {
+    changeStatus(id: string, status: string): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+
+        CustomerModule.setCustomerStatus({
+            user_id: id,
+            user_status: status,
+        }).then(
+            (response: AxiosResponse<ResponseResult<ICustomerModel>>) => {
+                this.refresh();
+                HTMLClassModule.removeBodyClassName("page-loading");
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+
+    refreshData(): void {
         const self = this;
         setTimeout(function () {
             if (self.tab == "tab1") {
                 self.refresh();
             } else if (self.tab == "tab2" && self.$refs.importdata) {
                 if (self.isImportLoaded) {
-                     (self.$refs.importdata as any).refreshImport();
+                    (self.$refs.importdata as any).refreshImport();
                 }
                 self.isImportLoaded = true;
             }
         }, 100);
     }
-created(): void {
-
-    }
+    created(): void {}
 }
 export default Customer;
