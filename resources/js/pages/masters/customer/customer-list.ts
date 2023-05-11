@@ -14,10 +14,7 @@ import { CategoryModule } from "../../../store/category";
 
 import { ITableHeaders } from "../../../../assets/types/table";
 
-import {
-    ICustomerModel,
-    ICustomerParams,
-} from "../../../../assets/types/customer";
+import { ICustomerModel } from "../../../../assets/types/customer";
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
@@ -31,7 +28,7 @@ import {
     ResponseResult,
 } from "../../../../assets/types/common";
 import { CustomerModule } from "@/store/customer";
-import HTTP from "@/common_services/api-services";
+import { SnackbarModule } from "@/store/snackbar";
 
 @Component({
     components: {
@@ -83,7 +80,6 @@ class Customer extends mixins(ServerTable, CommonApis) {
         idProps: "",
         storeProps: "",
     };
-
 
     /**
      * Export data in CSV file
@@ -155,6 +151,8 @@ class Customer extends mixins(ServerTable, CommonApis) {
         }).then(
             (response: AxiosResponse<ResponseResult<ICustomerModel>>) => {
                 this.refresh();
+                SnackbarModule.setMsg(response.data.message as string);
+
                 HTMLClassModule.removeBodyClassName("page-loading");
             },
             (error) => {
@@ -177,6 +175,5 @@ class Customer extends mixins(ServerTable, CommonApis) {
             }
         }, 100);
     }
-    created(): void {}
 }
 export default Customer;
