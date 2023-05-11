@@ -81,6 +81,17 @@ class UserAPIController extends Controller
      * @param UserRequest $request
      * @return mixed
      */
+    public function register(UserRequest $request)
+    {
+        $user = User::create($request->all());
+        return \App\Models\User::GetMessage(new UserResource($user), config('constants.messages.create_success'));
+    }
+
+    /**
+     * Add User
+     * @param UserRequest $request
+     * @return mixed
+     */
     public function store(UserRequest $request)
     {
         return User::createUser($request);
@@ -134,7 +145,7 @@ class UserAPIController extends Controller
         return response()->download(storage_path("app/public/{$filePath}"));
     }
 
-     /**
+    /**
      * Export User Data
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -238,4 +249,3 @@ class UserAPIController extends Controller
         return new UserCollection(UserResource::collection($query), UserResource::class);
     }
 }
-

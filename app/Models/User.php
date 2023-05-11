@@ -128,8 +128,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     ];
 
-
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -137,8 +135,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(\App\Models\Role::class);
     }
-
-
 
     public function scopeCommonFunctionMethod($query, $model, $request, $preQuery = null, $tablename = null, $groupBy = null, $export_select = false, $no_paginate = false)
     {

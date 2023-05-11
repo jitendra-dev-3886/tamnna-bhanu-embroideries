@@ -29,6 +29,7 @@ Route::group([
     Route::get('batch-request', '\App\Http\Controllers\API\UserAPIController@batchRequest');
     Route::post('login', '\App\Http\Controllers\API\LoginAPIController@login');
 
+    Route::post('app-register', '\App\Http\Controllers\API\UserAPIController@register');
     Route::post('app-login', '\App\Http\Controllers\API\LoginAPIController@appLogin'); // RM
     Route::post('app-login-verify', '\App\Http\Controllers\API\LoginAPIController@appLoginVerify'); // RM
 
@@ -112,8 +113,6 @@ Route::group([
         Route::post('categories-delete-image/{category}', '\App\Http\Controllers\API\CategoryAPIController@deleteCategoryImage');
         Route::post('homebanners-delete-image/{homebanner}', '\App\Http\Controllers\API\HomeBannerAPIController@deleteBannerImage');
         Route::post('product-delete-image/{product}', '\App\Http\Controllers\API\ProductAPIController@deleteProductImage');
-
-
     });
 
     Route::group([
@@ -144,6 +143,5 @@ Route::group([
 
         Route::get('categories-list', '\App\Http\Controllers\API\CategoryAPIController@catagoriesList'); // RM
         Route::get('products-list/{product}', '\App\Http\Controllers\API\ProductAPIController@productList');
-
     });
 });
