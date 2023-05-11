@@ -40,8 +40,8 @@ class LoginRequest extends FormRequest
         //     ]
         // ];
 
-        if (App::environment(['production']))
-            $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
+        // if (App::environment(['production']))
+        //     $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
 
         return $rules;
     }
