@@ -238,10 +238,17 @@ class Login extends mixins(CommonServices) {
      * on google recaptcha execute
      */
     onRecaptchaVerify(): void {
-        if (
+        /*if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY
-             && process.env.MIX_MODE == "production"
-        ) {
+           //  && process.env.MIX_MODE == "production"
+        ) {*/
+        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
+        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
+        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
+        const tempMixMode = process.env.MIX_MODE
+            ? process.env.MIX_MODE
+            : "production";
+    if (tempMixGoogleCaptchaKey && tempMixMode == "production"){
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
@@ -261,10 +268,17 @@ class Login extends mixins(CommonServices) {
     }
 
     created(): void {
-        if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "production"
-        ) {
+      /*  if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY
+          //  && process.env.MIX_MODE == "production"
+        )*/
+        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
+        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
+        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
+        const tempMixMode = process.env.MIX_MODE
+            ? process.env.MIX_MODE
+            : "production";
+    if (tempMixGoogleCaptchaKey && tempMixMode == "production"){
             this["$recaptchaLoaded"]().then(() => {
                 this["$recaptchaInstance"].showBadge();
             });
@@ -272,10 +286,18 @@ class Login extends mixins(CommonServices) {
     }
 
     beforeDestroy(): void {
-        if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "production"
-        ) {
+       /* if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY
+            // && process.env.MIX_MODE == "production"
+        ) */
+        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
+        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
+        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
+        const tempMixMode = process.env.MIX_MODE
+            ? process.env.MIX_MODE
+            : "production";
+    if (tempMixGoogleCaptchaKey && tempMixMode == "production")
+        {
             this["$recaptchaInstance"].hideBadge();
         }
     }
