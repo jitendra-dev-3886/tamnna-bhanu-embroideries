@@ -55,7 +55,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         description: [
             {
                 key: "required",
-                value: "Description required",
+                value: "Remarks required",
             },
         ],
 
@@ -102,7 +102,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         featured_image: [
             {
                 key: "required",
-                value: "Featured Image required",
+                value: "Feature Image required",
             },
             {
                 key: "ext",
@@ -129,7 +129,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             },
             {
                 key: "valid_file_length",
-                value: "Maximum file upload limit is ",
+                value: "Maximum you can upload 5 files  ",
             },
             {
                 key: "size",
