@@ -240,7 +240,7 @@ class Login extends mixins(CommonServices) {
     onRecaptchaVerify(): void {
         if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY
-             && process.env.MIX_MODE == "uat"
+             && process.env.MIX_MODE == "production"
         ) {
             this.$validator.validate().then((valid) => {
                 if (valid) {
@@ -263,7 +263,7 @@ class Login extends mixins(CommonServices) {
     created(): void {
         if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "uat"
+            process.env.MIX_MODE == "production"
         ) {
             this["$recaptchaLoaded"]().then(() => {
                 this["$recaptchaInstance"].showBadge();
@@ -274,7 +274,7 @@ class Login extends mixins(CommonServices) {
     beforeDestroy(): void {
         if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "uat"
+            process.env.MIX_MODE == "production"
         ) {
             this["$recaptchaInstance"].hideBadge();
         }

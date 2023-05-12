@@ -102,7 +102,7 @@ class Logoff extends Mixins(CommonServices) {
     onRecaptchaVerify(): void {
         if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "uat"
+            process.env.MIX_MODE == "production"
         ) {
             this.$validator.validate().then((valid) => {
                 if (valid) {

@@ -40,7 +40,7 @@ class LoginRequest extends FormRequest
         //     ]
         // ];
 
-          if (App::environment(['uat']))
+          if (App::environment(['production']))
             $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
 
         return $rules;
