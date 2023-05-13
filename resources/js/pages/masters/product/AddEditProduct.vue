@@ -87,6 +87,7 @@
                                 label="Category*"
                                 name="category_id"
                                 :items="categoryList"
+                                @change="setDescription()"
                                 item-text="name"
                                 item-value="id"
                                 :loading="isDataLoading"
@@ -212,23 +213,8 @@
                                 aria-label="Product Galleries"
                             />
                         </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                           <!-- <v-textarea
-                                id="description"
-                                label="Remarks"
-                                v-model="model.description"
-                                name="description"
-                                ref="description"
-                                auto-grow
-                                outlined
-                                :error-messages="
-                                    getErrorValue(
-                                        'description',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                            ></v-textarea>-->
+                        <v-flex xs12 lg12 class="p-md-2">
+                           
                             <label>Remarks</label>
                             <vue-mce id="description" v-model="model.description"
                                      name="description" ref="description"

@@ -244,6 +244,37 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             }
         });
     }
+    setDescription(): void {
+        this.model.description = "";
+
+        this.categoryList.forEach((element) => {
+            if (this.model.category_id.includes(element.id)) {
+                var parser = new DOMParser();
+                let doc =
+                    element.name +
+                    "-" +
+                    parser.parseFromString(element.description, "text/html")
+                        .body.innerText;
+                let doc1 = parser.parseFromString(
+                    this.model.description,
+                    "text/html"
+                );
+
+                this.model.description =
+                    "<p>" + doc1.body.innerHTML.toString() + doc + "</p>";
+            }
+        });
+
+        //let desc: string = doc.body.innerHTML.toString().replace(/\s/g, "");
+
+        // this.model.category_id;
+        // this.categoryList;
+        // this.model.description = this.categoryList[0].description;
+        // this.model.description =
+        //     this.model.description + this.categoryList[1].description;
+
+        //if(this.categoryList.includes)
+    }
 
     setStock(): void {
         this.model.stock =
@@ -264,7 +295,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         this.isDataLoading = true;
         CommonModule.getAll({
             apiName: "categories",
-            pagination: { page: 1 },
+            pagination: { isLight: true },
         }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
