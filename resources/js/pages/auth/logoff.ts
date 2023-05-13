@@ -10,7 +10,7 @@ import { AxiosResponse } from "axios";
 import { ResponseResult } from "../../../assets/types/common";
 import { ICurrentUserData } from "../../../assets/types/user";
 import { PermissionModule } from "@/store/permission";
-import { NavigationGuardNext,Route } from "vue-router";
+import { NavigationGuardNext, Route } from "vue-router";
 
 @Component({
     components: {
@@ -25,14 +25,14 @@ class Logoff extends Mixins(CommonServices) {
         password: [
             {
                 key: "required",
-                value: "Password required"
+                value: "Password required",
             },
         ],
     };
     // login info
     loginDetail: ILoginModel = {
         email: <string>UserModule.currentUserData.email,
-        contact_number:<string>UserModule.currentUserData.contact_number,
+        contact_number: <string>UserModule.currentUserData.contact_number,
         password: "",
         g_recaptcha_response: "",
     };
@@ -42,55 +42,55 @@ class Logoff extends Mixins(CommonServices) {
 
     onSubmit(): void {
         if (this.loginDetail.email) {
-        // set spinner to submit button
+            // set spinner to submit button
 
-        this["$validator"].validate().then((valid) => {
-            if (valid) {
-                this.isSubmitting = true;
-                UserModule.login(this.loginDetail).then(
-                    (
-                        response: AxiosResponse<
-                            ResponseResult<ICurrentUserData>
+            this["$validator"].validate().then((valid) => {
+                if (valid) {
+                    this.isSubmitting = true;
+                    UserModule.login(this.loginDetail).then(
+                        (
+                            response: AxiosResponse<
+                                ResponseResult<ICurrentUserData>
                             >
-                    ) => {
-                        this.isSubmitting = false;
-                        this.errorMessage = "";
-                        // Set Data of Current user in store
-                        UserModule.SET_CURRENT_USER_DATA(
-                            <ICurrentUserData>response.data.data
-                        );
-                        // go to which page after successfully login
-
-                        if (response.data?.data?.permissions) {
-                            const permission = <[]>(
-                                response.data.data.permissions
+                        ) => {
+                            this.isSubmitting = false;
+                            this.errorMessage = "";
+                            // Set Data of Current user in store
+                            UserModule.SET_CURRENT_USER_DATA(
+                                <ICurrentUserData>response.data.data
                             );
-                            if (permission.length > 0) {
-                                PermissionModule.SET_USER_PERMISSIONS(
+                            UserModule.SET_REMEMBER_ME("1");
+                            // go to which page after successfully login
+
+                            if (response.data?.data?.permissions) {
+                                const permission = <[]>(
                                     response.data.data.permissions
                                 );
+                                if (permission.length > 0) {
+                                    PermissionModule.SET_USER_PERMISSIONS(
+                                        response.data.data.permissions
+                                    );
+                                }
                             }
-                        }
 
-                        localStorage.setItem(
-                            "login-timestamp",
-                            String(getTime(new Date()))
-                        );
-                        this["$router"].push(UserModule.defaultRouteUrl);
-                        UserModule.RESET_DEFAULT_URL();
-                    },
-                    (error) => {
-                        // If Login has Error
-                        this.isSubmitting = false;
-                        this.errorMessage = this.getAPIErrorMessage(
-                            error.response
-                        );
-                    }
-                );
-            }
-        });
-     }
-      else {
+                            localStorage.setItem(
+                                "login-timestamp",
+                                String(getTime(new Date()))
+                            );
+                            this["$router"].push(UserModule.defaultRouteUrl);
+                            UserModule.RESET_DEFAULT_URL();
+                        },
+                        (error) => {
+                            // If Login has Error
+                            this.isSubmitting = false;
+                            this.errorMessage = this.getAPIErrorMessage(
+                                error.response
+                            );
+                        }
+                    );
+                }
+            });
+        } else {
             this.$router.push("/login");
         }
     }
@@ -100,17 +100,17 @@ class Logoff extends Mixins(CommonServices) {
      //          * @param response - recaptcha token
      //          */
     onRecaptchaVerify(): void {
-       /* if (
+        /* if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY &&
             process.env.MIX_MODE == "production"
         ) */
         const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
+            ? process.env.MIX_GOOGLE_CAPTCHA_KEY
+            : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
         const tempMixMode = process.env.MIX_MODE
             ? process.env.MIX_MODE
             : "production";
-    if (tempMixGoogleCaptchaKey && tempMixMode == "production"){
+        if (tempMixGoogleCaptchaKey && tempMixMode == "production") {
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
@@ -140,12 +140,12 @@ class Logoff extends Mixins(CommonServices) {
     get UserProfilePicture(): string {
         return <string>UserModule.userProfilePicture;
     }
-   beforeRouteEnter(
+    beforeRouteEnter(
         to: Route,
         from: Route,
         next: NavigationGuardNext<Vue>
     ): void {
-        if (UserModule.currentUserData.contact_number== "") {
+        if (UserModule.currentUserData.contact_number == "") {
             next("/");
         }
         next();

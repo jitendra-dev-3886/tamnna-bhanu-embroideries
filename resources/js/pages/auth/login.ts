@@ -10,7 +10,10 @@ import { UserModule } from "../../store/user";
 import { getTime } from "date-fns";
 import { ILoginValidations, ILoginModel } from "../../../assets/types/auth";
 import { AxiosResponse } from "axios";
-import { ResponseResult,ILoginConfirmationProps } from "../../../assets/types/common";
+import {
+    ResponseResult,
+    ILoginConfirmationProps,
+} from "../../../assets/types/common";
 import { ICurrentUserData } from "../../../assets/types/user";
 import { NavigationGuardNext, Route } from "vue-router";
 Component.registerHooks(["beforeRouteEnter"]);
@@ -34,7 +37,7 @@ class Login extends mixins(CommonServices) {
                 value: "Email is invalid",
             },
         ],
-        contact_number:[
+        contact_number: [
             { key: "required", value: "Contact Number/Email-id required" },
             {
                 key: "contact_number",
@@ -44,25 +47,23 @@ class Login extends mixins(CommonServices) {
         password: [
             {
                 key: "required",
-                value: "Password required"
+                value: "Password required",
             },
-
         ],
     };
     // login info
     loginDetail: ILoginModel = {
-        email:"",
+        email: "",
         contact_number: "",
         password: "",
         g_recaptcha_response: "",
-
     };
     remember_me = "";
     forgotPasswordDialog = false;
     isSubmitting = false;
     errorMessage = "";
     loginConfirmationModal = false;
-   // isBatchRequestLoading: boolean;
+    // isBatchRequestLoading: boolean;
 
     get permissionDialog(): boolean {
         return PermissionModule.permissionDialog;
@@ -92,7 +93,7 @@ class Login extends mixins(CommonServices) {
             .then(
                 (response: AxiosResponse<ResponseResult<ICurrentUserData>>) => {
                     this.errorMessage = "";
-                   // this.CommonGetSettingList();
+                    // this.CommonGetSettingList();
                     // Set Data of Current user in store
                     UserModule.SET_CURRENT_USER_DATA(
                         <ICurrentUserData>response.data.data
@@ -180,42 +181,21 @@ class Login extends mixins(CommonServices) {
         this.$validator.validate().then((valid) => {
             if (valid) {
                 this.isSubmitting = true;
-                const sendData = JSON.parse(JSON.stringify(this.loginDetail));
-                UserModule.login(sendData)
-                    .then(
-                        (
-                            response: AxiosResponse<
-                                ResponseResult<ICurrentUserData>
-                                >
-                        ) => {
-                            this.isSubmitting = false;
-                            // Set Data of Current user in store
-                            UserModule.SET_CURRENT_USER_DATA(
-                                <ICurrentUserData>response.data.data
-                            );
-                            // Set permission data
-                            if (response.data?.data?.permissions) {
-                                const permission = <[]>(
-                                    response.data.data.permissions
-                                );
-                                if (permission.length > 0) {
-                                    PermissionModule.SET_USER_PERMISSIONS(
-                                        response.data.data.permissions
-                                    );
-                                }
-                            }
-                            // go to which page after successfully login
-                            localStorage.setItem(
-                                "login-timestamp",
-                                String(getTime(new Date()))
-                            );
-                            this["$router"].push(this.defaultRouteUrl);
-                            UserModule.RESET_DEFAULT_URL();
-                        }
-                    )
-                    .catch((e) => {
+
+                //const sendData = JSON.parse(JSON.stringify(this.loginDetail));
+                UserModule.checkUserLoggedInOrNot({
+                    email: this.loginDetail.email,
+                    password: this.loginDetail.password,
+                })
+                    .then((response: AxiosResponse<ResponseResult<string>>) => {
+                        UserModule.SET_REMEMBER_ME(this.remember_me);
+                        this.login("1");
+                    })
+                    .catch((error) => {
                         this.isSubmitting = false;
-                        this.errorMessage = this.getAPIErrorMessage(e.response);
+                        this.errorMessage = this.getAPIErrorMessage(
+                            error.response
+                        );
                     });
             }
         });
@@ -236,15 +216,18 @@ class Login extends mixins(CommonServices) {
      */
     onRecaptchaVerify(): void {
         if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+                process.env.MIX_MODE == "production") ||
+            process.env.MIX_MODE == "uat"
         ) {
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
                         (token: string) => {
-                            console.log('token', token)
-                            this.loginDetail.g_recaptcha_response = token ? token : '';
+                            console.log("token", token);
+                            this.loginDetail.g_recaptcha_response = token
+                                ? token
+                                : "";
                             this.onSubmit();
                         },
                         (error) => {
@@ -260,8 +243,9 @@ class Login extends mixins(CommonServices) {
 
     created(): void {
         if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+                process.env.MIX_MODE == "production") ||
+            process.env.MIX_MODE == "uat"
         ) {
             this["$recaptchaLoaded"]().then(() => {
                 this["$recaptchaInstance"].showBadge();
@@ -271,15 +255,15 @@ class Login extends mixins(CommonServices) {
 
     beforeDestroy(): void {
         if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+                process.env.MIX_MODE == "production") ||
+            process.env.MIX_MODE == "uat"
         ) {
             this["$recaptchaInstance"].hideBadge();
         }
     }
 
-
-/**
+    /**
      * Abort login route if user already logged in
      * @param to
      * @param from
@@ -292,6 +276,7 @@ class Login extends mixins(CommonServices) {
         next: NavigationGuardNext<Vue>
     ): void {
         next(() => {
+            // TODO: do not need this here any more as have redirected in index file only
             var authorization = "";
             if (UserModule.remember_me != "1") {
                 authorization = "";
@@ -308,7 +293,7 @@ class Login extends mixins(CommonServices) {
                 next();
             }
         });
-        }
     }
+}
 
 export default Login;
