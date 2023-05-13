@@ -257,11 +257,14 @@ class Login extends mixins(CommonServices) {
         const tempMixMode = process.env.MIX_MODE
             ? process.env.MIX_MODE
             : "production";
-        if (tempMixGoogleCaptchaKey && tempMixMode == "production") {
+        debugger;
+        if (tempMixGoogleCaptchaKey) {
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
                         (token: string) => {
+                            debugger;
+
                             this.loginDetail.g_recaptcha_response = token;
                             this.onSubmit();
                         },
@@ -287,7 +290,7 @@ class Login extends mixins(CommonServices) {
         const tempMixMode = process.env.MIX_MODE
             ? process.env.MIX_MODE
             : "production";
-        if (tempMixGoogleCaptchaKey && tempMixMode == "production") {
+        if (tempMixGoogleCaptchaKey) {
             this["$recaptchaLoaded"]().then(() => {
                 this["$recaptchaInstance"].showBadge();
             });
@@ -305,7 +308,7 @@ class Login extends mixins(CommonServices) {
         const tempMixMode = process.env.MIX_MODE
             ? process.env.MIX_MODE
             : "production";
-        if (tempMixGoogleCaptchaKey && tempMixMode == "production") {
+        if (tempMixGoogleCaptchaKey) {
             this["$recaptchaInstance"].hideBadge();
         }
     }
