@@ -22,7 +22,7 @@ class LoginResource extends JsonResource
             'city' => (string) $this->city,
             'otp_verified_at' => (string) $this->otp_verified_at,
             'contact_number' => (string) $this->contact_number,
-            'permissions' => (string) $this->permissions,
+            'permissions' => $this->permissions,
             'authorization' => (string) $this->authorization,
             'refresh_token' => (string) $this->refresh_token,
             'role_id' => (string) $this->role_id,
