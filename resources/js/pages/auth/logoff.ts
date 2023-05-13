@@ -59,8 +59,7 @@ class Logoff extends Mixins(CommonServices) {
                             UserModule.SET_CURRENT_USER_DATA(
                                 <ICurrentUserData>response.data.data
                             );
-                            UserModule.SET_REMEMBER_ME("1");
-                            // go to which page after successfully login
+                            //UserModule.SET_REMEMBER_ME("1");
 
                             if (response.data?.data?.permissions) {
                                 const permission = <[]>(
@@ -77,6 +76,7 @@ class Logoff extends Mixins(CommonServices) {
                                 "login-timestamp",
                                 String(getTime(new Date()))
                             );
+                            // go to which page after successfully login
                             this["$router"].push(UserModule.defaultRouteUrl);
                             UserModule.RESET_DEFAULT_URL();
                         },
@@ -96,21 +96,15 @@ class Logoff extends Mixins(CommonServices) {
     }
 
     /**
-     //          * on google recaptcha execute
-     //          * @param response - recaptcha token
-     //          */
+     * on google recaptcha execute
+     * @param response - recaptcha token
+     */
     onRecaptchaVerify(): void {
-        /* if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-            process.env.MIX_MODE == "production"
-        ) */
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-            ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-            : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-        if (tempMixGoogleCaptchaKey && tempMixMode == "production") {
+        if (
+            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+                process.env.MIX_MODE == "production") ||
+            process.env.MIX_MODE == "uat"
+        ) {
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
@@ -145,7 +139,7 @@ class Logoff extends Mixins(CommonServices) {
         from: Route,
         next: NavigationGuardNext<Vue>
     ): void {
-        if (UserModule.currentUserData.contact_number == "") {
+        if (UserModule.currentUserData.email == "") {
             next("/");
         }
         next();
