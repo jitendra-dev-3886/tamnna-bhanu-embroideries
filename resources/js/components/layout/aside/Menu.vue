@@ -1,5 +1,5 @@
 <template>
-    <ul class="menu-nav" style="background-color: black;">
+    <ul class="menu-nav" style="background-color: black">
         <router-link
             v-slot="{ href, navigate, isActive, isExactActive }"
             to="/dashboard"
@@ -29,21 +29,18 @@
                 data-menu-toggle="hover"
                 class="menu-item"
                 :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
+                    isActive && 'menu-item-active',
+                    isExactActive && 'menu-item-active',
+                ]"
             >
-                <a
-                    :href="href"
-                    class="menu-link"
-                    @click="navigate"
-                >
-                    <i class="menu-icon flaticon-users"/>
+                <a :href="href" class="menu-link" @click="navigate">
+                    <i class="menu-icon flaticon-users" />
                     <span class="menu-text">Users</span>
                 </a>
             </li>
         </router-link>
-        <router-link
+        <!-- commented for now   -->
+        <!-- <router-link
               v-slot="{ href, navigate, isActive, isExactActive }"
               to="/activity-log"
             >
@@ -61,7 +58,7 @@
                   <span class="menu-text">Activity Log</span>
                 </a>
               </li>
-            </router-link>
+            </router-link> -->
 
         <li class="menu-section">
             <h4 class="menu-text">Masters Library</h4>
@@ -82,7 +79,6 @@
             <div class="menu-submenu">
                 <span class="menu-arrow"></span>
                 <ul class="menu-subnav">
-
                     <router-link
                         to="/masters/homebanner"
                         v-slot="{ href, navigate, isActive, isExactActive }"
@@ -93,9 +89,9 @@
                             data-menu-toggle="hover"
                             class="menu-item"
                             :class="[
-                            isActive && 'menu-item-active',
-                            isExactActive && 'menu-item-active'
-                        ]"
+                                isActive && 'menu-item-active',
+                                isExactActive && 'menu-item-active',
+                            ]"
                         >
                             <a :href="href" class="menu-link" @click="navigate">
                                 <i class="menu-bullet menu-bullet-dot">
@@ -116,9 +112,9 @@
                             data-menu-toggle="hover"
                             class="menu-item"
                             :class="[
-                            isActive && 'menu-item-active',
-                            isExactActive && 'menu-item-active'
-                        ]"
+                                isActive && 'menu-item-active',
+                                isExactActive && 'menu-item-active',
+                            ]"
                         >
                             <a :href="href" class="menu-link" @click="navigate">
                                 <i class="menu-bullet menu-bullet-dot">
@@ -139,9 +135,9 @@
                             data-menu-toggle="hover"
                             class="menu-item"
                             :class="[
-                isActive && 'menu-item-active',
-                isExactActive && 'menu-item-active'
-              ]"
+                                isActive && 'menu-item-active',
+                                isExactActive && 'menu-item-active',
+                            ]"
                         >
                             <a :href="href" class="menu-link" @click="navigate">
                                 <i class="menu-bullet menu-bullet-dot">
@@ -161,9 +157,9 @@
                             data-menu-toggle="hover"
                             class="menu-item"
                             :class="[
-                isActive && 'menu-item-active',
-                isExactActive && 'menu-item-active'
-              ]"
+                                isActive && 'menu-item-active',
+                                isExactActive && 'menu-item-active',
+                            ]"
                         >
                             <a :href="href" class="menu-link" @click="navigate">
                                 <i class="menu-bullet menu-bullet-dot">
@@ -183,9 +179,9 @@
                             data-menu-toggle="hover"
                             class="menu-item"
                             :class="[
-                isActive && 'menu-item-active',
-                isExactActive && 'menu-item-active'
-              ]"
+                                isActive && 'menu-item-active',
+                                isExactActive && 'menu-item-active',
+                            ]"
                         >
                             <a :href="href" class="menu-link" @click="navigate">
                                 <i class="menu-bullet menu-bullet-dot">
@@ -195,7 +191,7 @@
                             </a>
                         </li>
                     </router-link>
-                   <!-- <router-link
+                    <!-- <router-link
                         to="/masters/cart"
                         v-slot="{ href, navigate, isActive, isExactActive }"
                     >
@@ -217,7 +213,7 @@
                             </a>
                         </li>
                     </router-link>     -->
-                  </ul>
+                </ul>
             </div>
         </li>
     </ul>

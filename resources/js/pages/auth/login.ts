@@ -96,10 +96,6 @@ class Login extends mixins(CommonServices) {
                     UserModule.SET_CURRENT_USER_DATA(
                         <ICurrentUserData>response.data.data
                     );
-                    // @ts-ignore
-                    CompanyInfoModule.SET_COMPANY_ID(response.data.data.company_id);
-                    // @ts-ignore
-                    CompanyInfoModule.SET_USER_ID(response.data.data.user_id);
                     // Set permission data
                     if (response.data?.data?.permissions) {
                         const permission = <[]>response.data.data.permissions;
@@ -238,22 +234,16 @@ class Login extends mixins(CommonServices) {
      * on google recaptcha execute
      */
     onRecaptchaVerify(): void {
-        /*if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-           //  && process.env.MIX_MODE == "production"
-        ) {*/
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-    if (tempMixGoogleCaptchaKey && tempMixMode == "production"){
+        if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+        ) {
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
                         (token: string) => {
-                            this.loginDetail.g_recaptcha_response = token;
+                            console.log('token', token)
+                            this.loginDetail.g_recaptcha_response = token ? token : '';
                             this.onSubmit();
                         },
                         (error) => {
@@ -268,17 +258,10 @@ class Login extends mixins(CommonServices) {
     }
 
     created(): void {
-      /*  if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-          //  && process.env.MIX_MODE == "production"
-        )*/
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-    if (tempMixGoogleCaptchaKey && tempMixMode == "production"){
+        if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+        ) {
             this["$recaptchaLoaded"]().then(() => {
                 this["$recaptchaInstance"].showBadge();
             });
@@ -286,18 +269,10 @@ class Login extends mixins(CommonServices) {
     }
 
     beforeDestroy(): void {
-       /* if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-            // && process.env.MIX_MODE == "production"
-        ) */
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-    if (tempMixGoogleCaptchaKey && tempMixMode == "production")
-        {
+        if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+        ) {
             this["$recaptchaInstance"].hideBadge();
         }
     }

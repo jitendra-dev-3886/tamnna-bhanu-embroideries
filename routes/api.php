@@ -143,5 +143,6 @@ Route::group([
 
         Route::get('categories-list', '\App\Http\Controllers\API\CategoryAPIController@catagoriesList'); // RM
         Route::get('products-list/{product}', '\App\Http\Controllers\API\ProductAPIController@productList');
+        Route::get('get-all-modules-counts', '\App\Http\Controllers\API\CartAPIController@getCartsCounts');
     });
 });

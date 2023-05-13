@@ -92,14 +92,15 @@
                                 Role
                             </button>
                         </router-link>
-                        <router-link to="/permission">
+                        <!-- commented for now to avoid bugs in video recording -->
+                        <!-- <router-link to="/permission">
                             <button
                                 v-index="$getConst('PERMISSIONS')"
                                 class="btn btn-light-primary btn-bold w100"
                             >
                                 Permission
                             </button>
-                        </router-link>
+                        </router-link> -->
                         <v-divider />
                         <button
                             class="btn btn-light-primary btn-bold mb-2"

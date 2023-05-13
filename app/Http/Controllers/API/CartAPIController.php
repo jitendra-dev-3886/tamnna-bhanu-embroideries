@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exports\CartExport;
 use App\Imports\CartImport;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
 
@@ -136,5 +137,18 @@ class CartAPIController extends Controller
     public function importBulk(CsvRequest $request)
     {
         return \App\Models\User::importBulk($request, new CartImport(), 'cart', 'import/cart/');
+    }
+
+    /**
+     * Get Cart Count.
+     * @param Request $request
+     * @return DataTrueResource|\Illuminate\Http\JsonResponse
+     */
+    public function getCartsCounts()
+    {
+        $user = Auth::user();
+
+        $cartTotal = Cart::where('user_id', $user->id)->sum('quantity');
+        return response()->json(['cart_total' => (string) $cartTotal], config('constants.validation_codes.ok'));
     }
 }
