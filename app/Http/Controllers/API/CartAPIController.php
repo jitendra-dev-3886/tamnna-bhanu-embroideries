@@ -146,10 +146,9 @@ class CartAPIController extends Controller
      */
     public function getCartsCounts()
     {
-        $data = [];
         $user = Auth::user();
 
-        $data['cart_total'] = Cart::where('user_id', $user->id)->sum('quantity');
-        return response()->json(['data' => $data], config('constants.validation_codes.ok'));
+        $cartTotal = Cart::where('user_id', $user->id)->sum('quantity');
+        return response()->json(['cart_total' => (string) $cartTotal], config('constants.validation_codes.ok'));
     }
 }
