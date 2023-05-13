@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+
 class Order extends Model
 {
     use SoftDeletes, Scopes, CreatedbyUpdatedby, HasFactory, UploadTrait;
@@ -148,7 +149,6 @@ class Order extends Model
             'product_id',
             'product_name',
             'price',
-            'category_name',
             'featured_image',
             'quantity',
             'created_by',
@@ -189,16 +189,14 @@ class Order extends Model
 
         $cartProducts = Cart::where('user_id', $order->user_id)->where('deleted_at', null)->get();
 
-        $total_amount = 0;
-        $quantity = 0;
         foreach ($cartProducts as $cartProduct) {
             $outOfStockProduct = Product::where('id', $cartProduct->product_id)->where('available_status', config('constants.products.available_status_code.not_available'))->first();
             if (!is_null($outOfStockProduct)) {
                 $productIds[] = $outOfStockProduct->name;
             }
             $products = Product::where('id', $cartProduct->product_id)
-                        ->where('available_status', config('constants.products.available_status_code.available'))
-                        ->get();
+                ->where('available_status', config('constants.products.available_status_code.available'))
+                ->get();
         }
 
         if (!empty($productIds)) {
@@ -208,26 +206,18 @@ class Order extends Model
             ], config('constants.validation_codes.unprocessable_entity'));
         }
 
-        $ordersQty = $order->quantity;
-
-        $order_id =  $order->id;
-        $productid = $cartProduct->product_id;
-
         foreach ($cartProducts as $cartProduct) {
-            $products = Product::where('id', $cartProduct->product_id)->get();
-            foreach ($products as $product) {
-                $categoryName = Category::where('id', $product->category_id)->first();
-                $productData['order_id'] =  $order->id;
-                $productData['product_id'] = $cartProduct->product_id;
-                $productData['product_name'] = $product->name;
-                $productData['price'] = $product->price;
-                $productData['featured_image'] =  $product->featured_image;
-                $productData['quantity']  = $order->quantity;
-                $productData['category_name'] =  $categoryName->name;
+            $product = Product::where('id', $cartProduct->product_id)->first();
 
-                OrderProduct::create($productData); //Insert order products into order_products table
-                Cart::where('user_id', $order->user_id)->where('product_id', $cartProduct->product_id)->delete(); //Delete products from cart
-            }
+            $productData['order_id'] =  $order->id;
+            $productData['product_id'] = $cartProduct->product_id;
+            $productData['product_name'] = $product->name;
+            $productData['price'] = $product->price;
+            $productData['featured_image'] =  $product->featured_image;
+            $productData['quantity']  = $order->quantity;
+
+            OrderProduct::create($productData); //Insert order products into order_products table
+            Cart::where('user_id', $order->user_id)->where('product_id', $cartProduct->product_id)->delete(); //Delete products from cart
         }
 
         return \App\Models\User::GetMessage(new OrderResource($order), config('constants.messages.create_success'));
@@ -319,8 +309,4 @@ class Order extends Model
 
         return parent::newQuery();
     }
-
-
-
-
 }
