@@ -84,7 +84,7 @@ class UserAPIController extends Controller
     public function register(UserRequest $request)
     {
         $user = User::create($request->all());
-        return \App\Models\User::GetMessage(new UserResource($user), config('constants.messages.create_success'));
+        return \App\Models\User::GetMessage(new UserResource($user), config('constants.messages.success_app_registration'));
     }
 
     /**
