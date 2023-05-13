@@ -25,7 +25,7 @@
                     </tr>
 
                     <tr>
-                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Description:</td>
+                        <td class="font-weight-medium font-size-h6-sm" style="width: 30%;color: black;">Remarks:</td>
                         <td class="font-weight-regular font-size-h6-sm" style="color:teal" v-if="model.description"><span v-html="model.description"></span></td>
                         <td class="font-weight-regular font-size-h6-sm" style="color:teal" v-if="!model.description">-</td>
                     </tr>

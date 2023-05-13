@@ -100,10 +100,17 @@ class Logoff extends Mixins(CommonServices) {
      //          * @param response - recaptcha token
      //          */
     onRecaptchaVerify(): void {
-        if (
+       /* if (
             process.env.MIX_GOOGLE_CAPTCHA_KEY &&
             process.env.MIX_MODE == "production"
-        ) {
+        ) */
+        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
+        ? process.env.MIX_GOOGLE_CAPTCHA_KEY
+        : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
+        const tempMixMode = process.env.MIX_MODE
+            ? process.env.MIX_MODE
+            : "production";
+    if (tempMixGoogleCaptchaKey && tempMixMode == "production"){
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(

@@ -42,14 +42,14 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
         description: [
             {
                 key: "required",
-                value: "Description required",
+                value: "Remarks required",
             },
         ],
 
         featured_image: [
             {
                 key: "required",
-                value: "Featured Image required",
+                value: "Feature Image required",
             },
             {
                 key: "size",
