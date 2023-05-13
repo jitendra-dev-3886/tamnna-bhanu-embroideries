@@ -71,6 +71,11 @@ return [
         ],
     ],
 
+    'login' => [
+        'logged_in' => '1',
+        'not_logged_in' => '0',
+    ],
+
     'messages' => [
 
         'user' => [
@@ -78,7 +83,9 @@ return [
             'invalid_role'  => 'Your role is Invalid.',
             'inactive'      => 'Your account is not active, please contact administrator.',
         ],
-        'login'                      => [
+        'login' => [
+            'logged_user'                   => 'Already Logged-in.',
+            'not_logged_user'               => 'Not logged-in yet.',
             'success'                       => 'Login is successful.',
             'success_portal'                => 'OTP verified successfully',
             'unverified_account'            => 'Your account is not verified yet.',

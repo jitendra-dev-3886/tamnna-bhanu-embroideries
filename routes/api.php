@@ -28,6 +28,7 @@ Route::group([
 
     Route::get('batch-request', '\App\Http\Controllers\API\UserAPIController@batchRequest');
     Route::post('login', '\App\Http\Controllers\API\LoginAPIController@login');
+    Route::post('check-user-logged-in-or-not', '\App\Http\Controllers\API\LoginAPIController@checkUserLoggedInORNot');
 
     Route::post('app-register', '\App\Http\Controllers\API\UserAPIController@register');
     Route::post('app-login', '\App\Http\Controllers\API\LoginAPIController@appLogin'); // RM
