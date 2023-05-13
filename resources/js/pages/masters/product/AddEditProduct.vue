@@ -193,14 +193,15 @@
                                         : 'ext:jpeg,png,jpg|size:5120|valid_file_length:5'
                                 "
                                 multiple
+
                                 name="product_galleries"
                                 accept="image/jpg, image/jpeg, image/png"
                                 :persistent-hint="true"
                                 hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
-                                counter="5"
+                                :counter="5"
                                 :error-messages="
                                     getErrorValue(
-                                        'product_gallery|product_id|gallery',
+                                        'product_gallery|product_id|gallery|product_galleries',
                                         errors,
                                         validationMessages
                                     )
@@ -212,7 +213,7 @@
                             />
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
-                            <v-textarea
+                           <!-- <v-textarea
                                 id="description"
                                 label="Remarks"
                                 v-model="model.description"
@@ -227,7 +228,12 @@
                                         validationMessages
                                     )
                                 "
-                            ></v-textarea>
+                            ></v-textarea>-->
+                            <label>Remarks</label>
+                            <vue-mce id="description" v-model="model.description"
+                                     name="description" ref="description"
+                                     v-validate="'required'"
+                                     :config="editorConfig"></vue-mce>
                             <ErrorBlock
                                 validationField="description"
                                 :errorList="errors"

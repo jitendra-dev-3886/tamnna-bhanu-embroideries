@@ -197,10 +197,10 @@
                     </template>
 
                     <template v-slot:[`item.category.name`]="{ item }">
-                        <span v-for="(category,index) in item.category" :key="index" >
+                        <div v-for="(category,index) in item.category" :key="index" >
 
                         {{ item.category[index].name?item.category[index].name:'-' }}
-                       </span>
+                        </div>
                     </template>
 
                     <template v-slot:[`item.available_status`]="{ item }">

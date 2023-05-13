@@ -49,7 +49,7 @@ class Customer extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] = [
         { text: "Name", value: "name" },
-        { text: "Mobile Number", value: "contact_number" },
+        { text: "Contact Number", value: "contact_number" },
         { text: "Status", value: "user_status_text" },
         { text: "Actions", value: "actions", sortable: false },
     ];

@@ -45,7 +45,7 @@
                         </v-flex>
 
                         <v-flex xs12 lg12 class="p-md-2">
-                            <v-textarea
+                            <!--<v-textarea
                                 id="description"
                                 label="Remarks"
                                 v-model="model.description"
@@ -60,7 +60,11 @@
                                         validationMessages
                                     )
                                 "
-                            ></v-textarea>
+                            ></v-textarea>-->
+                            <label>Remarks</label>
+                            <vue-mce id="description" v-model="model.description"
+                                     name="description" ref="description"
+                                     :config="editorConfig"></vue-mce>
                             <ErrorBlock
                                 validationField="description"
                                 :errorList="errors"

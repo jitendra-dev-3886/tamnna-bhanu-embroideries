@@ -116,8 +116,8 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
 
         product_galleries: [
             {
-                key: "required",
-                value: "Product Gallery required",
+                key: "counter",
+                value: "You can upload only 5 images in the gallery",
             },
             {
                 key: "length",
