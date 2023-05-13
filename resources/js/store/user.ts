@@ -25,7 +25,7 @@ import {
     IUserLightResponse,
 } from "../../assets/types/user";
 import { AxiosResponse } from "axios";
-import { ILoginModel } from "../../assets/types/auth";
+import { ILoginModel,ICheckLoginModel } from "../../assets/types/auth";
 
 function getEmptyState() {
     return {
@@ -242,6 +242,21 @@ class User extends VuexModule implements IUser {
                         resolve(response);
                     }
                 )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    @Action({ rawError: true }) //This is for if request reject
+    public checkUserLoggedInOrNot(
+        userInfo: ICheckLoginModel
+    ): Promise<AxiosResponse<ResponseResult<string>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}check-user-logged-in-or-not`, userInfo)
+                .then((response: AxiosResponse<ResponseResult<string>>) => {
+                    resolve(response);
+                })
                 .catch((e) => {
                     reject(e);
                 });

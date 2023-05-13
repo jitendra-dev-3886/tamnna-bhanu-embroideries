@@ -207,6 +207,7 @@ class CommonErrorMethods extends Vue {
      *  Logout
      */
     logout(): void {
+        UserModule.SET_REMEMBER_ME("0");
         UserModule.userLogout().then(
             () => {
 

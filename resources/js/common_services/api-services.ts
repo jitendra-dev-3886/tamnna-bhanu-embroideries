@@ -29,6 +29,7 @@ const configURLs = [
     "forgot-password",
     "reset-password",
     "register",
+    "check-user-logged-in-or-not"
 ];
 const publicConfigURLs = ["countries", "states", "cities", "hobbies"];
 // eslint-disable-next-line consistent-return

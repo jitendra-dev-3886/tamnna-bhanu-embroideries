@@ -55,6 +55,7 @@ class Login extends mixins(CommonServices) {
         contact_number: "",
         password: "",
         g_recaptcha_response: "",
+
     };
     remember_me = "";
     forgotPasswordDialog = false;

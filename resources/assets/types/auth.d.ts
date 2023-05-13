@@ -18,6 +18,9 @@ export interface ILoginModel extends IForgotPasswordModel{
     password: string;
     g_recaptcha_response: string;
 }
+export interface ICheckLoginModel extends IForgotPasswordModel {
+    password: string;
+}
 
 export interface IChangePasswordModel {
     old_password: string;

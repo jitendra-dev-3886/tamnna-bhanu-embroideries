@@ -7,9 +7,11 @@ import { UserModule } from "../store/user";
 class Idle extends Vue {
     @OnIdle()
     public whenIdle(): void {
+        if(UserModule.remember_me!=="1"){
         UserModule.SET_DEFAULT_URL(window.location.pathname);
         UserModule.logoff("");
         this["$router"].push({ name: "Logoff" });
+        }
     }
 }
 
