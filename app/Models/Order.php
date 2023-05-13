@@ -214,9 +214,11 @@ class Order extends Model
             $productData['product_name'] = $product->name;
             $productData['price'] = $product->price;
             $productData['featured_image'] =  $product->featured_image;
-            $productData['quantity']  = $order->quantity;
+            $productData['quantity']  = $cartProduct->quantity;
 
             OrderProduct::create($productData); //Insert order products into order_products table
+            $product['stock'] = $product->stock - $cartProduct->quantity;
+            $product->update();
             Cart::where('user_id', $order->user_id)->where('product_id', $cartProduct->product_id)->delete(); //Delete products from cart
         }
 
