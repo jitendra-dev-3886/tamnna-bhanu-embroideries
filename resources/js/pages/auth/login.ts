@@ -215,52 +215,54 @@ class Login extends mixins(CommonServices) {
      * on google recaptcha execute
      */
     onRecaptchaVerify(): void {
-        if (
-            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-                process.env.MIX_MODE == "production") ||
-            process.env.MIX_MODE == "uat"
-        ) {
-            this.$validator.validate().then((valid) => {
-                if (valid) {
-                    this["$recaptcha"]("login").then(
-                        (token: string) => {
-                            console.log("token", token);
-                            this.loginDetail.g_recaptcha_response = token
-                                ? token
-                                : "";
-                            this.onSubmit();
-                        },
-                        (error) => {
-                            this.loginDetail.g_recaptcha_response = "";
-                        }
-                    );
-                }
-            });
-        } else {
-            this.onSubmit();
-        }
+        // if (
+        //     (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+        //         process.env.MIX_MODE == "production") ||
+        //     process.env.MIX_MODE == "uat"
+        // ) {
+        //     this.$validator.validate().then((valid) => {
+        //         if (valid) {
+        //             this["$recaptcha"]("login").then(
+        //                 (token: string) => {
+        //                     console.log("token", token);
+        //                     this.loginDetail.g_recaptcha_response = token
+        //                         ? token
+        //                         : "";
+        //                     this.onSubmit();
+        //                 },
+        //                 (error) => {
+        //                     this.loginDetail.g_recaptcha_response = "";
+        //                 }
+        //             );
+        //         }
+        //     });
+        // } else {
+        //     this.onSubmit();
+        // }
+
+        this.onSubmit();
     }
 
     created(): void {
-        if (
-            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-                process.env.MIX_MODE == "production") ||
-            process.env.MIX_MODE == "uat"
-        ) {
-            this["$recaptchaLoaded"]().then(() => {
-                this["$recaptchaInstance"].showBadge();
-            });
-        }
+        // if (
+        //     (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+        //         process.env.MIX_MODE == "production") ||
+        //     process.env.MIX_MODE == "uat"
+        // ) {
+        //     this["$recaptchaLoaded"]().then(() => {
+        //         this["$recaptchaInstance"].showBadge();
+        //     });
+        // }
     }
 
     beforeDestroy(): void {
-        if (
-            (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
-                process.env.MIX_MODE == "production") ||
-            process.env.MIX_MODE == "uat"
-        ) {
-            this["$recaptchaInstance"].hideBadge();
-        }
+        // if (
+        //     (process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+        //         process.env.MIX_MODE == "production") ||
+        //     process.env.MIX_MODE == "uat"
+        // ) {
+        //     this["$recaptchaInstance"].hideBadge();
+        // }
     }
 
     /**
