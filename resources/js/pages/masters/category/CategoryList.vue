@@ -1,30 +1,25 @@
-
 <template>
     <div>
         <v-tabs
             aria-label="Tabs"
             @change="refreshData()"
             class="mb-5"
-            v-model="tab">
+            v-model="tab"
+        >
             <v-tab
                 href="#tab1"
                 v-index="$getConst('CATEGORIES')"
                 aria-label="category tab"
             >
-                <p class="mt-2">
-                    Listing
-                </p>
+                <p class="mt-2">Listing</p>
             </v-tab>
             <v-tab
                 href="#tab2"
                 v-importBulk="$getConst('CATEGORIES')"
                 aria-label="Import tab"
             >
-                <p class="mt-2">
-                    Import
-                </p>
+                <p class="mt-2">Import</p>
             </v-tab>
-
         </v-tabs>
         <v-tabs-items v-model="tab">
             <v-tab-item value="tab1">
@@ -46,12 +41,7 @@
                 >
                     <template v-slot:top>
                         <v-layout>
-                            <v-flex
-                                lg4
-                                md4
-                                sm12
-                                xs12
-                            >
+                            <v-flex lg4 md4 sm12 xs12>
                                 <v-text-field
                                     @input="onSearch"
                                     class="mx-4 mt-4"
@@ -61,14 +51,8 @@
                                     aria-label="Search category"
                                 />
                             </v-flex>
-                            <v-flex
-                                lg8
-                                md8
-                                sm12
-                                xs12
-                            >
+                            <v-flex lg8 md8 sm12 xs12>
                                 <div class="float-right mt-4">
-
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on }">
                                             <v-btn
@@ -77,7 +61,9 @@
                                                 color="primary"
                                                 dark
                                                 v-on="on"
-                                                v-store="$getConst('CATEGORIES')"
+                                                v-store="
+                                                    $getConst('CATEGORIES')
+                                                "
                                                 aria-label="Add category"
                                             >
                                                 <v-icon small>
@@ -100,13 +86,17 @@
                                         @close-menu="closeMenuColumn"
                                         @update-headers="setSelectedHeaders"
                                     ></column-visibility-btn>
-                                    <template v-if="selected.length>1">
+                                    <template v-if="selected.length > 1">
                                         <multi-delete
                                             :delete-props="deleteProps"
                                             @click.native="multipleDelete()"
-                                            @multiDelete="getData(), selected = []"
+                                            @multiDelete="
+                                                getData(), (selected = [])
+                                            "
                                             ref="multipleDeleteBtn"
-                                            v-deleteAll="$getConst('CATEGORIES')"
+                                            v-deleteAll="
+                                                $getConst('CATEGORIES')
+                                            "
                                         />
                                     </template>
                                 </div>
@@ -115,16 +105,28 @@
                     </template>
 
                     <template v-slot:[`item.description`]="{ item }">
-                        <span v-if="item.description" v-html="item.description"></span>
+                        <perfect-scrollbar
+                            class="offcanvas-content scroll p-2"
+                            style="max-height: 10vh; max-width: 1400px"
+                        >
+                            <span
+                                v-if="item.description"
+                                v-html="item.description"
+                            ></span>
+                            <span v-else>-</span>
+                        </perfect-scrollbar>
                     </template>
                     <template v-slot:[`item.featured_image`]="{ item }">
                         <a :href="item.featured_image" target="_blank">
-                            <v-img :src="item.featured_image" v-if="item.featured_image" width="80" height="80"></v-img>
+                            <v-img
+                                :src="item.featured_image"
+                                v-if="item.featured_image"
+                                width="80"
+                                height="80"
+                            ></v-img>
                         </a>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
-
-
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
@@ -138,7 +140,7 @@
                                     {{ icons.mdiEye }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('VIEW_DETAILS_TOOLTIP') }}</span>
+                            <span>{{ $getConst("VIEW_DETAILS_TOOLTIP") }}</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -153,7 +155,7 @@
                                     {{ icons.mdiPencil }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('EDIT_TOOLTIP') }}</span>
+                            <span>{{ $getConst("EDIT_TOOLTIP") }}</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -168,7 +170,7 @@
                                     {{ icons.mdiImageEditOutline }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('EDIT_IMAGE_TOOLTIP') }}</span>
+                            <span>{{ $getConst("EDIT_IMAGE_TOOLTIP") }}</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -183,7 +185,7 @@
                                     {{ icons.mdiDelete }}
                                 </v-icon>
                             </template>
-                            <span>{{ $getConst('DELETE_TOOLTIP') }}</span>
+                            <span>{{ $getConst("DELETE_TOOLTIP") }}</span>
                         </v-tooltip>
                     </template>
                 </v-data-table>
@@ -200,19 +202,22 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-
         </v-tabs-items>
         <delete-modal
             :confirmation="confirmation"
             :param-props="paramProps"
-            @delete-success="getData(), selected=[]"
+            @delete-success="getData(), (selected = [])"
             v-model="modalOpen"
             aria-label="Delete category confirmation modal"
         />
-        <category-view-modal v-model="categoryViewModal" aria-label="category view modal" />
-        <CategoryEditImages v-model="categoryEditImages" aria-label="categoryEditImages"/>
-
-
+        <category-view-modal
+            v-model="categoryViewModal"
+            aria-label="category view modal"
+        />
+        <CategoryEditImages
+            v-model="categoryEditImages"
+            aria-label="categoryEditImages"
+        />
     </div>
 </template>
 

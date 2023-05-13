@@ -190,16 +190,28 @@
                     </template>
 
                     <template v-slot:[`item.description`]="{ item }">
-                        <span
-                            v-if="item.description"
-                            v-html="item.description"
-                        ></span>
+                        <perfect-scrollbar
+                            class="offcanvas-content scroll p-2"
+                            style="max-height: 10vh; max-width: 1400px"
+                        >
+                            <span
+                                v-if="item.description"
+                                v-html="item.description"
+                            ></span>
+                            <span v-else>-</span>
+                        </perfect-scrollbar>
                     </template>
 
                     <template v-slot:[`item.category.name`]="{ item }">
-                        <div v-for="(category,index) in item.category" :key="index" >
-
-                        {{ item.category[index].name?item.category[index].name:'-' }}
+                        <div
+                            v-for="(category, index) in item.category"
+                            :key="index"
+                        >
+                            {{
+                                item.category[index].name
+                                    ? item.category[index].name
+                                    : "-"
+                            }}
                         </div>
                     </template>
 
