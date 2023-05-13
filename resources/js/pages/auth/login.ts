@@ -10,10 +10,7 @@ import { UserModule } from "../../store/user";
 import { getTime } from "date-fns";
 import { ILoginValidations, ILoginModel } from "../../../assets/types/auth";
 import { AxiosResponse } from "axios";
-import {
-    ResponseResult,
-    ILoginConfirmationProps,
-} from "../../../assets/types/common";
+import { ResponseResult,ILoginConfirmationProps } from "../../../assets/types/common";
 import { ICurrentUserData } from "../../../assets/types/user";
 import { NavigationGuardNext, Route } from "vue-router";
 Component.registerHooks(["beforeRouteEnter"]);
@@ -37,7 +34,7 @@ class Login extends mixins(CommonServices) {
                 value: "Email is invalid",
             },
         ],
-        contact_number: [
+        contact_number:[
             { key: "required", value: "Contact Number/Email-id required" },
             {
                 key: "contact_number",
@@ -47,13 +44,14 @@ class Login extends mixins(CommonServices) {
         password: [
             {
                 key: "required",
-                value: "Password required",
+                value: "Password required"
             },
+
         ],
     };
     // login info
     loginDetail: ILoginModel = {
-        email: "",
+        email:"",
         contact_number: "",
         password: "",
         g_recaptcha_response: "",
@@ -63,7 +61,7 @@ class Login extends mixins(CommonServices) {
     isSubmitting = false;
     errorMessage = "";
     loginConfirmationModal = false;
-    // isBatchRequestLoading: boolean;
+   // isBatchRequestLoading: boolean;
 
     get permissionDialog(): boolean {
         return PermissionModule.permissionDialog;
@@ -93,17 +91,11 @@ class Login extends mixins(CommonServices) {
             .then(
                 (response: AxiosResponse<ResponseResult<ICurrentUserData>>) => {
                     this.errorMessage = "";
-                    // this.CommonGetSettingList();
+                   // this.CommonGetSettingList();
                     // Set Data of Current user in store
                     UserModule.SET_CURRENT_USER_DATA(
                         <ICurrentUserData>response.data.data
                     );
-                    // @ts-ignore
-                    // CompanyInfoModule.SET_COMPANY_ID(
-                    //     response?.data?.data?.company_id
-                    // );
-                    // @ts-ignore
-                    CompanyInfoModule.SET_USER_ID(response.data.data.user_id);
                     // Set permission data
                     if (response.data?.data?.permissions) {
                         const permission = <[]>response.data.data.permissions;
@@ -193,7 +185,7 @@ class Login extends mixins(CommonServices) {
                         (
                             response: AxiosResponse<
                                 ResponseResult<ICurrentUserData>
-                            >
+                                >
                         ) => {
                             this.isSubmitting = false;
                             // Set Data of Current user in store
@@ -242,30 +234,16 @@ class Login extends mixins(CommonServices) {
      * on google recaptcha execute
      */
     onRecaptchaVerify(): void {
-        /*if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-           //  && process.env.MIX_MODE == "production"
-        ) {*/
-        console.log(
-            "process.env.MIX_GOOGLE_CAPTCHA_KEY",
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-        );
-        console.log("process.env.MIX_MODE", process.env.MIX_MODE);
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-            ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-            : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-        debugger;
-        if (tempMixGoogleCaptchaKey) {
+        if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+        ) {
             this.$validator.validate().then((valid) => {
                 if (valid) {
                     this["$recaptcha"]("login").then(
                         (token: string) => {
-                            debugger;
-                            console.log("token", token);
-                            this.loginDetail.g_recaptcha_response = token;
+                            console.log('token', token)
+                            this.loginDetail.g_recaptcha_response = token ? token : '';
                             this.onSubmit();
                         },
                         (error) => {
@@ -275,23 +253,15 @@ class Login extends mixins(CommonServices) {
                 }
             });
         } else {
-            console.log("else");
             this.onSubmit();
         }
     }
 
     created(): void {
-        /*  if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-          //  && process.env.MIX_MODE == "production"
-        )*/
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-            ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-            : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-        if (tempMixGoogleCaptchaKey) {
+        if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+        ) {
             this["$recaptchaLoaded"]().then(() => {
                 this["$recaptchaInstance"].showBadge();
             });
@@ -299,22 +269,16 @@ class Login extends mixins(CommonServices) {
     }
 
     beforeDestroy(): void {
-        /* if (
-            process.env.MIX_GOOGLE_CAPTCHA_KEY
-            // && process.env.MIX_MODE == "production"
-        ) */
-        const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
-            ? process.env.MIX_GOOGLE_CAPTCHA_KEY
-            : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
-        const tempMixMode = process.env.MIX_MODE
-            ? process.env.MIX_MODE
-            : "production";
-        if (tempMixGoogleCaptchaKey) {
+        if (
+            process.env.MIX_GOOGLE_CAPTCHA_KEY &&
+            process.env.MIX_MODE == "production" || process.env.MIX_MODE == "uat"
+        ) {
             this["$recaptchaInstance"].hideBadge();
         }
     }
 
-    /**
+
+/**
      * Abort login route if user already logged in
      * @param to
      * @param from
@@ -343,7 +307,7 @@ class Login extends mixins(CommonServices) {
                 next();
             }
         });
+        }
     }
-}
 
 export default Login;
