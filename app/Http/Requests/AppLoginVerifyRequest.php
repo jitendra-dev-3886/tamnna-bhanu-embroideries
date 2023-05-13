@@ -28,7 +28,7 @@ class AppLoginVerifyRequest extends FormRequest
         $rules = [
             'contact_number' => 'required|integer|digits:10|starts_with:9,8,7,6|exists:users,contact_number',
             'otp'            => 'required|integer|digits:6',
-            'device_token'   => 'required|max:4096',
+            'device_token'   => 'max:4096',
         ];
         return $rules;
     }
