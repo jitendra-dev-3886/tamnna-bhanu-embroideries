@@ -131,6 +131,7 @@ return [
         'error_log_not_available' => 'Error logs are not available.',
         'delete_success' => 'Deleted successfully.',
         'create_success' => 'Created successfully.',
+        'success_app_registration'  => 'Registration Successfully! Contact Bhanu Embroideries to login.',
         'update_success' => 'Updated successfully.',
         'change_success' => 'Changed successfully.',
         'import_success' => 'Imported successfully.',

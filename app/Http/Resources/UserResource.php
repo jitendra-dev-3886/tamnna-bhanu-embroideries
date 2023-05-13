@@ -20,14 +20,14 @@ class UserResource extends JsonResource
         return [
 
             'id' => $this->id,
-            'contact_number' => $this->contact_number,
-            'name' => $this->name,
-            'company_name' => $this->company_name,
-            'city' => $this->city,
-            'email' => $this->email,
-            'user_status' => $this->user_status,
+            'contact_number' => (string) $this->contact_number,
+            'name' => (string) $this->name,
+            'company_name' => (string) $this->company_name,
+            'city' => (string) $this->city,
+            'email' => (string) $this->email,
+            'user_status' => (string) $this->user_status,
             'user_status_text' => config('constants.user.status.' . $this->user_status),
-            'role_id' => $this->role_id,
+            'role_id' => (string) $this->role_id,
             'role' => $this->role,
         ];
     }
