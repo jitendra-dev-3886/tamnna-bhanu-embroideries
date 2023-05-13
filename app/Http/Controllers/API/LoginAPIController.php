@@ -296,4 +296,32 @@ class LoginAPIController extends Controller
 
         return response()->json($tokenResult);
     }
+
+
+    /**
+     * Check user logged in or not
+     *
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkUserLoggedInORNot(LoginRequest $request)
+    {
+        $credentials = request(['email', 'password']);
+        if (!Auth::attempt($credentials))
+            return User::GetError(config('constants.messages.user.invalid'));
+
+        $user = $request->user();
+
+        if (isset($user) && ($user->status != config('constants.user.status_enum.1')))
+            return User::GetError(config('constants.messages.login.unverified_account'));
+
+        $loggedUser = Token::where('user_id', $user->id)
+            ->where('expires_at', '>', Carbon::now())
+            ->where('revoked', '0')->count();
+
+        if ($loggedUser > 0)
+            return User::GetMessage(config('constants.login.logged_in'), config('constants.messages.login.logged_user'));
+
+        return User::GetMessage(config('constants.login.not_logged_in'), config('constants.messages.login.not_logged_user'));
+    }
 }
