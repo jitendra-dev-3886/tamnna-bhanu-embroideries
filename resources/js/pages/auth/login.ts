@@ -250,7 +250,7 @@ class Login extends mixins(CommonServices) {
             "process.env.MIX_GOOGLE_CAPTCHA_KEY",
             process.env.MIX_GOOGLE_CAPTCHA_KEY
         );
-        console.log("process.env.MIX_MODE", process.env.MIX_GOOGLE_CAPTCHA_KEY);
+        console.log("process.env.MIX_MODE", process.env.MIX_MODE);
         const tempMixGoogleCaptchaKey = process.env.MIX_GOOGLE_CAPTCHA_KEY
             ? process.env.MIX_GOOGLE_CAPTCHA_KEY
             : "6Lcv2P0lAAAAADOZCDZFAOMqmGxBDmyPPZfIo6Zu";
@@ -264,7 +264,7 @@ class Login extends mixins(CommonServices) {
                     this["$recaptcha"]("login").then(
                         (token: string) => {
                             debugger;
-
+                            console.log("token", token);
                             this.loginDetail.g_recaptcha_response = token;
                             this.onSubmit();
                         },
@@ -275,6 +275,7 @@ class Login extends mixins(CommonServices) {
                 }
             });
         } else {
+            console.log("else");
             this.onSubmit();
         }
     }
