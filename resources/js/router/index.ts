@@ -497,7 +497,6 @@ router.beforeEach((to, from, next) => {
     } else {
         UserModule.CLEAR_USER_DATA();
     }
-    debugger;
 
     const { authorization } = UserModule.currentUserData;
     document.title = to.meta?.title;
