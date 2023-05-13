@@ -251,29 +251,18 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             if (this.model.category_id.includes(element.id)) {
                 var parser = new DOMParser();
                 let doc =
-                    element.name +
-                    "-" +
-                    parser.parseFromString(element.description, "text/html")
-                        .body.innerText;
+                    `<b>${element.name}</b> :` +
+                    parser
+                        .parseFromString(element.description, "text/html")
+                        .body.innerHTML.toString();
                 let doc1 = parser.parseFromString(
                     this.model.description,
                     "text/html"
                 );
 
-                this.model.description =
-                    "<p>" + doc1.body.innerHTML.toString() + doc + "</p>";
+                this.model.description = `<p>${doc1.body.innerHTML.toString()} ${doc}</p>`;
             }
         });
-
-        //let desc: string = doc.body.innerHTML.toString().replace(/\s/g, "");
-
-        // this.model.category_id;
-        // this.categoryList;
-        // this.model.description = this.categoryList[0].description;
-        // this.model.description =
-        //     this.model.description + this.categoryList[1].description;
-
-        //if(this.categoryList.includes)
     }
 
     setStock(): void {
