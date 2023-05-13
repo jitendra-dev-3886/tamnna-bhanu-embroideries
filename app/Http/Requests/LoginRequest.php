@@ -31,8 +31,8 @@ class LoginRequest extends FormRequest
             'password'       => 'required|min:6|max:191',
         ];
 
-        if (App::environment(['production']))
-            $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
+        // if (App::environment(['production']))
+        //     $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
 
         return $rules;
     }
