@@ -1,3 +1,4 @@
+import { ICategoryModel } from './category';
 export interface IOrderModel {
     user_id: string;
     quantity: string;
@@ -8,7 +9,32 @@ export interface IOrderModel {
     user_remark: string;
     order_products: Object[];
 }
+/*export interface IOrderProducts extends CommonFileResponse{
+    product_id: string;
 
+    featured_image:Blob;
+
+}*/
+export interface IOrderProducts extends CommonFileResponse{
+
+
+    product_id:string;
+    product_id_original: string;
+    product_id_thumbnail: string;
+    product:{
+        name:string;
+    };
+    categories:{
+        id:string;
+        name:string;
+        description:string;
+        featured_image:string|Blob
+    }
+    price:string;
+    quantity:string;
+    user_name:string;
+    payment_amount:string;
+}
 export interface IOrderParams {
     model: IOrderModel;
     editId?: string|number
@@ -50,16 +76,5 @@ export interface CommonFileResponse {
     Order_id: string;
 }
 
-export interface IOrderProducts extends CommonFileResponse{
-    product_id: string;
-    product_name:string;
-    category_name:string;
-    product_id_original: string;
-    product_id_thumbnail: string;
-    featured_image:Blob;
-    price:string;
-    quantity:string;
-    user_name:string;
-    payment_amount:string;
-}
+
 

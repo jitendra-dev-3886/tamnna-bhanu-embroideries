@@ -113,7 +113,7 @@
                                     : ''
                                 }`"
                             >
-                            <span style="color: black;font-size: 30px;font-weight: bold;">Go Back</span>
+                            <span style="color: white;font-size: 30px;font-weight: bold;">Go Back</span>
                             </v-btn>
                         </div>
                     </v-flex>

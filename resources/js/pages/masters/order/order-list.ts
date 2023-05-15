@@ -61,7 +61,7 @@ class Order extends mixins(ServerTable, CommonApis) {
     headers: ITableHeaders[] = [
         { text: 'Customer', value: 'user_id' },
        // { text: 'Quantity', value: 'quantity' },
-       {text:'Products',value:'order_products.product_name'},
+       {text:'Products',value:'order_products.product.name'},
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },
      //  { text: 'Order Status', value: 'order_status_text' },
@@ -115,6 +115,10 @@ class Order extends mixins(ServerTable, CommonApis) {
     get viewModel():IOrderFullResponse{
         return OrderModule.viewModel;
 
+    }
+
+    get prodDetailModel():IOrderProducts{
+        return OrderModule.prodDetail;
     }
    /* get productIdList(): IOrderProducts[] {
         return OrderModule.product_idList;
