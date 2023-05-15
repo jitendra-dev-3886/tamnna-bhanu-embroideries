@@ -231,7 +231,7 @@ class UserList extends mixins(ServerTable, CommonApis) {
         /*Single Master : Start */
         CommonModule.getAll({
             apiName: "roles",
-            pagination: { page: 1 },
+            pagination: { isLight: true },
         }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");

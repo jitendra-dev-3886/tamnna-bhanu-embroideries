@@ -174,7 +174,7 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
         this.isDataLoading = true;
         CommonModule.getAll({
             apiName: "users",
-            pagination: { page: 1 },
+            pagination: { isLight: true },
         }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");

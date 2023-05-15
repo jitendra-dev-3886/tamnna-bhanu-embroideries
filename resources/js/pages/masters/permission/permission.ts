@@ -40,7 +40,7 @@ class Permission extends mixins(CommonServices) {
     mounted(): void {
         PermissionModule.CLEAR_PERMISSIONS();
         HTMLClassModule.addBodyClassName("page-loading");
-        CommonModule.getAll({ apiName: "roles", pagination: { page: 1 } }).then(
+        CommonModule.getAll({ apiName: "roles", pagination: { isLight: true } }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
                 RoleModule.SET_ROLE_LIST(

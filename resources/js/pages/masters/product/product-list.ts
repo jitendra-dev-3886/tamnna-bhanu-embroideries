@@ -16,10 +16,7 @@ import { CategoryModule } from "@/store/category";
 import { ICategoryLightResponse } from "../../../../assets/types/category";
 import { ProductModule } from "../../../store/product";
 import { CommonModule } from "@/store/common";
-import {
-    ITableHeaders,
-    IFilterModel,
-} from "../../../../assets/types/table";
+import { ITableHeaders, IFilterModel } from "../../../../assets/types/table";
 
 import {
     IProductGalleries,
@@ -57,20 +54,19 @@ class Product extends mixins(ServerTable, CommonApis) {
     urlApi = "products";
 
     headers: ITableHeaders[] = [
-        { text: 'Name', value: 'name' },
-        { text: 'Price', value: 'price' },
-        { text: 'Remarks', value: 'description', sortable: false },
-        { text: 'Item Code', value: 'item_code' },
+        { text: "Name", value: "name" },
+        { text: "Price", value: "price" },
+        { text: "Remarks", value: "description", sortable: false },
+        { text: "Item Code", value: "item_code" },
 
-        { text: 'Category', value:'category.name'},
-        { text: 'Available Status', value: 'available_status_text' },
-        { text: 'Stock', value: 'stock' },
-        { text: 'Feature Image', value: 'featured_image',sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false },
-            ];
+        { text: "Category", value: "category.name" },
+        { text: "Available Status", value: "available_status_text" },
+        { text: "Stock", value: "stock" },
+        { text: "Feature Image", value: "featured_image", sortable: false },
+        { text: "Actions", value: "actions", sortable: false },
+    ];
 
-    customSortableKeys = {available_status_text: "available_status",
-            };
+    customSortableKeys = { available_status_text: "available_status" };
     confirmation: IConfirmationProps = {
         title: "",
         description: "",
@@ -102,14 +98,12 @@ class Product extends mixins(ServerTable, CommonApis) {
         idProps: "",
         storeProps: "",
     };
-    category_id="";
-    filterMenu= false;
+    category_id = "";
+    filterMenu = false;
     filterModel: IFilterModel = {};
-
 
     images: { thumbnail: string; source: string }[] = [];
     productViewModal = false;
-
 
     get categoryList(): ICategoryLightResponse[] {
         return CategoryModule.categoryList;
@@ -190,29 +184,28 @@ class Product extends mixins(ServerTable, CommonApis) {
         );
     }
 
-
     /**
      * Change Filter
      */
     changeFilter() {
-       const filter: IFilterModel = {};
+        const filter: IFilterModel = {};
 
-       if (this.category_id != '') {
-         filter.category_id = [this.category_id];
-       }
+        if (this.category_id != "") {
+            filter.category_id = [this.category_id];
+        }
 
-       this.filterModel = filter;
-       this.refresh();
-       this.filterMenu = false;
-     }
+        this.filterModel = filter;
+        this.refresh();
+        this.filterMenu = false;
+    }
 
     /**
      * Reset Filter
      */
     resetFilter(): void {
-      this.category_id = "";
+        this.category_id = "";
         this.changeFilter();
-     }
+    }
 
     refreshData(): void {
         const self = this;
@@ -221,21 +214,22 @@ class Product extends mixins(ServerTable, CommonApis) {
                 self.refresh();
             } else if (self.tab == "tab2" && self.$refs.importdata) {
                 if (self.isImportLoaded) {
-                     (self.$refs.importdata as any).refreshImport();
+                    (self.$refs.importdata as any).refreshImport();
                 }
                 self.isImportLoaded = true;
             }
         }, 100);
     }
 
-
     /*
-    * Open Gallery
-    * @param row
-    * */
+     * Open Gallery
+     * @param row
+     * */
     openGallery(row: IProductFullResponse): void {
         this.images = [];
-        const index = (this.tableData as IProductFullResponse[]).findIndex((item) => item.id == row.id);
+        const index = (this.tableData as IProductFullResponse[]).findIndex(
+            (item) => item.id == row.id
+        );
         if (index != undefined && index >= 0) {
             for (let i = 0; i < row.product_galleries.length; i++) {
                 const obj = {
@@ -252,7 +246,6 @@ class Product extends mixins(ServerTable, CommonApis) {
         }
     }
 
-
     /**
      * //Manage Gallery
      * Open Modal box for file management
@@ -261,7 +254,9 @@ class Product extends mixins(ServerTable, CommonApis) {
         HTMLClassModule.addBodyClassName("page-loading");
         ProductModule.getById(id).then(
             (response: AxiosResponse<ResponseResult<IProductFullResponse>>) => {
-                ProductModule.SET_VIEW_MODEL(response.data.data as IProductFullResponse);
+                ProductModule.SET_VIEW_MODEL(
+                    response.data.data as IProductFullResponse
+                );
                 HTMLClassModule.removeBodyClassName("page-loading");
                 (<any>this.$refs.managegallerymodal).manageFileModal();
             },
@@ -272,13 +267,12 @@ class Product extends mixins(ServerTable, CommonApis) {
         );
     }
     created(): void {
-
         HTMLClassModule.addBodyClassName("page-loading");
 
         /*Single Master : Start */
         CommonModule.getAll({
             apiName: "categories",
-            pagination: { page: 1 },
+            pagination: { isLight: true },
         }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
@@ -292,7 +286,7 @@ class Product extends mixins(ServerTable, CommonApis) {
             }
         );
 
-      /*Single Master : End */
+        /*Single Master : End */
     }
 }
 export default Product;
