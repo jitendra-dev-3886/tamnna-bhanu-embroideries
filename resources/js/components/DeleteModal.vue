@@ -104,7 +104,9 @@ class DeleteModal extends Mixins(CommonServices) {
                 },
                 (error) => {
                     this.isSubmitting = false;
-                    this.errorMessage = this.getAPIErrorMessage(error.response);
+                    this.showDialog(this.getAPIErrorMessage(error.response));
+                    this.onCancel();
+                    //this.errorMessage = this.getAPIErrorMessage(error.response);
                 }
             );
     }
