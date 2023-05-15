@@ -29,7 +29,7 @@ class OrderResource extends JsonResource
             'order_status_text' => config('constants.order.order_status.' . $this->order_status),
             'order_status_remark' => $this->order_status_remark,
             'user_remark' => $this->user_remark,
-            'order_products' => $this->order_products,
+            'order_products' => OrderProductResource::collection($this->order_products),
             'created_at' => $this->created_at
 
         ];

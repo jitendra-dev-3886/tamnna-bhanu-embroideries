@@ -119,6 +119,11 @@ class OrderProduct extends Model
         'quantity' => 'string'
     ];
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'id', 'product_id')->with(['categories']);
+    }
+
     /**
      * Add OrderProduct
      * @param Request $request
