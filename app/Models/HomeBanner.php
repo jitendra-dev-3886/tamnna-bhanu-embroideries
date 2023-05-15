@@ -183,7 +183,6 @@ class HomeBanner extends Model
             $resizeImages = $homebanner->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
             $homebanner->update([
-                'homebanner_id'  => $homebanner->id,
                 'featured_image' => $resizeImages['image']
             ]);
         }
