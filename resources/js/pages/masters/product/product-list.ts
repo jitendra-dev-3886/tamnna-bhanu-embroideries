@@ -98,7 +98,7 @@ class Product extends mixins(ServerTable, CommonApis) {
         idProps: "",
         storeProps: "",
     };
-    category_id = "";
+    category_id = [];
     filterMenu = false;
     filterModel: IFilterModel = {};
 
@@ -190,8 +190,10 @@ class Product extends mixins(ServerTable, CommonApis) {
     changeFilter() {
         const filter: IFilterModel = {};
 
-        if (this.category_id != "") {
-            filter.category_id = [this.category_id];
+        if (this.category_id.length > 0) {
+            filter.pf = {
+                categories: this.category_id,
+            } as any;
         }
 
         this.filterModel = filter;
@@ -203,7 +205,7 @@ class Product extends mixins(ServerTable, CommonApis) {
      * Reset Filter
      */
     resetFilter(): void {
-        this.category_id = "";
+        this.category_id = [];
         this.changeFilter();
     }
 

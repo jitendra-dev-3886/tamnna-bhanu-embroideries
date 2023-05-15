@@ -116,6 +116,7 @@
                                                     name="category"
                                                     item-text="name"
                                                     item-value="id"
+                                                    multiple
                                                     :items="categoryList"
                                                     label="Category"
                                                     class="mt-4"
