@@ -9,6 +9,7 @@ import {
     IHomeBannerModel,
     IHomeBannerFullResponse,
     IHomeBannerValidations,
+    IHomeBannerUpdatePayload,
 } from "../../../../assets/types/homebanner";
 
 import { AxiosResponse } from "axios";
@@ -83,9 +84,16 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
                 let apiName = this.isEditMode ? "edit" : "create";
                 let editId: string | number = "";
                 const formData = new FormData();
+                const payload: IHomeBannerUpdatePayload = {
+                    name: "",
+                    banner_status: "",
+                };
 
                 if (this.isEditMode) {
                     editId = <number>HomeBannerModule.editId;
+
+                    payload.name = this.model.name;
+                    payload.banner_status = this.model.banner_status;
                 } else {
                     formData.append("name", this.model.name);
                     formData.append("banner_status", this.model.banner_status);
@@ -95,11 +103,8 @@ class AddEditHomeBanner extends Mixins(CommonServices, CommonApis) {
                     );
                 }
 
-                //To Submit JSON Request
-                //const sendParamModel = JSON.parse(JSON.stringify(this.model));*/
-
                 HomeBannerModule[apiName]({
-                    model: this.isEditMode ? this.model : formData,
+                    model: this.isEditMode ? payload : formData,
                     editId,
                 }).then(
                     (
