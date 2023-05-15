@@ -185,7 +185,7 @@ class Category extends Model
     }
 
 
-        /**
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products()
@@ -202,7 +202,11 @@ class Category extends Model
      */
     public function scopeDeleteCategory($query, $request, $category)
     {
-
+        $inUse = Category::commonCodeForDeleteModelRestrictions([CategoryProduct::class], 'category_id', $category->id);
+        if (!empty($inUse)) {
+            $Category = Category::where('id', $category->id)->first();
+            return User::GetError($Category->name . " can't be deleted as the [" . implode(",", $inUse) . "] are associated with it. Please remove the category mapping with [" . implode(",", $inUse) . "] in order to delete the category.");
+        }
 
         $category->delete();
 
@@ -219,18 +223,25 @@ class Category extends Model
     public function scopeDeleteAll($query, $request)
     {
         if (!empty($request->id)) {
-
-            Category::whereIn('id', $request->id)->get()->each(function ($category) {
-
-
-                $category->delete();
-            });
-
-
-
-            return new DataTrueResource(true, config('constants.messages.delete_success'));
+            $categoryname = "";
+            $inUses = [];
+            foreach ($request->id as $categoryId) {
+                $inUse = Category::commonCodeForDeleteModelRestrictions([CategoryProduct::class], 'category_id', $categoryId);
+                $Category = Category::where('id', $categoryId)->first();
+                if (!empty($inUse))
+                    $categoryname .= $Category->name . ", ";
+                $inUses[] = implode(",", $inUse);
+            }
+            $categorytrime = trim($categoryname, ", ");
+            $arr = array_diff(array_unique($inUses), array(""));
+            if ($categorytrime != "") {
+                return User::GetError($categorytrime . " can't be deleted as the [" . implode(",", $arr) . "] are associated with it. Please remove the category mapping with [" . implode(",", $arr) . "] in order to delete the categories.");
+            } else {
+                Category::whereIn('id', $request->id)->delete();
+                return new DataTrueResource(true, config('constants.messages.delete_success'));
+            }
         } else {
-            return User::GetError(config('constants.messages.delete_multiple_error'));
+            return response()->json(['error' => config('constants.messages.delete_multiple_error')], config('constants.validation_codes.unprocessable_entity'));
         }
     }
 }
