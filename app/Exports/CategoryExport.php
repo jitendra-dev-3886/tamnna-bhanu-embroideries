@@ -20,9 +20,9 @@ class CategoryExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return  \App\Models\User::commonFunctionMethod(Category::select('categories.id', 
-            'categories.name', 
-            'categories.description', 
+        return  \App\Models\User::commonFunctionMethod(Category::select('categories.id',
+            'categories.name',
+            'categories.description',
             'categories.featured_image'),
             $this->request, true, null, null, true);
     }
@@ -30,10 +30,10 @@ class CategoryExport implements FromCollection, WithHeadings
     public function headings():array
     {
         return[
-            'Id', 
-            'Name', 
-            'Description', 
-            'Featured_image'
+            'Id',
+            'Name',
+            'Remarks',
+            'Featured Image'
         ];
     }
 }

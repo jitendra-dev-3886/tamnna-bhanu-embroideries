@@ -55,7 +55,7 @@ class Product extends Model
     /**
      * @var array
      */
-    public $sortable = ['products.created_at', 'products.id', 'name', 'price', 'item_code', 'stock', 'featured_image'];
+    public $sortable = ['products.created_at', 'products.id', 'name', 'price', 'item_code', 'stock', 'featured_image', 'description'];
 
     /**
      * @var array

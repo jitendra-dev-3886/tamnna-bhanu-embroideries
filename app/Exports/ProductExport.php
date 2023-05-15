@@ -20,14 +20,14 @@ class ProductExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return  \App\Models\User::commonFunctionMethod(Product::select('products.id', 
-            'products.name', 
-            'products.price', 
-            'products.description', 
-            'products.item_code', 
-            \Illuminate\Support\Facades\DB::raw('(SELECT name from categories WHERE id = products.category_id) AS category_name'), 
-            \Illuminate\Support\Facades\DB::raw('(CASE WHEN available_status = "'.config('constants.product.available_status_enum.not-available'). '" THEN "' . config('constants.product.available_status.0').'" WHEN available_status = "'.config('constants.product.available_status_enum.available'). '" THEN "' . config('constants.product.available_status.1').'" ELSE ""  END) AS available_status'), 
-            'products.stock', 
+        return  \App\Models\User::commonFunctionMethod(Product::select('products.id',
+            'products.name',
+            'products.price',
+            'products.description',
+            'products.item_code',
+            \Illuminate\Support\Facades\DB::raw('(SELECT name from categories WHERE id = products.category_id) AS category_name'),
+            \Illuminate\Support\Facades\DB::raw('(CASE WHEN available_status = "'.config('constants.product.available_status_enum.not-available'). '" THEN "' . config('constants.product.available_status.0').'" WHEN available_status = "'.config('constants.product.available_status_enum.available'). '" THEN "' . config('constants.product.available_status.1').'" ELSE ""  END) AS available_status'),
+            'products.stock',
             'products.featured_image'),
             $this->request, true, null, null, true);
     }
@@ -35,15 +35,15 @@ class ProductExport implements FromCollection, WithHeadings
     public function headings():array
     {
         return[
-            'Id', 
-            'Name', 
-            'Price', 
-            'Description', 
-            'Item_code', 
-            'Category name', 
-            'Available_status', 
-            'Stock', 
-            'Featured_image'
+            'Id',
+            'Name',
+            'Price',
+            'Remarks',
+            'Item Code',
+            'Category name',
+            'Available Status',
+            'Stock',
+            'Featured Image'
         ];
     }
 }
