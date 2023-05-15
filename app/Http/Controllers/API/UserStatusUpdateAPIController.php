@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserStatusUpdateRequest;
+use App\Http\Resources\UserResource;
 
 /*
     |--------------------------------------------------------------------------
@@ -28,21 +29,10 @@ class UserStatusUpdateAPIController extends Controller
      */
     public function verify(UserStatusUpdateRequest $request)
     {
-
-        $user = User::find($request['user_id']);
-
-        $userStatus = $request->user_status;
-
-        if ($request->user_status == 0 ) {
-
-            $user->user_status = config('constants.user.status_enum.active');
-            $user->save();
-
-        } else {
-            $user->user_status = config('constants.user.status_enum.inactive');
-            $user->save();
-        }
-
-        return redirect('');
+        $data = $request->all();
+        $user = User::find($data['user_id']);
+        $user->update($data);
+        
+        return \App\Models\User::GetMessage(new UserResource($user), config('constants.messages.update_success'));
     }
 }
