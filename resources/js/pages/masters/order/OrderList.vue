@@ -188,8 +188,17 @@
                     <template v-slot:[`item.user_id`]="{ item }">
                         <span v-if="item.user">{{ item.user.name }}</span>
                     </template>
-                    <template v-slot:[`item.order_status`]="{ item }">
+                    <!--<template v-slot:[`item.order_status`]="{ item }">
                         <span v-if="item.order_status_text">{{ item.order_status_text }}</span>
+                    </template>-->
+
+                   <template v-slot:[`item.order_products.product_name`]="{ item }">
+                        <span v-if="item.order_products">
+                          <template v-for="(order_products,index) in item.order_products">
+                           <div>{{item.order_products[index].product_name}}</div>
+                        </template>
+
+                    </span>
                     </template>
 
                     <template v-slot:[`item.gst`]="{ item }">
@@ -200,8 +209,8 @@
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
 
-                        <!-- Light Product Id View Start-->
-                        <v-tooltip bottom>
+                        <!-- Light Order View Start-->
+                        <!--<v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                     v-if="
@@ -221,12 +230,12 @@
                             <span>{{
                                 $getConst("VIEW_PRODUCT_GALLERY_TOOLTIP")
                             }}</span>
-                        </v-tooltip>
-                        <!-- Light Product Id View End-->
+                        </v-tooltip>-->
+                        <!-- Light Order  View End-->
 
 
-                        <!-- Manage Product Id Start -->
-                        <v-tooltip bottom>
+                        <!-- Manage Order  Start -->
+                       <!-- <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                     v-if="
@@ -246,8 +255,8 @@
                             <span>{{
                                 $getConst("MANAGE_IMAGES")
                             }}</span>
-                        </v-tooltip>
-                        <!-- Manage Product Id End -->
+                        </v-tooltip>-->
+                        <!-- Manage Order  End -->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon

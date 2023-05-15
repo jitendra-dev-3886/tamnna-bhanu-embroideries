@@ -106,20 +106,14 @@
                             </h5>
                             <v-btn
                                 height="50"
-                                block
                                 color="primary"
                                 :to="`/${
                                     UserData && UserData.authorization
-                                    ? 'users'
+                                    ? 'dashboard'
                                     : ''
                                 }`"
                             >
-                            Go Back
-                               {{
-                                    UserData && UserData.authorization
-                                        ? "Users"
-                                        : "Login"
-                                }}
+                            <span style="color: black;font-size: 30px;font-weight: bold;">Go Back</span>
                             </v-btn>
                         </div>
                     </v-flex>
