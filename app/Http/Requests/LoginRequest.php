@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Auth;
 use App\Rules\ValidRecaptcha;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
 class LoginRequest extends FormRequest
@@ -19,20 +20,20 @@ class LoginRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(Request $request)
     {
+        $uri = $request->path();
+
         $rules = [
-            'email' => 'required|email',
-            'password'       => 'required|min:6|max:191',
+            'email' => 'required|max:191',
+            'password' => 'required',
         ];
 
-        // if (App::environment(['production']))
-        //     $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
+        if ($uri == 'api/v1/login') {
+            if (App::environment(['production']))
+                $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
+        }
+
 
         return $rules;
     }
