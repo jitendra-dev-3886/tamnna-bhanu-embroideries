@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
-use App\Models\Category;
-use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -117,7 +115,6 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
-
         'id' => 'string',
         'user_id' => 'string',
         'quantity' => 'string',
@@ -125,7 +122,6 @@ class Order extends Model
         'order_status' => 'string',
         'order_status_remark' => 'string',
         'user_remark' => 'string'
-
     ];
 
 
@@ -152,13 +148,11 @@ class Order extends Model
             'featured_image',
             'quantity',
             'created_by',
-            'created_by',
             'updated_by',
             'deleted_by',
             'created_at',
             'updated_at',
             'deleted_at'
-
         ]);
     }
 
@@ -268,12 +262,8 @@ class Order extends Model
      */
     public function scopeDeleteOrder($query, $request, $order)
     {
-
-
         $this->singleImageDelete($order, "order/"); // Delete image
-
         $order->delete();
-
         return new DataTrueResource($order, config('constants.messages.delete_success'));
     }
 
@@ -286,17 +276,10 @@ class Order extends Model
     public function scopeDeleteAll($query, $request)
     {
         if (!empty($request->id)) {
-
             Order::whereIn('id', $request->id)->get()->each(function ($order) {
-
-
                 $this->singleImageDelete($order, "order/"); // Delete image
-
                 $order->delete();
             });
-
-
-
             return new DataTrueResource(true, config('constants.messages.delete_success'));
         } else {
             return User::GetError(config('constants.messages.delete_multiple_error'));
@@ -306,9 +289,9 @@ class Order extends Model
     public function newQuery()
     {
         $user = Auth::guard('api')->user();
-        if ($user)
+        if ($user && !is_null($user->role_id) && $user->role_id == config('constants.role.customers')){
             return parent::newQuery()->where('user_id', '=', $user->id);
-
+        }
         return parent::newQuery();
     }
 }

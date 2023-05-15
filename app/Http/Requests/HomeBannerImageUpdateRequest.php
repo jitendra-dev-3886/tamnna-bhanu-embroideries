@@ -22,16 +22,10 @@ class HomeBannerImageUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Request $request)
+    public function rules()
     {
-        $urlArr = explode("/", $request->path());
-        $id = end($urlArr);
-
-        $rules = [
-            // 'name'           => 'required|max:191',
+        return  [
             'featured_image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
-            // 'banner_status'  => 'required|in:0,1',
         ];
-        return $rules;
     }
 }

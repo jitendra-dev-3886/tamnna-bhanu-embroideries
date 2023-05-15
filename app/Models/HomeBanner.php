@@ -151,8 +151,6 @@ class HomeBanner extends Model
             $homebanner->update([
                 'homebanner_id'  => $homebanner->id,
                 'featured_image' => $resizeImages['image']
-                // 'profile_original' => $request->get('original'),
-                // 'profile_thumbnail' => $resizeImages['thumbnail']
             ]);
         }
 
@@ -168,17 +166,27 @@ class HomeBanner extends Model
     public function scopeUpdateHomeBanner($query, $request, $homebanner)
     {
         $data = $request->all();
+        $homebanner->update($data);
+        return \App\Models\User::GetMessage(new HomeBannerResource($homebanner), config('constants.messages.update_success'));
+    }
 
+    /**
+     * Update HomeBanner
+     * @param Request $request
+     * @param HomeBanner $homebanner
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function scopeUpdateHomeBannerImage($query, $request, $homebanner)
+    {
         if ($request->hasFile('featured_image')) {
             $realPath = 'homebanner/' . $homebanner->id;
             $resizeImages = $homebanner->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
-            $data['featured_image'] = $resizeImages['image'];
-            //     // $data['profile_original'] = $request->get('profile_image_original');
-            //     // $data['profile_thumbnail'] = $resizeImages['thumbnail'];
+            $homebanner->update([
+                'homebanner_id'  => $homebanner->id,
+                'featured_image' => $resizeImages['image']
+            ]);
         }
-
-        $homebanner->update($data);
 
         return \App\Models\User::GetMessage(new HomeBannerResource($homebanner), config('constants.messages.update_success'));
     }

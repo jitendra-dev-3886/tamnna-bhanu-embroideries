@@ -452,6 +452,11 @@ return [
         'permission_not_found' => 'Permission not found.',
         'role_not_found' => 'Role not found.',
     ],
+    'role' => [
+        'administrator' => '1',
+        'customers' => '2',
+        'customer_relationship_manager' => '3'
+    ],
     'user' => [
 
         'status' => [0 => 'Inactive', 1 => 'Active'],
