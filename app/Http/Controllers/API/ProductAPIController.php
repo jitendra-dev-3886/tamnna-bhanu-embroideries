@@ -103,7 +103,7 @@ class ProductAPIController extends Controller
      */
     public function updateProductImage(ProductImageUpdateRequest $request, Product $product)
     {
-        return Product::updateProduct($request, $product);
+        return Product::updateProductImage($request, $product);
     }
 
     /**
@@ -117,7 +117,7 @@ class ProductAPIController extends Controller
 
     public function updateProductGallery(ProductGalleryUpdateRequest $request, Product $product)
     {
-        return Product::updateProduct($request, $product);
+        return Product::updateProductGallery($request, $product);
     }
 
     /**
