@@ -139,16 +139,7 @@ class Product extends Model
         else
             return asset(config('constants.image.default_img'));
     }
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    // public function category()
-    // {
-    //     return $this->belongsTo(\App\Models\Category::class);
-    // }
-
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

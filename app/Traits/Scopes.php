@@ -495,7 +495,6 @@ trait Scopes
     public function scopeCommonCodeForDeleteModelRestrictions($query, $models, $commonIdKey, $commonIdValue)
     {
         $inUse = [];
-
         foreach ($models as $model) {
             $res = $this->commonCodeForCheckModelIsUseInOtherPlace($model, $commonIdKey, $commonIdValue);
             if ($res != "")
@@ -515,7 +514,7 @@ trait Scopes
      */
     public function commonCodeForCheckModelIsUseInOtherPlace($model, $id, $value)
     {
-        $response = $model::whereIn($id, $value)->first();
+        $response = $model::where($id, $value)->first();
         if ($response) {
             $model_name = new $model;
             return ucfirst(str_replace('_', ' ', $model_name->getTable()));
