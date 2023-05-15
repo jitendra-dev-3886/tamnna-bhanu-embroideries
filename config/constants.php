@@ -4,7 +4,7 @@ use Carbon\Carbon;
 
 return [
 
-    'server_timezone' => env('SERVER_TZ', 'UTC'),
+    'server_timezone' => env("SERVER_TZ", "Asia/Kolkata"),
     'token_expiry' => env('TOKEN_EXPIRY', (60 * 60 * 24)), // Default 24 hours
     'tinify_key' => env('TINIFY_API_KEY'),
     'google_recaptcha_secret' => env('GOOGLE_RECAPTCHA_SECRET'),
