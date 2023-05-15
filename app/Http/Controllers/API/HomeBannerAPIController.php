@@ -57,16 +57,6 @@ class HomeBannerAPIController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create()
-    // {
-    //     //
-    // }
-
-    /**
      * HomeBanner Detail
      * @param HomeBanner $homebanner
      * @return HomeBannerResource
@@ -136,7 +126,7 @@ class HomeBannerAPIController extends Controller
      */
     public function updateBannerImage(HomeBannerImageUpdateRequest $request, HomeBanner $homebanner)
     {
-        return HomeBanner::updateHomeBanner($request, $homebanner);
+        return HomeBanner::updateHomeBannerImage($request, $homebanner);
     }
 
     /**
