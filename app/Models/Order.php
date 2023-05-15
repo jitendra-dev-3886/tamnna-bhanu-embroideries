@@ -140,22 +140,8 @@ class Order extends Model
      */
     public function order_products()
     {
-        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id')->select([
-            'order_id',
-            'product_id',
-            'product_name',
-            'price',
-            'featured_image',
-            'quantity',
-            'created_by',
-            'updated_by',
-            'deleted_by',
-            'created_at',
-            'updated_at',
-            'deleted_at'
-        ]);
+        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id')->with('products');
     }
-
 
     /**
      * Add Order
@@ -289,7 +275,7 @@ class Order extends Model
     public function newQuery()
     {
         $user = Auth::guard('api')->user();
-        if ($user && !is_null($user->role_id) && $user->role_id == config('constants.role.customers')){
+        if ($user && !is_null($user->role_id) && $user->role_id == config('constants.role.customers')) {
             return parent::newQuery()->where('user_id', '=', $user->id);
         }
         return parent::newQuery();

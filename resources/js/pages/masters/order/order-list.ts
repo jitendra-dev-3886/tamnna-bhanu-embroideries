@@ -14,7 +14,7 @@ import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 import { CommonModule } from "@/store/common";
 import { UserModule } from "@/store/user";
 import { IUserLightResponse } from "../../../../assets/types/user";
-import { OrderModule } from "../../../store/order";
+import { OrderModule } from '../../../store/order';
 
 
 import {
@@ -29,6 +29,7 @@ import {
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
+//import { IOrderFullResponse } from '../../../../assets/types/order';
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -63,12 +64,11 @@ class Order extends mixins(ServerTable, CommonApis) {
        {text:'Products',value:'order_products.product_name'},
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },
-      // { text: 'Order Status', value: 'order_status_text' },
+     //  { text: 'Order Status', value: 'order_status_text' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
 
-    customSortableKeys = {order_status_text: "order_status",
-            };
+    customSortableKeys = {order_status_text: "order_status",};
     confirmation: IConfirmationProps = {
         title: "",
         description: "",
@@ -112,9 +112,13 @@ class Order extends mixins(ServerTable, CommonApis) {
         return UserModule.userList;
     }
 
-    get productIdArr(): IOrderProducts[] {
-        return OrderModule.product_idList;
+    get viewModel():IOrderFullResponse{
+        return OrderModule.viewModel;
+
     }
+   /* get productIdList(): IOrderProducts[] {
+        return OrderModule.product_idList;
+    }*/
 
     /**
      * Redirect to add order page

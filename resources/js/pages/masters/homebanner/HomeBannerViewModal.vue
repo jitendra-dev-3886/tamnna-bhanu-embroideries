@@ -1,3 +1,4 @@
+import HomeBanner from './homebanner-list';
 <template>
     <v-dialog
         :value="value"
@@ -8,7 +9,7 @@
     >
         <v-card>
             <v-card-title class="headline black-bg mb-4" primary-title>
-                <span>View User</span>
+                <span>View HomeBanner</span>
                 <v-spacer></v-spacer>
                 <v-btn
                     color="#fff"
