@@ -1,0 +1,2 @@
+Name,Price,description ,item_code ,category_id ,Available_status,Stock,Featured_image,product_galleries
+Nike ,200,nike shoes brand,ETS112,1,1,110,http://127.0.0.1:8000/images/default.png,http://127.0.0.1:8000/images/default.png
