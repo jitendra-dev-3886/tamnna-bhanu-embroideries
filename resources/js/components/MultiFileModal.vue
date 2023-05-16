@@ -359,7 +359,7 @@ class MultiFileModal extends Mixins(CommonServices) {
             },
             {
                 key: "valid_file_length",
-                value: `Maximum uploads allowed are ${this.maxFileCountLeft}`,
+                value: `Maximum file uploads limit crossed`,
             },
             {
                 key: "size",
@@ -418,6 +418,7 @@ class MultiFileModal extends Mixins(CommonServices) {
                 if (this.isFeatureImage) {
                     this.model.featured_image = "";
                 } else {
+                    this.$validator.reset();
                     this.fileArr.splice(payload.indexProps as number, 1); // remove the image from list which we have deleted
                     ProductModule.SET_GALLERY_LIST(this.fileArr);
                 }

@@ -91,7 +91,7 @@ class Logoff extends Mixins(CommonServices) {
                 }
             });
         } else {
-            this.$router.push("/login");
+            this.$router.push("/");
         }
     }
 

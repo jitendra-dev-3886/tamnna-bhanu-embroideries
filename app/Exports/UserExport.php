@@ -20,7 +20,7 @@ class UserExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return  \App\Models\User::commonFunctionMethod(User::select('users.id', 'users.name', 'users.company_name', 'users.email', 'users.contact_number',
+        return  \App\Models\User::commonFunctionMethod(User::select('users.id', 'users.name', 'users.email', 'users.contact_number',
             \Illuminate\Support\Facades\DB::raw('(SELECT name from roles WHERE id = users.role_id)  AS role_name'))->where('users.role_id', '!=', 2),
             $this->request, true, null, null, true);
     }
@@ -30,7 +30,6 @@ class UserExport implements FromCollection, WithHeadings
         return[
             'Id',
             'name',
-            'company_name',
             'email',
             'contact_number',
             'Role name'

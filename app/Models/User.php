@@ -45,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    public $light = ['id', 'contact_number'];
+    public $light = ['id', 'contact_number', 'name', 'email'];
 
     /**
      * Related permission array
@@ -57,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @var array
      */
-    public $sortable = ['users.created_at', 'users.id', 'contact_number'];
+    public $sortable = ['users.created_at', 'users.id', 'contact_number', 'name', 'email'];
 
     /**
      * @var array

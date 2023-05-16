@@ -29,23 +29,27 @@ class UserImport implements ToCollection, WithStartRow
     public function rules(): array
     {
         return [
-            'email'=>'required|max:191|email', 
-            'password'=>'required|min:6|max:191', 
-            'role_id'=>'required|exists:roles,id,deleted_at,NULL'
+            '0'=>'required|max:191|email',
+            '1'=>'required|min:6|max:191',
+            '2'=>'required|exists:roles,id,deleted_at,NULL',
+            '3'=>'required | regex:/^[a-zA-Z_ ]*$/ | max:191',
+            '4'=>''
         ];
     }
 
     public function validationMessages()
     {
         return [
-            '0.required'=>trans('The email is required.'), 
-            '0.max'=>trans('The email may not be greater than 191 characters.'), 
-            '0.email'=>trans('The email is invalid.'), 
-            '1.required'=>trans('The password is required.'), 
-            '1.min'=>trans('The password must be at least 6 characters.'), 
-            '1.max'=>trans('The password may not be greater than 191 characters.'), 
-            '2.required'=>trans('The role_id is required.'), 
-            '2.exists'=>trans('The selected role_id is invalid.')
+            '0.required'=>trans('The email is required.'),
+            '0.max'=>trans('The email may not be greater than 191 characters.'),
+            '0.email'=>trans('The email is invalid.'),
+            '1.required'=>trans('The password is required.'),
+            '1.min'=>trans('The password must be at least 6 characters.'),
+            '1.max'=>trans('The password may not be greater than 191 characters.'),
+            '2.required'=>trans('The role_id is required.'),
+            '2.exists'=>trans('The selected role_id is invalid.'),
+            '3.required'=>trans('The name is required.')
+
         ];
     }
 
@@ -72,19 +76,25 @@ class UserImport implements ToCollection, WithStartRow
 
     public function collection(Collection $collection)
     {
+
+
         $error = $this->validateBulk($collection);
+
+
         if($error){
             return;
         }else {
             foreach ($collection as $col) {
                 $user = User::create([
-                   'email'=>$col[1], 
-            'password'=>$col[2], 
-            'role_id'=>$col[3]
+                   'email'=>$col[0],
+                   'password'=>bcrypt($col[1]),
+                   'role_id'=>$col[2],
+                   'name'=>$col[3],
+                   'contact_number'=>$col[4]
                 ]);
-                
-                
-                
+
+
+
                 $this->rows++;
             }
         }
