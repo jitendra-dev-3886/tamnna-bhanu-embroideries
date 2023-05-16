@@ -21,9 +21,8 @@ class OrderProductResource extends JsonResource
             'id' => $this->id,
             'order_id' => $this->order_id,
             'product_id' => $this->product_id,
-            'product_name' => $this->product_name,
+            'product' => $this->products,
             'price' => $this->price,
-            'category_name' => $this->category_name,
             'featured_image' => $this->featured_image,
             'quantity' => $this->quantity
         ];

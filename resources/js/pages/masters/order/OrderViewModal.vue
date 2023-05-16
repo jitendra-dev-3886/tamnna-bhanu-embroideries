@@ -8,6 +8,9 @@
     >
     <div class="order-detail">
     <v-card>
+        <v-card-title class="headline black-bg" primary-title>
+               View Order
+            </v-card-title>
             <v-card-text>
                 <v-layout class="fs">
                     <v-flex xs12 sm12 md12 lg12>

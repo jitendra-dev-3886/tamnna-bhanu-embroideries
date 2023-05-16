@@ -145,6 +145,12 @@ class Customer extends mixins(ServerTable, CommonApis) {
     changeStatus(id: string, status: string): void {
         HTMLClassModule.addBodyClassName("page-loading");
 
+        if (status == "1") {
+            status = "0"; // request deactivation when user status is active
+        } else if (status == "0") {
+            status = "1"; // request activation when user status is inactive
+        }
+
         CustomerModule.setCustomerStatus({
             user_id: id,
             user_status: status,

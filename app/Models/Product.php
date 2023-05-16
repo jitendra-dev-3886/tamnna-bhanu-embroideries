@@ -140,15 +140,6 @@ class Product extends Model
             return asset(config('constants.image.default_img'));
     }
 
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    // public function category()
-    // {
-    //     return $this->belongsTo(\App\Models\Category::class);
-    // }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -208,8 +199,6 @@ class Product extends Model
             }
         }
 
-
-
         return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.create_success'));
     }
 
@@ -223,21 +212,43 @@ class Product extends Model
     public function scopeUpdateProduct($query, $request, $product)
     {
         $data = $request->all();
+        $product->update($data);
 
+        return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.update_success'));
+    }
+
+    /**
+     * Update Product
+     * @param Request $request
+     * @param Product $product
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function scopeUpdateProductImage($query, $request, $product)
+    {
         if ($request->hasFile('featured_image')) {
             $realPath = 'product/' . $product->id;
             $resizeImages = $product->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
-            $data['featured_image'] = $resizeImages['image'];
-            // $data['profile_original'] = $request->get('profile_image_original');
-            // $data['profile_thumbnail'] = $resizeImages['thumbnail'];
+            $product->update([
+                'featured_image' => $resizeImages['image']
+            ]);
         }
+        return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.update_success'));
+    }
+
+    /**
+     * Update Product
+     * @param Request $request
+     * @param Product $product
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function scopeUpdateProductGallery($query, $request, $product)
+    {
+        $data = $request->all();
 
         if ($request->hasFile('product_galleries')) {
-            \App\Models\ProductGallery::where(['product_id' => $product->id])->delete();
 
             $realPath = 'product/' . $product->id . '/product_galleries';
-            \Illuminate\Support\Facades\Storage::deleteDirectory('/public/' . $realPath);
 
             foreach ($request->file('product_galleries') as $v_imgs) {
                 $resizeImages = $product->resizeImages($v_imgs, $realPath, 100, 100);
@@ -265,10 +276,7 @@ class Product extends Model
      */
     public function scopeDeleteProduct($query, $request, $product)
     {
-
-
         $this->singleImageDelete($product, "product/"); // Delete image
-
         $product->delete();
 
         return new DataTrueResource($product, config('constants.messages.delete_success'));
@@ -285,14 +293,9 @@ class Product extends Model
         if (!empty($request->id)) {
 
             Product::whereIn('id', $request->id)->get()->each(function ($product) {
-
-
                 $this->singleImageDelete($product, "product/"); // Delete image
-
                 $product->delete();
             });
-
-
 
             return new DataTrueResource(true, config('constants.messages.delete_success'));
         } else {
