@@ -128,6 +128,7 @@ Route::group([
         Route::get('categories', '\App\Http\Controllers\API\CategoryAPIController@index'); // RM
         Route::get('products', '\App\Http\Controllers\API\ProductAPIController@index'); // RM
         Route::get('products/{product}', '\App\Http\Controllers\API\ProductAPIController@show'); // RM
+        Route::post('update-product-status/{product}', '\App\Http\Controllers\API\ProductAPIController@updateStatus');
 
         Route::get('orders/{order}', '\App\Http\Controllers\API\OrderAPIController@show'); // RM
         Route::get('order-history', '\App\Http\Controllers\API\OrderAPIController@orderHistory'); // RM
