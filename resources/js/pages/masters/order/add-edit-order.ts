@@ -1,12 +1,12 @@
 import { Component, Mixins } from "vue-property-decorator";
 import CommonServices from "../../../mixins/common";
 import CommonApis from "../../../mixins/common-apis";
-import ErrorBlockServer from "../../../components/ErrorBlockServer.vue"; 
+import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 import { HTMLClassModule } from "../../../store/htmlclass";
 import { OrderModule } from "../../../store/order";
 import { SnackbarModule } from "../../../store/snackbar";
 
-import { 
+import {
     IOrderModel,
     IOrderFullResponse,
     IOrderValidations,
@@ -20,15 +20,16 @@ import { AxiosResponse } from "axios";
 
 
 import {
-    ResponseResult, 
+    ResponseResult,
 } from "../../../../assets/types/common";
+import { IProductFullResponse } from "../../../../assets/types/product";
 
 
 
 @Component({
     components: {
         ErrorBlockServer,
-        
+
     },
 })
 class AddEditOrder extends Mixins(CommonServices, CommonApis) {
@@ -36,43 +37,43 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
 
     errorMessage = "";
 
-    validationMessages: IOrderValidations = { 
-            
+    validationMessages: IOrderValidations = {
+
                 user_id: [
                     {
                         key: 'required',
                         value: 'User required'
                     },
                 ],
-            
+
                 quantity: [
                 ],
-            
+
                 gst: [
                 ],
-            
+
                 payment_amount: [
                 ],
-            
+
                 order_status: [
                     {
                         key: 'required',
                         value: 'Order Status required'
                     },
                 ],
-            
+
                 order_status_remark: [
                 ],
-            
+
                 user_remark: [
                 ],
-            
+
                 order_products: [
                 ],
     };
 
     isSubmitting = false;
-     
+
     isDataLoading= false;
 
     get model(): IOrderModel {
@@ -82,14 +83,14 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
     get isEditMode(): boolean {
         return OrderModule.editId ? OrderModule.editId > 0 : false;
     }
-    
+
     get userList(): IUserLightResponse[] {
         return UserModule.userList;
     }
-    
+
 
     //Methods
-    
+
     /**
      * Register Submit Method - Form Data
      */
@@ -103,7 +104,7 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
 
                 const formData = new FormData();
 
-                
+
             formData.append('user_id', self.model.user_id);
             formData.append('quantity', self.model.quantity);
             formData.append('gst', self.model.gst);
@@ -111,9 +112,9 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
             formData.append('order_status', self.model.order_status);
             formData.append('order_status_remark', self.model.order_status_remark);
             formData.append('user_remark', self.model.user_remark);
-            
+
                 // Multiple Order Product array
-                if (
+               /* if (
                     self.model.order_products &&
                     self.model.order_products.length > 0
                 ) {
@@ -125,14 +126,14 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
                             );
                         }
                     );
-                }
+                }*/
 
                 // For Edit Order
                 if (OrderModule.editId && OrderModule.editId > 0) {
                     apiName = "edit";
                     editId = OrderModule.editId;
                 } else {
-                    
+
                 }
 
                 OrderModule[apiName]({ model: formData, editId }).then(
@@ -162,7 +163,7 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
         this["$router"].push("/masters/order");
     }
 
-    
+
 
 
      /**
@@ -200,19 +201,32 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
                 >;
                 if (castedOrderResponse?.data?.data) {
 
-                    
+
 
                     const orderModel: IOrderModel = {
-                        user_id: castedOrderResponse.data?.data?.user_id, 
-            quantity: castedOrderResponse.data?.data?.quantity, 
-            gst: castedOrderResponse.data?.data?.gst, 
-            payment_amount: castedOrderResponse.data?.data?.payment_amount, 
-            order_status: castedOrderResponse.data?.data?.order_status, 
-            order_status_remark: castedOrderResponse.data?.data?.order_status_remark, 
-            user_remark: castedOrderResponse.data?.data?.user_remark, 
-            order_products: [],
+                        user_id: castedOrderResponse.data?.data?.user_id,
+            quantity: castedOrderResponse.data?.data?.quantity,
+            gst: castedOrderResponse.data?.data?.gst,
+            payment_amount: castedOrderResponse.data?.data?.payment_amount,
+            order_status: castedOrderResponse.data?.data?.order_status,
+            order_status_remark: castedOrderResponse.data?.data?.order_status_remark,
+            user_remark: castedOrderResponse.data?.data?.user_remark,
+            id:castedOrderResponse.data?.data?.id,
+            order_status_text:castedOrderResponse.data?.data?.order_status_text,
+            order_products: {
+                product:{
+                name:"",
+                quantity:"",
+                price:""
+                },
+                categories:{
+                    id:"",
+                    name:"",
+                    featured_image:""
+                }
+            }
                     };
-                    
+
                     OrderModule.SET_MODEL(orderModel);
                 }
             },
@@ -221,7 +235,7 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
             }
         );
 
-        
+
         if (this.done24Hours('add-edit-order-call')) {
             this.commonDataFetch();
         }

@@ -188,18 +188,22 @@
                     <template v-slot:[`item.user_id`]="{ item }">
                         <span v-if="item.user">{{ item.user.name }}</span>
                     </template>
+
+                    <!--Commenting as Status not be displayed-->
                     <!--<template v-slot:[`item.order_status`]="{ item }">
                         <span v-if="item.order_status_text">{{ item.order_status_text }}</span>
                     </template>-->
 
-                   <template v-slot:[`item.order_products.product_name`]="{ item }">
-                        <span v-if="item.order_products">
-                          <template v-for="(order_products,index) in item.order_products">
-                           <div>{{item.order_products[index].product_name}}</div>
+                    <!--Display product name fetching from order Products array from API-->
+                        <template v-slot:[`item.order_products.product.name`]="{ item }">
+                            <span v-if="item.order_products">
+                                <template v-for="(order_product, index) in item.order_products">
+                                <div>{{ order_product.product[0].name }}</div>
+                                </template>
+                            </span>
                         </template>
 
-                    </span>
-                    </template>
+
 
                     <template v-slot:[`item.gst`]="{ item }">
                         <span>{{parseFloat(item.gst).toFixed(2)}}</span>
@@ -272,6 +276,7 @@
                             </template>
                             <span>{{ $getConst('VIEW_DETAILS_TOOLTIP') }}</span>
                         </v-tooltip>
+                        <!--Commenting Edit and Delete Order as not needed-->
                        <!-- <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
@@ -287,7 +292,7 @@
                             </template>
                             <span>{{ $getConst('EDIT_TOOLTIP') }}</span>
                         </v-tooltip>-->
-                        <v-tooltip bottom>
+                       <!-- <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                     @click="deleteItem(item.id)"
@@ -301,7 +306,7 @@
                                 </v-icon>
                             </template>
                             <span>{{ $getConst('DELETE_TOOLTIP') }}</span>
-                        </v-tooltip>
+                        </v-tooltip>-->
                     </template>
                 </v-data-table>
             </v-tab-item>
@@ -341,7 +346,7 @@
 
 
         <!-- Manage Product Id Start -->
-        <multi-file-modal
+       <!-- <multi-file-modal
             ref="manageproductidmodal"
             :file-arr="productIdArr"
             store-name="order"
@@ -349,7 +354,7 @@
             filePath="product_id"
             @delete-success="refresh()"
             aria-label="Manage Product Id modal"
-        ></multi-file-modal>
+        ></multi-file-modal>-->
         <!-- Manage Product Id End -->
 
         <image-viewer

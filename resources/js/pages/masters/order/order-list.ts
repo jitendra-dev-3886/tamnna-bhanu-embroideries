@@ -118,7 +118,9 @@ class Order extends mixins(ServerTable, CommonApis) {
     }
 
     get prodDetailModel():IOrderProducts{
+
         return OrderModule.prodDetail;
+
     }
    /* get productIdList(): IOrderProducts[] {
         return OrderModule.product_idList;
@@ -144,17 +146,17 @@ class Order extends mixins(ServerTable, CommonApis) {
         (<any>this.$refs.exportbtn).exportToCSV();
     }
 
-    /**
-     * Delete Order
-     * @param id
-     */
-    deleteItem(id: string | number): void {
+    /*
+      Delete Order
+      @param id
+
+    /*deleteItem(id: string | number): void {
         this.paramProps.idProps = id;
         this.paramProps.storeProps = "order";
         this.confirmation.title = this["$getConst"]("DELETE_TITLE");
         this.confirmation.description = this["$getConst"]("WARNING");
         this.modalOpen = true;
-    }
+    }*/
 
     /**
      * Multiple Delete
@@ -254,7 +256,7 @@ class Order extends mixins(ServerTable, CommonApis) {
     * Open Product Id
     * @param row
     * */
-    openProductId(row: IOrderFullResponse): void {
+   /* openProductId(row: IOrderFullResponse): void {
         this.images = [];
         const index = (this.tableData as IOrderFullResponse[]).findIndex((item) => item.id == row.id);
         if (index != undefined && index >= 0) {
@@ -271,7 +273,7 @@ class Order extends mixins(ServerTable, CommonApis) {
                 (<any>this.$refs.imgViewer).show(self.images, 0);
             }, 500);
         }
-    }
+    }*/
 
 
     /**

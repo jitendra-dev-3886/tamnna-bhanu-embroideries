@@ -1,51 +1,53 @@
-import { ICategoryModel } from './category';
+import { IProductFullResponse } from './product';
+import { ICategoryFullResponse } from './category';
 export interface IOrderModel {
-    user_id: string;
-    quantity: string;
-    gst: string;
-    payment_amount: string;
+  gst: string;
+    id:string;
+    order_products: {
+        product:{
+        name:string;
+        quantity:string;
+        price:string
+        },
+        categories:{
+            id:string;
+            name:string;
+            featured_image:string;
+        }
+    };
     order_status: string;
     order_status_remark: string;
+    order_status_text:string;
+    payment_amount: string;
+    quantity: string;
+    user_id: string;
     user_remark: string;
-    order_products: Object[];
 }
-/*export interface IOrderProducts extends CommonFileResponse{
-    product_id: string;
-
-    featured_image:Blob;
-
-}*/
-export interface IOrderProducts extends CommonFileResponse{
-
+export interface IOrderProducts{
 
     product_id:string;
     product_id_original: string;
     product_id_thumbnail: string;
-    product:{
-        name:string;
-    };
-    categories:{
-        id:string;
-        name:string;
-        description:string;
-        featured_image:string|Blob
-    }
+    featured_image:string;
+    id:string;
+    order_id:string;
     price:string;
-    quantity:string;
-    user_name:string;
-    payment_amount:string;
-}
+    order_products:IProductFullResponse[];
+    categories:ICategoryFullResponse[];
+ }
 export interface IOrderParams {
     model: IOrderModel;
     editId?: string|number
 }
-
 export interface IOrderLightResponse {
     id: string;
     user_id: string;
-}
 
+}
 export interface IOrderFullResponse extends IOrderLightResponse{
+    product_id:string;
+    product_id_original: string;
+    product_id_thumbnail: string;
     quantity: string;
     gst: string;
     payment_amount: string;
@@ -53,7 +55,7 @@ export interface IOrderFullResponse extends IOrderLightResponse{
     order_status_text: string;
     order_status_remark: string;
     user_remark: string;
-    order_products: IOrderProducts[];
+    order_products: IProductFullResponse[];
 }
 
 export type ValidationObj = { key: string, value: string }[];
@@ -68,13 +70,5 @@ export interface IOrderValidations {
     user_remark: ValidationObj;
     order_products: ValidationObj;
 }
-
-
-
-export interface CommonFileResponse {
-    id: string;
-    Order_id: string;
-}
-
 
 

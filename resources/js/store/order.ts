@@ -28,18 +28,31 @@ import { AxiosResponse } from "axios";
 // mutation types
 function getEmptyState() {
     return {
+        orderList:[],
 
-
-        orderList: [],
         model: {
-           user_id: "",
-            quantity: "",
             gst: "",
-            payment_amount: "",
+            id:"",
+            order_products: {
+                product:{
+                name:"",
+                quantity:"",
+                price:""
+                },
+                categories:{
+                    id:"",
+                    name:"",
+                    featured_image:""
+                }
+            },
             order_status: "",
             order_status_remark: "",
-            user_remark: "",
-            order_products: [],
+            order_status_text:"",
+            payment_amount: "",
+            quantity:"",
+            user_id: "",
+            user_remark: ""
+
         },
         viewModel: {
             id: "",
@@ -52,33 +65,20 @@ function getEmptyState() {
             order_status_remark: "",
             user_remark: "",
             order_products:[],
-            user: {
-                id: "",
-                email: "",
-                email_verified_at: "",
-                role_id: "",
-                role: [],
-            },
-        },
-        prodDetail:{
-            id:" ",
-            Order_id:"",
-            product_id:" ",
+            product_id:"",
             product_id_original: "",
-            product_id_thumbnail: "",
-            product:{
-                name:""
-            },
-            categories:{
+            product_id_thumbnail: ""
+         },
+        prodDetail:{
+            featured_image:"",
             id:"",
-            name:"",
-            description:" ",
-            featured_image:""
-        },
-        price:"",
-        quantity:"",
-        user_name:"",
-        payment_amount:""
+            order_id:"",
+            price:"",
+            order_products:[],
+            categories:[],
+            product_id:"",
+            product_id_original: "",
+            product_id_thumbnail: ""
         },
 
         editId: 0,
@@ -146,6 +146,7 @@ class Order extends VuexModule implements IOrder {
         this.model = getEmptyState().model;
         this.editId = getEmptyState().editId;
         this.viewModel = getEmptyState().viewModel;
+        this.prodDetail=getEmptyState().prodDetail;
         //this.product_idList = getEmptyState().productIdList;
     }
 
