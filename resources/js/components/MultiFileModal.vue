@@ -418,7 +418,11 @@ class MultiFileModal extends Mixins(CommonServices) {
                 if (this.isFeatureImage) {
                     this.model.featured_image = "";
                 } else {
-                    this.fileArr.splice(payload.indexProps as number, 1); // remove the image from list which we have deleted
+                    let tempArr = this.fileArr.splice(
+                        payload.indexProps as number,
+                        1
+                    ); // remove the image from list which we have deleted
+                    this.fileArr = tempArr;
                     ProductModule.SET_GALLERY_LIST(this.fileArr);
                 }
                 (this.$parent as any)["getData"]();
