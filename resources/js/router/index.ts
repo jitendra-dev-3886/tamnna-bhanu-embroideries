@@ -519,8 +519,14 @@ router.beforeEach((to, from, next) => {
         //     next("/logoff");
         //     return;
         // }
-        if (to.path == "/" && UserModule.remember_me == "1") {
-            next(`${UserModule.defaultRouteUrl}`);
+        if (authorization && authorization != "" && authorization != null) {
+            if (from.fullPath == "/") {
+                next(UserModule.defaultRouteUrl);
+            } else if (to.path == "/" && UserModule.remember_me == "1") {
+                next(UserModule.defaultRouteUrl);
+            } else {
+                next(from.fullPath);
+            }
         } else {
             next();
         }
