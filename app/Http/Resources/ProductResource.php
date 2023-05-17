@@ -27,7 +27,9 @@ class ProductResource extends JsonResource
             'category_id' => $this->categories->pluck('id'),
             'category' => $this->categories,
             'available_status' => $this->available_status,
-            'available_status_text' => config('constants.product.available_status.' . $this->available_status),
+            'available_status_text' => config('constants.products.available_status.' . $this->available_status),
+            'status' => $this->status,
+            'status_text' => config('constants.products.status.' . $this->status),
             'stock' => $this->stock,
             'featured_image' => $this->featured_image,
             'product_galleries' => ProductGalleryResource::collection($this->product_galleries)

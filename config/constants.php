@@ -60,17 +60,6 @@ return [
         "voice" => "V",
     ],
 
-    'products' => [
-        'available_status' => [
-            '0' => 'Out of stock',
-            '1' => 'Available',
-        ],
-        'available_status_code' => [
-            'not_available' => '0',
-            'available' => '1',
-        ],
-    ],
-
     'login' => [
         'logged_in' => '1',
         'not_logged_in' => '0',
@@ -487,11 +476,24 @@ return [
             'customer' => '2',
         ],
     ],
-    'product' => [
+    'products' => [
+        'available_status' => [
+            '0' => 'Out of stock',
+            '1' => 'Available',
+        ],
+        'available_status_code' => [
+            'not_available' => '0',
+            'available' => '1',
+        ],
 
-        'available_status' => [0 => 'Not-available', 1 => 'Available'],
-        'available_status_enum' => ['not-available' => "0", 'available' => "1"],
-
+        'status' => [
+            '0' => 'Inactive',
+            '1' => 'Active',
+        ],
+        'status_code' => [
+            'inactive' => '0',
+            'active' => '1',
+        ],
     ],
     'homebanner' => [
         'banner_status' => [0 => 'Inactive', 1 => 'Active'],
