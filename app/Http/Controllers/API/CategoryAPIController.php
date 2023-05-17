@@ -6,6 +6,7 @@ use App\Http\Resources\DataTrueResource;
 use App\Models\Category;
 use App\Http\Requests\CsvRequest;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\SubcategoryRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Requests\CategoryImageUpdateRequest;
 use App\Http\Resources\CategoryCollection;
@@ -155,6 +156,25 @@ class CategoryAPIController extends Controller
 
         return response()->download(storage_path("app/public/{$filePath}"));
      }
+
+
+        /**
+     * Sub category
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function subcategories(SubcategoryRequest $request) {
+
+
+
+        $subCategories = ((int)$request->id != 0) ? Category::find($request->id)->subCategories : [];
+
+        return response()->json(['data' => $subCategories]);
+    }
+
+    public function parentCategories() {
+        return response()->json(['data' => Category::select(['id', 'name', 'parent_id', 'description', 'featured_image'])->where(['parent_id' => 0])->get()]);
+    }
 
       /**
       * Import bulk

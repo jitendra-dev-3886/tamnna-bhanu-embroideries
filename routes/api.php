@@ -50,6 +50,8 @@ Route::group([
     // Refreshing Token
     Route::post('refreshing-tokens', '\App\Http\Controllers\API\LoginAPIController@refreshingTokens'); // RM
 
+
+
     Route::group([
         'middleware' => ['auth:api', 'check.permission'],
     ], function () {
@@ -78,6 +80,7 @@ Route::group([
         Route::post('categories-delete-multiple', '\App\Http\Controllers\API\CategoryAPIController@deleteAll');
         Route::get('categories-export', '\App\Http\Controllers\API\CategoryAPIController@export');
         Route::post('categories-import-bulk', '\App\Http\Controllers\API\CategoryAPIController@importBulk');
+
 
         Route::post('products/{product}', '\App\Http\Controllers\API\ProductAPIController@update');
         Route::resource('products', '\App\Http\Controllers\API\ProductAPIController');
@@ -145,5 +148,9 @@ Route::group([
         Route::get('categories-list', '\App\Http\Controllers\API\CategoryAPIController@catagoriesList'); // RM
         Route::get('products-list/{product}', '\App\Http\Controllers\API\ProductAPIController@productList');
         Route::get('get-all-modules-counts', '\App\Http\Controllers\API\CartAPIController@getCartsCounts');
+
+        Route::post('subcategories', '\App\Http\Controllers\API\CategoryAPIController@subcategories');
+        Route::get('parent-categories', '\App\Http\Controllers\API\CategoryAPIController@parentCategories');
+
     });
 });
