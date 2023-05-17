@@ -205,6 +205,7 @@ class AddEditOrder extends Mixins(CommonServices, CommonApis) {
 
                     const orderModel: IOrderModel = {
                         user_id: castedOrderResponse.data?.data?.user_id,
+                        user_name: castedOrderResponse.data?.data?.user_name,
             quantity: castedOrderResponse.data?.data?.quantity,
             gst: castedOrderResponse.data?.data?.gst,
             payment_amount: castedOrderResponse.data?.data?.payment_amount,

@@ -51,6 +51,7 @@ function getEmptyState() {
             payment_amount: "",
             quantity:"",
             user_id: "",
+            user_name:"",
             user_remark: ""
 
         },
@@ -64,7 +65,20 @@ function getEmptyState() {
             order_status_text: "",
             order_status_remark: "",
             user_remark: "",
-            order_products:[],
+            user_name:"",
+            order_products: {
+                product:{
+                name:"",
+                quantity:"",
+                price:""
+                },
+                categories:{
+                    id:"",
+                    name:"",
+                    description:"",
+                    featured_image:""
+                }
+            },
             product_id:"",
             product_id_original: "",
             product_id_thumbnail: ""
@@ -121,12 +135,15 @@ class Order extends VuexModule implements IOrder {
 
     @Mutation
     SET_VIEW_MODEL(param: IOrderFullResponse) {
+
         this.viewModel = param;
+
 
     }
 
     @Mutation
     SET_PROD_DETAIL_MODEL(param: IOrderProducts) {
+
         this.prodDetail = param;
 
     }

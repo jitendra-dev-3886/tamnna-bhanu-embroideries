@@ -22,6 +22,7 @@ export interface IOrderModel {
     quantity: string;
     user_id: string;
     user_remark: string;
+    user_name:string;
 }
 export interface IOrderProducts{
 
@@ -54,8 +55,21 @@ export interface IOrderFullResponse extends IOrderLightResponse{
     order_status: string;
     order_status_text: string;
     order_status_remark: string;
+    user_name:string;
     user_remark: string;
-    order_products: IProductFullResponse[];
+    order_products: {
+        product:{
+        name:string;
+        quantity:string;
+        price:string
+        },
+        categories:{
+            id:string;
+            name:string;
+            description:string;
+            featured_image:string;
+        }
+    };
 }
 
 export type ValidationObj = { key: string, value: string }[];

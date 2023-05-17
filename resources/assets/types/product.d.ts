@@ -34,7 +34,6 @@ export interface IProductFullResponse extends IProductLightResponse {
     category_id: string[];
     category: ICategoryFullResponse;
     product_galleries: IProductGalleries[];
-    category_detail: Object[];
     available_status: string;
     available_status_text: string;
     stock: string;

@@ -101,6 +101,7 @@ class Order extends mixins(ServerTable, CommonApis) {
         storeProps: "",
     };
     user_id="";
+    user_name="";
     filterMenu= false;
     filterModel: IFilterModel = {};
 
@@ -220,8 +221,8 @@ class Order extends mixins(ServerTable, CommonApis) {
     changeFilter() {
        const filter: IFilterModel = {};
 
-       if (this.user_id != '') {
-         filter.user_id = [this.user_id];
+       if (this.user_name != '') {
+         filter.user_name = [this.user_name];
        }
 
        this.filterModel = filter;
@@ -233,7 +234,7 @@ class Order extends mixins(ServerTable, CommonApis) {
      * Reset Filter
      */
     resetFilter(): void {
-      this.user_id = "";
+      this.user_name = "";
         this.changeFilter();
      }
 
