@@ -29,10 +29,10 @@ class LoginRequest extends FormRequest
             'password' => 'required',
         ];
 
-        if ($uri == 'api/v1/login') {
-            if (App::environment(['production']))
-                $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
-        }
+        // if ($uri == 'api/v1/login') {
+        //     if (App::environment(['production']))
+        //         $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
+        // }
 
 
         return $rules;
