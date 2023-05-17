@@ -128,12 +128,12 @@
                                                 </v-btn>
 
                                                 <v-select
-                                                  v-model="user_id"
+                                                  v-model="user_name"
                                                   name="user"
                                                   item-text="name"
                                                   item-value="id"
-                                                  :items="userList"
-                                                  label="User"
+                                                  :items=userList
+                                                  label="Customer"
                                                   class="mt-4"
                                                   aria-label="User"
                                                 />
