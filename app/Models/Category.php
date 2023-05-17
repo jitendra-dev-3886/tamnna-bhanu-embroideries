@@ -20,7 +20,7 @@ class Category extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'description', 'featured_image', 'category_status'];
+    protected $fillable = ['id', 'name', 'description', 'parent_id', 'step','featured_image', 'category_status'];
 
     /**
      * Activity log array
@@ -116,7 +116,9 @@ class Category extends Model
     protected $casts = [
 
         'id' => 'string',
+        'parent_id' => 'string',
         'name' => 'string',
+        'step' => 'string',
         'description' => 'string',
         'featured_image' => 'string',
         'category_status' => 'string',
@@ -143,7 +145,11 @@ class Category extends Model
      */
     public function scopeCreateCategory($query, $request)
     {
+
+        $request['parent_id'] = (int)$request->parent_id;
+
         $category = Category::create($request->all());
+
 
         if ($request->hasFile('featured_image')) {
             $realPath = 'category/' . $category->id;
@@ -168,6 +174,7 @@ class Category extends Model
      */
     public function scopeUpdateCategory($query, $request, $category)
     {
+        $request['parent_id'] = (int)$request->parent_id;
         $data = $request->all();
 
         if ($request->hasFile('featured_image')) {
@@ -184,6 +191,21 @@ class Category extends Model
         return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.update_success'));
     }
 
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function categories()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subCategories()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id')->select(['id', 'name', 'parent_id', 'description', 'featured_image']);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -191,6 +213,14 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(CategoryProduct::class, 'category_id');
+    }
+
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subcategory_products()
+    {
+        return $this->hasMany(Product::class, 'sub_category_id');
     }
     /**
      * Delete Category
