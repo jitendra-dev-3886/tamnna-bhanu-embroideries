@@ -30,6 +30,9 @@ class ProductResource extends JsonResource
             'available_status_text' => config('constants.product.available_status.' . $this->available_status),
             'stock' => $this->stock,
             'featured_image' => $this->featured_image,
+            'available_color' => $this->available_color,
+            'set_unit' => $this->set_unit,
+            'unit_price' => $this->unit_price,
             'product_galleries' => ProductGalleryResource::collection($this->product_galleries)
 
         ];
