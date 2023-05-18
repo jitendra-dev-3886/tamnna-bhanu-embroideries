@@ -14,6 +14,7 @@ use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exports\ProductExport;
+use App\Http\Requests\UpdateProductRequest;
 use App\Imports\ProductImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
@@ -46,7 +47,6 @@ class ProductAPIController extends Controller
     public function index(Request $request)
     {
         if ($request->get('is_light', false)) {
-
 
             return Cache::rememberForever('product.all', function () use ($request) {
                 $product = new Product();
@@ -150,12 +150,11 @@ class ProductAPIController extends Controller
      */
     public function deleteProductImage(Request $request)
     {
-            $urlArr = explode("/", $request->path());
-            $id = end($urlArr);
-             Product::where('id', $id)->update(['featured_image'=>'NULL']);
+        $urlArr = explode("/", $request->path());
+        $id = end($urlArr);
+        Product::where('id', $id)->update(['featured_image' => 'NULL']);
 
-             return new DataTrueResource($request, config('constants.messages.delete_success'));
-
+        return new DataTrueResource($request, config('constants.messages.delete_success'));
     }
 
     /**
@@ -211,7 +210,7 @@ class ProductAPIController extends Controller
         return Product::uploadZipFile($request);
     }
 
-     /**
+    /**
      *  Product display category wise
      *
      *
@@ -233,5 +232,18 @@ class ProductAPIController extends Controller
             $query = \App\Models\User::commonFunctionMethod(Product::with(['categories', 'product_galleries'])->where('category_id', $myCategoryId), $request, true);
 
         return new ProductCollection(ProductResource::collection($query), ProductResource::class);
+    }
+
+    /**
+     * Update Product status
+     * @param Request $request
+     * @return ProductResource
+     */
+    public function updatestatus(UpdateProductRequest $request, Product $product)
+    {
+        $data = $request->all();
+        $product->update($data);
+
+        return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.update_success'));
     }
 }

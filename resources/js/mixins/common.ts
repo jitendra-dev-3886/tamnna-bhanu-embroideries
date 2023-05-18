@@ -15,7 +15,9 @@ import {
     mdiShopping,
     mdiCart,
     mdiBasket,
-    mdiAccountCheck
+    mdiAccount,
+    mdiAccountCheck,
+    mdiAccountRemove
 
 
 } from "@mdi/js";
@@ -68,7 +70,9 @@ class CommonServices extends mixins(CommonDateMethods, CommonErrorMethods) {
         mdiShopping,
         mdiCart,
         mdiBasket,
-        mdiAccountCheck
+        mdiAccount,
+        mdiAccountCheck,
+        mdiAccountRemove
     };
 
     editorConfig: IObject = {

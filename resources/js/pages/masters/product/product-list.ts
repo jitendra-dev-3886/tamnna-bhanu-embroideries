@@ -21,6 +21,7 @@ import { ITableHeaders, IFilterModel } from "../../../../assets/types/table";
 import {
     IProductGalleries,
     IProductFullResponse,
+    IProductModel,
 } from "../../../../assets/types/product";
 
 import { AxiosResponse } from "axios";
@@ -33,6 +34,7 @@ import {
     IParamProps,
     ResponseResult,
 } from "../../../../assets/types/common";
+import { SnackbarModule } from "@/store/snackbar";
 
 @Component({
     components: {
@@ -56,13 +58,14 @@ class Product extends mixins(ServerTable, CommonApis) {
     headers: ITableHeaders[] = [
         { text: "Name", value: "name" },
         { text: "Price", value: "price" },
-        { text: "Remarks", value: "description", sortable: false },
+        // { text: "Remarks", value: "description", sortable: false },
         { text: "Item Code", value: "item_code" },
 
         { text: "Category", value: "category.name" },
         { text: "Available Status", value: "available_status_text" },
         { text: "Stock", value: "stock" },
         { text: "Feature Image", value: "featured_image", sortable: false },
+        { text: "Status", value: "status_text" },
         { text: "Actions", value: "actions", sortable: false },
     ];
 
@@ -268,6 +271,33 @@ class Product extends mixins(ServerTable, CommonApis) {
             }
         );
     }
+
+    onStatusChange(id: string, status: string): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+
+        if (status == "1") {
+            status = "0"; // request deactivation when user status is active
+        } else if (status == "0") {
+            status = "1"; // request activation when user status is inactive
+        }
+
+        ProductModule.setProductStatus({
+            editId: id,
+            status: status,
+        }).then(
+            (response: AxiosResponse<ResponseResult<IProductModel>>) => {
+                this.refresh();
+                SnackbarModule.setMsg(response.data.message as string);
+
+                HTMLClassModule.removeBodyClassName("page-loading");
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+
     created(): void {
         HTMLClassModule.addBodyClassName("page-loading");
 
