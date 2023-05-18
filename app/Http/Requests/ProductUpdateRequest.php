@@ -31,14 +31,19 @@ class ProductUpdateRequest extends FormRequest
 
         return [
             'name'=>'required|max:191',
-            'price'=>'required',
+            // 'price'=>'required',
             'description'=>'',
             'item_code'=>'required|max:191',
             'category_id' => 'required|array',
             'category_id.*'=>'required|exists:categories,id,deleted_at,NULL',
             'available_status'=>'required|in:0,1',
             'stock'=>'nullable',
-            'featured_image'=>'image|mimes:jpeg,png,jpg|max:1024',
+            'featured_image'=>'image|mimes:jpeg,png,jpg',
+
+            'available_color' => 'required|max:191',
+            'set_unit' => 'required|integer|between:1,10',
+            'unit_price' => 'required|numeric|between:0,9999999999.99',
+
             'product_galleries'=>'nullable|array|max:5',
             'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg|max:5120'
 

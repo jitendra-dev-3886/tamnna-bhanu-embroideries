@@ -23,6 +23,7 @@ class CategoryResource extends JsonResource
             'description' => (string)$this->description,
             'featured_image' => (string)$this->featured_image,
             'category_status' => (string)$this->category_status,
+            'subCategories' => $this->subCategories,
         ];
     }
 }

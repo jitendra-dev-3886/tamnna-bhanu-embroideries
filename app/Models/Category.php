@@ -204,7 +204,7 @@ class Category extends Model
      */
     public function subCategories()
     {
-        return $this->hasMany(self::class, 'parent_id', 'id')->select(['id', 'name', 'parent_id', 'description', 'featured_image']);
+        return $this->hasMany(self::class, 'parent_id', 'id')->select(['id', 'parent_id','name', 'description', 'featured_image']);
     }
 
     /**
