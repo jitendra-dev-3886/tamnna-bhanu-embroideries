@@ -322,6 +322,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                         featured_image:
                             castedProductResponse.data?.data?.featured_image,
                         product_galleries: [],
+                        status: castedProductResponse.data?.data?.status,
                     };
 
                     ProductModule.SET_MODEL(productModel);

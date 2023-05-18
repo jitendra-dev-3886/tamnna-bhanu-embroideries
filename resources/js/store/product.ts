@@ -40,6 +40,7 @@ function getEmptyState() {
             stock: "",
             featured_image: "",
             product_galleries: [],
+            status: "",
         },
         viewModel: {
             id: "",
@@ -51,6 +52,8 @@ function getEmptyState() {
             available_status: "",
             available_status_text: " ",
             stock: "",
+            status: "",
+            status_text: "",
             featured_image: "",
             product_galleries: [],
             category_detail: [],
@@ -239,30 +242,29 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
-    
-     /**
+    /**
      * Used to change the existing status of the customer
      */
-     @Action({ rawError: true })
-     setProductStatus(
-         param: IProductStatusParams
-     ): Promise<AxiosResponse<ResponseResult<IProductModel>>> {
-         return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}update-product-status/${param.editId}`, {status : param.status})
+    @Action({ rawError: true })
+    setProductStatus(
+        param: IProductStatusParams
+    ): Promise<AxiosResponse<ResponseResult<IProductModel>>> {
+        return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}update-product-status/${param.editId}`, {
+                status: param.status,
+            })
                 .then(
-                     (
-                         response: AxiosResponse<
-                             ResponseResult<IProductModel>
-                         >
-                     ) => {
-                         resolve(response);
-                     }
-                 )
-                 .catch((e) => {
-                     reject(e);
-                 });
-         });
-     }
+                    (
+                        response: AxiosResponse<ResponseResult<IProductModel>>
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
 
     /**
      * Used for edit product
@@ -292,7 +294,6 @@ class Product extends VuexModule implements IProduct {
         });
     }
 
-    
     /**
      * Used for edit product
      * @param param
