@@ -306,6 +306,29 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
+                                    @click="
+                                        onStatusChange(item.id, item.status)
+                                    "
+                                    class="mr-2"
+                                    small
+                                    v-on="on"
+                                    v-update="$getConst('PRODUCTS')"
+                                    aria-label="status change"
+                                >
+                                    {{
+                                        item.status == "1"
+                                            ? icons.mdiAccountRemove
+                                            : icons.mdiAccountCheck
+                                    }}
+                                </v-icon>
+                            </template>
+                            <span>{{
+                                item.status == "1" ? "Deactivate" : "Activate"
+                            }}</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-icon
                                     @click="deleteItem(item.id)"
                                     class="mr-2"
                                     small

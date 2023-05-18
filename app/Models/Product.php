@@ -80,20 +80,20 @@ class Product extends Model
     /**
      * @var array
      */
-    public $type_sortable = ['available_status'];
+    public $type_sortable = ['available_status', 'status'];
 
     /**
      * @var array
      */
     public $type_enum = [
-        ['constants.product.available_status_enum.not-available', 'constants.product.available_status_enum.available']
+        ['constants.products.available_status_code.not-available', 'constants.products.available_status_code.available', 'constants.products.status_enum.inactive', 'constants.products.status_enum.active']
     ];
 
     /**
      * @var array
      */
     public $type_enum_text = [
-        ['constants.product.available_status.0', 'constants.product.available_status.1']
+        ['constants.products.available_status.0', 'constants.products.available_status.1', 'constants.products.status.0', 'constants.products.status.1']
     ];
 
     /**
@@ -123,6 +123,7 @@ class Product extends Model
         'description' => 'string',
         'item_code' => 'string',
         'available_status' => 'string',
+        'status' => 'string',
         'featured_image' => 'string'
 
     ];
@@ -186,8 +187,6 @@ class Product extends Model
             $product->update([
                 'product_id' => $product->id,
                 'featured_image' => $resizeImages['image']
-                // 'profile_original' => $request->get('original'),
-                // 'profile_thumbnail' => $resizeImages['thumbnail']
             ]);
         }
 

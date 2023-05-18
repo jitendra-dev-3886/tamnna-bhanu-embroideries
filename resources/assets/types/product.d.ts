@@ -16,6 +16,11 @@ export interface IProductParams {
     editId?: string | number;
 }
 
+export interface IProductStatusParams {
+    status: string ;
+    editId?: string | number;
+}
+
 export interface IProductGalleryParams {
     images: any;
     editId?: string | number;

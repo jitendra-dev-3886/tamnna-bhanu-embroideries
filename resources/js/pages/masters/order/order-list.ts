@@ -23,13 +23,14 @@ import {
 } from "../../../../assets/types/table";
 
 import {
-    IOrderProducts,
-    IOrderFullResponse,
+    ICustomerDetail,
+    IOrderFullResponse
 } from "../../../../assets/types/order";
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
 //import { IOrderFullResponse } from '../../../../assets/types/order';
+import CommonDateMethod from '../../../mixins/common-date-methods';
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -64,6 +65,7 @@ class Order extends mixins(ServerTable, CommonApis) {
        {text:'Products',value:'order_products.product.name'},
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },
+        {text:'Order Date',value:'created_at'},
      //  { text: 'Order Status', value: 'order_status_text' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
@@ -109,8 +111,8 @@ class Order extends mixins(ServerTable, CommonApis) {
     images: { thumbnail: string; source: string }[] = [];
     orderViewModal = false;
 
-    get userList(): IUserLightResponse[] {
-        return UserModule.userList;
+    get customerList(): ICustomerDetail[] {
+        return OrderModule.customerList;
     }
 
     get viewModel():IOrderFullResponse{
@@ -118,7 +120,7 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     }
 
-    get prodDetailModel():IOrderProducts{
+    /*get prodDetailModel():IOrderProducts{
 
         return OrderModule.prodDetail;
 

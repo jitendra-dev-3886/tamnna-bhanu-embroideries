@@ -128,11 +128,11 @@
                                                 </v-btn>
 
                                                 <v-select
-                                                  v-model="user_name"
+                                                  v-model="viewModel.user_name"
                                                   name="user"
                                                   item-text="name"
                                                   item-value="id"
-                                                  :items=userList
+                                                  :items=customerList
                                                   label="Customer"
                                                   class="mt-4"
                                                   aria-label="User"
@@ -198,7 +198,7 @@
                         <template v-slot:[`item.order_products.product.name`]="{ item }">
                             <span v-if="item.order_products">
                                 <template v-for="(order_product, index) in item.order_products">
-                                <div>{{ order_product.product[0].name }}</div>
+                                <div>{{ order_product.product.name }}</div>
                                 </template>
                             </span>
                         </template>
@@ -210,6 +210,9 @@
                     </template>
                     <template v-slot:[`item.payment_amount`]="{ item }">
                         <span>{{parseFloat(item.payment_amount).toFixed(2)}}</span>
+                    </template>
+                    <template v-slot:[`item.created_at`]="{item}">
+                        <span>{{ computedDateFormattedMomentjs(item.created_at) }}</span>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
 

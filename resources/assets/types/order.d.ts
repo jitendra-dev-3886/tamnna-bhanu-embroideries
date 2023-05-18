@@ -1,20 +1,34 @@
-import { IProductFullResponse } from './product';
+
 import { ICategoryFullResponse } from './category';
-export interface IOrderModel {
-  gst: string;
-    id:string;
-    order_products: {
-        product:{
-        name:string;
-        quantity:string;
-        price:string
-        },
-        categories:{
-            id:string;
-            name:string;
-            featured_image:string;
-        }
+
+export interface IOrderProduct {
+    featured_image: string;
+    id: string;
+    order_id: string;
+    price: string;
+    product: {
+        name: string;
+        item_code: string;
+        description: string;
+        available_status: string;
+        created_at: string;
+        stock: string;
+        categories: ICategoryFullResponse[];
     };
+    product_id: string;
+    quantity: string;
+}
+export interface ICustomerDetail{
+    name:string;
+    email:string;
+    contact_number:string;
+    city:string
+}
+export interface IOrderModel {
+    gst: string;
+    id:string;
+
+    order_products: IOrderProduct[];
     order_status: string;
     order_status_remark: string;
     order_status_text:string;
@@ -24,18 +38,6 @@ export interface IOrderModel {
     user_remark: string;
     user_name:string;
 }
-export interface IOrderProducts{
-
-    product_id:string;
-    product_id_original: string;
-    product_id_thumbnail: string;
-    featured_image:string;
-    id:string;
-    order_id:string;
-    price:string;
-    order_products:IProductFullResponse[];
-    categories:ICategoryFullResponse[];
- }
 export interface IOrderParams {
     model: IOrderModel;
     editId?: string|number
@@ -50,6 +52,7 @@ export interface IOrderFullResponse extends IOrderLightResponse{
     product_id_original: string;
     product_id_thumbnail: string;
     quantity: string;
+    created_at:string;
     gst: string;
     payment_amount: string;
     order_status: string;
@@ -57,19 +60,9 @@ export interface IOrderFullResponse extends IOrderLightResponse{
     order_status_remark: string;
     user_name:string;
     user_remark: string;
-    order_products: {
-        product:{
-        name:string;
-        quantity:string;
-        price:string
-        },
-        categories:{
-            id:string;
-            name:string;
-            description:string;
-            featured_image:string;
-        }
-    };
+
+    order_products: IOrderProduct[];
+    user:ICustomerDetail[];
 }
 
 export type ValidationObj = { key: string, value: string }[];
