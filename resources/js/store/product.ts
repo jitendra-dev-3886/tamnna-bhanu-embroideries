@@ -21,6 +21,7 @@ import {
     IProductLightResponse,
     IProductGalleries,
     IProductGalleryParams,
+    IProductStatusParams,
 } from "../../assets/types/product";
 import { AxiosResponse } from "axios";
 
@@ -237,6 +238,31 @@ class Product extends VuexModule implements IProduct {
                 });
         });
     }
+
+    
+     /**
+     * Used to change the existing status of the customer
+     */
+     @Action({ rawError: true })
+     setProductStatus(
+         param: IProductStatusParams
+     ): Promise<AxiosResponse<ResponseResult<IProductModel>>> {
+         return new Promise((resolve, reject) => {
+            HTTP.post(`${this.baseUrl}update-product-status/${param.editId}`, {status : param.status})
+                .then(
+                     (
+                         response: AxiosResponse<
+                             ResponseResult<IProductModel>
+                         >
+                     ) => {
+                         resolve(response);
+                     }
+                 )
+                 .catch((e) => {
+                     reject(e);
+                 });
+         });
+     }
 
     /**
      * Used for edit product
