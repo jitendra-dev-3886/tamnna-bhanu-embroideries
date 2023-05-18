@@ -326,7 +326,7 @@
                                 item.status == "1" ? "Deactivate" : "Activate"
                             }}</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
+                      <!--  <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                     @click="deleteItem(item.id)"
@@ -340,7 +340,7 @@
                                 </v-icon>
                             </template>
                             <span>{{ $getConst("DELETE_TOOLTIP") }}</span>
-                        </v-tooltip>
+                        </v-tooltip>-->
                     </template>
                 </v-data-table>
             </v-tab-item>
