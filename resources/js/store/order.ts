@@ -80,6 +80,7 @@ function getEmptyState() {
                 }
             },
             product_id:"",
+            created_at:"",
             product_id_original: "",
             product_id_thumbnail: ""
          },

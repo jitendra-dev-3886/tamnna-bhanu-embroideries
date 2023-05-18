@@ -64,6 +64,7 @@ class Order extends mixins(ServerTable, CommonApis) {
        {text:'Products',value:'order_products.product.name'},
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },
+        {text:'Order Date',value:'created_at'},
      //  { text: 'Order Status', value: 'order_status_text' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];

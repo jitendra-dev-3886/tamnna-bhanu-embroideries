@@ -50,6 +50,7 @@ export interface IOrderFullResponse extends IOrderLightResponse{
     product_id_original: string;
     product_id_thumbnail: string;
     quantity: string;
+    created_at:string;
     gst: string;
     payment_amount: string;
     order_status: string;
