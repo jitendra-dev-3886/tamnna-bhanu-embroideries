@@ -140,7 +140,7 @@ class Order extends Model
      */
     public function order_products()
     {
-        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id')->with('products');
+        return $this->hasMany(\App\Models\OrderProduct::class, 'order_id')->with('product');
     }
 
     /**

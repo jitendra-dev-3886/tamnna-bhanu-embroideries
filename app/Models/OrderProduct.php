@@ -119,9 +119,9 @@ class OrderProduct extends Model
         'quantity' => 'string'
     ];
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class, 'id', 'product_id')->with(['categories']);
+        return $this->belongsTo(Product::class,  'product_id')->with(['categories']);
     }
 
     /**
