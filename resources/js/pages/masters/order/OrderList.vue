@@ -138,6 +138,12 @@
                                                   aria-label="User"
                                                 />
                                             </v-list>
+                                            <!--<v-flex xs12 sm6>
+                                                        <v-date-picker
+                                                            v-model="viewModel.created_at"
+                                                            color="primary"
+                                                        ></v-date-picker>
+                                                    </v-flex>-->
                                             <v-card-actions>
                                                 <v-spacer />
                                                 <v-btn
@@ -171,7 +177,7 @@
                                         @close-menu="closeMenuColumn"
                                         @update-headers="setSelectedHeaders"
                                     ></column-visibility-btn>
-                                    <template v-if="selected.length>1">
+                                  <!--  <template v-if="selected.length>1">
                                         <multi-delete
                                             :delete-props="deleteProps"
                                             @click.native="multipleDelete()"
@@ -179,7 +185,7 @@
                                             ref="multipleDeleteBtn"
                                             v-deleteAll="$getConst('ORDERS')"
                                         />
-                                    </template>
+                                    </template>-->
                                 </div>
                             </v-flex>
                         </v-layout>

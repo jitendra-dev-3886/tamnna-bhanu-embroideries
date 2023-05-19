@@ -143,6 +143,61 @@
                         </tr>
                         <tr>
                             <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Set Unit:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    style="color: teal"
+                                >
+                                    {{ model.set_unit != "" ? model.set_unit : "-" }}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Unit Price:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    style="color: teal"
+                                >
+                                    {{ model.unit_price != "" ? model.unit_price : "-" }}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Price:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    style="color: teal"
+                                >
+                                    {{ model.price != "" ? model.price : "-" }}
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
                                 <h5
                                     class="font-weight-medium font-size-h3-sm"
                                     style="color: black"
@@ -197,60 +252,6 @@
                                     >
                                     </v-img>
                                 </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4
-                                    class="font-weight-medium font-size-h3-sm"
-                                    style="color: black"
-                                >
-                                    Set Unit:
-                                </h4>
-                            </td>
-                            <td>
-                                <h4
-                                    class="font-weight-regular font-size-h6-sm"
-                                    style="color: teal"
-                                >
-                                    {{ model.set_unit != "" ? model.set_unit : "-" }}
-                                </h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4
-                                    class="font-weight-medium font-size-h3-sm"
-                                    style="color: black"
-                                >
-                                    Unit Price:
-                                </h4>
-                            </td>
-                            <td>
-                                <h4
-                                    class="font-weight-regular font-size-h6-sm"
-                                    style="color: teal"
-                                >
-                                    {{ model.unit_price != "" ? model.unit_price : "-" }}
-                                </h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4
-                                    class="font-weight-medium font-size-h3-sm"
-                                    style="color: black"
-                                >
-                                    Price:
-                                </h4>
-                            </td>
-                            <td>
-                                <h4
-                                    class="font-weight-regular font-size-h6-sm"
-                                    style="color: teal"
-                                >
-                                    {{ model.price != "" ? model.price : "-" }}
-                                </h4>
                             </td>
                         </tr>
 

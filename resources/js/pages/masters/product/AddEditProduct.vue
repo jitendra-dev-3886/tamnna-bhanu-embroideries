@@ -272,16 +272,11 @@
                         <v-flex xs12 lg6 class="p-md-2">
                             <label></label>
                             <v-radio-group
-                                v-model="model.available_status"
+                                v-model="model.status"
                                 label="Status*"
                                 v-validate="'required'"
-                                @change="
-                                    model.available_status == '0'
-                                        ? setStock()
-                                        : ''
-                                "
                                 row
-                                name="available_status"
+                                name="status"
                                 :error-messages="
                                     getErrorValue(
                                         'available_status',
@@ -290,7 +285,7 @@
                                     )
                                 "
                                 class="p-0 mt-1"
-                                aria-label="Available Status"
+                                aria-label="Status"
                             >
                                 <v-radio label="Inactive" value="0" />
                                 <v-radio label="Active" value="1" />
