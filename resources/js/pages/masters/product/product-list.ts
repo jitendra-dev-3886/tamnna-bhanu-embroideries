@@ -140,13 +140,14 @@ class Product extends mixins(ServerTable, CommonApis) {
      * Delete Product
      * @param id
      */
-    deleteItem(id: string | number): void {
+
+   /* deleteItem(id: string | number): void {
         this.paramProps.idProps = id;
         this.paramProps.storeProps = "product";
         this.confirmation.title = this["$getConst"]("DELETE_TITLE");
         this.confirmation.description = this["$getConst"]("WARNING");
         this.modalOpen = true;
-    }
+    }*/
 
     /**
      * Multiple Delete
