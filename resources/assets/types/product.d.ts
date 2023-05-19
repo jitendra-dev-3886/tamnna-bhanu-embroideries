@@ -9,6 +9,7 @@ export interface IProductModel {
     price: string;
     product_galleries: Blob[];
     stock: string;
+    status: string;
 }
 
 export interface IProductParams {
@@ -17,7 +18,7 @@ export interface IProductParams {
 }
 
 export interface IProductStatusParams {
-    status: string ;
+    status: string;
     editId?: string | number;
 }
 
@@ -42,6 +43,8 @@ export interface IProductFullResponse extends IProductLightResponse {
     available_status: string;
     available_status_text: string;
     stock: string;
+    status: string;
+    status_text: string;
 }
 
 export type ValidationObj = { key: string; value: string }[];
