@@ -45,7 +45,7 @@
                                                 ref="featured_image"
                                                 v-model="featured_image"
                                                 v-validate="
-                                                    'ext:jpeg,png,jpg|size:1024'
+                                                    'ext:jpeg,png,jpg|size:5120'
                                                 "
                                                 attach
                                                 name="featured_image"
@@ -59,7 +59,7 @@
                                                 "
                                                 accept="image/jpg, image/jpeg, image/png"
                                                 :persistent-hint="true"
-                                                hint="Extension: jpg, jpeg, png | Size: Maximum 1024KB"
+                                                hint="Extension: jpg, jpeg, png | Size: Maximum 5120KB"
                                                 counter="1"
                                                 @click:clear="
                                                     featured_image = ''
@@ -349,7 +349,7 @@ class MultiFileModal extends Mixins(CommonServices) {
             },
             {
                 key: "size",
-                value: `Maximum size allowed is 1024 KB`,
+                value: `Maximum size allowed is 5120 KB`,
             },
         ],
         product_galleries: [
@@ -374,7 +374,7 @@ class MultiFileModal extends Mixins(CommonServices) {
     }
 
     get maxSizeLeft(): number {
-        let ms: number = 1024 * this.maxFileCountLeft;
+        let ms: number = 5120 * this.maxFileCountLeft;
         return ms;
     }
 

@@ -63,7 +63,7 @@
                                 v-validate="
                                     isEditMode
                                         ? ''
-                                        : 'required|ext:jpeg,png,jpg|size:1024'
+                                        : 'required|ext:jpeg,png,jpg|size:5120'
                                 "
                                 attach
                                 counter="1"
