@@ -43,7 +43,6 @@
                                 aria-label="Name"
                             />
                         </v-flex>
-                        {{ model.parent_id }}
                         <v-flex xs12 lg12 class="p-md-2">
                             <v-select
                                 clearable
