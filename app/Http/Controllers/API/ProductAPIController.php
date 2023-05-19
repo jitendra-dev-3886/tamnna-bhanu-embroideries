@@ -241,8 +241,9 @@ class ProductAPIController extends Controller
      */
     public function updatestatus(UpdateProductRequest $request, Product $product)
     {
-        $data = $request->all();
-        $product->update($data);
+        $product = Product::find($product->id);
+        $product->status = $request->status;
+        $product->save();
 
         return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.update_success'));
     }

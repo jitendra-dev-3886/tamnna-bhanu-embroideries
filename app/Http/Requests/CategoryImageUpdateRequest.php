@@ -31,7 +31,7 @@ class CategoryImageUpdateRequest extends FormRequest
         $rules = [
             // 'name'           => 'required|max:191',
             // 'description'    => 'required',
-            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120'
         ];
         // dd($rules);
         return $rules;

@@ -29,8 +29,8 @@ class CustomerExport implements FromCollection, WithHeadings
     {
         return[
             'Id',
-            'name',
-            'contact_number',
+            'Name',
+            'Contact Number',
             'Role name'
         ];
     }
