@@ -42,39 +42,42 @@
                                     class="font-weight-medium font-size-h3-sm"
                                     style="color: black"
                                 >
-                                    Price:
+                                    Category:
                                 </h4>
                             </td>
+
                             <td>
-                                <h4
-                                    class="font-weight-regular font-size-h6-sm"
-                                    style="color: teal"
-                                >
-                                    {{ model.price != "" ? model.price : "-" }}
-                                </h4>
+                                <div  v-for="(category, index) in model.category"
+                                :key="index">
+                                    <h4 style="color: teal">
+                                        {{
+                                            model.category[index].name
+                                                ? model.category[index].name
+                                                : "-"
+                                        }}
+                                    </h4>
+                                </div>
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <h4
+                                <h5
                                     class="font-weight-medium font-size-h3-sm"
                                     style="color: black"
                                 >
-                                    Remarks:
-                                </h4>
+                                    Available Color:
+                                </h5>
                             </td>
                             <td>
-                                <h4
-                                    class="font-weight-regular font-size-h6-sm"
-                                    v-if="model.description"
+                                <h5
+                                    class="font-weight-regular font-size-h3-sm"
                                     style="color: teal"
                                 >
-                                    <span v-html="model.description"></span>
-                                </h4>
+                                    {{ model.available_color != "" ? model.available_color : "-" }}
+                                </h5>
                             </td>
                         </tr>
-
                         <tr>
                             <td>
                                 <h4
@@ -138,7 +141,98 @@
                                 </h4>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Set Unit:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    style="color: teal"
+                                >
+                                    {{ model.set_unit != "" ? model.set_unit : "-" }}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Unit Price:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    style="color: teal"
+                                >
+                                    {{ model.unit_price != "" ? model.unit_price : "-" }}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Price:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    style="color: teal"
+                                >
+                                    {{ model.price != "" ? model.price : "-" }}
+                                </h4>
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <td>
+                                <h5
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Status:
+                                </h5>
+                            </td>
+                            <td>
+                                <h5
+                                    class="font-weight-regular font-size-h3-sm"
+                                    style="color: teal"
+                                >
+                                {{ model.status!= " " && model.status=="1"  ? "Active" : "Inactive" }}
+                                </h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Description:
+                                </h4>
+                            </td>
+                            <td>
+                                <h4
+                                    class="font-weight-regular font-size-h6-sm"
+                                    v-if="model.description"
+                                    style="color: teal"
+                                >
+                                    <span v-html="model.description"></span>
+                                </h4>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <h4
@@ -161,29 +255,7 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>
-                                <h4
-                                    class="font-weight-medium font-size-h3-sm"
-                                    style="color: black"
-                                >
-                                    Category:
-                                </h4>
-                            </td>
 
-                            <td>
-                                <div  v-for="(category, index) in model.category"
-                                :key="index">
-                                    <h4 style="color: teal">
-                                        {{
-                                            model.category[index].name
-                                                ? model.category[index].name
-                                                : "-"
-                                        }}
-                                    </h4>
-                                </div>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </v-card-text>

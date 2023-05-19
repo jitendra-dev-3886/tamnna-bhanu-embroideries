@@ -25,7 +25,7 @@ class ProductExport implements FromCollection, WithHeadings
                 'products.id',
                 'products.name',
                 'products.price',
-                'products.description',
+                // 'products.description',
                 'products.item_code',
                 \Illuminate\Support\Facades\DB::raw('(SELECT name from categories WHERE id = products.category_id) AS category_name'),
                 \Illuminate\Support\Facades\DB::raw('(CASE WHEN available_status = "' . config('constants.products.available_status_code.not-available') . '" THEN "' . config('constants.products.available_status.0') . '" WHEN available_status = "' . config('constants.products.available_status_code.available') . '" THEN "' . config('constants.products.available_status.1') . '" ELSE ""  END) AS available_status'),
@@ -47,13 +47,13 @@ class ProductExport implements FromCollection, WithHeadings
             'Id',
             'Name',
             'Price',
-            'Description',
-            'Item_code',
-            'Category name',
-            'Available_status',
+            // 'Description',
+            'Item Code',
+            'Category Name',
+            'Available Status',
             'Status',
             'Stock',
-            'Featured_image'
+            'Featured Image'
         ];
     }
 }

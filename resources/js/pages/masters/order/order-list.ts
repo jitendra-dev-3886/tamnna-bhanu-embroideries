@@ -164,7 +164,7 @@ class Order extends mixins(ServerTable, CommonApis) {
     /**
      * Multiple Delete
      */
-    multipleDelete(): void {
+    /*multipleDelete(): void {
         const rowIds: string[] = [];
         this.selected.forEach((element) => {
             rowIds.push(element.id);

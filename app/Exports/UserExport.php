@@ -29,9 +29,9 @@ class UserExport implements FromCollection, WithHeadings
     {
         return[
             'Id',
-            'name',
-            'email',
-            'contact_number',
+            'Name',
+            'Email',
+            'Contact Number',
             'Role name'
         ];
     }

@@ -43,43 +43,6 @@
                                 aria-label="Name"
                             />
                         </v-flex>
-
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <v-text-field
-                                v-model="model.price"
-                                label="Price*"
-                                name="price"
-                                v-validate="'required|numeric'"
-                                :error-messages="
-                                    getErrorValue(
-                                        'price',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                maxlength=""
-                                aria-label="Price"
-                            />
-                        </v-flex>
-
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <v-text-field
-                                v-model="model.item_code"
-                                label="Item Code*"
-                                name="item_code"
-                                v-validate="'required|max:191'"
-                                :error-messages="
-                                    getErrorValue(
-                                        'item_code',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                maxlength="191"
-                                aria-label="Item Code"
-                            />
-                        </v-flex>
-
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-select
                                 v-model="model.category_id"
@@ -104,58 +67,21 @@
                         </v-flex>
 
                         <v-flex xs12 lg6 class="p-md-2">
-                            <label></label>
-                            <v-radio-group
-                                v-model="model.available_status"
-                                label="Available Status*"
+                            <v-text-field
+                                v-model="model.available_color"
+                                label="Available Colors*"
+                                name="available_color"
+                                aria-label="Name"
                                 v-validate="'required'"
-                                @change="
-                                    model.available_status == '0'
-                                        ? setStock()
-                                        : ''
-                                "
-                                row
-                                name="available_status"
+                                :loading="isDataLoading"
                                 :error-messages="
                                     getErrorValue(
-                                        'available_status',
+                                        'available_color',
                                         errors,
                                         validationMessages
                                     )
                                 "
-                                class="p-0 mt-1"
-                                aria-label="Available Status"
-                            >
-                                <v-radio label="Not-available" value="0" />
-                                <v-radio label="Available" value="1" />
-                            </v-radio-group>
-                        </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2" v-show="!isEditMode">
-                            <v-file-input
-                                id="featured_image"
-                                ref="featured_image"
-                                v-model="model.featured_image"
-                                v-validate="
-                                    isEditMode
-                                        ? ''
-                                        : 'required|ext:jpeg,png,jpg|size:1024'
-                                "
-                                attach
-                                name="featured_image"
-                                label="Feature Image*"
-                                accept="image/jpg, image/jpeg, image/png"
-                                :persistent-hint="true"
-                                hint="Extension: jpg, jpeg, png | Size: Maximum 1MB"
-                                counter="1"
-                                :error-messages="
-                                    getErrorValue(
-                                        'featured_image',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                @click:clear="model.featured_image = ''"
-                                aria-label="Featured_image"
+
                             />
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
@@ -185,6 +111,76 @@
                                 aria-label="Stock"
                             />
                         </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-text-field
+                                v-model="model.item_code"
+                                label="Item Code*"
+                                name="item_code"
+                                v-validate="'required|max:191'"
+                                :error-messages="
+                                    getErrorValue(
+                                        'item_code',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                maxlength="191"
+                                aria-label="Item Code"
+                            />
+                        </v-flex>
+
+
+
+                        <v-flex xs12 lg6 class="p-md-2" v-show="!isEditMode">
+                            <v-file-input
+                                id="featured_image"
+                                ref="featured_image"
+                                v-model="model.featured_image"
+                                v-validate="
+                                    isEditMode
+                                        ? ''
+                                        : 'required|ext:jpeg,png,jpg|size:1024'
+                                "
+                                attach
+                                name="featured_image"
+                                label="Feature Image*"
+                                accept="image/jpg, image/jpeg, image/png"
+                                :persistent-hint="true"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 1MB"
+                                counter="1"
+                                :error-messages="
+                                    getErrorValue(
+                                        'featured_image',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                @click:clear="model.featured_image = ''"
+                                aria-label="Featured_image"
+                            />
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-select
+                                v-model="model.set_unit"
+                                v-validate="'required|numeric'"
+                                label="Set Unit*"
+                                name="set_unit"
+                                :items=setunit
+
+                                item-value="id"
+                                :loading="isDataLoading"
+                                :error-messages="
+                                    getErrorValue(
+                                        'set_unit',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                aria-label="Set Unit"
+
+                            />
+                        </v-flex>
+
                         <v-flex xs12 lg6 class="p-md-2" v-show="!isEditMode">
                             <v-file-input
                                 v-model="model.product_galleries"
@@ -212,8 +208,91 @@
                                 aria-label="Product Galleries"
                             />
                         </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-text-field
+                                v-model="model.unit_price"
+                                label="Unit Price*"
+                                name="unit_price"
+                                v-validate="'required|numeric'"
+                                :error-messages="
+                                    getErrorValue(
+                                        'unit_price',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+
+                                aria-label="Price"
+                            />
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-text-field
+
+                                label="Price"
+                                :error-messages="
+                                    getErrorValue(
+                                        'price',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                maxlength=""
+                                aria-label="Price"
+                                :value="calcTotalPrice"
+                                readonly
+                            />
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <label></label>
+                            <v-radio-group
+                                v-model="model.available_status"
+                                label="Available Status*"
+                                v-validate="'required'"
+                                @change="
+                                    model.available_status == '0'
+                                        ? setStock()
+                                        : ''
+                                "
+                                row
+                                name="available_status"
+                                :error-messages="
+                                    getErrorValue(
+                                        'available_status',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                class="p-0 mt-1"
+                                aria-label="Available Status"
+                            >
+                                <v-radio label="Not-available" value="0" />
+                                <v-radio label="Available" value="1" />
+                            </v-radio-group>
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <label></label>
+                            <v-radio-group
+                                v-model="model.status"
+                                label="Status*"
+                                v-validate="'required'"
+                                row
+                                name="status"
+                                :error-messages="
+                                    getErrorValue(
+                                        'available_status',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                class="p-0 mt-1"
+                                aria-label="Status"
+                            >
+                                <v-radio label="Inactive" value="0" />
+                                <v-radio label="Active" value="1" />
+                            </v-radio-group>
+                        </v-flex>
                         <v-flex xs12 lg12 class="p-md-2">
-                            <label>Remarks</label>
+                            <label>Description</label>
                             <vue-mce
                                 id="description"
                                 v-model="model.description"

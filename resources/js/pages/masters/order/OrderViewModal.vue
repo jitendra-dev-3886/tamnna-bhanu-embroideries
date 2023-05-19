@@ -30,11 +30,12 @@ import { CategoryModule } from '../../../store/category';
                        <table>
                         <tr>
 
-                           <td><h2 style="color: teal;">Order Status </h2></td>
+                           <td><h6 style="color: teal;">Order Status </h6></td>
 
-                            <td><v-tab></v-tab></td>
 
-                        <td><v-chip
+
+                        <td style="padding-left: 55px;">
+                            <v-chip
                             class="ma-2"
                             color="success"
                             variant="outlined"
@@ -62,15 +63,15 @@ import { CategoryModule } from '../../../store/category';
                             <v-tab></v-tab>
                         </td>
                         <td>
-                            <h6 style="color: teal; margin-top: 20px;"><span style="color: black;padding-right: 20px;">Product Name:</span>{{model.order_products[index].product.name}}</h6>
+                            <h6 style="color: teal; margin-top: 20px;"><span style="color: black;padding-right:25px;">Product Name:</span>{{model.order_products[index].product.name}}</h6>
                             <h6 style="color: teal;">
                                 <span style="color: black;padding-right:10px;">Category Name:</span>
                                 <template v-for="(categories,i) in model.order_products[index].product.categories">
                                     {{ model.order_products[index].product.categories[i].name }}
                                 </template>
                             </h6>
-                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Quantity:</span>{{ model.quantity}}</h6>
-                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Price:</span>{{ model.order_products[index].price }}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 72px;">Quantity:</span>{{ model.quantity}}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 100px;">Price:</span>{{ model.order_products[index].price }}</h6>
                         </td>
 
                     </table>
@@ -78,32 +79,34 @@ import { CategoryModule } from '../../../store/category';
                 </template>
                 <v-layout class="fs mt-7 mb-8">
                     <table>
-                        <v-divider></v-divider>
+
                         <tr>
 
                             <td>
-                                <h6 style="color:black; margin-top: 20px;">GST:</h6>
+                                <h6 style="color:black; margin-left:10px;">GST:</h6>
                             </td>
-
                             <td>
-                                <h6>
-                                    <span style="color:teal;padding-left:20px;padding-top:20px;">{{parseFloat(model.gst).toFixed(2)}}</span>
+                                <h6 style="color:teal;padding-left:60px;">
+                                    {{parseFloat(model.gst).toFixed(2)}}
                                 </h6>
                             </td>
                         </tr>
                         <tr>
 
-                            <td><h2 style="color: teal;">Total Amount </h2></td>
+                            <td><h6 style="color: black;margin-left:10px;">Total Amount </h6></td>
 
 
 
-                            <td style="color:teal;padding-left:20px;"><v-chip
-                            class="ma-2"
-                            color="success"
-                            variant="outlined"
-                            label
-                            >
-                            {{parseFloat(model.payment_amount).toFixed(2)}}</v-chip></td>
+                            <td style="color:teal;padding-left:55px;">
+                                <v-chip
+                                    class="ma-2"
+                                    color="success"
+                                    variant="outlined"
+                                    label
+                                >
+                                {{parseFloat(model.payment_amount).toFixed(2)}}
+                                </v-chip>
+                            </td>
                         </tr>
                     </table>
 

@@ -25,7 +25,7 @@ class HomeBannerImageUpdateRequest extends FormRequest
     public function rules()
     {
         return  [
-            'featured_image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ];
     }
 }

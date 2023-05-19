@@ -10,6 +10,11 @@ export interface IProductModel {
     product_galleries: Blob[];
     stock: string;
     status: string;
+    available_color:string;
+    set_unit:string;
+    unit_price:string;
+
+
 }
 
 export interface IProductParams {
@@ -45,13 +50,16 @@ export interface IProductFullResponse extends IProductLightResponse {
     stock: string;
     status: string;
     status_text: string;
+    available_color:string;
+    set_unit:string;
+    unit_price:string;
 }
 
 export type ValidationObj = { key: string; value: string }[];
 
 export interface IProductValidations {
     name: ValidationObj;
-    price: ValidationObj;
+  //  price: ValidationObj;
     description: ValidationObj;
     item_code: ValidationObj;
     category_id: ValidationObj;
@@ -59,6 +67,9 @@ export interface IProductValidations {
     stock: ValidationObj;
     featured_image: ValidationObj;
     product_galleries: ValidationObj;
+    set_unit:ValidationObj;
+    unit_price:ValidationObj;
+    available_color:ValidationObj
 }
 
 export interface CommonFileResponse {

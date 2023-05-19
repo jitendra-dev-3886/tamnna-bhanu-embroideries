@@ -26,7 +26,7 @@ class HomeBannerRequest extends FormRequest
     {
         return [
             'name'           => 'required|max:191',
-            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'banner_status'  => 'required|in:0,1',
         ];
     }
