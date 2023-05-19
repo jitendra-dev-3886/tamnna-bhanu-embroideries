@@ -63,7 +63,7 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
     };
 
     isSubmitting = false;
-
+    description="";
     get model(): ICategoryModel {
         return CategoryModule.model;
     }
@@ -75,6 +75,21 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
     }
 
     //Methods
+
+    convertDomDesc(){
+        let descStr:string=this.model.description;
+        var parser=new DOMParser();
+        var doc=parser.parseFromString(descStr,"text/html");
+        this.description=doc.body.innerText.toString();
+    }
+
+    clearDescrptn(){
+        this.convertDomDesc();
+        if(this.description==""){
+            this.model.description="";
+
+        }
+    }
 
     /* JSON Form Submit - Start*/
     onSubmit(): void {

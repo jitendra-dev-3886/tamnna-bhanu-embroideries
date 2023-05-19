@@ -64,6 +64,7 @@
                             <label>Remarks</label>
                             <vue-mce id="description" v-model="model.description"
                                      name="description" ref="description"
+                                     @change="clearDescrptn()"
                                      :config="editorConfig"></vue-mce>
                             <ErrorBlock
                                 validationField="description"

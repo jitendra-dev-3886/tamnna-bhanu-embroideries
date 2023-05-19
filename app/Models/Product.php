@@ -22,7 +22,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image', 'status'];
+    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image', 'available_color', 'set_unit', 'unit_price'];
 
     /**
      * Activity log array
@@ -43,7 +43,7 @@ class Product extends Model
      *
      * @var array
      */
-    public $light = ['id', 'name', 'price', 'description', 'item_code', 'featured_image'];
+    public $light = ['id', 'name', 'price', 'description', 'item_code', 'featured_image', 'available_color', 'set_unit', 'unit_price'];
 
     /**
      * Related permission array
@@ -55,7 +55,7 @@ class Product extends Model
     /**
      * @var array
      */
-    public $sortable = ['products.created_at', 'products.id', 'name', 'price', 'item_code', 'stock', 'featured_image', 'description'];
+    public $sortable = ['products.created_at', 'products.id', 'name', 'price', 'item_code', 'stock', 'featured_image', 'description', 'available_color', 'set_unit', 'unit_price'];
 
     /**
      * @var array
@@ -165,7 +165,12 @@ class Product extends Model
      */
     public function scopeCreateProduct($query, $request)
     {
+
+        $price = $request->unit_price * $request->set_unit;
+
         $data = $request->all();
+
+        $data['price'] = $price;
 
         $product = Product::create($data);
 
@@ -210,7 +215,11 @@ class Product extends Model
      */
     public function scopeUpdateProduct($query, $request, $product)
     {
+        $price = $request->unit_price * $request->set_unit;
+
         $data = $request->all();
+        $data['price'] = $price;
+
         $product->update($data);
 
         return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.update_success'));

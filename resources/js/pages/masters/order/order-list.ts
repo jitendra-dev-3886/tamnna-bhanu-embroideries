@@ -23,13 +23,14 @@ import {
 } from "../../../../assets/types/table";
 
 import {
-    IOrderProducts,
-    IOrderFullResponse,
+    ICustomerDetail,
+    IOrderFullResponse
 } from "../../../../assets/types/order";
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
 //import { IOrderFullResponse } from '../../../../assets/types/order';
+import CommonDateMethod from '../../../mixins/common-date-methods';
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -64,6 +65,7 @@ class Order extends mixins(ServerTable, CommonApis) {
        {text:'Products',value:'order_products.product.name'},
         { text: 'Gst', value: 'gst' },
         { text: 'Payment Amount', value: 'payment_amount' },
+        {text:'Order Date',value:'created_at'},
      //  { text: 'Order Status', value: 'order_status_text' },
         { text: 'Actions', value: 'actions', sortable: false },
             ];
@@ -101,6 +103,7 @@ class Order extends mixins(ServerTable, CommonApis) {
         storeProps: "",
     };
     user_id="";
+    user_name="";
     filterMenu= false;
     filterModel: IFilterModel = {};
 
@@ -108,8 +111,8 @@ class Order extends mixins(ServerTable, CommonApis) {
     images: { thumbnail: string; source: string }[] = [];
     orderViewModal = false;
 
-    get userList(): IUserLightResponse[] {
-        return UserModule.userList;
+    get customerList(): ICustomerDetail[] {
+        return OrderModule.customerList;
     }
 
     get viewModel():IOrderFullResponse{
@@ -117,7 +120,7 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     }
 
-    get prodDetailModel():IOrderProducts{
+    /*get prodDetailModel():IOrderProducts{
 
         return OrderModule.prodDetail;
 
@@ -220,8 +223,8 @@ class Order extends mixins(ServerTable, CommonApis) {
     changeFilter() {
        const filter: IFilterModel = {};
 
-       if (this.user_id != '') {
-         filter.user_id = [this.user_id];
+       if (this.user_name != '') {
+         filter.user_name = [this.user_name];
        }
 
        this.filterModel = filter;
@@ -233,7 +236,7 @@ class Order extends mixins(ServerTable, CommonApis) {
      * Reset Filter
      */
     resetFilter(): void {
-      this.user_id = "";
+      this.user_name = "";
         this.changeFilter();
      }
 

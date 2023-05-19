@@ -62,10 +62,15 @@ import { CategoryModule } from '../../../store/category';
                             <v-tab></v-tab>
                         </td>
                         <td>
-                            <h6 style="color: teal; margin-top: 20px;"><span style="color: black;padding-right: 20px;">Product Name:</span>{{ }}</h6>
-                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Category Name:</span>{{ }}</h6>
+                            <h6 style="color: teal; margin-top: 20px;"><span style="color: black;padding-right: 20px;">Product Name:</span>{{model.order_products[index].product.name}}</h6>
+                            <h6 style="color: teal;">
+                                <span style="color: black;padding-right:10px;">Category Name:</span>
+                                <template v-for="(categories,i) in model.order_products[index].product.categories">
+                                    {{ model.order_products[index].product.categories[i].name }}
+                                </template>
+                            </h6>
                             <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Quantity:</span>{{ model.quantity}}</h6>
-                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Price:</span>{{ model.order_products[index].price}}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 20px;">Price:</span>{{ model.order_products[index].price }}</h6>
                         </td>
 
                     </table>

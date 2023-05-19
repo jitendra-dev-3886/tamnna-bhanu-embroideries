@@ -21,7 +21,8 @@ import {
     IOrderParams,
     IOrderFullResponse,
     IOrderLightResponse,
-    IOrderProducts,
+    ICustomerDetail,
+
 } from "../../assets/types/order";
 import { AxiosResponse } from "axios";
 
@@ -29,30 +30,19 @@ import { AxiosResponse } from "axios";
 function getEmptyState() {
     return {
         orderList:[],
-
+        customerList:[],
         model: {
             gst: "",
-            id:"",
-            order_products: {
-                product:{
-                name:"",
-                quantity:"",
-                price:""
-                },
-                categories:{
-                    id:"",
-                    name:"",
-                    featured_image:""
-                }
-            },
+            id: "",
+            order_products: [],
             order_status: "",
             order_status_remark: "",
-            order_status_text:"",
+            order_status_text: "",
             payment_amount: "",
-            quantity:"",
+            quantity: "",
             user_id: "",
+            user_name: "",
             user_remark: ""
-
         },
         viewModel: {
             id: "",
@@ -64,21 +54,13 @@ function getEmptyState() {
             order_status_text: "",
             order_status_remark: "",
             user_remark: "",
-            order_products:[],
-            product_id:"",
+            user_name: "",
+            order_products: [],
+            product_id: "",
+            created_at: "",
             product_id_original: "",
-            product_id_thumbnail: ""
-         },
-        prodDetail:{
-            featured_image:"",
-            id:"",
-            order_id:"",
-            price:"",
-            order_products:[],
-            categories:[],
-            product_id:"",
-            product_id_original: "",
-            product_id_thumbnail: ""
+            product_id_thumbnail: "",
+            user:[]
         },
 
         editId: 0,
@@ -105,9 +87,10 @@ class Order extends VuexModule implements IOrder {
    // public product_idList: IOrderProducts[] = getEmptyState().productIdList;
     public model: IOrderModel = getEmptyState().model;
     public viewModel: IOrderFullResponse = getEmptyState().viewModel;
-    public prodDetail:IOrderProducts=getEmptyState().prodDetail;
+
     public editId: IOrderParams["editId"] = getEmptyState().editId;
     baseUrl = process.env.MIX_API_BASE_URL;
+    public customerList:ICustomerDetail[]=getEmptyState().customerList;
 
     @Mutation
     SET_EDIT_ID(payload: string | number) {
@@ -121,14 +104,15 @@ class Order extends VuexModule implements IOrder {
 
     @Mutation
     SET_VIEW_MODEL(param: IOrderFullResponse) {
+
         this.viewModel = param;
+
 
     }
 
     @Mutation
-    SET_PROD_DETAIL_MODEL(param: IOrderProducts) {
-        this.prodDetail = param;
-
+    SET_CUSTOMER_LIST(payload: ICustomerDetail[]) {
+        this.customerList = payload;
     }
 
     /*@Mutation
@@ -146,7 +130,7 @@ class Order extends VuexModule implements IOrder {
         this.model = getEmptyState().model;
         this.editId = getEmptyState().editId;
         this.viewModel = getEmptyState().viewModel;
-        this.prodDetail=getEmptyState().prodDetail;
+
         //this.product_idList = getEmptyState().productIdList;
     }
 

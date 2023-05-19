@@ -250,28 +250,9 @@ class Customer extends VuexModule implements ICustomer {
          });
      }
 
-     /**
 
-    @Action({ rawError: true }) //This is for if request reject
-    public login(
-        userInfo: ILoginModel
-    ): Promise<AxiosResponse<ResponseResult<ICurrentUserData>>> {
-        return new Promise((resolve, reject) => {
-            HTTP.post(`${this.baseUrl}login`, userInfo)
-                .then(
-                    (
-                        response: AxiosResponse<
-                            ResponseResult<ICurrentUserData>
-                        >
-                    ) => {
-                        resolve(response);
-                    }
-                )
-                .catch((e) => {
-                    reject(e);
-                });
-        });
-    }
+
+
 
     /**
      * Used for import zip functionality (upload file)
