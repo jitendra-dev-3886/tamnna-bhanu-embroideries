@@ -34,7 +34,7 @@ class HomeBannerExport implements FromCollection, WithHeadings
         return[
             'Id',
             'Name',
-            'Featured_image'
+            'Featured Image'
         ];
     }
 }
