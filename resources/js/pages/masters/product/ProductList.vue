@@ -312,6 +312,9 @@
                                     class="mr-2"
                                     small
                                     v-on="on"
+                                    :color="
+                                        item.status == '1' ? 'red' : 'green'
+                                    "
                                     v-update="$getConst('PRODUCTS')"
                                     aria-label="status change"
                                 >
