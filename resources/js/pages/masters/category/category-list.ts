@@ -52,7 +52,8 @@ class Category extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] = [
         { text: 'Name', value: 'name' },
-        { text: 'Remarks', value: 'description' },
+        //TODO: set value as per backend response 
+        //{ text: 'Parent Categort', value: '' },
         { text: 'Feature Image', value: 'featured_image' ,sortable: false},
         { text: 'Actions', value: 'actions', sortable: false },
             ];

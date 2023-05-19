@@ -62,6 +62,7 @@ function getEmptyState() {
                 name: "",
                 description: "",
                 featured_image: "",
+                parent_id: "",
             },
         },
         editId: 0,

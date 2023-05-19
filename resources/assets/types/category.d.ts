@@ -2,11 +2,13 @@ export interface ICategoryModel {
     name: string;
     description: string;
     featured_image: File | Blob | string;
+    parent_id: string;
 }
 
 export interface ICategoryUpdatePayload {
     name: string;
     description: string;
+    parent_id: string;
 }
 
 export interface ICategoryParams {
@@ -21,7 +23,9 @@ export interface ICategoryLightResponse {
     featured_image: File | Blob | string;
 }
 
-export interface ICategoryFullResponse extends ICategoryLightResponse {}
+export interface ICategoryFullResponse extends ICategoryLightResponse {
+    parent_id: string;
+}
 
 export type ValidationObj = { key: string; value: string }[];
 
