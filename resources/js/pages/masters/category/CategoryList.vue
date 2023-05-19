@@ -126,6 +126,16 @@
                             ></v-img>
                         </a>
                     </template>
+                    <template v-slot:[`item.parent_id`]="{ item }">
+                        <div
+                            v-for="(cat, index) in parentCategoryList"
+                            :key="index"
+                        >
+                            <span v-if="item.parent_id == cat.id">{{
+                                cat.name
+                            }}</span>
+                        </div>
+                    </template>
                     <template v-slot:[`item.actions`]="{ item }">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
