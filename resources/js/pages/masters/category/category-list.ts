@@ -52,7 +52,7 @@ class Category extends mixins(ServerTable, CommonApis) {
 
     headers: ITableHeaders[] = [
         { text: 'Name', value: 'name' },
-        { text: 'Remarks', value: 'description' },
+       // { text: 'Description', value: 'description' },
         { text: 'Feature Image', value: 'featured_image' ,sortable: false},
         { text: 'Actions', value: 'actions', sortable: false },
             ];

@@ -68,10 +68,20 @@
 
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-                                v-model="model.name"
+                                v-model="model.available_color"
                                 label="Available Colors*"
                                 name="available_color"
                                 aria-label="Name"
+                                v-validate="'required'"
+                                :loading="isDataLoading"
+                                :error-messages="
+                                    getErrorValue(
+                                        'available_color',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+
                             />
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
@@ -151,24 +161,23 @@
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-select
-                                v-model="model.category_id"
-                                v-validate="'required'"
+                                v-model="model.set_unit"
+                                v-validate="'required|numeric'"
                                 label="Set Unit*"
                                 name="set_unit"
-                                items=[1,2,3,4,5,6,7,8,9,10]
-                                @change="setDescription()"
-                                item-text="name"
+                                :items=setunit
+
                                 item-value="id"
                                 :loading="isDataLoading"
                                 :error-messages="
                                     getErrorValue(
-                                        'category_id',
+                                        'set_unit',
                                         errors,
                                         validationMessages
                                     )
                                 "
-                                aria-label="Category"
-                                multiple
+                                aria-label="Set Unit"
+
                             />
                         </v-flex>
 
@@ -201,27 +210,25 @@
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-                                v-model="model.price"
+                                v-model="model.unit_price"
                                 label="Unit Price*"
-                                name="price"
+                                name="unit_price"
                                 v-validate="'required|numeric'"
                                 :error-messages="
                                     getErrorValue(
-                                        'price',
+                                        'unit_price',
                                         errors,
                                         validationMessages
                                     )
                                 "
-                                maxlength=""
+
                                 aria-label="Price"
                             />
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
-                                v-model="model.price"
-                                label="Price*"
-                                name="price"
-                                v-validate="'required|numeric'"
+
+                                label="Price"
                                 :error-messages="
                                     getErrorValue(
                                         'price',
@@ -231,6 +238,8 @@
                                 "
                                 maxlength=""
                                 aria-label="Price"
+                                :value="calcTotalPrice"
+                                readonly
                             />
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
@@ -288,7 +297,7 @@
                             </v-radio-group>
                         </v-flex>
                         <v-flex xs12 lg12 class="p-md-2">
-                            <label>Remarks</label>
+                            <label>Description</label>
                             <vue-mce
                                 id="description"
                                 v-model="model.description"

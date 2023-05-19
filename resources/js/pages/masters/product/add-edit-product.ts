@@ -26,9 +26,9 @@ import { ResponseResult } from "../../../../assets/types/common";
 })
 class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     errorDialog = false;
-
+    setunit=[1,2,3,4,5,6,7,8,9,10];
     errorMessage = "";
-
+    totalPrice:number=0;
     validationMessages: IProductValidations = {
         name: [
             {
@@ -41,7 +41,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             },
         ],
 
-        price: [
+       /* price: [
             {
                 key: "required",
                 value: "Price required",
@@ -50,8 +50,33 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 key: "numeric",
                 value: "Enter valid number for price of the product",
             },
+        ],*/
+        unit_price:[
+            {
+                key: "required",
+                value: "Unit Price required",
+            },
+            {
+                key: "numeric",
+                value: "Enter valid number for unit price of the product",
+            },
         ],
-
+        set_unit:[
+            {
+                key: "required",
+                value: "Set Unit required",
+            },
+            {
+                key: "numeric",
+                value: "Enter a number from 1 to 10 for set unit of the product",
+            },
+        ],
+        available_color:[
+            {
+                key:"required",
+                value:"Available Color required"
+            }
+        ],
         description: [
             {
                 key: "required",
@@ -142,6 +167,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
 
     isDataLoading = false;
 
+
     get model(): IProductModel {
         return ProductModule.model;
     }
@@ -159,6 +185,12 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     /**
      * Register Submit Method - Form Data
      */
+
+    get calcTotalPrice(){
+        this.totalPrice=Number(this.model.set_unit)*Number(this.model.unit_price);
+        return this.totalPrice;
+    }
+
     onSubmit(): void {
         this.$validator.validate().then((valid) => {
             const self = this;
@@ -179,6 +211,9 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                     "available_status",
                     self.model.available_status
                 );
+                formData.append("available_color", self.model.available_color);
+                formData.append("set_unit", self.model.set_unit);
+                formData.append("unit_price",self.model.unit_price);
                 formData.append(
                     "stock",
                     self.model.available_status == "1" ? self.model.stock : "0"
@@ -323,6 +358,9 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                             castedProductResponse.data?.data?.featured_image,
                         product_galleries: [],
                         status: castedProductResponse.data?.data?.status,
+                        available_color:castedProductResponse.data?.data?.available_color,
+                        set_unit:castedProductResponse.data?.data?.set_unit,
+                        unit_price:castedProductResponse.data?.data?.unit_price
                     };
 
                     ProductModule.SET_MODEL(productModel);

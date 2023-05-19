@@ -41,6 +41,9 @@ function getEmptyState() {
             featured_image: "",
             product_galleries: [],
             status: "",
+            available_color:"",
+            set_unit:"",
+            unit_price:""
         },
         viewModel: {
             id: "",
@@ -63,6 +66,9 @@ function getEmptyState() {
                 description: "",
                 featured_image: "",
             },
+            available_color:"",
+            set_unit:"",
+            unit_price:""
         },
         editId: 0,
     };

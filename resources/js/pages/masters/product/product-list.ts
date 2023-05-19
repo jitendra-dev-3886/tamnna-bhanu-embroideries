@@ -58,11 +58,11 @@ class Product extends mixins(ServerTable, CommonApis) {
     headers: ITableHeaders[] = [
         { text: "Name", value: "name" },
         { text: "Price", value: "price" },
-        // { text: "Remarks", value: "description", sortable: false },
+        // { text: "Description", value: "description", sortable: false },
         { text: "Item Code", value: "item_code" },
 
         { text: "Category", value: "category.name" },
-        { text: "Available Status", value: "available_status_text" },
+      //  { text: "Available Status", value: "available_status_text" },
         { text: "Stock", value: "stock" },
         { text: "Feature Image", value: "featured_image", sortable: false },
         { text: "Status", value: "status_text" },
