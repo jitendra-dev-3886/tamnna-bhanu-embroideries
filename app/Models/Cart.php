@@ -168,9 +168,17 @@ class Cart extends Model
         // Check product is out of stock
         $outOfStockProduct = Product::where('id', $data['product_id'])->where('available_status', config('constants.products.available_status_code.not_available'))->first();
         if (!is_null($outOfStockProduct)) {
-            return response()->json([
-                'error' => config('constants.messages.wishlist.out_of_stock')
-            ], config('constants.validation_codes.unprocessable_entity'));
+            // return response()->json([
+            //     'error' => config('constants.messages.wishlist.out_of_stock')
+            // ], config('constants.validation_codes.unprocessable_entity'));
+
+            return response()->json(
+                [
+                    'message'  => config('constants.messages.wishlist.out_of_stock'),
+                    'error' => $outOfStockProduct->name . ' is out of stock.',
+                ],
+                config('constants.validation_codes.unprocessable_entity')
+            );
         }
 
         $cart = Cart::where('user_id', $user->id)->where('product_id', $data['product_id'])->first();
