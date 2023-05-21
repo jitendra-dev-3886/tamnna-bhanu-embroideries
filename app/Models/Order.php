@@ -181,9 +181,16 @@ class Order extends Model
 
         if (!empty($productIds)) {
             $ProductArray = implode(', ', $productIds);
-            return response()->json([
-                'error' => $ProductArray . ' is out of stock.'
-            ], config('constants.validation_codes.unprocessable_entity'));
+            // return response()->json([
+            //     'error' => $ProductArray . ' is out of stock.'
+            // ], config('constants.validation_codes.unprocessable_entity'));
+            return response()->json(
+                [
+                    'message'  => config('constants.messages.wishlist.out_of_stock'),
+                    'error' => $ProductArray . ' is out of stock.',
+                ],
+                config('constants.validation_codes.unprocessable_entity')
+            );
         }
 
         foreach ($cartProducts as $cartProduct) {
