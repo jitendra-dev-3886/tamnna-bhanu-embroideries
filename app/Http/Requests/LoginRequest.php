@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
         ];
 
         if ($uri == 'api/v1/login') {
-            if (App::environment(['production']) || App::environment(['uat']))
+            if (App::environment(['production']))
                 $rules['g_recaptcha_response'] = ['required', new ValidRecaptcha];
         }
 
