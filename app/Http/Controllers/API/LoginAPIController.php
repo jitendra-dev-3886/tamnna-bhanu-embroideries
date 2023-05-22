@@ -148,8 +148,13 @@ class LoginAPIController extends Controller
         $user = User::where('contact_number', $mobileNo)->first(); // Search and Get result belongs to contact_number field.
 
         if ($user->user_status == config('constants.user.status_enum.active')) {
-            $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
-            // $user->otp = "123456";  //  Temp  OTP.
+            if ( App::environment(['production'] )) {
+                $user->otp = rand(100000, 999999); //generate a random 6 digit OTP code
+            }
+            else{
+                  $user->otp = "123456";  //  Temp  OTP.
+                }
+
             $user->otp_verified_at = Carbon::now(); // => Rocky => Send OTP date and time
             $user->save();
 
