@@ -21,16 +21,17 @@ import {
     IOrderParams,
     IOrderFullResponse,
     IOrderLightResponse,
-    ICustomerDetail,
+  //  ICustomerDetail,
 
 } from "../../assets/types/order";
 import { AxiosResponse } from "axios";
+import { IUserLightResponse } from "../../assets/types/user";
 
 // mutation types
 function getEmptyState() {
     return {
         orderList:[],
-        customerList:[],
+        userList: [],
         model: {
             gst: "",
             id: "",
@@ -41,8 +42,15 @@ function getEmptyState() {
             payment_amount: "",
             quantity: "",
             user_id: "",
-            user_name: "",
-            user_remark: ""
+            user_remark: "",
+            user:{
+                id: "",
+                email: "",
+                name:"",
+                contact_number:"",
+                password: "",
+                user_status:""
+            }
         },
         viewModel: {
             id: "",
@@ -60,7 +68,14 @@ function getEmptyState() {
             created_at: "",
             product_id_original: "",
             product_id_thumbnail: "",
-            user:[]
+            user:{
+                id: "",
+                email: "",
+                name:"",
+                contact_number:"",
+                password: "",
+                user_status:""
+            }
         },
 
         editId: 0,
@@ -87,10 +102,10 @@ class Order extends VuexModule implements IOrder {
    // public product_idList: IOrderProducts[] = getEmptyState().productIdList;
     public model: IOrderModel = getEmptyState().model;
     public viewModel: IOrderFullResponse = getEmptyState().viewModel;
-
+    public userList:IUserLightResponse[]=getEmptyState().userList;
     public editId: IOrderParams["editId"] = getEmptyState().editId;
     baseUrl = process.env.MIX_API_BASE_URL;
-    public customerList:ICustomerDetail[]=getEmptyState().customerList;
+   // public customerList:string|string[]=getEmptyState().customerList;
 
     @Mutation
     SET_EDIT_ID(payload: string | number) {
@@ -110,10 +125,6 @@ class Order extends VuexModule implements IOrder {
 
     }
 
-    @Mutation
-    SET_CUSTOMER_LIST(payload: ICustomerDetail[]) {
-        this.customerList = payload;
-    }
 
     /*@Mutation
     SET_PRODUCT_ID_LIST(payload: IOrderProducts[]) {

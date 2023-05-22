@@ -23,7 +23,7 @@ import {
 } from "../../../../assets/types/table";
 
 import {
-    ICustomerDetail,
+
     IOrderFullResponse
 } from "../../../../assets/types/order";
 
@@ -58,6 +58,7 @@ class Order extends mixins(ServerTable, CommonApis) {
     modalOpen = false;
     isImportLoaded = false;
     urlApi = "orders";
+
 
     headers: ITableHeaders[] = [
         { text: 'Customer', value: 'user_id' },
@@ -103,21 +104,24 @@ class Order extends mixins(ServerTable, CommonApis) {
         storeProps: "",
     };
     user_id="";
-    user_name="";
+    selectedUser="";
     filterMenu= false;
     filterModel: IFilterModel = {};
+    customers=[];
 
 
     images: { thumbnail: string; source: string }[] = [];
     orderViewModal = false;
 
-    get customerList(): ICustomerDetail[] {
-        return OrderModule.customerList;
-    }
+
 
     get viewModel():IOrderFullResponse{
         return OrderModule.viewModel;
 
+    }
+
+    get userList():IUserLightResponse[]{
+        return UserModule.userList;
     }
 
     /*get prodDetailModel():IOrderProducts{
@@ -220,7 +224,7 @@ class Order extends mixins(ServerTable, CommonApis) {
     /**
      * Change Filter
      */
-    changeFilter() {
+    /*changeFilter() {
        const filter: IFilterModel = {};
 
        if (this.user_name != '') {
@@ -234,11 +238,11 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     /**
      * Reset Filter
-     */
+
     resetFilter(): void {
       this.user_name = "";
         this.changeFilter();
-     }
+     } */
 
     refreshData(): void {
         const self = this;

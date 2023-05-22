@@ -126,17 +126,17 @@
                                                         {{ icons.mdiClose }}
                                                     </v-icon>
                                                 </v-btn>
-
                                                 <v-select
-                                                  v-model="viewModel.user_name"
-                                                  name="user"
-                                                  item-text="name"
-                                                  item-value="id"
-                                                  :items=customerList
-                                                  label="Customer"
-                                                  class="mt-4"
-                                                  aria-label="User"
+                                                    name="user"
+                                                    v-model="selectedUser"
+                                                    :items="userList"
+                                                    item-text="contact_number"
+                                                    item-value="id"
+                                                    label="Customer"
+                                                    class="mt-4"
+                                                    aria-label="User"
                                                 />
+
                                             </v-list>
                                             <!--<v-flex xs12 sm6>
                                                         <v-date-picker

@@ -1,4 +1,5 @@
 
+import { IUserLightResponse } from './user';
 import { ICategoryFullResponse } from './category';
 
 export interface IOrderProduct {
@@ -17,13 +18,15 @@ export interface IOrderProduct {
     };
     product_id: string;
     quantity: string;
+
 }
-export interface ICustomerDetail{
+
+/*export interface ICustomerDetail{
     name:string;
     email:string;
     contact_number:string;
     city:string
-}
+}*/
 export interface IOrderModel {
     gst: string;
     id:string;
@@ -36,7 +39,8 @@ export interface IOrderModel {
     quantity: string;
     user_id: string;
     user_remark: string;
-    user_name:string;
+    user:IUserLightResponse;
+
 }
 export interface IOrderParams {
     model: IOrderModel;
@@ -62,7 +66,7 @@ export interface IOrderFullResponse extends IOrderLightResponse{
     user_remark: string;
 
     order_products: IOrderProduct[];
-    user:ICustomerDetail[];
+    user:IUserLightResponse;
 }
 
 export type ValidationObj = { key: string, value: string }[];
