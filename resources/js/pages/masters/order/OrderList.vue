@@ -128,9 +128,9 @@
                                                 </v-btn>
                                                 <v-select
                                                     name="user"
-                                                    v-model="selectedUser"
+                                                    v-model="user_id"
                                                     :items="userList"
-                                                    item-text="contact_number"
+                                                    item-text="name"
                                                     item-value="id"
                                                     label="Customer"
                                                     class="mt-4"

@@ -224,11 +224,11 @@ class Order extends mixins(ServerTable, CommonApis) {
     /**
      * Change Filter
      */
-    /*changeFilter() {
+    changeFilter() {
        const filter: IFilterModel = {};
 
-       if (this.user_name != '') {
-         filter.user_name = [this.user_name];
+       if (this.user_id != '') {
+         filter.user_id = [this.user_id];
        }
 
        this.filterModel = filter;
@@ -237,12 +237,12 @@ class Order extends mixins(ServerTable, CommonApis) {
      }
 
     /**
-     * Reset Filter
+     * Reset Filter*/
 
     resetFilter(): void {
-      this.user_name = "";
+      this.user_id = "";
         this.changeFilter();
-     } */
+     }
 
     refreshData(): void {
         const self = this;
