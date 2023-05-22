@@ -136,14 +136,35 @@
                                                     class="mt-4"
                                                     aria-label="User"
                                                 />
+                                               <v-menu
+                                                    v-model="datemenu"
+                                                    :close-on-content-click="false"
+                                                    :return-value.sync="viewModel.created_at"
+                                                    :nudge-width="200"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                >
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="orderDate"
+                                                        label="Order Date"
+                                                        prepend-icon="mdi-calendar"
+                                                        readonly
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        class="mt-4"
+                                                    ></v-text-field>
+                                                    </template>
+                                                    <v-date-picker
+                                                    v-model="orderDate"
+                                                   @input="datemenu=false"
+                                                    >
+
+                                                    </v-date-picker>
+                                               </v-menu>
 
                                             </v-list>
-                                            <!--<v-flex xs12 sm6>
-                                                        <v-date-picker
-                                                            v-model="viewModel.created_at"
-                                                            color="primary"
-                                                        ></v-date-picker>
-                                                    </v-flex>-->
+
                                             <v-card-actions>
                                                 <v-spacer />
                                                 <v-btn
