@@ -43,7 +43,7 @@
                                         ref="featured_image"
                                         v-model="featured_image"
                                         v-validate="
-                                            'required|ext:jpeg,png,jpg|size:1024'
+                                            'required|ext:jpeg,png,jpg|size:5120'
                                         "
                                         attach
                                         name="featured_image"

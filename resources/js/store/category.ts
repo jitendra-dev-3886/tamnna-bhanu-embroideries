@@ -31,14 +31,17 @@ function getEmptyState() {
             name: "",
             description: "",
             featured_image: "",
+            parent_id: "",
         },
         viewModel: {
             id: "",
             name: "",
             description: "",
             featured_image: "",
+            parent_id: "",
         },
         editId: 0,
+        parentCategoryList: [],
     };
 }
 export interface ICategory {
@@ -46,6 +49,7 @@ export interface ICategory {
     model: ICategoryModel;
     viewModel: ICategoryFullResponse;
     editId: ICategoryParams["editId"];
+    parentCategoryList: ICategoryFullResponse[];
 }
 
 @Module({
@@ -62,6 +66,8 @@ class Category extends VuexModule implements ICategory {
     public model: ICategoryModel = getEmptyState().model;
     public viewModel: ICategoryFullResponse = getEmptyState().viewModel;
     public editId: ICategoryParams["editId"] = getEmptyState().editId;
+    public parentCategoryList: ICategoryFullResponse[] =
+        getEmptyState().parentCategoryList;
     baseUrl = process.env.MIX_API_BASE_URL;
 
     @Mutation
@@ -82,6 +88,11 @@ class Category extends VuexModule implements ICategory {
     @Mutation
     SET_CATEGORY_LIST(payload: ICategoryLightResponse[]) {
         this.categoryList = payload;
+    }
+
+    @Mutation
+    SET_PARENT_CATEGORY_LIST(payload: ICategoryFullResponse[]) {
+        this.parentCategoryList = payload;
     }
 
     @Mutation
@@ -225,6 +236,30 @@ class Category extends VuexModule implements ICategory {
                     (
                         response: AxiosResponse<
                             ResponseResult<ICategoryFullResponse>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    /**
+     * Used to get a particular category record
+     */
+    @Action({ rawError: true })
+    getParentCategoryList(): Promise<
+        AxiosResponse<ResponseResult<ICategoryFullResponse[]>>
+    > {
+        return new Promise((resolve, reject) => {
+            HTTP.get(`${this.baseUrl}parent-categories`)
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<ICategoryFullResponse[]>
                         >
                     ) => {
                         resolve(response);

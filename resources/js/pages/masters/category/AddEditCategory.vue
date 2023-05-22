@@ -43,36 +43,18 @@
                                 aria-label="Name"
                             />
                         </v-flex>
-
                         <v-flex xs12 lg12 class="p-md-2">
-                            <!--<v-textarea
-                                id="description"
-                                label="Remarks"
-                                v-model="model.description"
-                                name="description"
-                                ref="description"
-                                auto-grow
-                                outlined
-                                :error-messages="
-                                    getErrorValue(
-                                        'description',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                            ></v-textarea>-->
-                            <label>Remarks</label>
-                            <vue-mce id="description" v-model="model.description"
-                                     name="description" ref="description"
-                                     @change="clearDescrptn()"
-                                     :config="editorConfig"></vue-mce>
-                            <ErrorBlock
-                                validationField="description"
-                                :errorList="errors"
-                                :validatonArray="validationMessages.description"
-                            ></ErrorBlock>
+                            <v-select
+                                clearable
+                                v-model="model.parent_id"
+                                name="parent_id"
+                                item-text="name"
+                                item-value="id"
+                                @click:clear="model.parent_id = ''"
+                                :items="parentCategoryList"
+                                label="Select parent category"
+                            ></v-select>
                         </v-flex>
-
                         <v-flex xs12 lg12 class="p-md-2" v-show="!isEditMode">
                             <v-file-input
                                 id="featured_image"
@@ -81,7 +63,7 @@
                                 v-validate="
                                     isEditMode
                                         ? ''
-                                        : 'required|ext:jpeg,png,jpg|size:1024'
+                                        : 'required|ext:jpeg,png,jpg|size:5120'
                                 "
                                 attach
                                 counter="1"
@@ -100,6 +82,22 @@
                                 @click:clear="model.featured_image = ''"
                                 aria-label="Featured_image"
                             />
+                        </v-flex>
+                        <v-flex xs12 lg12 class="p-md-2">
+                            <label>Remarks</label>
+                            <vue-mce
+                                id="description"
+                                v-model="model.description"
+                                name="description"
+                                ref="description"
+                                @change="clearDescrptn()"
+                                :config="editorConfig"
+                            ></vue-mce>
+                            <ErrorBlock
+                                validationField="description"
+                                :errorList="errors"
+                                :validatonArray="validationMessages.description"
+                            ></ErrorBlock>
                         </v-flex>
                     </v-layout>
 

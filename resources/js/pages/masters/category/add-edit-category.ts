@@ -16,6 +16,7 @@ import { CommonModule } from "@/store/common";
 import { AxiosResponse } from "axios";
 
 import { ResponseResult } from "../../../../assets/types/common";
+import { HTMLClassModule } from "@/store/htmlclass";
 
 @Component({
     components: {
@@ -63,7 +64,7 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
     };
 
     isSubmitting = false;
-    description="";
+    description = "";
     get model(): ICategoryModel {
         return CategoryModule.model;
     }
@@ -74,20 +75,23 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
             : false;
     }
 
-    //Methods
-
-    convertDomDesc(){
-        let descStr:string=this.model.description;
-        var parser=new DOMParser();
-        var doc=parser.parseFromString(descStr,"text/html");
-        this.description=doc.body.innerText.toString();
+    get parentCategoryList(): ICategoryFullResponse[] {
+        return CategoryModule.parentCategoryList;
     }
 
-    clearDescrptn(){
-        this.convertDomDesc();
-        if(this.description==""){
-            this.model.description="";
+    //Methods
 
+    convertDomDesc() {
+        let descStr: string = this.model.description;
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(descStr, "text/html");
+        this.description = doc.body.innerText.toString();
+    }
+
+    clearDescrptn() {
+        this.convertDomDesc();
+        if (this.description == "") {
+            this.model.description = "";
         }
     }
 
@@ -116,6 +120,7 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                 const payload: ICategoryUpdatePayload = {
                     name: "",
                     description: "",
+                    parent_id: "",
                 };
 
                 if (!this.isEditMode) {
@@ -125,9 +130,17 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                         "featured_image",
                         this.model.featured_image
                     );
+                    formData.append(
+                        "parent_id",
+                        this.model.parent_id ? this.model.parent_id : ""
+                    );
                 } else {
                     payload.name = this.model.name;
                     payload.description = this.model.description;
+
+                    payload.parent_id = this.model.parent_id
+                        ? this.model.parent_id
+                        : "";
                 }
 
                 CategoryModule[apiName]({
@@ -160,7 +173,26 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
         this["$router"].push("/masters/category");
     }
 
+    getParentCategoryList(): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+        CategoryModule.getParentCategoryList().then(
+            (
+                response: AxiosResponse<ResponseResult<ICategoryFullResponse[]>>
+            ) => {
+                CategoryModule.SET_PARENT_CATEGORY_LIST(
+                    response.data.data as ICategoryFullResponse[]
+                );
+                HTMLClassModule.removeBodyClassName("page-loading");
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+
     created(): void {
+        this.getParentCategoryList();
         this.resetStoreData("category").then(
             (response: unknown) => {
                 const castedCategoryResponse = response as AxiosResponse<
@@ -173,6 +205,7 @@ class AddEditCategory extends Mixins(CommonServices, CommonApis) {
                             castedCategoryResponse.data?.data?.description,
                         featured_image:
                             castedCategoryResponse.data?.data?.featured_image,
+                        parent_id: castedCategoryResponse.data?.data?.parent_id,
                     };
 
                     CategoryModule.SET_MODEL(categoryModel);

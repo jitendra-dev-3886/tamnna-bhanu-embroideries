@@ -65,6 +65,7 @@ function getEmptyState() {
                 name: "",
                 description: "",
                 featured_image: "",
+                parent_id: "",
             },
             available_color:"",
             set_unit:"",

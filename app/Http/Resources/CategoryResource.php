@@ -14,7 +14,7 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->get('is_light',false))
+        if ($request->get('is_light', false))
             return array_merge($this->attributesToArray(), $this->relationsToArray());
 
         return [
@@ -23,6 +23,7 @@ class CategoryResource extends JsonResource
             'description' => (string)$this->description,
             'featured_image' => (string)$this->featured_image,
             'category_status' => (string)$this->category_status,
+            'parent_id' => (string)$this->parent_id,
             'subCategories' => $this->subCategories,
         ];
     }

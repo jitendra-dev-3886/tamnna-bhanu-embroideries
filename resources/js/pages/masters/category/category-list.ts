@@ -12,13 +12,9 @@ import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 
 import { CategoryModule } from "../../../store/category";
 
-import {
-    ITableHeaders,
-} from "../../../../assets/types/table";
+import { ITableHeaders } from "../../../../assets/types/table";
 
-import {
-    ICategoryFullResponse,
-} from "../../../../assets/types/category";
+import { ICategoryFullResponse } from "../../../../assets/types/category";
 
 import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
@@ -51,14 +47,15 @@ class Category extends mixins(ServerTable, CommonApis) {
     urlApi = "categories";
 
     headers: ITableHeaders[] = [
-        { text: 'Name', value: 'name' },
-       // { text: 'Description', value: 'description' },
-        { text: 'Feature Image', value: 'featured_image' ,sortable: false},
-        { text: 'Actions', value: 'actions', sortable: false },
-            ];
+        { text: "Name", value: "name" },
+        //TODO: set value as per backend response
+        { text: "Parent Category", value: "parent_id" },
+        // { text: 'Description', value: 'description' },
+        { text: "Feature Image", value: "featured_image", sortable: false },
+        { text: "Actions", value: "actions", sortable: false },
+    ];
 
-    customSortableKeys = {
-            };
+    customSortableKeys = {};
     confirmation: IConfirmationProps = {
         title: "",
         description: "",
@@ -85,11 +82,12 @@ class Category extends mixins(ServerTable, CommonApis) {
         storeProps: "",
     };
 
-
     categoryViewModal = false;
-    categoryEditImages=false;
+    categoryEditImages = false;
 
-
+    get parentCategoryList(): ICategoryFullResponse[] {
+        return CategoryModule.parentCategoryList;
+    }
 
     /**
      * Redirect to add category page
@@ -145,7 +143,9 @@ class Category extends mixins(ServerTable, CommonApis) {
     onEditImage(id: string): void {
         HTMLClassModule.addBodyClassName("page-loading");
         CategoryModule.getById(id).then(
-            (response: AxiosResponse<ResponseResult<ICategoryFullResponse>>) => {
+            (
+                response: AxiosResponse<ResponseResult<ICategoryFullResponse>>
+            ) => {
                 CategoryModule.SET_VIEW_MODEL(
                     response.data.data as ICategoryFullResponse
                 );
@@ -166,7 +166,9 @@ class Category extends mixins(ServerTable, CommonApis) {
     onView(id: string): void {
         HTMLClassModule.addBodyClassName("page-loading");
         CategoryModule.getById(id).then(
-            (response: AxiosResponse<ResponseResult<ICategoryFullResponse>>) => {
+            (
+                response: AxiosResponse<ResponseResult<ICategoryFullResponse>>
+            ) => {
                 CategoryModule.SET_VIEW_MODEL(
                     response.data.data as ICategoryFullResponse
                 );
@@ -186,14 +188,33 @@ class Category extends mixins(ServerTable, CommonApis) {
                 self.refresh();
             } else if (self.tab == "tab2" && self.$refs.importdata) {
                 if (self.isImportLoaded) {
-                     (self.$refs.importdata as any).refreshImport();
+                    (self.$refs.importdata as any).refreshImport();
                 }
                 self.isImportLoaded = true;
             }
         }, 100);
     }
-    created(): void {
 
+    getParentCategoryList(): void {
+        HTMLClassModule.addBodyClassName("page-loading");
+        CategoryModule.getParentCategoryList().then(
+            (
+                response: AxiosResponse<ResponseResult<ICategoryFullResponse[]>>
+            ) => {
+                CategoryModule.SET_PARENT_CATEGORY_LIST(
+                    response.data.data as ICategoryFullResponse[]
+                );
+                HTMLClassModule.removeBodyClassName("page-loading");
+            },
+            (error) => {
+                HTMLClassModule.removeBodyClassName("page-loading");
+                this.showDialog(this.getAPIErrorMessage(error.response));
+            }
+        );
+    }
+
+    created(): void {
+        this.getParentCategoryList();
     }
 }
 export default Category;
