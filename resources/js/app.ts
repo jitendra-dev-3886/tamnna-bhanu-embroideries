@@ -26,7 +26,7 @@ import App from "./pages/App.vue";
 import hasPermission from "./directives/permission-directives";
 import { UserModule } from "./store/user";
 import "./bootstrap";
-// import { VueReCaptcha } from "vue-recaptcha-v3";
+import { VueReCaptcha } from "vue-recaptcha-v3";
 import VueMce from "vue-mce";
 
 if (process.env.MIX_MODE == "production") {
@@ -75,18 +75,18 @@ Vue.directive("setUnsetPermissionToRole", hasPermission); // set unset permissio
 Vue.directive("changePassword", hasPermission); // change password
 Vue.directive("deleteAll", hasPermission); // delete all functionality
 
-// if (process.env.MIX_GOOGLE_CAPTCHA_KEY) {
-//     // vue recaptcha
-//     Vue.use(VueReCaptcha, {
-//         siteKey: process.env.MIX_GOOGLE_CAPTCHA_KEY,
-//         loaderOptions: {
-//             autoHideBadge: true,
-//             explicitRenderParameters: {
-//                 size: "invisible",
-//             },
-//         },
-//     });
-// }
+if (process.env.MIX_GOOGLE_CAPTCHA_KEY) {
+    // vue recaptcha
+    Vue.use(VueReCaptcha, {
+        siteKey: process.env.MIX_GOOGLE_CAPTCHA_KEY,
+        loaderOptions: {
+            autoHideBadge: true,
+            explicitRenderParameters: {
+                size: "invisible",
+            },
+        },
+    });
+}
 
 // eslint-disable-next-line no-unused-vars
 const app = new Vue({
