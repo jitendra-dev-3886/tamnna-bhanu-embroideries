@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'description' => (string)$this->description,
             'item_code' => $this->item_code,
             'category_id' => $this->categories->pluck('id'),
+            // 'sub_category_id' => $this->sub_category_id,
             'category' => $this->categories,
             'available_status' => $this->available_status,
             'available_status_text' => config('constants.products.available_status.' . $this->available_status),
