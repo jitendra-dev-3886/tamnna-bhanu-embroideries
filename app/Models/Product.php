@@ -22,7 +22,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image', 'available_color', 'set_unit', 'unit_price'];
+    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image', 'available_color', 'set_unit', 'unit_price', 'sub_category_id'];
 
     /**
      * Activity log array
@@ -121,6 +121,7 @@ class Product extends Model
         'name' => 'string',
         'price' => 'string',
         'description' => 'string',
+        'sub_category_id' => 'string',
         'item_code' => 'string',
         'available_status' => 'string',
         'status' => 'string',
@@ -168,9 +169,14 @@ class Product extends Model
 
         $price = $request->unit_price * $request->set_unit;
 
+        $parent_id = $request->parent_id;
+
+
         $data = $request->all();
 
         $data['price'] = $price;
+
+        $data['sub_category_id'] = $parent_id;
 
         $product = Product::create($data);
 
@@ -216,6 +222,10 @@ class Product extends Model
     public function scopeUpdateProduct($query, $request, $product)
     {
         $price = $request->unit_price * $request->set_unit;
+
+        $parent_id = $request->parent_id;
+
+        $data['sub_category_id'] = $parent_id;
 
         $data = $request->all();
         $data['price'] = $price;

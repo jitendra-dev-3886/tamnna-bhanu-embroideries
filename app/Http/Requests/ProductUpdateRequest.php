@@ -45,7 +45,9 @@ class ProductUpdateRequest extends FormRequest
             'unit_price' => 'required|numeric|between:0,9999999999.99',
 
             'product_galleries'=>'nullable|array|max:5',
-            'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg|max:5120'
+            'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg|max:5120',
+
+            'parent_id' => 'required|exists:categories,id,deleted_at,NULL'
 
         ];
 
