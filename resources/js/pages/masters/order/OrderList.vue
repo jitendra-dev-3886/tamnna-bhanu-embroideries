@@ -119,7 +119,7 @@
                                                         float-right
                                                         filter-close-btn
                                                     "
-                                                    @click="filterMenu = false"
+                                                    @click="onCancelFilter()"
                                                     aria-label="Close filter"
                                                 >
                                                     <v-icon small>
@@ -136,7 +136,7 @@
                                                     class="mt-4"
                                                     aria-label="User"
                                                 />
-                                               <v-menu
+                                              <!-- <v-menu
                                                     v-model="datemenu"
                                                     :close-on-content-click="false"
                                                     :return-value.sync="viewModel.created_at"
@@ -146,13 +146,13 @@
                                                 >
                                                     <template v-slot:activator="{ on, attrs }">
                                                     <v-text-field
-                                                        v-model="orderDate"
+                                                        :value="computedDateFormattedMomentjs(orderDate)"
                                                         label="Order Date"
                                                         prepend-icon="mdi-calendar"
                                                         readonly
-                                                        v-bind="attrs"
+
                                                         v-on="on"
-                                                        class="mt-4"
+
                                                     ></v-text-field>
                                                     </template>
                                                     <v-date-picker
@@ -161,10 +161,15 @@
                                                     >
 
                                                     </v-date-picker>
-                                               </v-menu>
+                                               </v-menu>-->
 
-                                            </v-list>
 
+                                            <v-flex >
+                                                        <period-filter
+                                                            v-model="date_model"
+                                                        ></period-filter>
+                                                    </v-flex>
+                                                </v-list>
                                             <v-card-actions>
                                                 <v-spacer />
                                                 <v-btn
