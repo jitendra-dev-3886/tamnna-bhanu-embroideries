@@ -255,11 +255,8 @@ class Order extends mixins(ServerTable, CommonApis) {
             delete filter.is_all_date;
             filter.created_at = `${this.getFilterDateFormat(
                 this.date_model.start_date
-            )}to${this.customDayMonthDate(
+            )}to${this.getFilterDateFormat(
                 this.date_model.end_date,
-                1,
-                "days",
-                true
             )}`;
         } else if (this.date_model.period_type == "1") {
             delete filter.is_all_date;

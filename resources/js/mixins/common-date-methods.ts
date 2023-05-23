@@ -146,6 +146,7 @@ class CommonDateMethod extends Vue {
         date: Date | string,
         dateFormat = this.$getConst("FILTER_DATE_CONST")
     ): Date | string {
+
         return date ? format(new Date(date), dateFormat) : "";
     }
 
@@ -157,15 +158,19 @@ class CommonDateMethod extends Vue {
     ): string {
         if (value) {
             if (isAdd) {
+
                 return format(
                     add(new Date(value), {
                         [parameter]: count,
                     }),
+
                     // changing the format to display date from 'dd-mm-yyyy' to 'yyyy-mm-dd' match API requirement
+
                     this["$getConst"]("FILTER_DATE_CONST")
                 );
             }
             return format(
+
                 sub(new Date(value), {
                     [parameter]: count,
                 }),
