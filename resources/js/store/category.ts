@@ -272,6 +272,31 @@ class Category extends VuexModule implements ICategory {
     }
 
     /**
+     * Used to get a particular category record
+     */
+    @Action({ rawError: true })
+    getSubCategoryList(
+        param: string[]
+    ): Promise<AxiosResponse<ResponseResult<ICategoryFullResponse[]>>> {
+        return new Promise((resolve, reject) => {
+            debugger;
+            HTTP.get(`${this.baseUrl}subcategories`, param)
+                .then(
+                    (
+                        response: AxiosResponse<
+                            ResponseResult<ICategoryFullResponse[]>
+                        >
+                    ) => {
+                        resolve(response);
+                    }
+                )
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+    /**
      * Used for import functionality (upload file)
      * @param param
      */

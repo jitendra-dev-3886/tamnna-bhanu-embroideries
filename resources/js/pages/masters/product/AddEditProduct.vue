@@ -43,28 +43,62 @@
                                 aria-label="Name"
                             />
                         </v-flex>
+
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-text-field
+                                v-model="model.item_code"
+                                label="Item Code*"
+                                name="item_code"
+                                v-validate="'required|max:191'"
+                                :error-messages="
+                                    getErrorValue(
+                                        'item_code',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                maxlength="191"
+                                aria-label="Item Code"
+                            />
+                        </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-select
-                                v-model="model.category_id"
+                                v-model="model.parent_id"
                                 v-validate="'required'"
-                                label="Category*"
-                                name="category_id"
-                                :items="categoryList"
-                                @change="setDescription()"
+                                label="Parent Category*"
+                                name="parent_id"
+                                :items="parentCategoryList"
+                                @change="setSubCategoryList"
                                 item-text="name"
                                 item-value="id"
                                 :loading="isDataLoading"
                                 :error-messages="
                                     getErrorValue(
-                                        'category_id',
+                                        'parent_id',
                                         errors,
                                         validationMessages
                                     )
                                 "
+                                aria-label="Parent Category"
+                                multiple
+                            />
+                        </v-flex>
+                        <!-- TODO: change it to sub category -->
+                        <v-flex xs12 lg6 class="p-md-2" >
+                            <v-select
+                                v-model="model.category_id"
+                                label="Category*"
+                                name="category_id"
+                                :items="subCategoryList"
+                                @change="setDescription()"
+                                item-text="name"
+                                item-value="id"
+                                :loading="isDataLoading"
                                 aria-label="Category"
                                 multiple
                             />
                         </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2"></v-flex>
 
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
@@ -81,8 +115,86 @@
                                         validationMessages
                                     )
                                 "
-
                             />
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-select
+                                v-model="model.set_unit"
+                                v-validate="'required|numeric'"
+                                label="Set Unit*"
+                                name="set_unit"
+                                :items="setunit"
+                                item-value="id"
+                                :loading="isDataLoading"
+                                :error-messages="
+                                    getErrorValue(
+                                        'set_unit',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                aria-label="Set Unit"
+                            />
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-text-field
+                                v-model="model.unit_price"
+                                label="Unit Price*"
+                                name="unit_price"
+                                v-validate="'required|numeric'"
+                                :error-messages="
+                                    getErrorValue(
+                                        'unit_price',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                aria-label="Price"
+                            />
+                        </v-flex>
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <v-text-field
+                                label="Price"
+                                :error-messages="
+                                    getErrorValue(
+                                        'price',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                maxlength=""
+                                aria-label="Price"
+                                :value="calcTotalPrice"
+                                readonly
+                            />
+                        </v-flex>
+
+                        <v-flex xs12 lg6 class="p-md-2">
+                            <!-- <label></label> -->
+                            <v-radio-group
+                                v-model="model.available_status"
+                                label="Available Status*"
+                                v-validate="'required'"
+                                @change="
+                                    model.available_status == '0'
+                                        ? setStock()
+                                        : ''
+                                "
+                                row
+                                name="available_status"
+                                :error-messages="
+                                    getErrorValue(
+                                        'available_status',
+                                        errors,
+                                        validationMessages
+                                    )
+                                "
+                                class="p-0 mt-1"
+                                aria-label="Available Status"
+                            >
+                                <v-radio label="Not-available" value="0" />
+                                <v-radio label="Available" value="1" />
+                            </v-radio-group>
                         </v-flex>
                         <v-flex xs12 lg6 class="p-md-2">
                             <v-text-field
@@ -111,26 +223,28 @@
                                 aria-label="Stock"
                             />
                         </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <v-text-field
-                                v-model="model.item_code"
-                                label="Item Code*"
-                                name="item_code"
-                                v-validate="'required|max:191'"
+                        <!-- <v-flex xs12 lg6 class="p-md-2">
+                            <label></label>
+                            <v-radio-group
+                                v-model="model.status"
+                                label="Status*"
+                                v-validate="'required'"
+                                row
+                                name="status"
                                 :error-messages="
                                     getErrorValue(
-                                        'item_code',
+                                        'available_status',
                                         errors,
                                         validationMessages
                                     )
                                 "
-                                maxlength="191"
-                                aria-label="Item Code"
-                            />
-                        </v-flex>
-
-
-
+                                class="p-0 mt-1"
+                                aria-label="Status"
+                            >
+                                <v-radio label="Inactive" value="0" />
+                                <v-radio label="Active" value="1" />
+                            </v-radio-group>
+                        </v-flex> -->
                         <v-flex xs12 lg6 class="p-md-2" v-show="!isEditMode">
                             <v-file-input
                                 id="featured_image"
@@ -157,27 +271,6 @@
                                 "
                                 @click:clear="model.featured_image = ''"
                                 aria-label="Featured_image"
-                            />
-                        </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <v-select
-                                v-model="model.set_unit"
-                                v-validate="'required|numeric'"
-                                label="Set Unit*"
-                                name="set_unit"
-                                :items=setunit
-
-                                item-value="id"
-                                :loading="isDataLoading"
-                                :error-messages="
-                                    getErrorValue(
-                                        'set_unit',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                aria-label="Set Unit"
-
                             />
                         </v-flex>
 
@@ -208,90 +301,7 @@
                                 aria-label="Product Galleries"
                             />
                         </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <v-text-field
-                                v-model="model.unit_price"
-                                label="Unit Price*"
-                                name="unit_price"
-                                v-validate="'required|numeric'"
-                                :error-messages="
-                                    getErrorValue(
-                                        'unit_price',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-
-                                aria-label="Price"
-                            />
-                        </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <v-text-field
-
-                                label="Price"
-                                :error-messages="
-                                    getErrorValue(
-                                        'price',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                maxlength=""
-                                aria-label="Price"
-                                :value="calcTotalPrice"
-                                readonly
-                            />
-                        </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <label></label>
-                            <v-radio-group
-                                v-model="model.available_status"
-                                label="Available Status*"
-                                v-validate="'required'"
-                                @change="
-                                    model.available_status == '0'
-                                        ? setStock()
-                                        : ''
-                                "
-                                row
-                                name="available_status"
-                                :error-messages="
-                                    getErrorValue(
-                                        'available_status',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                class="p-0 mt-1"
-                                aria-label="Available Status"
-                            >
-                                <v-radio label="Not-available" value="0" />
-                                <v-radio label="Available" value="1" />
-                            </v-radio-group>
-                        </v-flex>
-                        <v-flex xs12 lg6 class="p-md-2">
-                            <label></label>
-                            <v-radio-group
-                                v-model="model.status"
-                                label="Status*"
-                                v-validate="'required'"
-                                row
-                                name="status"
-                                :error-messages="
-                                    getErrorValue(
-                                        'available_status',
-                                        errors,
-                                        validationMessages
-                                    )
-                                "
-                                class="p-0 mt-1"
-                                aria-label="Status"
-                            >
-                                <v-radio label="Inactive" value="0" />
-                                <v-radio label="Active" value="1" />
-                            </v-radio-group>
-                        </v-flex>
-                        <v-flex xs12 lg12 class="p-md-2">
+                        <v-flex xs12 lg12 class="p-md-2 mt-10">
                             <label>Description</label>
                             <vue-mce
                                 id="description"

@@ -13,7 +13,10 @@ import {
 } from "../../../../assets/types/product";
 
 import { CategoryModule } from "@/store/category";
-import { ICategoryLightResponse } from "../../../../assets/types/category";
+import {
+    ICategoryFullResponse,
+    ICategoryLightResponse,
+} from "../../../../assets/types/category";
 import { CommonModule } from "@/store/common";
 import { AxiosResponse } from "axios";
 
@@ -26,9 +29,9 @@ import { ResponseResult } from "../../../../assets/types/common";
 })
 class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     errorDialog = false;
-    setunit=[1,2,3,4,5,6,7,8,9,10];
+    setunit = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     errorMessage = "";
-    totalPrice:number=0;
+    totalPrice: number = 0;
     validationMessages: IProductValidations = {
         name: [
             {
@@ -41,7 +44,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             },
         ],
 
-       /* price: [
+        /* price: [
             {
                 key: "required",
                 value: "Price required",
@@ -51,7 +54,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 value: "Enter valid number for price of the product",
             },
         ],*/
-        unit_price:[
+        unit_price: [
             {
                 key: "required",
                 value: "Unit Price required",
@@ -61,7 +64,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 value: "Enter valid number for unit price of the product",
             },
         ],
-        set_unit:[
+        set_unit: [
             {
                 key: "required",
                 value: "Set Unit required",
@@ -71,11 +74,11 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 value: "Enter a number from 1 to 10 for set unit of the product",
             },
         ],
-        available_color:[
+        available_color: [
             {
-                key:"required",
-                value:"Available Color required"
-            }
+                key: "required",
+                value: "Available Color required",
+            },
         ],
         description: [
             {
@@ -95,7 +98,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             },
         ],
 
-        category_id: [
+        parent_id: [
             {
                 key: "required",
                 value: "Category required",
@@ -166,8 +169,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     isSubmitting = false;
 
     isDataLoading = false;
-
-
+    subCategoryList: ICategoryFullResponse[] = [];
     get model(): IProductModel {
         return ProductModule.model;
     }
@@ -176,8 +178,12 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         return ProductModule.editId ? <number>ProductModule.editId > 0 : false;
     }
 
-    get categoryList(): ICategoryLightResponse[] {
-        return CategoryModule.categoryList;
+    // get categoryList(): ICategoryLightResponse[] {
+    //     return CategoryModule.categoryList;
+    // }
+
+    get parentCategoryList(): ICategoryFullResponse[] {
+        return CategoryModule.parentCategoryList;
     }
 
     //Methods
@@ -186,8 +192,9 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
      * Register Submit Method - Form Data
      */
 
-    get calcTotalPrice(){
-        this.totalPrice=Number(this.model.set_unit)*Number(this.model.unit_price);
+    get calcTotalPrice() {
+        this.totalPrice =
+            Number(this.model.set_unit) * Number(this.model.unit_price);
         return this.totalPrice;
     }
 
@@ -213,7 +220,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 );
                 formData.append("available_color", self.model.available_color);
                 formData.append("set_unit", self.model.set_unit);
-                formData.append("unit_price",self.model.unit_price);
+                formData.append("unit_price", self.model.unit_price);
                 formData.append(
                     "stock",
                     self.model.available_status == "1" ? self.model.stock : "0"
@@ -281,23 +288,32 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     }
     setDescription(): void {
         this.model.description = "";
-
-        this.categoryList.forEach((element) => {
-            if (this.model.category_id.includes(element.id)) {
-                var parser = new DOMParser();
-                let doc =
-                    `<b>${element.name}</b> :` +
-                    parser
-                        .parseFromString(element.description, "text/html")
-                        .body.innerHTML.toString();
-                let doc1 = parser.parseFromString(
-                    this.model.description,
-                    "text/html"
-                );
-
-                this.model.description = `<p>${doc1.body.innerHTML.toString()} ${doc}</p>`;
+        debugger;
+        if (this.model.parent_id.length > 0) {
+            let tempArr = this.subCategoryList;
+            let tempCategoryId = this.model.category_id;
+            if (this.model.category_id.length == 0) {
+                tempArr = this.parentCategoryList;
+                tempCategoryId = this.model.parent_id;
             }
-        });
+
+            tempArr.forEach((element) => {
+                if (tempCategoryId.includes(element.id)) {
+                    var parser = new DOMParser();
+                    let doc =
+                        `<b>${element.name}</b> :` +
+                        parser
+                            .parseFromString(element.description, "text/html")
+                            .body.innerHTML.toString();
+                    let doc1 = parser.parseFromString(
+                        this.model.description,
+                        "text/html"
+                    );
+
+                    this.model.description = `<p>${doc1.body.innerHTML.toString()} ${doc}</p>`;
+                }
+            });
+        }
     }
 
     setStock(): void {
@@ -310,33 +326,70 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         this["$router"].push("/masters/product");
     }
 
-    /**
-     * When Single Master call is needed
-     */
-    commonDataFetch(): void {
+    setSubCategoryList(): void {
+        //let payload = [];
+        if (this.model.parent_id.length > 0) {
+            // CategoryModule.getSubCategoryList(this.model.parent_id).then(
+            //     (
+            //         response: AxiosResponse<
+            //             ResponseResult<ICategoryFullResponse[]>
+            //         >
+            //     ) => {
+            //         // CategoryModule.SET_PARENT_CATEGORY_LIST(
+            //         //     response.data.data as ICategoryFullResponse[]
+            //         // );
+            //         this.subCategoryList = response.data
+            //             .data as ICategoryFullResponse[];
+            //         this.setDescription();
+            //         HTMLClassModule.removeBodyClassName("page-loading");
+            //     },
+            //     (error) => {
+            //         HTMLClassModule.removeBodyClassName("page-loading");
+            //         this.showDialog(this.getAPIErrorMessage(error.response));
+            //     }
+            // );
+            this.subCategoryList = [
+                {
+                    id: "4",
+                    parent_id: "3",
+                    name: "bandhni print",
+                    description:
+                        "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n</head>\r\n<body>\r\n<p>Silk bandhni print</p>\r\n</body>\r\n</html>",
+                    featured_image: "http://127.0.0.1:8000/images/default.png",
+                },
+                {
+                    id: "5",
+                    parent_id: "3",
+                    name: "polka dots",
+                    description:
+                        "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n</head>\r\n<body>\r\n<p>Silk polka dots&nbsp;</p>\r\n</body>\r\n</html>",
+                    featured_image: "http://127.0.0.1:8000/images/default.png",
+                },
+            ];
+            this.setDescription();
+        }
+    }
+
+    getParentCategoryList(): void {
         HTMLClassModule.addBodyClassName("page-loading");
-        this["$validator"].reset();
-        this.isDataLoading = true;
-        CommonModule.getAll({
-            apiName: "categories",
-            pagination: { isLight: true },
-        }).then(
-            (response: AxiosResponse<ResponseResult<unknown>>) => {
-                HTMLClassModule.removeBodyClassName("page-loading");
-                CategoryModule.SET_CATEGORY_LIST(
-                    <ICategoryLightResponse[]>response.data.data
+        CategoryModule.getParentCategoryList().then(
+            (
+                response: AxiosResponse<ResponseResult<ICategoryFullResponse[]>>
+            ) => {
+                CategoryModule.SET_PARENT_CATEGORY_LIST(
+                    response.data.data as ICategoryFullResponse[]
                 );
-                this.isDataLoading = false;
+                HTMLClassModule.removeBodyClassName("page-loading");
             },
             (error) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
-                this.isDataLoading = false;
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
     }
 
     created(): void {
+        this.getParentCategoryList();
         this.resetStoreData("product").then(
             (response: unknown) => {
                 const castedProductResponse = response as AxiosResponse<
@@ -351,6 +404,8 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                         item_code: castedProductResponse.data?.data?.item_code,
                         category_id:
                             castedProductResponse.data?.data?.category_id,
+
+                        parent_id: castedProductResponse.data?.data?.parent_id,
                         available_status:
                             castedProductResponse.data?.data?.available_status,
                         stock: castedProductResponse.data?.data?.stock,
@@ -358,9 +413,11 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                             castedProductResponse.data?.data?.featured_image,
                         product_galleries: [],
                         status: castedProductResponse.data?.data?.status,
-                        available_color:castedProductResponse.data?.data?.available_color,
-                        set_unit:castedProductResponse.data?.data?.set_unit,
-                        unit_price:castedProductResponse.data?.data?.unit_price
+                        available_color:
+                            castedProductResponse.data?.data?.available_color,
+                        set_unit: castedProductResponse.data?.data?.set_unit,
+                        unit_price:
+                            castedProductResponse.data?.data?.unit_price,
                     };
 
                     ProductModule.SET_MODEL(productModel);
@@ -370,10 +427,6 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
-
-        if (this.done24Hours("add-edit-product-call")) {
-            this.commonDataFetch();
-        }
     }
 }
 
