@@ -137,8 +137,8 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     }
 
-    get userList():IUserLightResponse[]{
-        return UserModule.userList;
+    get customerList():ICustomerModel[]{
+        return CustomerModule.customerList;
     }
 
     /*get prodDetailModel():IOrderProducts{

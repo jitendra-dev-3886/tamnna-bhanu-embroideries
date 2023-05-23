@@ -129,7 +129,7 @@
                                                 <v-select
                                                     name="user"
                                                     v-model="user_id"
-                                                    :items="userList"
+                                                    :items="customerList"
                                                     item-text="name"
                                                     item-value="id"
                                                     label="Customer"
