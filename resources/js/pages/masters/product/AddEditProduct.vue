@@ -193,7 +193,7 @@
                                 name="product_galleries"
                                 accept="image/jpg, image/jpeg, image/png"
                                 :persistent-hint="true"
-                                hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 20MB"
                                 :counter="5"
                                 :error-messages="
                                     getErrorValue(
