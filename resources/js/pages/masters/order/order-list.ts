@@ -43,6 +43,8 @@ import {
 
 } from "../../../../assets/types/common";
 import { format } from "date-fns";
+import { CustomerModule } from "@/store/customer";
+import { ICustomerModel } from "../../../../assets/types/customer";
 @Component({
     components: {
         ErrorBlockServer,
@@ -417,13 +419,13 @@ class Order extends mixins(ServerTable, CommonApis) {
 
         /*Single Master : Start */
         CommonModule.getAll({
-            apiName: "users",
+            apiName: "customers",
             pagination: { isLight: true },
         }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
-                UserModule.SET_USER_LIST(
-                    <IUserLightResponse[]>response.data.data
+                CustomerModule.SET_CUSTOMER_LIST(
+                    <ICustomerModel[]>response.data.data
                 );
             },
             (error) => {

@@ -28,8 +28,9 @@ import { AxiosResponse } from "axios";
 function getEmptyState() {
     return {
 
-      customerList: [],
+      customerList:[],
         model: {
+
             id:"",
             name: " ",
             company_name:" ",
@@ -62,6 +63,7 @@ export interface ICustomer {
     tableData: ResponseResult<ICustomerModel[]>;
     remember_me: ICustomerParams["remember_me"];
     defaultRouteUrl: string;
+    customerList:ICustomerModel[];
 }
 
 @Module({
@@ -75,7 +77,7 @@ class Customer extends VuexModule implements ICustomer {
 
     public pagination: IPagination = getEmptyState().pagination;
     public model: ICustomerModel = getEmptyState().model;
-    //public customerList: ICustomerModel=getEmptyState().model;
+    public customerList: ICustomerModel[]=getEmptyState().customerList;
     public tableData: ResponseResult<ICustomerModel[]> =
         getEmptyState().tableData;
 
@@ -96,10 +98,10 @@ class Customer extends VuexModule implements ICustomer {
         this.model = param;
     }
 
-    /*@Mutation
+    @Mutation
     SET_CUSTOMER_LIST(payload: ICustomerModel[]) {
         this.customerList = payload;
-    }*/
+    }
 
     @Mutation
     CLEAR_STORE() {

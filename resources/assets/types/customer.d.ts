@@ -1,7 +1,7 @@
 export interface ICustomerModel {
     id: string;
     name: string;
-    company_name: string;
+    company_name?: string;
     city: string;
     mobileno: string;
     user_status?: string;
