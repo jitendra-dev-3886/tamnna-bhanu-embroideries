@@ -276,11 +276,10 @@ class Category extends VuexModule implements ICategory {
      */
     @Action({ rawError: true })
     getSubCategoryList(
-        param: string[]
+        param: any
     ): Promise<AxiosResponse<ResponseResult<ICategoryFullResponse[]>>> {
         return new Promise((resolve, reject) => {
-            debugger;
-            HTTP.get(`${this.baseUrl}subcategories`, param)
+            HTTP.post(`${this.baseUrl}subcategories`, param)
                 .then(
                     (
                         response: AxiosResponse<

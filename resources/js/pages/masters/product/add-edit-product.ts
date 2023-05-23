@@ -101,7 +101,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
         parent_id: [
             {
                 key: "required",
-                value: "Category required",
+                value: "Parent Category required",
             },
         ],
 
@@ -200,9 +200,8 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
 
     onSubmit(): void {
         this.$validator.validate().then((valid) => {
-            const self = this;
             if (valid) {
-                self.isSubmitting = true;
+                this.isSubmitting = true;
                 this.errorMessage = "";
 
                 let apiName = "create";
@@ -210,58 +209,52 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
 
                 const formData = new FormData();
 
-                formData.append("name", self.model.name);
-                formData.append("price", self.model.price);
-                formData.append("description", self.model.description);
-                formData.append("item_code", self.model.item_code);
-                formData.append(
-                    "available_status",
-                    self.model.available_status
-                );
-                formData.append("available_color", self.model.available_color);
-                formData.append("set_unit", self.model.set_unit);
-                formData.append("unit_price", self.model.unit_price);
-                formData.append(
-                    "stock",
-                    self.model.available_status == "1" ? self.model.stock : "0"
-                );
-
-                //Multiple Categories Array
-                if (
-                    self.model.category_id &&
-                    self.model.category_id.length > 0
-                ) {
-                    Array.from(self.model.category_id).forEach(
-                        (category_id) => {
-                            formData.append(
-                                "category_id[]",
-                                <string>category_id
-                            );
+                for (const key in this.model) {
+                    if (key == "stock") {
+                        formData.append(
+                            key,
+                            this.model.available_status == "1"
+                                ? this.model[key]
+                                : "0"
+                        );
+                    } else if (key == "category_id" || key == "parent_id") {
+                        if (this.model[key] && this.model[key].length > 0) {
+                            //Multiple Categories Array
+                            Array.from(this.model[key]).forEach((element) => {
+                                formData.append(`${key}[]`, <string>element);
+                            });
                         }
-                    );
+                    } else if (
+                        key == "featured_image" ||
+                        key == "product_galleries"
+                    ) {
+                        if (!this.isEditMode) {
+                            formData.append(
+                                "featured_image",
+                                this.model.featured_image
+                            );
+
+                            // Multiple Product Gallery array
+                            if (
+                                this.model.product_galleries &&
+                                this.model.product_galleries.length > 0
+                            ) {
+                                Array.from(
+                                    this.model.product_galleries
+                                ).forEach((product_galleries) => {
+                                    formData.append(
+                                        "product_galleries[]",
+                                        <Blob>product_galleries
+                                    );
+                                });
+                            }
+                        }
+                    } else {
+                        formData.append(key, this.model[key]);
+                    }
                 }
 
-                if (!this.isEditMode) {
-                    formData.append(
-                        "featured_image",
-                        self.model.featured_image
-                    );
-
-                    // Multiple Product Gallery array
-                    if (
-                        self.model.product_galleries &&
-                        self.model.product_galleries.length > 0
-                    ) {
-                        Array.from(self.model.product_galleries).forEach(
-                            (product_galleries) => {
-                                formData.append(
-                                    "product_galleries[]",
-                                    <Blob>product_galleries
-                                );
-                            }
-                        );
-                    }
-                } else {
+                if (this.isEditMode) {
                     apiName = "edit";
                     editId = <number>ProductModule.editId;
                 }
@@ -277,8 +270,8 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                         SnackbarModule.setMsg(response.data.message as string);
                     },
                     (error) => {
-                        self.isSubmitting = false;
-                        self.errorMessage = self.getAPIErrorMessage(
+                        this.isSubmitting = false;
+                        this.errorMessage = this.getAPIErrorMessage(
                             error.response
                         );
                     }
@@ -355,46 +348,26 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     }
 
     setSubCategoryList(): void {
-        //let payload = [];
+        let payload = {
+            id: this.model.parent_id,
+        };
         if (this.model.parent_id.length > 0) {
-            // CategoryModule.getSubCategoryList(this.model.parent_id).then(
-            //     (
-            //         response: AxiosResponse<
-            //             ResponseResult<ICategoryFullResponse[]>
-            //         >
-            //     ) => {
-            //         // CategoryModule.SET_PARENT_CATEGORY_LIST(
-            //         //     response.data.data as ICategoryFullResponse[]
-            //         // );
-            //         this.subCategoryList = response.data
-            //             .data as ICategoryFullResponse[];
-            //         this.setDescription();
-            //         HTMLClassModule.removeBodyClassName("page-loading");
-            //     },
-            //     (error) => {
-            //         HTMLClassModule.removeBodyClassName("page-loading");
-            //         this.showDialog(this.getAPIErrorMessage(error.response));
-            //     }
-            // );
-            this.subCategoryList = [
-                {
-                    id: "4",
-                    parent_id: "3",
-                    name: "bandhni print",
-                    description:
-                        "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n</head>\r\n<body>\r\n<p>Silk bandhni print</p>\r\n</body>\r\n</html>",
-                    featured_image: "http://127.0.0.1:8000/images/default.png",
+            CategoryModule.getSubCategoryList(payload).then(
+                (
+                    response: AxiosResponse<
+                        ResponseResult<ICategoryFullResponse[]>
+                    >
+                ) => {
+                    this.subCategoryList = response.data
+                        .data as ICategoryFullResponse[];
+                    this.setDescription();
+                    HTMLClassModule.removeBodyClassName("page-loading");
                 },
-                {
-                    id: "5",
-                    parent_id: "3",
-                    name: "polka dots",
-                    description:
-                        "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n</head>\r\n<body>\r\n<p>Silk polka dots&nbsp;</p>\r\n</body>\r\n</html>",
-                    featured_image: "http://127.0.0.1:8000/images/default.png",
-                },
-            ];
-            this.setDescription();
+                (error) => {
+                    HTMLClassModule.removeBodyClassName("page-loading");
+                    this.showDialog(this.getAPIErrorMessage(error.response));
+                }
+            );
         }
     }
 
