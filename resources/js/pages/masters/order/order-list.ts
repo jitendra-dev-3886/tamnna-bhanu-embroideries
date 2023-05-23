@@ -221,7 +221,7 @@ class Order extends mixins(ServerTable, CommonApis) {
         );
     }*/
     filterByPeriod(filter: IFilterModel): IFilterModel {
-        debugger;
+
         if (this.date_model.period_type == "10") {
             filter.is_all_date = "1";
         } else {
@@ -335,7 +335,7 @@ class Order extends mixins(ServerTable, CommonApis) {
        if (this.user_id != '') {
          filter.user_id = [this.user_id];
        }
-       debugger;
+
        filter = this.filterByPeriod(filter);
 
        this.filterModel = filter;
