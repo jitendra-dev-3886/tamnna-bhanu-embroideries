@@ -24,7 +24,19 @@ class SubcategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'nullable|integer|exists:categories,id',
+            'id' => 'nullable|array|exists:categories,id',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    // public function messages()
+    // {
+    //     return [
+    //         'id' => 'Account does not exist, please try to create a new account.',
+    //     ];
+    // }
 }
