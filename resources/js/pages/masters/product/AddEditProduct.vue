@@ -187,7 +187,7 @@
                                 v-validate.continues="
                                     isEditMode
                                         ? ''
-                                        : 'ext:jpeg,png,jpg|size:5120|valid_file_length:5'
+                                        : 'ext:jpeg,png,jpg|size:20480|valid_file_length:5'
                                 "
                                 multiple
                                 name="product_galleries"
