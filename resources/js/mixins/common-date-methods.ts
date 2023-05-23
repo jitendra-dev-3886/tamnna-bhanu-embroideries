@@ -34,7 +34,7 @@ class CommonDateMethod extends Vue {
             ? format(new Date(value), this["$getConst"]("DATE_CONST"))
             : "";
     }
-    
+
     /* Format Date */
     getCustomDateFormat(value: Date | string): string | Date {
         if (isMatch(value as string, "yyyy-MM-dd") === true) return value;
@@ -146,6 +146,7 @@ class CommonDateMethod extends Vue {
         date: Date | string,
         dateFormat = this.$getConst("FILTER_DATE_CONST")
     ): Date | string {
+
         return date ? format(new Date(date), dateFormat) : "";
     }
 
@@ -157,18 +158,24 @@ class CommonDateMethod extends Vue {
     ): string {
         if (value) {
             if (isAdd) {
+
                 return format(
                     add(new Date(value), {
                         [parameter]: count,
                     }),
-                    this["$getConst"]("DATE_CONST")
+
+                    // changing the format to display date from 'dd-mm-yyyy' to 'yyyy-mm-dd' match API requirement
+
+                    this["$getConst"]("FILTER_DATE_CONST")
                 );
             }
             return format(
+
                 sub(new Date(value), {
                     [parameter]: count,
                 }),
-                this["$getConst"]("DATE_CONST")
+                 // changing the format to display date from 'dd-mm-yyyy' to 'yyyy-mm-dd' match API requirement
+                this["$getConst"]("FILTER_DATE_CONST")
             );
         }
         return "";
@@ -230,7 +237,7 @@ class CommonDateMethod extends Vue {
         }
         return `${hours}:${minutes}:${seconds}`;
     };
-    
+
 }
 
 export default CommonDateMethod;

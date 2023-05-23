@@ -146,24 +146,29 @@ class Category extends Model
     public function scopeCreateCategory($query, $request)
     {
 
-        $request['parent_id'] = (int)$request->parent_id;
+        // $request['parent_id'] = (int)$request->parent_id;
 
-        $category = Category::create($request->all());
+        // $Category = new Category();
+        // $Category->name       = $request->name;
+        // $Category->description = $request->description;
+        // $Category->parent_id = $request->parent_id;
+        // $Category->save();
+        // // $category = Category::create($request->all());
 
 
-        if ($request->hasFile('featured_image')) {
-            $realPath = 'category/' . $category->id;
-            $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+        // if ($request->hasFile('featured_image')) {
+        //     $realPath = 'category/' . $category->id;
+        //     $resizeImages = $category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
 
-            $category->update([
-                'category_id'    => $category->id,
-                'featured_image' => $resizeImages['image']
-                // 'profile_original' => $request->get('original'),
-                // 'profile_thumbnail' => $resizeImages['thumbnail']
-            ]);
-        }
+        //     $category->update([
+        //         'category_id'    => $category->id,
+        //         'featured_image' => $resizeImages['image']
+        //         // 'profile_original' => $request->get('original'),
+        //         // 'profile_thumbnail' => $resizeImages['thumbnail']
+        //     ]);
+        // }
 
-        return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.create_success'));
+        // return \App\Models\User::GetMessage(new CategoryResource($category), config('constants.messages.create_success'));
     }
 
     /**

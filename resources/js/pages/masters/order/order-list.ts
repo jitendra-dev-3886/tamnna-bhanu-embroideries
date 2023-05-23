@@ -31,6 +31,7 @@ import { AxiosResponse } from "axios";
 import ServerTable from "@/mixins/customtable/server-table";
 //import { IOrderFullResponse } from '../../../../assets/types/order';
 import CommonDateMethod from '../../../mixins/common-date-methods';
+import PeriodFilter from '../../../components/PeriodFilter.vue';
 import {
     IConfirmationProps,
     IDeleteProps,
@@ -38,8 +39,12 @@ import {
     IImportProps,
     IParamProps,
     ResponseResult,
-} from "../../../../assets/types/common";
+    IDatePeriodFilter
 
+} from "../../../../assets/types/common";
+import { format } from "date-fns";
+import { CustomerModule } from "@/store/customer";
+import { ICustomerModel } from "../../../../assets/types/customer";
 @Component({
     components: {
         ErrorBlockServer,
@@ -50,7 +55,8 @@ import {
         OrderViewModal,
         Import,
         MultiFileModal,
-        ImageViewer
+        ImageViewer,
+        PeriodFilter
     },
 })
 class Order extends mixins(ServerTable, CommonApis) {
@@ -110,7 +116,16 @@ class Order extends mixins(ServerTable, CommonApis) {
     datemenu=false;
     filterModel: IFilterModel = {};
     customers=[];
-
+    date_model: IDatePeriodFilter = {
+        user_id: ["0"],
+        module: ["0"],
+        period_type: "",
+        start_date: format(new Date(), "yyyy-MM-dd"),
+        end_date: format(new Date(), "yyyy-MM-dd"),
+        is_all_date: "1",
+        is_all_module: "1",
+        is_all_user: "1",
+    };
 
     images: { thumbnail: string; source: string }[] = [];
     orderViewModal = false;
@@ -122,8 +137,8 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     }
 
-    get userList():IUserLightResponse[]{
-        return UserModule.userList;
+    get customerList():ICustomerModel[]{
+        return CustomerModule.customerList;
     }
 
     /*get prodDetailModel():IOrderProducts{
@@ -205,6 +220,91 @@ class Order extends mixins(ServerTable, CommonApis) {
             }
         );
     }*/
+    filterByPeriod(filter: IFilterModel): IFilterModel {
+
+        if (this.date_model.period_type == "10") {
+            filter.is_all_date = "1";
+        } else {
+            filter.is_all_date = "0";
+        }
+        if (filter.is_all_user == "1" || this.date_model.user_id[0] == "0") {
+            delete filter.causer_id;
+        } else {
+            filter.causer_id = this.date_model.user_id.filter(
+                (item, index) => item != null && item != undefined
+            );
+            delete filter.is_all_user;
+        }
+        if (filter.is_all_module == "1" || this.date_model.module[0] == "0") {
+            delete filter.log_name;
+        } else {
+            filter.log_name = this.date_model.module.filter(
+                (item, index) => item != null && item != undefined
+            );
+            delete filter.is_all_module;
+        }
+
+        if (
+            this.date_model.is_all_date == "1" &&
+            this.date_model.period_type == "10"
+        ) {
+            delete filter.period_type;
+            delete filter.created_at;
+            delete filter.is_all_date;
+        } else if (this.date_model.period_type == "0") {
+            delete filter.is_all_date;
+            filter.created_at = `${this.getFilterDateFormat(
+                this.date_model.start_date
+            )}to${this.getFilterDateFormat(
+                this.date_model.end_date,
+            )}`;
+        } else if (this.date_model.period_type == "1") {
+            delete filter.is_all_date;
+            filter.created_at = `${this.customDayMonthDate(
+                new Date(),
+                3,
+                "months",
+                false
+            )}to${this.getFilterDateFormat(new Date())}`;
+        } else if (this.date_model.period_type == "2") {
+            delete filter.is_all_date;
+            filter.created_at = `${this.customDayMonthDate(
+                new Date(),
+                6,
+                "months",
+                false
+            )}to${this.getFilterDateFormat(new Date())}`;
+        } else if (this.date_model.period_type == "3") {
+            delete filter.is_all_date;
+            filter.created_at = `${this.customDayMonthDate(
+                new Date(),
+                1,
+                "years",
+                false
+            )}to${this.getFilterDateFormat(new Date())}`;
+        } else if (this.date_model.period_type == "4") {
+            delete filter.is_all_date;
+            filter.created_at = `${this.customDayMonthDate(
+                new Date(),
+                2,
+                "years",
+                false
+            )}to${this.getFilterDateFormat(new Date())}`;
+        } else if (
+            this.date_model.period_type != "0" &&
+            this.date_model.period_type != "10"
+        ) {
+            delete filter.is_all_date;
+            delete filter.created_at;
+        }
+        return filter;
+    }
+
+
+    onCancelFilter(): void {
+        this.onModalClear("order", "CLEAR_FILTER_STORE");
+        this.resetFilter();
+    }
 
     onView(id: string): void {
         HTMLClassModule.addBodyClassName("page-loading");
@@ -227,15 +327,13 @@ class Order extends mixins(ServerTable, CommonApis) {
      * Change Filter
      */
     changeFilter() {
-       const filter: IFilterModel = {};
+       let filter: IFilterModel = {};
 
        if (this.user_id != '') {
          filter.user_id = [this.user_id];
        }
-       if(this.orderDate!=''){
-        filter.orderDate=[this.orderDate];
 
-       }
+       filter = this.filterByPeriod(filter);
 
        this.filterModel = filter;
        this.refresh();
@@ -247,7 +345,9 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     resetFilter(): void {
       this.user_id = "";
-      this.orderDate="";
+      this.date_model.period_type = "10";
+        this.date_model.start_date = format(new Date(), "yyyy-MM-dd");
+        this.date_model.end_date = format(new Date(), "yyyy-MM-dd");
         this.changeFilter();
      }
 
@@ -316,13 +416,13 @@ class Order extends mixins(ServerTable, CommonApis) {
 
         /*Single Master : Start */
         CommonModule.getAll({
-            apiName: "users",
+            apiName: "customers",
             pagination: { isLight: true },
         }).then(
             (response: AxiosResponse<ResponseResult<unknown>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
-                UserModule.SET_USER_LIST(
-                    <IUserLightResponse[]>response.data.data
+                CustomerModule.SET_CUSTOMER_LIST(
+                    <ICustomerModel[]>response.data.data
                 );
             },
             (error) => {

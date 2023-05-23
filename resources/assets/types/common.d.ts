@@ -79,7 +79,17 @@ export interface IBatchReqUrlsWithNoAuth {
     noAuth: boolean;
     urls: IBatchReqUrls[];
 }
+export interface IDatePeriodFilter {
+    user_id: [...string[]];
+    module: [...string[]];
+    period_type: string;
+    start_date: string | Date;
+    end_date: string | Date;
+    is_all_date: string;
+    is_all_module: string;
+    is_all_user: string;
 
+}
 export interface IPagination {
     query?: string;
     page?: number;
