@@ -95,7 +95,7 @@
                         >
                             <v-select
                                 v-model="model.category_id"
-                                label="Category*"
+                                label="Sub Category"
                                 name="category_id"
                                 :items="subCategoryList"
                                 @change="setDescription()"
