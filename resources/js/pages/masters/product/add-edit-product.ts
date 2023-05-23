@@ -288,32 +288,60 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
     }
     setDescription(): void {
         this.model.description = "";
-        debugger;
+
         if (this.model.parent_id.length > 0) {
-            let tempArr = this.subCategoryList;
-            let tempCategoryId = this.model.category_id;
-            if (this.model.category_id.length == 0) {
-                tempArr = this.parentCategoryList;
-                tempCategoryId = this.model.parent_id;
-            }
-
-            tempArr.forEach((element) => {
-                if (tempCategoryId.includes(element.id)) {
-                    var parser = new DOMParser();
-                    let doc =
-                        `<b>${element.name}</b> :` +
-                        parser
-                            .parseFromString(element.description, "text/html")
-                            .body.innerHTML.toString();
-                    let doc1 = parser.parseFromString(
-                        this.model.description,
-                        "text/html"
+            if (this.model.category_id.length > 0) {
+                this.model.description = "";
+                this.model.parent_id.forEach((element) => {
+                    let filteredTempCatList = this.subCategoryList.filter(
+                        (subCatElement) => subCatElement.parent_id == element
                     );
-
-                    this.model.description = `<p>${doc1.body.innerHTML.toString()} ${doc}</p>`;
-                }
-            });
+                    if (filteredTempCatList.length > 0) {
+                        this.setDynamicDescription(
+                            filteredTempCatList,
+                            this.model.category_id
+                        );
+                    } else {
+                        let filteredTempParentCatList =
+                            this.parentCategoryList.filter(
+                                (parCatElement) => parCatElement.id == element
+                            );
+                        this.setDynamicDescription(
+                            filteredTempParentCatList,
+                            this.model.parent_id
+                        );
+                    }
+                });
+            } else {
+                this.model.description = "";
+                this.setDynamicDescription(
+                    this.parentCategoryList,
+                    this.model.parent_id
+                );
+            }
         }
+    }
+
+    setDynamicDescription(
+        tempArr: ICategoryFullResponse[],
+        tempCategoryId: string[]
+    ): void {
+        tempArr.forEach((element) => {
+            if (tempCategoryId.includes(element.id)) {
+                var parser = new DOMParser();
+                let doc =
+                    `<b>${element.name}</b> :` +
+                    parser
+                        .parseFromString(element.description, "text/html")
+                        .body.innerHTML.toString();
+                let doc1 = parser.parseFromString(
+                    this.model.description,
+                    "text/html"
+                );
+
+                this.model.description = `<p>${doc1.body.innerHTML.toString()} ${doc}</p>`;
+            }
+        });
     }
 
     setStock(): void {
