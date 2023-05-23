@@ -260,7 +260,7 @@
                                 label="Feature Image*"
                                 accept="image/jpg, image/jpeg, image/png"
                                 :persistent-hint="true"
-                                hint="Extension: jpg, jpeg, png | Size: Maximum 1MB"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
                                 counter="1"
                                 :error-messages="
                                     getErrorValue(

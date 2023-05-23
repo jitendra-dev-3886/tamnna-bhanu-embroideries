@@ -47,7 +47,7 @@ class ProductUpdateRequest extends FormRequest
             'product_galleries'=>'nullable|array|max:5',
             'product_galleries.*'=>'required|image|mimes:jpeg,png,jpg|max:5120',
 
-            'parent_id' => 'required|exists:categories,id,deleted_at,NULL'
+            'parent_id' => 'exists:categories,id,deleted_at,NULL'
 
         ];
 

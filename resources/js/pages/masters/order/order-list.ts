@@ -106,6 +106,8 @@ class Order extends mixins(ServerTable, CommonApis) {
     user_id="";
     selectedUser="";
     filterMenu= false;
+    orderDate="";
+    datemenu=false;
     filterModel: IFilterModel = {};
     customers=[];
 
@@ -230,6 +232,10 @@ class Order extends mixins(ServerTable, CommonApis) {
        if (this.user_id != '') {
          filter.user_id = [this.user_id];
        }
+       if(this.orderDate!=''){
+        filter.orderDate=[this.orderDate];
+
+       }
 
        this.filterModel = filter;
        this.refresh();
@@ -241,6 +247,7 @@ class Order extends mixins(ServerTable, CommonApis) {
 
     resetFilter(): void {
       this.user_id = "";
+      this.orderDate="";
         this.changeFilter();
      }
 

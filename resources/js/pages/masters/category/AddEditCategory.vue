@@ -71,7 +71,7 @@
                                 name="featured_image"
                                 accept="image/jpg, image/jpeg, image/png"
                                 :persistent-hint="true"
-                                hint="Extension: jpg, jpeg, png | Size: Maximum 1MB"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
                                 :error-messages="
                                     getErrorValue(
                                         'featured_image',
