@@ -422,7 +422,9 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                             : [];
                     tempCategory.forEach((element, index) => {
                         if (element.sub_categories.length > 0) {
-                            this.subCategoryList.push(element.sub_categories);
+                            element.sub_categories.forEach((subCat) => {
+                                this.subCategoryList.push(subCat);
+                            });
                         }
                     });
 
