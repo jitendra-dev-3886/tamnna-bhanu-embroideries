@@ -113,18 +113,18 @@ const routes: RouteConfig[] = [
                     pageTitle: "Role Management",
                 },
             },
-            // {
-            //     path: "/permission",
-            //     name: "permission",
-            //     component: () =>
-            //         import("../pages/masters/permission/Permission.vue"),
-            //     meta: {
-            //         requiresAuth: true,
-            //         permission: "permissions",
-            //         title: `Permission${siteName}`,
-            //         pageTitle: "Permission Management",
-            //     },
-            // },
+            {
+                path: "/permission",
+                name: "permission",
+                component: () =>
+                    import("../pages/masters/permission/Permission.vue"),
+                meta: {
+                    requiresAuth: true,
+                    permission: "permissions",
+                    title: `Permission${siteName}`,
+                    pageTitle: "Permission Management",
+                },
+            },
             {
                 path: "masters",
                 name: "masters",

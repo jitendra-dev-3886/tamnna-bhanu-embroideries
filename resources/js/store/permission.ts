@@ -4,7 +4,7 @@ import {
     Module,
     Action,
     Mutation,
-    getModule
+    getModule,
 } from "vuex-module-decorators";
 import HTTP from "../common_services/api-services";
 import { isExistInLocalStorage } from "@/filters/common";
@@ -23,7 +23,7 @@ export interface IPermission {
     store,
     name: "permission",
     namespaced: true,
-    preserveState: isExistInLocalStorage("permission")
+    preserveState: isExistInLocalStorage("permission"),
 })
 class Permission extends VuexModule implements IPermission {
     public permissions: IPermissionResponse[] = [];
@@ -57,7 +57,7 @@ class Permission extends VuexModule implements IPermission {
     @Mutation
     UPDATE_PERMISSIONS(payload: IPermissionResponse) {
         const permissionList = JSON.parse(JSON.stringify(this.userPermissions));
-        const index = permissionList.findIndex(x => x.id == payload[0].id);
+        const index = permissionList.findIndex((x) => x.id == payload[0].id);
         permissionList[index] = payload[0];
         if (index != -1) {
             this.userPermissions = permissionList;
@@ -76,7 +76,7 @@ class Permission extends VuexModule implements IPermission {
                 .then((response: AxiosResponse<ResponseResult<boolean>>) => {
                     resolve(response);
                 })
-                .catch(e => {
+                .catch((e) => {
                     reject(e);
                 });
         });
@@ -87,11 +87,15 @@ class Permission extends VuexModule implements IPermission {
      * @param param
      */
     @Action
-    getById(
-        param: string | number
-    ): Promise<AxiosResponse<ResponseResult<IPermissionResponse[]>>> {
+    getById({
+        roleId,
+        isUpdateUserPermission,
+    }: {
+        roleId: string;
+        isUpdateUserPermission: boolean;
+    }): Promise<AxiosResponse<ResponseResult<IPermissionResponse[]>>> {
         return new Promise((resolve, reject) => {
-            HTTP.get(`${this.baseUrl}get-role-by-permissions/${param}`)
+            HTTP.get(`${this.baseUrl}get-role-by-permissions/${roleId}`)
                 .then(
                     (
                         response: AxiosResponse<
@@ -101,13 +105,18 @@ class Permission extends VuexModule implements IPermission {
                         this.SET_PERMISSIONS(
                             response.data.data as IPermissionResponse[]
                         );
+                        if (isUpdateUserPermission) {
+                            this.SET_USER_PERMISSIONS(
+                                response.data.data as IPermissionResponse[]
+                            );
+                        }
                         /*this.SET_USER_PERMISSIONS(
                             response.data.data as IPermissionResponse[]
                         );*/
                         resolve(response);
                     }
                 )
-                .catch(e => {
+                .catch((e) => {
                     reject(e);
                 });
         });

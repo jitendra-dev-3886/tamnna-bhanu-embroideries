@@ -137,3 +137,16 @@ export interface IDashboard {
     completed: string;
 
 }
+
+export interface IMenuItem {
+    label: string;
+    url?: string;
+    menuType?: string;
+    redirectable?: boolean;
+    subMenus?: IMenuItem[];
+    directiveName?: string;
+    permissionName?: string;
+    icon?: string;
+    hasPermission?: boolean;
+    matchUrl?: string;
+}

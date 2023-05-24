@@ -4,6 +4,7 @@ import { PermissionModule } from "@/store/permission";
 
 const hasPermission: DirectiveOptions = {
     bind(el, { name, value }) {
+        
         if (name == "canAccess") {
             name = "show";
         }
