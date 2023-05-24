@@ -224,25 +224,29 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                                 formData.append(`${key}[]`, <string>element);
                             });
                         }
-                    } else if (key == "featured_image" && !this.isEditMode) {
-                        formData.append(
-                            "featured_image",
-                            this.model.featured_image
-                        );
-                    } else if (key == "product_galleries" && !this.isEditMode) {
-                        // Multiple Product Gallery array
-                        if (
-                            this.model.product_galleries &&
-                            this.model.product_galleries.length > 0
-                        ) {
-                            Array.from(this.model.product_galleries).forEach(
-                                (product_galleries) => {
+                    } else if (key == "featured_image") {
+                        if (!this.isEditMode) {
+                            formData.append(
+                                "featured_image",
+                                this.model.featured_image
+                            );
+                        }
+                    } else if (key == "product_galleries") {
+                        if (!this.isEditMode) {
+                            // Multiple Product Gallery array
+                            if (
+                                this.model.product_galleries &&
+                                this.model.product_galleries.length > 0
+                            ) {
+                                Array.from(
+                                    this.model.product_galleries
+                                ).forEach((product_galleries) => {
                                     formData.append(
                                         "product_galleries[]",
                                         <Blob>product_galleries
                                     );
-                                }
-                            );
+                                });
+                            }
                         }
                     } else {
                         formData.append(key, this.model[key]);
