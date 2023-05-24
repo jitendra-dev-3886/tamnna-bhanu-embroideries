@@ -30,8 +30,8 @@ class ProductRequest extends FormRequest
             // 'price' => 'required',
             'description' => 'max:65000',
             'item_code' => 'required|max:191',
-            'category_id' => 'required|array',
-            'category_id.*' => 'required|exists:categories,id,deleted_at,NULL',
+            'category_id' => 'nullable|array',
+            'category_id.*' => 'nullable|exists:categories,id,deleted_at,NULL',
             'available_status' => 'required|in:0,1',
             'stock' => 'required|numeric|min:0',
             'featured_image' => 'image|mimes:jpeg,png,jpg|max:5120',
@@ -44,7 +44,7 @@ class ProductRequest extends FormRequest
             'product_galleries.*' => 'image|mimes:jpeg,png,jpg|max:25600',
 
             'parent_id' => 'array',
-            'parent_id.*' => 'nullable|exists:categories,id,deleted_at,NULL',
+            'parent_id.*' => 'required|exists:categories,id,deleted_at,NULL',
 
         ];
     }
