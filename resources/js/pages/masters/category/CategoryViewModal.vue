@@ -19,9 +19,15 @@
                     <tbody>
 
                     <tr>
-
                         <td><h4 class="font-weight-medium font-size-h6-sm" style="color: black;">Name:</h4></td>
                         <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.name  != '' ? model.name  : '-' }}</h4></td>
+                    </tr>
+
+                    <tr>
+
+                        <td><h4 class="font-weight-medium font-size-h6-sm" style="color: black;">Parent Category:</h4></td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal">
+                       </h4></td>
                     </tr>
 
                     <tr>

@@ -59,6 +59,20 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <h4
+                                    class="font-weight-medium font-size-h3-sm"
+                                    style="color: black"
+                                >
+                                    Sub Category:
+                                </h4>
+                            </td>
+
+                            <td>
+
+                            </td>
+                        </tr>
 
                         <tr>
                             <td>
