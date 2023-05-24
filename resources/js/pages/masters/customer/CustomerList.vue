@@ -4,15 +4,14 @@
             aria-label="Tabs"
             @change="refreshData()"
             class="mb-5"
-            v-model="tab">
+            v-model="tab"
+        >
             <v-tab
                 href="#tab1"
                 v-index="$getConst('CUSTOMERS')"
                 aria-label="category tab"
             >
-                <p class="mt-2">
-                    Listing
-                </p>
+                <p class="mt-2">Listing</p>
             </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
@@ -35,12 +34,7 @@
                 >
                     <template v-slot:top>
                         <v-layout>
-                            <v-flex
-                                lg4
-                                md4
-                                sm12
-                                xs12
-                            >
+                            <v-flex lg4 md4 sm12 xs12>
                                 <v-text-field
                                     @input="onSearch"
                                     class="mx-4 mt-4"
@@ -50,12 +44,7 @@
                                     aria-label="Search Customer"
                                 />
                             </v-flex>
-                            <v-flex
-                                lg8
-                                md8
-                                sm12
-                                xs12
-                            >
+                            <v-flex lg8 md8 sm12 xs12>
                                 <div class="float-right mt-4">
                                     <export-btn
                                         :export-props="exportProps"
@@ -70,11 +59,13 @@
                                         @close-menu="closeMenuColumn"
                                         @update-headers="setSelectedHeaders"
                                     ></column-visibility-btn>
-                                    <template v-if="selected.length>1">
+                                    <template v-if="selected.length > 1">
                                         <multi-delete
                                             :delete-props="deleteProps"
                                             @click.native="multipleDelete()"
-                                            @multiDelete="getData(), selected = []"
+                                            @multiDelete="
+                                                getData(), (selected = [])
+                                            "
                                             ref="multipleDeleteBtn"
                                             v-deleteAll="$getConst('CUSTOMERS')"
                                         />
@@ -84,20 +75,38 @@
                         </v-layout>
                     </template>
 
+                    <template v-slot:[`item.user_status`]="{ item }">
+                        <span v-if="item.user_status_text">{{
+                            item.user_status_text
+                        }}</span>
+                    </template>
+
                     <template v-slot:[`item.actions`]="{ item }">
-                       <template>
-                                <v-btn
-                                    :color="item.user_status_text=='Active'?'error':'success'"
-                                    v-model="item.user_status"
-                                    @click="changeStatus(item.id,item.user_status)"
-                                    elevated
-                                    class="ma-2" style="width:100px;"
+                        <template>
+                            <v-btn
+                                :color="
+                                    item.user_status_text == 'Active'
+                                        ? 'error'
+                                        : 'success'
+                                "
+                                v-model="item.user_status"
+                                @click="changeStatus(item.id, item.user_status)"
+                                elevated
+                                class="ma-2"
+                                style="width: 100px"
+                            >
+                                <span
+                                    class="text-truncate"
+                                    style="width: 100px"
                                 >
-                                 <span  class="text-truncate" style="width:100px;">   {{item.user_status_text=='Inactive'?'Activate':'Deactivate'}} </span>
-                                </v-btn>
+                                    {{
+                                        item.user_status_text == "Inactive"
+                                            ? "Activate"
+                                            : "Deactivate"
+                                    }}
+                                </span>
+                            </v-btn>
                         </template>
-
-
                     </template>
                 </v-data-table>
             </v-tab-item>
@@ -113,18 +122,15 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-
         </v-tabs-items>
         <delete-modal
             :confirmation="confirmation"
             :param-props="paramProps"
-            @delete-success="getData(), selected=[]"
+            @delete-success="getData(), (selected = [])"
             v-model="modalOpen"
             aria-label="Delete category confirmation modal"
         />
         <!--<category-view-modal v-model="categoryViewModal" aria-label="category view modal" />-->
-
-
     </div>
 </template>
 

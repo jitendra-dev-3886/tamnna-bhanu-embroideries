@@ -215,6 +215,11 @@
                             }}
                         </div>
                     </template>
+                    <template v-slot:[`item.status`]="{ item }">
+                        <span v-if="item.status_text">{{
+                            item.status_text
+                        }}</span>
+                    </template>
 
                     <template v-slot:[`item.available_status`]="{ item }">
                         <span v-if="item.available_status_text">{{
@@ -329,7 +334,7 @@
                                 item.status == "1" ? "Deactivate" : "Activate"
                             }}</span>
                         </v-tooltip>
-                      <!--  <v-tooltip bottom>
+                        <!--  <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                     @click="deleteItem(item.id)"
