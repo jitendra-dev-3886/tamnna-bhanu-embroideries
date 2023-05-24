@@ -54,24 +54,20 @@ class Permission extends mixins(CommonServices) {
         );
     }
 
-    getPermissions(): void {
-        PermissionModule.getById(this.role_id)
-            .then()
-            .catch(error => {
-                this.showDialog(this.getAPIErrorMessage(error.response));
-            });
+    getPermissions(isUpdateUserPermission = false): void {
+        this.$nextTick(() => {
+            PermissionModule.getById({
+                roleId: this.role_id,
+                isUpdateUserPermission: isUpdateUserPermission,
+            })
+                .then()
+                .catch((error) => {
+                    this.showDialog(this.getAPIErrorMessage(error.response));
+                });
+        });
     }
 
-    /**
-     * reset permission if permission is set or revoked from current role
-     */
-    resetPermission(): void {
-        PermissionModule.getById(this.role_id)
-            .then()
-            .catch(error => {
-                this.showDialog(this.getAPIErrorMessage(error.response));
-            });
-    }
+   
 
     editPermission(permission: IPermissionObject): void {
         const sendParams: IModel = {
@@ -84,7 +80,7 @@ class Permission extends mixins(CommonServices) {
             (response: AxiosResponse<ResponseResult<boolean>>) => {
                 HTMLClassModule.removeBodyClassName("page-loading");
                 if (this.currentUser.role_id == this.role_id) {
-                    this.resetPermission();
+                    this.getPermissions(true);
                 }
                 SnackbarModule.setMsg(response.data.message as string);
             },
