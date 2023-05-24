@@ -43,7 +43,7 @@ export interface IProductLightResponse {
 export interface IProductFullResponse extends IProductLightResponse {
     category_id: string[];
     parent_id: string[];
-    category: ICategoryFullResponse;
+    category: ICategoryFullResponse[];
     // parent_id: ICategoryFullResponse;
     product_galleries: IProductGalleries[];
     available_status: string;
