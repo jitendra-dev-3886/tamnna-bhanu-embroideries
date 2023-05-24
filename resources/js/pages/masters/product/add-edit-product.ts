@@ -417,12 +417,14 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                     };
 
                     ProductModule.SET_MODEL(productModel);
+                    
                 }
             },
             (error) => {
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
+        this.setSubCategoryList();
     }
 }
 
