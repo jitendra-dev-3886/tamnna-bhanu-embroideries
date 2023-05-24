@@ -57,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @var array
      */
-    public $sortable = ['users.created_at', 'users.id', 'contact_number', 'name', 'email'];
+    public $sortable = ['users.created_at', 'users.id', 'contact_number', 'name', 'email', 'user_status'];
 
     /**
      * @var array
