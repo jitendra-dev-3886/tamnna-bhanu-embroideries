@@ -59,13 +59,13 @@ class Product extends mixins(ServerTable, CommonApis) {
         { text: "Name", value: "name" },
         { text: "Price", value: "price" },
         // { text: "Description", value: "description", sortable: false },
-        { text: "Item Code", value: "item_code" },
+        { text: "Item Code", value: "item_code", sortable: false  },
 
-        { text: "Category", value: "category.name" },
+        { text: "Category", value: "category.name", sortable: false  },
       //  { text: "Available Status", value: "available_status_text" },
-        { text: "Stock", value: "stock" },
+        { text: "Stock", value: "stock", sortable: false  },
         { text: "Feature Image", value: "featured_image", sortable: false },
-        { text: "Status", value: "status_text" },
+        { text: "Status", value: "status" },
         { text: "Actions", value: "actions", sortable: false },
     ];
 

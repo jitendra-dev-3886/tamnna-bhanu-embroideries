@@ -17,7 +17,7 @@ use App\Exports\CategoryExport;
 use App\Imports\CategoryImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
-
+use App\Http\Controllers\API\JsonResponse;
 
 
 /*
@@ -76,7 +76,40 @@ class CategoryAPIController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        return Category::createCategory($request);
+        // return Category::createCategory($request);
+        $request['parent_id'] = (int)$request->parent_id;
+
+        $Category = new Category();
+        $Category->name       = $request->name;
+        $Category->description = $request->description;
+        $Category->parent_id = $request->parent_id;
+        $Category->category_status = 1;
+        $Category->save();
+        // $category = Category::create($request->all());
+
+        if( $Category->id == $request['parent_id'] ) {
+            $Category->update([
+                'parent_id'    => 0,
+            ]);
+        } else {
+            $Category->update([
+                'parent_id'    => $request['parent_id'],
+            ]);
+        }
+
+        if ($request->hasFile('featured_image')) {
+            $realPath = 'category/' . $Category->id;
+            $resizeImages = $Category->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+
+            $Category->update([
+                'category_id'    => $Category->id,
+                'featured_image' => $resizeImages['image']
+                // 'profile_original' => $request->get('original'),
+                // 'profile_thumbnail' => $resizeImages['thumbnail']
+            ]);
+        }
+
+        return \App\Models\User::GetMessage(new CategoryResource($Category), config('constants.messages.create_success'));
     }
 
     /**
@@ -165,11 +198,20 @@ class CategoryAPIController extends Controller
      */
     public function subcategories(SubcategoryRequest $request) {
 
+        if (!empty($request->id)) {
+            $SubCategoryIds = Category::wherein('parent_id', $request->id)->get();
+            // dd($SubCategoryIds);
+            if( !empty( $SubCategoryIds ) ) {
+                return response()->json(
+                    [
+                        // 'message'  => "Sub Categories Founds Me!",
+                        'data' => $SubCategoryIds,
+                    ],
+                    config('constants.validation_codes.ok')
+                );
+            }
+        }
 
-
-        $subCategories = ((int)$request->id != 0) ? Category::find($request->id)->subCategories : [];
-
-        return response()->json(['data' => $subCategories]);
     }
 
     public function parentCategories() {
@@ -196,11 +238,11 @@ class CategoryAPIController extends Controller
         if($request->get('is_light',false)){
             return Cache::rememberForever('category.all', function () use($request){
                 $category = new Category();
-                $query = \App\Models\User::commonFunctionMethod(Category::select($category->light)->where('category_status', config('constants.library.category_status_enum.active')),$request,true);
+                $query = \App\Models\User::commonFunctionMethod(Category::select($category->light)->where('category_status', config('constants.category.category_status_enum.active'))->where( 'parent_id', "0" ),$request,true);
                 return new CategoryCollection(CategoryResource::collection($query),CategoryResource::class);
             });
         } else {
-            $query = \App\Models\User::commonFunctionMethod(Category::where('category_status', 1),$request, true);
+            $query = \App\Models\User::commonFunctionMethod(Category::where( 'category_status', config('constants.category.category_status_enum.active') )->where( 'parent_id', "0" ) ,$request, true);
         }
 
         return new CategoryCollection(CategoryResource::collection($query),CategoryResource::class);
