@@ -14,7 +14,7 @@ class CategoryProduct extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'category_id'
+        'product_id', 'category_id', 'parent_id'
     ];
 
     /**
@@ -34,5 +34,6 @@ class CategoryProduct extends Model
     protected $casts = [
         'product_id' => 'string',
         'category_id' => 'string',
+        'parent_id' => 'string',
     ];
 }
