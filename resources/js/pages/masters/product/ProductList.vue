@@ -190,7 +190,7 @@
                         </v-layout>
                     </template>
 
-                    <template v-slot:[`item.description`]="{ item }">
+                    <!--<template v-slot:[`item.description`]="{ item }">
                         <perfect-scrollbar
                             class="offcanvas-content scroll p-2"
                             style="max-height: 10vh; max-width: 1400px"
@@ -201,7 +201,7 @@
                             ></span>
                             <span v-else>-</span>
                         </perfect-scrollbar>
-                    </template>
+                    </template>-->
 
                     <template v-slot:[`item.category.name`]="{ item }">
                         <div
@@ -221,11 +221,12 @@
                         }}</span>
                     </template>
 
-                    <template v-slot:[`item.available_status`]="{ item }">
+                   <!-- <template v-slot:[`item.available_status`]="{ item }">
                         <span v-if="item.available_status_text">{{
                             item.available_status_text
                         }}</span>
-                    </template>
+                    </template>-->
+
                     <template v-slot:[`item.featured_image`]="{ item }">
                         <a :href="item.featured_image" target="_blank">
                             <v-img

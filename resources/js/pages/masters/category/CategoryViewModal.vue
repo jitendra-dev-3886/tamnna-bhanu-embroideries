@@ -22,18 +22,25 @@
                         <td><h4 class="font-weight-medium font-size-h6-sm" style="color: black;">Name:</h4></td>
                         <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal"> {{ model.name  != '' ? model.name  : '-' }}</h4></td>
                     </tr>
-
                     <tr>
-
                         <td><h4 class="font-weight-medium font-size-h6-sm" style="color: black;">Parent Category:</h4></td>
-                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal">
-                       </h4></td>
+                        <td>
+                        <span
+                            v-for="(cat, index) in parentCategoryList"
+                            :key="index"
+                        >
+                            <span v-if="model.parent_id == cat.id">
+                                <h4 class="font-weight-regular font-size-h6-sm" style="color:teal">
+                                    {{cat.name!= '' ? cat.name  : '-'}}
+                                </h4>
+                            </span>
+                        </span>
+                    </td>
                     </tr>
-
                     <tr>
                         <td><h4 class="font-weight-medium font-size-h6-sm" style="color: black;">Description:</h4></td>
                         <td><h4 class="font-weight-regular font-size-h6-sm"  v-if="model.description"><span style="color:teal" v-html="model.description"></span></h4></td>
-                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal" v-if="!model.description"></h4>-</td>
+                        <td><h4 class="font-weight-regular font-size-h6-sm" style="color:teal" v-if="!model.description"></h4></td>
                     </tr>
 
                     <tr>

@@ -71,14 +71,6 @@ import { CategoryModule } from '../../../store/category';
                                     {{ model.order_products[index].product.categories[i].name }}
                                 </template>
                             </h6>
-                            <h6 style="color: teal;">
-                                <span style="color: black;padding-right:10px;">Sub Category:</span>
-                               <!-- <template v-for="(categories,i) in model.order_products[index].product.categories">
-                                    {{ model.order_products[index].product.categories[i].name }}
-                                </template>-->
-                            </h6>
-
-
                             <h6 style="color: teal;"><span style="color: black;padding-right: 72px;">Quantity:</span>{{ model.quantity}}</h6>
 
                             <h6 style="color: teal;"><span style="color: black;padding-right: 105px;">Price:</span>{{ model.order_products[index].price }}</h6>
@@ -92,7 +84,6 @@ import { CategoryModule } from '../../../store/category';
                     <table>
 
                         <tr>
-
                             <td>
                                 <h6 style="color:black; margin-left:10px;">GST:</h6>
                             </td>
