@@ -18,3 +18,23 @@ export function getSortType(isDescending: string | boolean | undefined) {
         return "";
     }
 }
+
+
+// export const directiveList = [
+//     "store",
+//     "index",
+//     "canAccess",
+//     "update",
+//     "destroy",
+//     "export",
+//     "importBulk",
+//     "deleteImage",
+//     "getPermissionsByRole",
+//     "setUnsetPermissionToRole",
+//     "changePassword",
+//     "deleteAll",
+//     "sendAll",
+//     "deleteAttachment",
+//     "getCompanyPlanDetails",
+//     "cancelSubscription",
+// ];
