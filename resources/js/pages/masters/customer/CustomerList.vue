@@ -117,7 +117,7 @@
                             :import-props="importProps"
                             key="importCsv"
                             ref="importdata"
-                            aria-label="Import category"
+                            aria-label="Import costumer"
                         />
                     </v-card-text>
                 </v-card>
@@ -128,9 +128,8 @@
             :param-props="paramProps"
             @delete-success="getData(), (selected = [])"
             v-model="modalOpen"
-            aria-label="Delete category confirmation modal"
+            aria-label="Delete customer confirmation modal"
         />
-        <!--<category-view-modal v-model="categoryViewModal" aria-label="category view modal" />-->
     </div>
 </template>
 
