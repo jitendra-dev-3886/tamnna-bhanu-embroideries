@@ -238,9 +238,15 @@ class Category extends Model
     public function scopeDeleteCategory($query, $request, $category)
     {
         $inUse = Category::commonCodeForDeleteModelRestrictions([CategoryProduct::class], 'category_id', $category->id);
-        if (!empty($inUse)) {
-            $Category = Category::where('id', $category->id)->first();
+        $inParentUse = Category::commonCodeForDeleteModelRestrictions([Category::class], 'parent_id', $category->id);
+
+        $Category = Category::where('id', $category->id)->first();
+        $CategoryParent = Category::where('parent_id', $category->id)->first();
+
+        if ( !empty($inUse) ) {
             return User::GetError($Category->name . " can't be deleted as the [" . implode(",", $inUse) . "] are associated with it. Please remove the category mapping with [" . implode(",", $inUse) . "] in order to delete the category.");
+        } elseif( !empty( $inParentUse ) ) {
+            return User::GetError($Category->name . " can't be deleted as the [" . $CategoryParent->name . "] are associated with it. Please remove the category mapping with [" . $CategoryParent->name . "] in order to delete the child categories.");
         }
 
         $category->delete();
@@ -259,18 +265,38 @@ class Category extends Model
     {
         if (!empty($request->id)) {
             $categoryname = "";
+            $categoryNameParent = "";
             $inUses = [];
+            $inParentUses = [];
             foreach ($request->id as $categoryId) {
                 $inUse = Category::commonCodeForDeleteModelRestrictions([CategoryProduct::class], 'category_id', $categoryId);
+                $inParentUse = Category::commonCodeForDeleteModelRestrictions([Category::class], 'parent_id', $categoryId);
+
+                // dd($inUse);
+
                 $Category = Category::where('id', $categoryId)->first();
+                $CategoryParent = Category::where('parent_id', $categoryId)->first();
+
                 if (!empty($inUse))
                     $categoryname .= $Category->name . ", ";
+
+                if (!empty($inParentUse))
+                    $categoryNameParent .= $CategoryParent->name . ", ";
+
                 $inUses[] = implode(",", $inUse);
+                $inParentUses[] = implode(",", $inParentUse);
             }
+
             $categorytrime = trim($categoryname, ", ");
+            $categorytrimeParent = trim($categoryNameParent, ", ");
+
             $arr = array_diff(array_unique($inUses), array(""));
+            // $arrParent = array_diff(array_unique($inParentUses), array(""));
+
             if ($categorytrime != "") {
                 return User::GetError($categorytrime . " can't be deleted as the [" . implode(",", $arr) . "] are associated with it. Please remove the category mapping with [" . implode(",", $arr) . "] in order to delete the categories.");
+            } elseif ($categorytrimeParent != "") {
+                return User::GetError($categorytrimeParent . " can't be deleted as the child categories are associated with it. Please remove the in order to delete the child categories.");
             } else {
                 Category::whereIn('id', $request->id)->delete();
                 return new DataTrueResource(true, config('constants.messages.delete_success'));
