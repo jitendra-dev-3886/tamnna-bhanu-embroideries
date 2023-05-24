@@ -62,13 +62,7 @@ function getEmptyState() {
             featured_image: "",
             product_galleries: [],
             category_detail: [],
-            category: {
-                id: "",
-                name: "",
-                description: "",
-                featured_image: "",
-                parent_id: "",
-            },
+            category: [],
             available_color:"",
             set_unit:"",
             unit_price:""

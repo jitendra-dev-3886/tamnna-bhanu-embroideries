@@ -47,16 +47,43 @@
                             </td>
 
                             <td>
-                                <div  v-for="(category, index) in model.category"
-                                :key="index">
-                                    <h4 style="color: teal">
-                                        {{
-                                            model.category[index].name
-                                                ? model.category[index].name
-                                                : "-"
-                                        }}
-                                    </h4>
-                                </div>
+                                <h4 style="color: teal">
+                                    <div
+                                        v-for="(
+                                            parentCategory, index
+                                        ) in model.category"
+                                        :key="index"
+                                    >
+                                        <div
+                                            v-if=" parentCategory.sub_categories && 
+                                                parentCategory.sub_categories
+                                                    .length > 0
+                                            "
+                                        >
+                                            <div
+                                                v-for="(
+                                                    subCategory, index
+                                                ) in parentCategory.sub_categories"
+                                                :key="index"
+                                            >
+                                                <span
+                                                    v-if="
+                                                        model.category_id.filter(
+                                                            (id) =>
+                                                                id ==
+                                                                subCategory.id
+                                                        )
+                                                    "
+                                                >
+                                                    {{ subCategory.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div v-else>
+                                            {{ parentCategory.name }}
+                                        </div>
+                                    </div>
+                                </h4>
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +100,11 @@
                                     class="font-weight-regular font-size-h3-sm"
                                     style="color: teal"
                                 >
-                                    {{ model.available_color != "" ? model.available_color : "-" }}
+                                    {{
+                                        model.available_color != ""
+                                            ? model.available_color
+                                            : "-"
+                                    }}
                                 </h5>
                             </td>
                         </tr>
@@ -154,7 +185,11 @@
                                     class="font-weight-regular font-size-h6-sm"
                                     style="color: teal"
                                 >
-                                    {{ model.set_unit != "" ? model.set_unit : "-" }}
+                                    {{
+                                        model.set_unit != ""
+                                            ? model.set_unit
+                                            : "-"
+                                    }}
                                 </h4>
                             </td>
                         </tr>
@@ -172,7 +207,11 @@
                                     class="font-weight-regular font-size-h6-sm"
                                     style="color: teal"
                                 >
-                                    {{ model.unit_price != "" ? model.unit_price : "-" }}
+                                    {{
+                                        model.unit_price != ""
+                                            ? model.unit_price
+                                            : "-"
+                                    }}
                                 </h4>
                             </td>
                         </tr>
@@ -209,7 +248,12 @@
                                     class="font-weight-regular font-size-h3-sm"
                                     style="color: teal"
                                 >
-                                {{ model.status!= " " && model.status=="1"  ? "Active" : "Inactive" }}
+                                    {{
+                                        model.status != " " &&
+                                        model.status == "1"
+                                            ? "Active"
+                                            : "Inactive"
+                                    }}
                                 </h5>
                             </td>
                         </tr>
@@ -253,8 +297,6 @@
                                 </a>
                             </td>
                         </tr>
-
-
                     </tbody>
                 </table>
             </v-card-text>

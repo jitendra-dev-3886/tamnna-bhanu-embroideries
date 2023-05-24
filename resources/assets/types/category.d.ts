@@ -24,6 +24,7 @@ export interface ICategoryLightResponse {
 }
 
 export interface ICategoryFullResponse extends ICategoryLightResponse {
+    sub_categories?: ICategoryModel[]
     parent_id: string;
 }
 

@@ -416,6 +416,18 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                             castedProductResponse.data?.data?.unit_price,
                     };
 
+                    let tempCategory: any =
+                        castedProductResponse.data?.data?.category.length > 0
+                            ? castedProductResponse.data?.data?.category
+                            : [];
+                    tempCategory.forEach((element, index) => {
+                        if (element.sub_categories.length > 0) {
+                            element.sub_categories.forEach((subCat) => {
+                                this.subCategoryList.push(subCat);
+                            });
+                        }
+                    });
+
                     ProductModule.SET_MODEL(productModel);
                 }
             },
@@ -423,6 +435,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 this.showDialog(this.getAPIErrorMessage(error.response));
             }
         );
+        this.setSubCategoryList();
     }
 }
 
