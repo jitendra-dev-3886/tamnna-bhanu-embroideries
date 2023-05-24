@@ -227,10 +227,11 @@
                     </template>-->
 
                     <!--Display product name fetching from order Products array from API-->
+
                         <template v-slot:[`item.order_products.product.name`]="{ item }">
-                            <span v-if="item.order_products">
+                            <span v-if="item.order_products.length>0">
                                 <template v-for="(order_product, index) in item.order_products">
-                                <div>{{ order_product.product.name }}</div>
+                                <div v-if="item.order_products[index].product.name!==null">{{ order_product.product.name }}</div>
                                 </template>
                             </span>
                         </template>

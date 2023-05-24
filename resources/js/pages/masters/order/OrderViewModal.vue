@@ -50,20 +50,21 @@ import { CategoryModule } from '../../../store/category';
                 <template v-for="(order_products,index) in model.order_products">
                     <v-layout class="fs mt-7 mb-8" :key="index">
                         <table>
+                            <tr v-if="order_products.product!==null">
                         <td>
                             <img
                                 :src="model.order_products[index].featured_image"
                                 class="img-responsive"
                                 width="80px"
                                 height="80px"
-                               style="margin-top: 20px;"
+
                             />
                         </td>
                         <td>
                             <v-tab></v-tab>
                         </td>
                         <td>
-                            <h6 style="color: teal; margin-top: 20px;"><span style="color: black;padding-right:25px;">Product Name:</span>{{model.order_products[index].product.name}}</h6>
+                            <h6 style="color: teal;"><span style="color: black;padding-right:25px;">Product Name:</span>{{model.order_products[index].product.name}}</h6>
                             <h6 style="color: teal;">
                                 <span style="color: black;padding-right:10px;">Category Name:</span>
                                 <template v-for="(categories,i) in model.order_products[index].product.categories">
@@ -71,8 +72,10 @@ import { CategoryModule } from '../../../store/category';
                                 </template>
                             </h6>
                             <h6 style="color: teal;"><span style="color: black;padding-right: 72px;">Quantity:</span>{{ model.quantity}}</h6>
-                            <h6 style="color: teal;"><span style="color: black;padding-right: 100px;">Price:</span>{{ model.order_products[index].price }}</h6>
+
+                            <h6 style="color: teal;"><span style="color: black;padding-right: 105px;">Price:</span>{{ model.order_products[index].price }}</h6>
                         </td>
+                        </tr>
 
                     </table>
                     </v-layout>
@@ -81,7 +84,6 @@ import { CategoryModule } from '../../../store/category';
                     <table>
 
                         <tr>
-
                             <td>
                                 <h6 style="color:black; margin-left:10px;">GST:</h6>
                             </td>

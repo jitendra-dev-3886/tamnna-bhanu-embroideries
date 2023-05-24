@@ -174,7 +174,7 @@
                                     class="mr-2"
                                     small
                                     v-on="on"
-                                    v-update="$getConst('HOMEBANNERS')"
+                                    v-updateCategoryImage="$getConst('CATEGORIES')"
                                     aria-label="Edit homebanner"
                                 >
                                     {{ icons.mdiImageEditOutline }}
