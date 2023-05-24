@@ -22,7 +22,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image', 'available_color', 'set_unit', 'unit_price', 'sub_category_id'];
+    protected $fillable = ['id', 'name', 'price', 'description', 'item_code', 'available_status', 'stock', 'featured_image', 'available_color', 'set_unit', 'unit_price'];
 
     /**
      * Activity log array
@@ -121,7 +121,6 @@ class Product extends Model
         'name' => 'string',
         'price' => 'string',
         'description' => 'string',
-        'sub_category_id' => 'string',
         'item_code' => 'string',
         'available_status' => 'string',
         'status' => 'string',
@@ -158,59 +157,13 @@ class Product extends Model
 
         return $this->belongsToMany(Category::class, "category_products", "product_id", "category_id");
     }
-
-    /**
-     * Add Product
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function scopeCreateProduct($query, $request)
+    public function subcategories()
     {
 
-        $price = $request->unit_price * $request->set_unit;
-
-        $parent_id = $request->parent_id;
-
-
-        $data = $request->all();
-
-        $data['price'] = $price;
-
-        $data['sub_category_id'] = $parent_id;
-
-        $product = Product::create($data);
-
-        if ($request['category_id']) {
-            //this executes the insert-query
-            $product->categories()->attach($request['category_id']);
-        }
-
-
-        if ($request->hasFile('featured_image')) {
-            $realPath = 'product/' . $product->id;
-            $resizeImages = $product->resizeImages($request->file('featured_image'), $realPath, 100, 100);
-
-            $product->update([
-                'product_id' => $product->id,
-                'featured_image' => $resizeImages['image']
-            ]);
-        }
-
-        if ($request->hasFile('product_galleries')) {
-            $realPath = 'product/' . $product->id . '/product_galleries';
-            foreach ($request->file('product_galleries') as $vImgs) {
-                $resizeImages = $product->resizeImages($vImgs, $realPath, 100, 100);
-                \App\Models\ProductGallery::create([
-                    'product_id' => $product->id,
-                    'gallery' => $resizeImages['image'],
-                    'gallery_original' => $resizeImages['original'],
-                    'gallery_thumbnail' => $resizeImages['thumbnail']
-                ]);
-            }
-        }
-
-        return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.create_success'));
+        return $this->belongsToMany(Category::class, "category_products", "product_id",  "parent_id")->with(['subCategories']);
     }
+
+
 
 
     /**
@@ -221,6 +174,8 @@ class Product extends Model
      */
     public function scopeUpdateProduct($query, $request, $product)
     {
+
+
         $price = $request->unit_price * $request->set_unit;
 
         $parent_id = $request->parent_id;
