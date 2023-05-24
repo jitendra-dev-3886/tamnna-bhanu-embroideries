@@ -43,7 +43,8 @@ class ProductRequest extends FormRequest
             'product_galleries' => 'array|max:5',
             'product_galleries.*' => 'image|mimes:jpeg,png,jpg|max:25600',
 
-            'parent_id' => 'exists:categories,id,deleted_at,NULL',
+            'parent_id' => 'array',
+            'parent_id.*' => 'nullable|exists:categories,id,deleted_at,NULL',
 
         ];
     }

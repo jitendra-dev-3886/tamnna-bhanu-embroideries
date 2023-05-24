@@ -79,7 +79,54 @@ class ProductAPIController extends Controller
     public function store(ProductRequest $request)
     {
 
-        return Product::createProduct($request);
+        $price = $request->unit_price * $request->set_unit;
+
+        // $parent_id = $request->parent_id;
+
+
+        $data = $request->all();
+
+
+        $data['price'] = $price;
+
+
+        $product = Product::create($data);
+        // dd($product);
+
+        if ($request['category_id']) {
+            //this executes the insert-query
+            $product->categories()->attach($request['category_id']);
+        }
+        if ($request['parent_id']) {
+            //this executes the insert-query
+            $product->subcategories()->attach($request['parent_id']);
+        }
+
+
+        if ($request->hasFile('featured_image')) {
+            $realPath = 'product/' . $product->id;
+            $resizeImages = $product->resizeImages($request->file('featured_image'), $realPath, 100, 100);
+
+            $product->update([
+                'product_id' => $product->id,
+                'featured_image' => $resizeImages['image']
+            ]);
+        }
+
+        if ($request->hasFile('product_galleries')) {
+            $realPath = 'product/' . $product->id . '/product_galleries';
+            foreach ($request->file('product_galleries') as $vImgs) {
+                $resizeImages = $product->resizeImages($vImgs, $realPath, 100, 100);
+                \App\Models\ProductGallery::create([
+                    'product_id' => $product->id,
+                    'gallery' => $resizeImages['image'],
+                    'gallery_original' => $resizeImages['original'],
+                    'gallery_thumbnail' => $resizeImages['thumbnail']
+                ]);
+            }
+        }
+
+        return \App\Models\User::GetMessage(new ProductResource($product), config('constants.messages.create_success'));
     }
 
     /**
