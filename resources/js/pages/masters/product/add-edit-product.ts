@@ -416,8 +416,17 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                             castedProductResponse.data?.data?.unit_price,
                     };
 
+                    let tempCategory: any =
+                        castedProductResponse.data?.data?.category.length > 0
+                            ? castedProductResponse.data?.data?.category
+                            : [];
+                    tempCategory.forEach((element, index) => {
+                        if (element.sub_categories.length > 0) {
+                            this.subCategoryList.push(element.sub_categories);
+                        }
+                    });
+
                     ProductModule.SET_MODEL(productModel);
-                    
                 }
             },
             (error) => {

@@ -205,14 +205,30 @@
 
                     <template v-slot:[`item.category.name`]="{ item }">
                         <div
-                            v-for="(category, index) in item.category"
+                            v-for="(parentCategory, index) in item.category"
                             :key="index"
                         >
-                            {{
-                                item.category[index].name
-                                    ? item.category[index].name
-                                    : "-"
-                            }}
+                            <div
+                                v-if="parentCategory.sub_categories.length > 0"
+                            >
+                                <div
+                                    v-for="(
+                                        subCategory, index
+                                    ) in parentCategory.sub_categories"
+                                    :key="index"
+                                >
+                                    <span
+                                        v-if="
+                                            item.category_id.filter(
+                                                (id) => id == subCategory.id
+                                            )
+                                        "
+                                    >
+                                        {{ subCategory.name }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div v-else>{{ parentCategory.name }}</div>
                         </div>
                     </template>
                     <template v-slot:[`item.status`]="{ item }">
@@ -221,7 +237,7 @@
                         }}</span>
                     </template>
 
-                   <!-- <template v-slot:[`item.available_status`]="{ item }">
+                    <!-- <template v-slot:[`item.available_status`]="{ item }">
                         <span v-if="item.available_status_text">{{
                             item.available_status_text
                         }}</span>
