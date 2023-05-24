@@ -83,6 +83,7 @@ class CategoryAPIController extends Controller
         $Category->name       = $request->name;
         $Category->description = $request->description;
         $Category->parent_id = $request->parent_id;
+        $Category->category_status = 1;
         $Category->save();
         // $category = Category::create($request->all());
 
@@ -237,11 +238,11 @@ class CategoryAPIController extends Controller
         if($request->get('is_light',false)){
             return Cache::rememberForever('category.all', function () use($request){
                 $category = new Category();
-                $query = \App\Models\User::commonFunctionMethod(Category::select($category->light)->where('category_status', config('constants.library.category_status_enum.active')),$request,true);
+                $query = \App\Models\User::commonFunctionMethod(Category::select($category->light)->where('category_status', config('constants.category.category_status_enum.active'))->where( 'parent_id', "0" ),$request,true);
                 return new CategoryCollection(CategoryResource::collection($query),CategoryResource::class);
             });
         } else {
-            $query = \App\Models\User::commonFunctionMethod(Category::where('category_status', 1),$request, true);
+            $query = \App\Models\User::commonFunctionMethod(Category::where( 'category_status', config('constants.category.category_status_enum.active') )->where( 'parent_id', "0" ) ,$request, true);
         }
 
         return new CategoryCollection(CategoryResource::collection($query),CategoryResource::class);
