@@ -28,6 +28,7 @@ import { UserModule } from "./store/user";
 import "./bootstrap";
 import { VueReCaptcha } from "vue-recaptcha-v3";
 import VueMce from "vue-mce";
+//import { directiveList } from "./filters/common";
 
 if (process.env.MIX_MODE == "production") {
     // const bugsnagClient = bugsnag({
@@ -61,6 +62,11 @@ Vue.component("inline-svg", InlineSvg);
 Vue.use(VueMce);
 // Perfect scrollbar
 Vue.use(PerfectScrollbar);
+
+// directiveList.forEach((dirName) => {
+//     Vue.directive(dirName, hasPermission);
+// });
+
 Vue.directive("store", hasPermission); // create
 Vue.directive("index", hasPermission); // display a listing
 Vue.directive("canAccess", hasPermission); //  display a single row
