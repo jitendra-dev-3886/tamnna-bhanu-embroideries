@@ -4,6 +4,8 @@ const PERMISSION_CONSTANTS = {
   USERS: { module: 'users', subModule: '' },
   ROLES: { module: 'roles', subModule: '' },
 
+  HOMEBANNERS: { module: 'homebanners', subModule: '' }, 
+  CUSTOMERS: { module: 'users', subModule: '' }, 
   CATEGORIES: { module: 'categories', subModule: '' }, 
   PRODUCTS: { module: 'products', subModule: '' }, 
   ORDERS: { module: 'orders', subModule: '' }, 

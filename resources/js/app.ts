@@ -28,7 +28,7 @@ import { UserModule } from "./store/user";
 import "./bootstrap";
 import { VueReCaptcha } from "vue-recaptcha-v3";
 import VueMce from "vue-mce";
-//import { directiveList } from "./filters/common";
+import { directiveList } from "./filters/common";
 
 if (process.env.MIX_MODE == "production") {
     // const bugsnagClient = bugsnag({
@@ -63,23 +63,10 @@ Vue.use(VueMce);
 // Perfect scrollbar
 Vue.use(PerfectScrollbar);
 
-// directiveList.forEach((dirName) => {
-//     Vue.directive(dirName, hasPermission);
-// });
+directiveList.forEach((dirName) => {
+    Vue.directive(dirName, hasPermission);
+});
 
-Vue.directive("store", hasPermission); // create
-Vue.directive("index", hasPermission); // display a listing
-Vue.directive("canAccess", hasPermission); //  display a single row
-Vue.directive("update", hasPermission); // update
-Vue.directive("destroy", hasPermission); // delete
-Vue.directive("export", hasPermission); // export
-Vue.directive("importBulk", hasPermission); // import
-Vue.directive('deleteGallery', hasPermission); // delete directive
-Vue.directive('deleteProductId', hasPermission); // delete directive
-Vue.directive("getPermissionsByRole", hasPermission); // get permission by role
-Vue.directive("setUnsetPermissionToRole", hasPermission); // set unset permission
-Vue.directive("changePassword", hasPermission); // change password
-Vue.directive("deleteAll", hasPermission); // delete all functionality
 
 if (process.env.MIX_GOOGLE_CAPTCHA_KEY) {
     // vue recaptcha

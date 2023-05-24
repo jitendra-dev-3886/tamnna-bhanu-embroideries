@@ -246,10 +246,10 @@
                                         item.product_galleries &&
                                         item.product_galleries.length > 0
                                     "
-                                    v-deleteGallery="$getConst('PRODUCTS')"
                                     small
                                     class="mr-2"
                                     v-on="on"
+                                    v-canAccess="$getConst('PRODUCTS')"
                                     @click="openGallery(item)"
                                     aria-label="View Gallery icon"
                                 >
@@ -266,7 +266,9 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-icon
-                                    v-deleteGallery="$getConst('PRODUCTS')"
+                                    v-updateProductGallery="
+                                        $getConst('PRODUCTS')
+                                    "
                                     small
                                     class="mr-2"
                                     v-on="on"
