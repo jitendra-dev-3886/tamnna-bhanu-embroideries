@@ -1,7 +1,7 @@
 import CommonServices from "@/mixins/common";
 import { Prop } from "vue-property-decorator";
 import { HomeBannerModule } from "@/store/homebanner";
-import { IHomeBannerFullResponse } from "../../../../assets/types/homebanner";
+import { IHomeBannerFullResponse, IHomeBannerValidations } from "../../../../assets/types/homebanner";
 import Component, { mixins } from "vue-class-component";
 import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
 
@@ -23,6 +23,42 @@ class HomeBannerEditImages extends mixins(CommonServices) {
         idProps: "",
         storeProps: "",
     };
+    
+    validationMessages: IHomeBannerValidations = {
+        name: [
+            {
+                key: "required",
+                value: "Name required",
+            },
+            {
+                key: "max",
+                value: "Maximum length should be 191",
+            },
+        ],
+
+        banner_status: [
+            {
+                key: "required",
+                value: "Banner status required",
+            },
+        ],
+
+        featured_image: [
+            {
+                key: "required",
+                value: "Featured Image required",
+            },
+            {
+                key: "ext",
+                value: "Extension: jpeg, png or jpg are only accepted",
+            },
+            {
+                key: "size",
+                value: "Maximum size allowed is 5 MB",
+            },
+        ],
+    };
+
 
     get model(): IHomeBannerFullResponse {
         return HomeBannerModule.viewModel;

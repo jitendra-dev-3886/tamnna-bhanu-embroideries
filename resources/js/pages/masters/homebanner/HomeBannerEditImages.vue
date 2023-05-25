@@ -45,6 +45,13 @@
                                         v-validate="
                                             'required|ext:jpeg,png,jpg|size:5120'
                                         "
+                                        :error-messages="
+                                            getErrorValue(
+                                                'featured_image',
+                                                errors,
+                                                validationMessages
+                                            )
+                                        "
                                         attach
                                         name="featured_image"
                                         label="Feature Image*"
@@ -63,7 +70,13 @@
                                             type="submit"
                                             class="btn btn-theme float-xs-none"
                                             :loading="addImagesLoading"
-                                            :disabled="featured_image == ''"
+                                            :disabled="
+                                                featured_image == '' ||
+                                                getErrorCount(
+                                                    'featured_image',
+                                                    errors
+                                                ) == true
+                                            "
                                             @click="uploadFeatureImg()"
                                             >Update
                                         </v-btn>

@@ -1,7 +1,7 @@
 import { Prop } from "vue-property-decorator";
 import { CategoryModule } from "@/store/category";
 import CommonApis from "@/mixins/common-apis";
-import { ICategoryFullResponse } from "../../../../assets/types/category";
+import { ICategoryFullResponse, ICategoryValidations } from "../../../../assets/types/category";
 import Component, { mixins } from "vue-class-component";
 
 import ErrorBlockServer from "../../../components/ErrorBlockServer.vue";
@@ -23,6 +23,41 @@ class CategoryEditImages extends mixins(ServerTable, CommonApis) {
     paramProps: IParamProps = {
         idProps: "",
         storeProps: "",
+    };
+
+    validationMessages: ICategoryValidations = {
+        name: [
+            {
+                key: "required",
+                value: "Name required",
+            },
+            {
+                key: "max",
+                value: "Maximum length should be 191",
+            },
+        ],
+
+        description: [
+            {
+                key: "required",
+                value: "Remarks required",
+            },
+        ],
+
+        featured_image: [
+            {
+                key: "required",
+                value: "Feature Image required",
+            },
+            {
+                key: "size",
+                value: "Maximum size allowed is 5 MB",
+            },
+            {
+                key: "ext",
+                value: "Extension: jpeg, png or jpg are only accepted",
+            },
+        ],
     };
 
     get model(): ICategoryFullResponse {
