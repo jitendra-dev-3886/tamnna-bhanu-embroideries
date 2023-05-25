@@ -155,7 +155,7 @@ class Product extends Model
     public function categories()
     {
 
-        return $this->belongsToMany(Category::class, "category_products", "product_id", "category_id");
+        return $this->belongsToMany(Category::class, "category_products", "product_id", "category_id")->with(['subcategories']);
     }
     public function subcategories()
     {
@@ -180,7 +180,7 @@ class Product extends Model
 
         $parent_id = $request->parent_id;
 
-        $data['sub_category_id'] = $parent_id;
+        // $data['sub_category_id'] = $parent_id;
 
         $data = $request->all();
         $data['price'] = $price;
