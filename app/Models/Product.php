@@ -178,7 +178,7 @@ class Product extends Model
 
         $price = $request->unit_price * $request->set_unit;
 
-        $parent_id = $request->parent_id;
+        //$parent_id = $request->parent_id;
 
         // $data['sub_category_id'] = $parent_id;
 
