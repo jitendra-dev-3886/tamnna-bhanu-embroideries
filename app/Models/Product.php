@@ -178,17 +178,15 @@ class Product extends Model
 
         $price = $request->unit_price * $request->set_unit;
 
+        //this executes the  removal of categories with product
+        $product->subcategories()->detach();
 
         if ($request['category_id']) {
-            //this executes the  removal of category_id with product
-            $product->categories()->detach();
             //this executes the insert-query
             $product->categories()->attach($request['category_id']);
         }
 
         if ($request['parent_id']) {
-            //this executes the  removal of parent_id with product
-            $product->subcategories()->detach();
             //this executes the insert-query
             $product->subcategories()->attach($request['parent_id']);
         }
