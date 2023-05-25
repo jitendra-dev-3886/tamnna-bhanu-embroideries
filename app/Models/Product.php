@@ -188,9 +188,9 @@ class Product extends Model
 
         if ($request['parent_id']) {
             //this executes the  removal of parent_id with product
-            $product->categories()->detach();
+            $product->subcategories()->detach();
             //this executes the insert-query
-            $product->categories()->attach($request['parent_id']);
+            $product->subcategories()->attach($request['parent_id']);
         }
 
         //$parent_id = $request->parent_id;
