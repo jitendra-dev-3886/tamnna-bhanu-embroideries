@@ -59,7 +59,7 @@
                                                 "
                                                 accept="image/jpg, image/jpeg, image/png"
                                                 :persistent-hint="true"
-                                                hint="Extension: jpg, jpeg, png | Size: Maximum 5120KB"
+                                                hint="Extension: jpg, jpeg, png | Size: Maximum 5MB"
                                                 counter="1"
                                                 @click:clear="
                                                     featured_image = ''
@@ -98,14 +98,14 @@
                                             <v-file-input
                                                 v-model="product_galleries"
                                                 v-validate.continues="
-                                                    `ext:jpeg,png,jpg|size:${maxSizeLeft}|valid_file_length:${maxFileCountLeft}`
+                                                    `ext:jpeg,png,jpg|size:5120|valid_file_length:${maxFileCountLeft}`
                                                 "
                                                 multiple
                                                 name="product_galleries"
                                                 accept="image/jpg, image/jpeg, image/png"
                                                 :persistent-hint="true"
                                                 :disabled="fileArr.length == 5"
-                                                :hint="`Extension: jpg, jpeg, png | Size: Maximum ${maxSizeLeft}KB`"
+                                                :hint="`Extension: jpg, jpeg, png | Size: Maximum 5MB per image`"
                                                 :counter="maxFileCountLeft"
                                                 label=" Product Galleries"
                                                 @click:clear="
@@ -349,7 +349,7 @@ class MultiFileModal extends Mixins(CommonServices) {
             },
             {
                 key: "size",
-                value: `Maximum size allowed is 5120 KB`,
+                value: `Maximum size allowed is 5 MB`,
             },
         ],
         product_galleries: [
@@ -363,7 +363,7 @@ class MultiFileModal extends Mixins(CommonServices) {
             },
             {
                 key: "size",
-                value: `Maximum size allowed is ${this.maxSizeLeft} KB`,
+                value: `Maximum size allowed is 5 MB per image`,
             },
         ],
     };
@@ -373,10 +373,10 @@ class MultiFileModal extends Mixins(CommonServices) {
         return m;
     }
 
-    get maxSizeLeft(): number {
-        let ms: number = 5120 * this.maxFileCountLeft;
-        return ms;
-    }
+    // get maxSizeLeft(): number {
+    //     let ms: number = 5120 * this.maxFileCountLeft;
+    //     return ms;
+    // }
 
     /**
      * Open Modal Box

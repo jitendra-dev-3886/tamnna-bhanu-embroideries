@@ -161,7 +161,7 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
             },
             {
                 key: "size",
-                value: "Maximum size allowed is 20 MB",
+                value: "Maximum size allowed is 5 MB per image",
             },
         ],
     };

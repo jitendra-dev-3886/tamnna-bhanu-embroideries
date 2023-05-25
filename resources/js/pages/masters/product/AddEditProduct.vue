@@ -288,13 +288,13 @@
                                 v-validate.continues="
                                     isEditMode
                                         ? ''
-                                        : 'ext:jpeg,png,jpg|size:20480|valid_file_length:5'
+                                        : 'ext:jpeg,png,jpg|size:5120|valid_file_length:5'
                                 "
                                 multiple
                                 name="product_galleries"
                                 accept="image/jpg, image/jpeg, image/png"
                                 :persistent-hint="true"
-                                hint="Extension: jpg, jpeg, png | Size: Maximum 20MB"
+                                hint="Extension: jpg, jpeg, png | Size: Maximum 5MB per image"
                                 :counter="5"
                                 :error-messages="
                                     getErrorValue(
