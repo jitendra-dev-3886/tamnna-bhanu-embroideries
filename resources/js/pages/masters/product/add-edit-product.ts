@@ -359,6 +359,18 @@ class AddEditProduct extends Mixins(CommonServices, CommonApis) {
                 ) => {
                     this.subCategoryList = response.data
                         .data as ICategoryFullResponse[];
+                    let tempArr: string[] = [];
+
+                    if (this.subCategoryList.length > 0) {
+                        this.subCategoryList.forEach((subCat) => {
+                            if (this.model.category_id.includes(subCat.id)) {
+                                tempArr.push(subCat.id);
+                            }
+                        });
+                    }
+                    // removing category_id values as no subCategories present.
+                    this.model.category_id = tempArr;
+
                     this.setDescription();
                     HTMLClassModule.removeBodyClassName("page-loading");
                 },
